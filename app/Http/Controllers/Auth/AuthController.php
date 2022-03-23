@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Responses\BaseApiResponse;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -45,6 +46,8 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $e) {
             // @TODO: do something about exception
+
+            Log::error($e->getMessage());
 
             return $this->responseError(code: 500);
         }

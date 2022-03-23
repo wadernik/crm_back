@@ -24,6 +24,9 @@ class User extends Authenticatable
         'name',
         'username',
         'password',
+        'role_id',
+        'phone',
+        'email',
     ];
 
     /**
@@ -35,4 +38,21 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function permissions()
+    {
+        // return $this->role()
+    }
+
+    public function assignRole(int $userId, $roleId)
+    {
+        $user = self::find($userId);
+
+        $user?->role()->save($roleId);
+    }
 }

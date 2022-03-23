@@ -22,6 +22,9 @@ class UserFactory extends Factory
             'username' => 'ilia',
             'password' => bcrypt('kavkazdag'), // password
             'remember_token' => Str::random(10),
+            'email' => $this->faker->email(),
+            'phone' => $this->faker->phoneNumber(),
+            'role_id' => 1,
         ];
     }
 }
