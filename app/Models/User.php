@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        // return $this->role()
+        return $this->role->permissions();
     }
 
     public function assignRole(int $userId, $roleId)

@@ -34,7 +34,7 @@ class UserService
 
         $user->tokens()->delete();
 
-        $userPermissions = $user;
+        $userPermissions = $user->permissions->pluck('name');
 
         Log::info($userPermissions);
 
