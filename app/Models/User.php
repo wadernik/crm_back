@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,12 +23,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'username',
         'password',
         'role_id',
         'phone',
         'email',
+        'remember_token',
     ];
 
     /**
@@ -39,20 +43,18 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function permissions()
+    /**
+     * @return array|null
+     */
+    public function getUserPermissions(): ?array
     {
-        return $this->role->permissions();
+        return $this->role->permissions->unique()->pluck('name')->toArray();
     }
 
-    public function assignRole(int $userId, $roleId)
-    {
-        $user = self::find($userId);
 
-        $user?->role()->save($roleId);
-    }
 }

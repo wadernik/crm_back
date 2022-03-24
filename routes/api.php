@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Auth\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,27 +15,53 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Авторизация
 Route::group(
     [
         'prefix' => 'auth',
     ],
     static function () {
-        Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum']);
+    }
+);
+
+// Админ методы
+Route::group(
+    [
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function () {
+        Route::apiResource('users', UsersController::class);
+    }
+);
+
+// Справочники
+Route::group(
+    [
+        'prefix' => 'dictionary',
+    ],
+    static function () {
+        Route::get('/users', function () {
+            return \App\Models\User::query()
+                ->get(['id', 'name', 'username'])
+                ->toArray();
+        });
     }
 );
 
 Route::group(
     [
-        'middleware' => ['auth:sanctum']
+        'middleware' => ['auth:sanctum', 'sanctum.permissions:users.view']
     ],
     static function () {
-        Route::get('/profile', function() {
-            return auth()->user();
+        Route::get('/users', function() {
+            // @TODO: temporary stuff to remove later
+            return \App\Models\User::query()
+                // ->with('role')
+                ->get(['id', 'name', 'phone', 'email', 'role_id'])
+                // ->makeHidden(['role_id'])
+                ->toArray();
         });
-        // Route::post('/sign-out', [AuthenticationController::class, 'logout']);
 });

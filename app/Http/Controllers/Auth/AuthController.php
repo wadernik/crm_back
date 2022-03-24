@@ -3,41 +3,30 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Responses\BaseApiResponse;
-use App\Services\UserService;
+use App\Services\AuthUsersService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
     use BaseApiResponse;
 
-    public function register(CreateUserRequest $request, UserService $userService): JsonResponse
-    {
-        $validated = $request->validated();
+    public function __construct(
+        private AuthUsersService $authUsersService
+    ) {}
 
-        try {
-            $userService->createUserAction($validated);
-        } catch (\Exception $e) {
-            // @TODO: do something about exception
-
-            return $this->responseError(code: 500);
-        }
-
-        return $this->responseSuccess();
-    }
-
-    public function login(LoginRequest $request, UserService $userService): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $attributes = $request->validated();
 
         try {
-            $token = $userService->getToken($attributes);
+            $token = $this->authUsersService->getToken($attributes);
 
             if ($token === '') {
-                return $this->responseError(code: 401);
+                return $this->responseError(code: Response::HTTP_UNAUTHORIZED);
             }
 
             return response()->json(data: [
@@ -45,18 +34,42 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
             ]);
         } catch (\Exception $e) {
-            // @TODO: do something about exception
-
             Log::error($e->getMessage());
 
-            return $this->responseError(code: 500);
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     public function logout(): JsonResponse
     {
-        auth()->user()->currentAccessToken()->delete();
+        try {
+            $this->authUsersService->revokeAllTokens();
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         return $this->responseSuccess(message: 'Current token was revoked');
+    }
+
+    public function refresh(): JsonResponse
+    {
+        try {
+            $token = $this->authUsersService->refreshToken();
+
+            if ($token === '') {
+                return $this->responseError(code: Response::HTTP_UNAUTHORIZED);
+            }
+
+            return response()->json(data: [
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }

@@ -18,6 +18,8 @@ class PermissionsTableSeeder extends Seeder
             ['id' => 1, 'name' => 'roles.edit', 'label' => 'Создание и редактирование ролей'],
             ['id' => 2, 'name' => 'roles.view', 'label' => 'Просмотр ролей'],
             ['id' => 3, 'name' => 'orders.view', 'label' => 'Просмотр заказов'],
+            ['id' => 4, 'name' => 'users.edit', 'label' => 'Создание и редактирование пользователей'],
+            ['id' => 5, 'name' => 'users.view', 'label' => 'Просмотр пользователей'],
         ];
 
         foreach ($items as $item) {

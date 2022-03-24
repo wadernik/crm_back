@@ -18,7 +18,8 @@ class UsersTableSeeder extends Seeder
         $items = [
             [
                 'id' => 1,
-                'name' => 'Илья',
+                'first_name' => 'Илья',
+                'last_name' => 'Закарая',
                 'username' => 'ilia',
                 'password' => bcrypt('kavkazdag'), // password
                 'remember_token' => Str::random(10),
@@ -28,7 +29,8 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => 'Рандом кассир',
+                'first_name' => 'Рандом',
+                'last_name' => 'Кассир',
                 'username' => 'cashier_1',
                 'password' => bcrypt('#cashier1'), // password
                 'remember_token' => Str::random(10),
