@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Responses\BaseApiResponse;
 use App\Services\AuthUsersService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,10 +41,12 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         try {
             $this->authUsersService->revokeAllTokens();
+
+            $request->session()->invalidate();
         } catch (\Exception $e) {
             Log::info($e->getMessage());
 

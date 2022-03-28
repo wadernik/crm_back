@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\Users\ListUsersRequest;
 use App\Services\UsersService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,13 +16,100 @@ class UsersController extends BaseApiController
     ) {}
 
     /**
+     * @param ListUsersRequest $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(ListUsersRequest $request): JsonResponse
     {
         if (!$this->isAllowed('users.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
+
+        try {
+            $records = $this->userService->getUsers($request->validated());
+
+            return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    /**
+     * @param ListUsersRequest $request
+     * @return JsonResponse
+     */
+    public function store(ListUsersRequest $request): JsonResponse
+    {
+        if (!$this->isAllowed('users.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $validated = $request->validated();
+
+        try {
+            $userId = $this->userService->createUser($validated);
+
+            return $this->responseSuccess(data: ['id' => $userId], code: Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id)
+    {
+        if (!$this->isAllowed('users.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        return $this->responseSuccess();
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return Jsonresponse
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        if (!$this->isAllowed('users.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        return $this->responseSuccess();
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        if (!$this->isAllowed('users.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        return $this->responseSuccess();
+    }
+
+    /**
+     * This method is unused => not allowed
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function edit(int $id): JsonResponse
+    {
+        return $this->responseError(
+            code: Response::HTTP_METHOD_NOT_ALLOWED,
+            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
+        );
     }
 
     /**
@@ -35,74 +122,5 @@ class UsersController extends BaseApiController
             code: Response::HTTP_METHOD_NOT_ALLOWED,
             message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
         );
-    }
-
-    /**
-     * @param CreateUserRequest $request
-     * @return JsonResponse
-     */
-    public function store(CreateUserRequest $request): JsonResponse
-    {
-        if (!$this->isAllowed('users.edit')) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        }
-
-        $validated = $request->validated();
-
-        try {
-            $userId = $this->userService->createUserAction($validated);
-
-            return $this->responseSuccess(data: ['id' => $userId]);
-        } catch (\Exception $e) {
-            // @TODO: do something about exception
-            Log::error("UsersController|STORE: " . $e->getMessage());
-
-            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

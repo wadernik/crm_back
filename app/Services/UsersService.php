@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\ModelFilters\UsersFilter;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
+use App\Services\Traits\Filterable;
 
 class UsersService
 {
-    public function createUserAction(array $attributes): ?int
+    use Filterable;
+
+    public function createUser(array $attributes): ?int
     {
         $user = User::query()
             ->create([
@@ -20,41 +22,27 @@ class UsersService
                 'phone' => $attributes['phone'],
                 // 'remember_token' => $attributes['remember_token'], // Str::random(10),
                 'role_id' => $attributes['role_id'],
+                'last_seen' => (new \DateTime())->format('Y-m-d H:i:s'),
             ]);
 
         return $user['id'];
     }
 
-    public function getAllUsers(array $filterParams = [], array $pageParams = []): ?array
+    /**
+     * Retrieve users with pagination
+     * @param array $requestParams
+     * @return array|null
+     */
+    public function getUsers(array $requestParams = []): ?array
     {
-        $userQuery = User::query();
+        $userQuery = User::query()
+            ->select(['id', 'first_name', 'last_name', 'email', 'role_id']);
 
-        $userQuery->select(['id', 'first_name', 'last_name', 'email', 'role_id']);
+        $this->applyFilterParams($userQuery, $requestParams, UsersFilter::class);
+        $this->applyPageParams($userQuery, $requestParams);
 
-        if (!empty($pageParams)) {
-            $userQuery
-                ->offset($pageParams['limit'] * ($pageParams['page'] - 1))
-                ->limit($pageParams['limit']);
-        }
-
-        if (isset($filterParams['name'])) {
-            $this->filterName($filterParams['name']);
-        }
-
-        if (isset($filterParams['role_id'])) {
-            $this->filterRole($filterParams['role_id']);
-        }
-
-        return [];
-    }
-
-    private function filterName(Builder $query, string $name)
-    {
-        $query->where('name', 'ILIKE', '%' . $name . '%');
-    }
-
-    private function filterRole(Builder $query, int $roleId)
-    {
-        $query->where('role_id', $roleId);
+        return $userQuery
+            ->get()
+            ->toArray();
     }
 }

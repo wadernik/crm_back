@@ -41,27 +41,9 @@ Route::group(
 Route::group(
     [
         'prefix' => 'dictionary',
+        'middleware' => ['auth:sanctum'],
     ],
     static function () {
-        Route::get('/users', function () {
-            return \App\Models\User::query()
-                ->get(['id', 'name', 'username'])
-                ->toArray();
-        });
+        Route::get('/users', [UsersController::class, 'all']);
     }
 );
-
-Route::group(
-    [
-        'middleware' => ['auth:sanctum', 'sanctum.permissions:users.view']
-    ],
-    static function () {
-        Route::get('/users', function() {
-            // @TODO: temporary stuff to remove later
-            return \App\Models\User::query()
-                // ->with('role')
-                ->get(['id', 'name', 'phone', 'email', 'role_id'])
-                // ->makeHidden(['role_id'])
-                ->toArray();
-        });
-});

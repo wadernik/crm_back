@@ -2,20 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\Filterable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use Filterable;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+
+    // In minutes
+    private const ONLINE_STATUS_BORDER = 5;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +38,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'remember_token',
+        'last_seen',
     ];
 
     /**
@@ -41,7 +49,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'last_seen',
     ];
+
+    protected $appends = [
+        'online_status'
+    ];
+
+    public function getOnlineStatusAttribute(): bool
+    {
+        Log::info($this->lastSeen);
+        if (!$this->last_seen) {
+            return false;
+        }
+
+        $now = Carbon::now()->subMinutes(self::ONLINE_STATUS_BORDER);
+        $lastSeenCarbon = Carbon::parse($this->last_seen);
+
+        return !$lastSeenCarbon->lt($now);
+    }
 
     public function role(): BelongsTo
     {
@@ -55,6 +81,4 @@ class User extends Authenticatable
     {
         return $this->role->permissions->unique()->pluck('name')->toArray();
     }
-
-
 }

@@ -11,34 +11,39 @@ trait BaseApiResponse
      * @param array $data
      * @param string|null $message
      * @param int $code
+     * @param array $headers
      * @return JsonResponse
      */
     protected function responseSuccess(
         array $data = [],
         string $message = null,
-        int $code = Response::HTTP_OK
+        int $code = Response::HTTP_OK,
+        array $headers = []
     ): JsonResponse {
-        return response()->json(
-            array_merge(
-                [
-                    'status' => 'Success',
-                    'message' => $message,
-                ],
-                $data,
-            ),
+        $response = response()->json(
+            $data,
             $code
         );
+
+        $this->setHeaders($response, $headers);
+
+        return $response;
     }
 
     /**
      * @param int $code
      * @param string|null $message
      * @param array $data
+     * @param array $headers
      * @return JsonResponse
      */
-    protected function responseError(int $code, string $message = null, array $data = []): JsonResponse
-    {
-        return response()->json(
+    protected function responseError(
+        int $code,
+        string $message = null,
+        array $data = [],
+        array $headers = []
+    ): JsonResponse {
+        $response = response()->json(
             array_merge(
                 [
                     'status' => 'Error',
@@ -48,5 +53,20 @@ trait BaseApiResponse
             ),
             $code
         );
+
+        $this->setHeaders($response, $headers);
+
+        return $response;
+    }
+
+    private function setHeaders(JsonResponse $response, array $headers): void
+    {
+        if (empty($headers)) {
+            return;
+        }
+
+        foreach ($headers as $headerKey => $value) {
+            $response->header($headerKey, $value);
+        }
     }
 }
