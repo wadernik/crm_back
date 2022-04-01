@@ -14,8 +14,9 @@ class AuthUsersService
         }
 
         $user = User::query()
-            ->where('username', $attributes['username'])
-            ->firstOrFail();
+            // ->where('username', $attributes['username'])
+            ->where('id', $attributes['id'])
+            ->first();
 
         if (!$user) {
             return '';

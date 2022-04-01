@@ -36,6 +36,7 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
 
             return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -48,7 +49,8 @@ class AuthController extends Controller
 
             $request->session()->invalidate();
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
 
             return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -70,7 +72,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
             ]);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
 
             return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }

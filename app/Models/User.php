@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -49,24 +48,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'deleted_at',
         'last_seen',
     ];
 
-    protected $appends = [
-        'online_status'
-    ];
-
-    public function getOnlineStatusAttribute(): bool
+    protected function isOnline(): Attribute
     {
-        Log::info($this->lastSeen);
-        if (!$this->last_seen) {
-            return false;
-        }
+        return new Attribute(
+            get: function () {
+                if (!$this->last_seen) {
+                    return false;
+                }
 
-        $now = Carbon::now()->subMinutes(self::ONLINE_STATUS_BORDER);
-        $lastSeenCarbon = Carbon::parse($this->last_seen);
+                $now = Carbon::now()->subMinutes(self::ONLINE_STATUS_BORDER);
+                $lastSeenCarbon = Carbon::parse($this->last_seen);
 
-        return !$lastSeenCarbon->lt($now);
+                return !$lastSeenCarbon->lt($now);
+            }
+        );
     }
 
     public function role(): BelongsTo

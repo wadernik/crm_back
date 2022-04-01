@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', static function (Blueprint $table) {
+            $table->date('birth_date')->nullable();
             $table->timestamp('last_seen')->nullable();
         });
     }
@@ -26,6 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', static function (Blueprint $table) {
+            $table->dropColumn('birth_date');
             $table->dropColumn('last_seen');
         });
     }

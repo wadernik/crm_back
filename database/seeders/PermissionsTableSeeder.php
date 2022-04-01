@@ -15,7 +15,7 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $items = [
-            ['id' => 1, 'name' => 'roles.edit', 'label' => 'Создание и редактирование ролей'],
+            ['id' => 1, 'name' => 'roles.edit', 'label' => 'Создание и назначение ролей'],
             ['id' => 2, 'name' => 'roles.view', 'label' => 'Просмотр ролей'],
             ['id' => 3, 'name' => 'orders.view', 'label' => 'Просмотр заказов'],
             ['id' => 4, 'name' => 'users.edit', 'label' => 'Создание и редактирование пользователей'],

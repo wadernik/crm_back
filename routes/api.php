@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::group(
     ],
     static function () {
         Route::apiResource('users', UsersController::class);
+        Route::apiResource('roles', RolesController::class);
     }
 );
 
@@ -41,7 +43,6 @@ Route::group(
 Route::group(
     [
         'prefix' => 'dictionary',
-        'middleware' => ['auth:sanctum'],
     ],
     static function () {
         Route::get('/users', [UsersController::class, 'all']);

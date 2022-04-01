@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class UserActivity
 {
@@ -20,8 +19,8 @@ class UserActivity
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            $userId = Auth::user()->id;
+        if (auth('sanctum')->check()) {
+            $userId = auth('sanctum')->user()?->id;
 
             User::query()
                 ->where('id', $userId)
