@@ -5,6 +5,8 @@ namespace App\Services;
 use App\ModelFilters\RolesFilter;
 use App\Models\Role;
 use App\Services\Traits\Filterable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class RolesService
 {
@@ -39,19 +41,61 @@ class RolesService
             ->toArray();
     }
 
+    /**
+     * @param array $attributes
+     * @return int|null
+     */
     public function createRole(array $attributes): int|null
     {
         $role = Role::query()->create($attributes);
-        return $role['id'] ?? '';
+
+        return $role['id'] ?? null;
+    }
+
+    public function editRole(int $id, array $attributes): bool
+    {
+        if (!$role = Role::query()->find($id)) {
+            return false;
+        }
+
+        $params = array_filter([
+            'name' => $attributes['name'],
+            'label' => $attributes['label'],
+        ]);
+
+        $role->update($params);
+
+        if (isset($attributes['permissions'])) {
+            $this->setPermissions($role, $attributes['permissions']);
+        }
+
+        return true;
+    }
+
+    public function deleteRole(int $id): bool
+    {
+        $users = (new UsersService())->getUsers(requestParams: ['filter' => ['role_id' => $id]]);
+
+        if (!empty($users)) {
+            Log::info('Users with current role were found. Unable to delete this role');
+            return false;
+        }
+
+        if (!$role = Role::query()->find($id)) {
+            return false;
+        }
+
+        $role->delete();
+
+        return true;
     }
 
     /**
-     * @param int $id
+     * @param Builder $role
      * @param array $permissions
      */
-    public function setPermissions(int $id, array $permissions): void
+    public function setPermissions(Builder $role, array $permissions): void
     {
-        $role = Role::query()->find($id);
         $role->permissions()->sync($permissions);
     }
 }

@@ -6,15 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRolesRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
-            'permissions' => 'sometimes|array',
+            'name' => 'sometimes|string|max:64',
+            'label' => 'sometimes|string|max:128',
+            'permissions' => 'sometimes|array'
         ];
     }
 }

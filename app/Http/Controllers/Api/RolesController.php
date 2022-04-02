@@ -15,6 +15,20 @@ class RolesController extends BaseApiController
         private RolesService $rolesService
     ) {}
 
+    public function all(): JsonResponse
+    {
+        try {
+            $roles = $this->rolesService->getRoles(with: ['permissions:id,label']);
+
+            return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
+        } Catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
     /**
      * @return JsonResponse
      */
@@ -69,7 +83,7 @@ class RolesController extends BaseApiController
         }
 
         try {
-            $roleId = $this->rolesService->createROle($request->validated());
+            $roleId = $this->rolesService->createRole($request->validated());
 
             return $this->responseSuccess(data: ['id' => $roleId], code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
@@ -92,8 +106,7 @@ class RolesController extends BaseApiController
         }
 
         try {
-            $validated = $request->validated();
-            $this->rolesService->setPermissions($id, $validated['permissions']);
+            $this->rolesService->editRole($id, $request->validated());
 
             return $this->responseSuccess();
         } Catch (\Exception $e) {
@@ -105,39 +118,26 @@ class RolesController extends BaseApiController
     }
 
     /**
-     * This method is unused => not allowed
-     * @return JsonResponse
-     */
-    public function destroy(): JsonResponse
-    {
-        return $this->responseError(
-            code: Response::HTTP_METHOD_NOT_ALLOWED,
-            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
-        );
-    }
-
-    /**
-     * This method is unused => not allowed
-     * @return JsonResponse
-     */
-    public function create(): JsonResponse
-    {
-        return $this->responseError(
-            code: Response::HTTP_METHOD_NOT_ALLOWED,
-            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
-        );
-    }
-
-    /**
-     * This method is unused => not allowed
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        return $this->responseError(
-            code: Response::HTTP_METHOD_NOT_ALLOWED,
-            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
-        );
+        if (!$this->isAllowed('roles.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            if (!$this->rolesService->deleteRole($id)) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess();
+        } Catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }

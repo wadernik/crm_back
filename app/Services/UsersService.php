@@ -67,19 +67,31 @@ class UsersService
     /**
      * @param int $userId
      * @param array $attributes
-     * @return int
+     * @return bool
      */
-    public function editUser(int $userId, array $attributes): int
+    public function editUser(int $userId, array $attributes): bool
     {
-        return User::query()
-            ->where('id', $userId)
-            ->update($attributes);
+        $user = User::query()->find($userId);
+
+        if (!$user) {
+            return false;
+        }
+
+        $user->update($attributes);
+
+        return true;
     }
 
-    public function deleteUser(int $userId): void
+    public function deleteUser(int $userId): bool
     {
-        User::query()
-            ->where('id', $userId)
-            ->delete();
+        $user = User::query()->find($userId);
+
+        if (!$user)  {
+            return false;
+        }
+
+        $user->delete();
+
+        return true;
     }
 }

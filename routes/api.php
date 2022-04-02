@@ -46,5 +46,6 @@ Route::group(
     ],
     static function () {
         Route::get('/users', [UsersController::class, 'all']);
+        Route::get('/roles', [RolesController::class, 'all']);
     }
 );

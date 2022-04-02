@@ -31,7 +31,7 @@ class UsersFilter extends BaseModelFilter
     /**
      * @param int $roleId
      */
-    public function filterRole(int $roleId): void
+    public function filterRoleId(int $roleId): void
     {
         $this->builder->where('role_id', $roleId);
     }

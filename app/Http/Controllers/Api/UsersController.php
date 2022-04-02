@@ -117,12 +117,6 @@ class UsersController extends BaseApiController
         }
 
         try {
-            $user = $this->userService->getUser($id);
-
-            if (!$user) {
-                return $this->responseError(code: Response::HTTP_NOT_FOUND);
-            }
-
             if (!$this->userService->editUser($id, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
@@ -147,13 +141,9 @@ class UsersController extends BaseApiController
         }
 
         try {
-            $user = $this->userService->getUser($id);
-
-            if (!$user) {
-                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            if (!$this->userService->deleteUser($id)) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-
-            $this->userService->deleteUser($id);
 
             return $this->responseSuccess();
         } catch (\Exception $e) {
@@ -162,30 +152,5 @@ class UsersController extends BaseApiController
 
             return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-    }
-
-    /**
-     * This method is unused => not allowed
-     * @return JsonResponse
-     */
-    public function create(): JsonResponse
-    {
-        return $this->responseError(
-            code: Response::HTTP_METHOD_NOT_ALLOWED,
-            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
-        );
-    }
-
-    /**
-     * This method is unused => not allowed
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function edit(int $id): JsonResponse
-    {
-        return $this->responseError(
-            code: Response::HTTP_METHOD_NOT_ALLOWED,
-            message: Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED]
-        );
     }
 }
