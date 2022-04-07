@@ -13,10 +13,11 @@ class AuthUsersService
             return '';
         }
 
-        $user = User::query()
-            // ->where('username', $attributes['username'])
-            ->where('id', $attributes['id'])
-            ->first();
+        // $user = User::query()
+        //     ->where('username', $attributes['username'])
+        //     ->first();
+
+        $user = User::query()->find($attributes['id']);
 
         if (!$user) {
             return '';
