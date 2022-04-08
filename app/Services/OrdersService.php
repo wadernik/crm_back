@@ -28,7 +28,11 @@ class OrdersService
     {
     }
 
-    public function checkManufacturersLimit()
+    /**
+     * Manufacturers can fulfill a limited amount of orders per day.
+     * A function checks if it can take an order for a specific date.
+     */
+    public function checkOrdersLimit()
     {
     }
 }

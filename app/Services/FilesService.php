@@ -9,10 +9,14 @@ use Illuminate\Support\Arr;
 
 class FilesService
 {
+    /**
+     * @param UploadedFile $file
+     * @return int file id
+     */
     public function uploadFile(UploadedFile $file): int
     {
         $nowTimeStamp = Carbon::now()->getTimestamp();
-        $title = $this->getFileName($file->getClientOriginalName());
+        $title = $this->generateFilename($file->getClientOriginalName());
         // $extension = $file->getClientOriginalExtension();
         $fileName = $nowTimeStamp . '_'. $title;
         $filePath = $file->storeAs('uploads', $fileName, 'public');
@@ -28,7 +32,11 @@ class FilesService
         return $savedFile['id'];
     }
 
-    public function getFileName($name = ''): string
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function generateFilename(string $name = ''): string
     {
         $nameParts = explode('.', $name);
         $extension = Arr::last($nameParts);
