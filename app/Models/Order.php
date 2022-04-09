@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use Filterable;
     use SoftDeletes;
 
     protected $fillable = [
         'manufacturer_id',
         'source_id',
         'seller_id',
-        'order_number',
+        'number',
+        'number_external',
         'status',
         'product_code',
-        'accepted_at',
+        'accepted_date',
         'order_date',
         'order_time',
     ];
@@ -27,6 +32,21 @@ class Order extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public const STATUS_ACCEPTED = 1;
+    public const STATUS_TAKEN = 2;
+    public const STATUS_SOLD = 3;
+    public const STATUS_CANCELED = 4;
+
+    public static function statusCaptions(): array
+    {
+        return [
+            self::STATUS_ACCEPTED => __('order.statuses.accepted'),
+            self::STATUS_TAKEN => __('order.statuses.taken'),
+            self::STATUS_SOLD => __('order.statuses.sold'),
+            self::STATUS_CANCELED => __('order.statuses.canceled'),
+        ];
+    }
 
     public function seller(): BelongsTo
     {
@@ -43,12 +63,12 @@ class Order extends Model
         return $this->belongsTo(Manufacturer::class, 'manufacturer_id');
     }
 
-    public function details()
+    public function details(): HasMany
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
-    public function files()
+    public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class, 'order_files');
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FilesController;
+use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\UsersController;
@@ -27,6 +28,7 @@ Route::group(
     static function () {
         Route::apiResource('users', UsersController::class);
         Route::apiResource('roles', RolesController::class);
+        Route::apiResource('orders', OrdersController::class);
     }
 );
 
@@ -50,5 +52,6 @@ Route::group(
         Route::get('/users', [UsersController::class, 'all']);
         Route::get('/roles', [RolesController::class, 'all']);
         Route::get('/permissions', [PermissionsController::class, 'all']);
+        Route::get('/order_statuses', [OrdersController::class, 'statuses']);
     }
 );

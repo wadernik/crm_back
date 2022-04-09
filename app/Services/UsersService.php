@@ -25,9 +25,9 @@ class UsersService
     /**
      * @param array $attributes
      * @param array $requestParams
-     * @return array|null
+     * @return array
      */
-    public function getUsers(array $attributes = ['*'], array $requestParams = []): ?array
+    public function getUsers(array $attributes = ['*'], array $requestParams = []): array
     {
         $userQuery = User::query();
 
