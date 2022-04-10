@@ -16,6 +16,10 @@ class OrdersController extends BaseApiController
         private OrdersService $ordersService
     ) {}
 
+    /**
+     * Dictionary
+     * @return JsonResponse
+     */
     public function statuses(): JsonResponse
     {
         try {
@@ -30,6 +34,10 @@ class OrdersController extends BaseApiController
         }
     }
 
+    /**
+     * @param ListOrdersRequest $request
+     * @return JsonResponse
+     */
     public function index(ListOrdersRequest $request): JsonResponse
     {
         if (!$this->isAllowed('orders.view')) {
@@ -53,6 +61,11 @@ class OrdersController extends BaseApiController
         }
     }
 
+    /**
+     * @param CreateOrderRequest $request
+     * @param ManufacturersService $manufacturersService
+     * @return JsonResponse
+     */
     public function store(CreateOrderRequest $request, ManufacturersService $manufacturersService): JsonResponse
     {
         if (!$this->isAllowed('orders.edit')) {
@@ -68,7 +81,42 @@ class OrdersController extends BaseApiController
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            return $this->responseSuccess(data: ['id' => 1], code: Response::HTTP_CREATED);
+            if (!$this->ordersService->canCreateOrder($validated['order_date'], $manufacturer)) {
+                return $this->responseError(
+                    code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                    message: __('order.limit_reached')
+                );
+            }
+
+            $orderId = $this->ordersService->createOrder($validated);
+
+            if (!$orderId) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess(data: ['id' => $orderId], code: Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $order = $this->ordersService->getOrder(id: $id, with: ['details']);
+
+            if (!$order) {
+                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            }
+
+            return $this->responseSuccess(data: $order);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

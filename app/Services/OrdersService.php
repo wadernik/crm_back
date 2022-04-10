@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\ModelFilters\OrdersFilter;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Services\Traits\Filterable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrdersService
 {
@@ -73,8 +76,44 @@ class OrdersService
             ->toArray();
     }
 
-    public function createOrder()
+    public function createOrder(array $params): ?int
     {
+        // Create an Order instance
+        $orderAttributes = [
+            'manufacturer_id' => $params['manufacturer_id'],
+            'source_id' => $params['source_id'],
+            'seller_id' => $params['seller_id'],
+            'number' => $this->generateOrderNumber(),
+            'status' => $params['status'],
+            'product_code' => $params['product_code'] ?? '',
+            'accepted_date' => $params['accepted_date'],
+            'order_date' => $params['order_date'],
+            'order_time' => $params['order_time'],
+        ];
+
+        $order = Order::query()->create($orderAttributes);
+
+        if (!$orderId = $order['id']) {
+            return null;
+        }
+
+        // Create an OrderDetails instance
+        $orderDetailsAttributes = array_filter([
+            'order_id' => $orderId,
+            'name' => $params['name'],
+            'amount' => $params['amount'],
+            'label' => $params['label'],
+            'comment' => $params['comment'],
+        ]);
+
+        OrderDetail::query()->create($orderDetailsAttributes);
+
+        // Create files relation
+        if (isset($params['file_ids'])) {
+            $this->syncOrderFiles($order, $params['file_ids']);
+        }
+
+        return $orderId;
     }
 
     public function processOrder()
@@ -103,10 +142,34 @@ class OrdersService
 
         $ordersAmount = $this->countOrders($filterParams);
 
-        return $ordersAmount >= $manufacturer['limit'];
+        return $ordersAmount <= $manufacturer['limit'];
     }
 
-    private function generateOrderNumber()
+    /**
+     * return string
+     */
+    public function generateOrderNumber(): string
     {
+        $nowCarbon = Carbon::now();
+
+        $filterParams = [
+            'filter' => [
+                'order_date' => $nowCarbon->format('Y-m-d'),
+            ],
+        ];
+
+        $ordersAmount = $this->countOrders($filterParams) + 1;
+        $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
+
+        return $ordersAmountFormatted . $nowCarbon->format('m');
+    }
+
+    /**
+     * @param Builder $order
+     * @param array $files
+     */
+    private function syncOrderFiles(Builder $order, array $files): void
+    {
+        $order->files()->sync($files);
     }
 }

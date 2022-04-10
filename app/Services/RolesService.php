@@ -34,6 +34,7 @@ class RolesService
         $rolesQuery = Role::query();
 
         $this->applyFilterParams($rolesQuery, $requestParams, RolesFilter::class);
+        $this->applyPageParams($rolesQuery, $requestParams);
 
         return $rolesQuery
             ->get()
@@ -52,6 +53,11 @@ class RolesService
         return $role['id'] ?? null;
     }
 
+    /**
+     * @param int $id
+     * @param array $attributes
+     * @return bool
+     */
     public function editRole(int $id, array $attributes): bool
     {
         if (!$role = Role::query()->find($id)) {
@@ -66,12 +72,16 @@ class RolesService
         $role->update($params);
 
         if (isset($attributes['permissions'])) {
-            $this->setPermissions($role, $attributes['permissions']);
+            $this->syncPermissions($role, $attributes['permissions']);
         }
 
         return true;
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function deleteRole(int $id): bool
     {
         $users = (new UsersService())->getUsers(requestParams: ['filter' => ['role_id' => $id]]);
@@ -94,7 +104,7 @@ class RolesService
      * @param Builder $role
      * @param array $permissions
      */
-    public function setPermissions(Builder $role, array $permissions): void
+    public function syncPermissions(Builder $role, array $permissions): void
     {
         $role->permissions()->sync($permissions);
     }

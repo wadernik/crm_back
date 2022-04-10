@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Dictionaries\PermissionsDictionaryRequest;
 use App\Services\PermissionsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -9,10 +10,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsController extends BaseApiController
 {
-    public function all(PermissionsService $permissionsService): JsonResponse
+    /**
+     * @param PermissionsDictionaryRequest $request
+     * @param PermissionsService $permissionsService
+     * @return JsonResponse
+     */
+    public function all(PermissionsDictionaryRequest $request, PermissionsService $permissionsService): JsonResponse
     {
         try {
-            $permissions = $permissionsService->getPermissions();
+            $permissions = $permissionsService->getPermissions($request->validated());
 
             return $this->responseSuccess(data: $permissions, headers: ['x-total-count' => count($permissions)]);
         } Catch (\Exception $e) {

@@ -82,6 +82,10 @@ class UsersService
         return true;
     }
 
+    /**
+     * @param int $userId
+     * @return bool
+     */
     public function deleteUser(int $userId): bool
     {
         $user = User::query()->find($userId);

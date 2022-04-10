@@ -12,6 +12,11 @@ class UsersFilter extends BaseModelFilter
         $this->builder->where('id', $id);
     }
 
+    public function filterIds(array $ids): void
+    {
+        $this->builder->whereIn('id', $ids);
+    }
+
     /**
      * @param string $name
      */

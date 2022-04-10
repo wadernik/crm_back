@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Dictionaries\UsersDictionaryRequest;
 use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Http\Requests\Users\ListUsersRequest;
@@ -16,11 +17,18 @@ class UsersController extends BaseApiController
         private UsersService $userService
     ) {}
 
-    public function all(): JsonResponse
+    /**
+     * @param UsersDictionaryRequest $request
+     * @return JsonResponse
+     */
+    public function all(UsersDictionaryRequest $request): JsonResponse
     {
         try {
             $attributes = ['id', 'first_name', 'last_name'];
-            $records = $this->userService->getUsers($attributes);
+            $records = $this->userService->getUsers(
+                attributes: $attributes,
+                requestParams: $request->validated()
+            );
 
             return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
         } Catch (\Exception $e) {

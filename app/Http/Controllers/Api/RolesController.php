@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Dictionaries\RolesDictionaryRequest;
 use App\Http\Requests\Roles\CreateRoleRequest;
 use App\Http\Requests\Roles\UpdateRolesRequest;
 use App\Services\RolesService;
@@ -15,10 +16,17 @@ class RolesController extends BaseApiController
         private RolesService $rolesService
     ) {}
 
-    public function all(): JsonResponse
+    /**
+     * @param RolesDictionaryRequest $request
+     * @return JsonResponse
+     */
+    public function all(RolesDictionaryRequest $request): JsonResponse
     {
         try {
-            $roles = $this->rolesService->getRoles(with: ['permissions:id,label']);
+            $roles = $this->rolesService->getRoles(
+                requestParams: $request->validated(),
+                with: ['permissions:id,label']
+            );
 
             return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
         } Catch (\Exception $e) {

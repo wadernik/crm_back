@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\FilesController;
+use App\Http\Controllers\Api\ManufacturersController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\SellersController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -53,5 +55,7 @@ Route::group(
         Route::get('/roles', [RolesController::class, 'all']);
         Route::get('/permissions', [PermissionsController::class, 'all']);
         Route::get('/order_statuses', [OrdersController::class, 'statuses']);
+        Route::get('/manufacturers', [ManufacturersController::class, 'all']);
+        Route::get('/sellers', [SellersController::class, 'all']);
     }
 );

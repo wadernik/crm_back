@@ -19,6 +19,10 @@ class AuthController extends Controller
         private AuthUsersService $authUsersService
     ) {}
 
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $attributes = $request->validated();
@@ -42,6 +46,10 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function logout(Request $request): JsonResponse
     {
         try {
@@ -58,6 +66,9 @@ class AuthController extends Controller
         return $this->responseSuccess(message: 'Current token was revoked');
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function refresh(): JsonResponse
     {
         try {

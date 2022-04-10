@@ -2,7 +2,7 @@
 
 namespace App\ModelFilters;
 
-class ManufacturersFilter extends BaseModelFilter
+class SellersFilter extends BaseModelFilter
 {
     /**
      * @param int $id

@@ -2,16 +2,28 @@
 
 namespace App\Services;
 
+use App\ModelFilters\PermissionsFilter;
 use App\Models\Permission;
+use App\Services\Traits\Filterable;
 
 class PermissionsService
 {
+    use Filterable;
+
     /**
      * Dictionary
+     * @param array $requestParams
      * @return array
      */
-    public function getPermissions(): array
+    public function getPermissions(array $requestParams = []): array
     {
-        return Permission::all()->toArray();
+        $permissionsQuery = Permission::query();
+
+        $this->applyFilterParams($permissionsQuery, $requestParams, PermissionsFilter::class);
+        $this->applyPageParams($permissionsQuery, $requestParams);
+
+        return $permissionsQuery
+            ->get()
+            ->toArray();
     }
 }

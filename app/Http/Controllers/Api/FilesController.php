@@ -68,7 +68,7 @@ class FilesController extends BaseApiController
                 $fileIds[] = $this->filesService->uploadFile($uploadedFile);
             }
 
-            return $this->responseSuccess(data: ['ids' => $fileIds], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: ['file_ids' => $fileIds], code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
