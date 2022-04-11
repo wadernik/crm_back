@@ -18,6 +18,7 @@ class UsersController extends BaseApiController
     ) {}
 
     /**
+     * Dictionary
      * @param UsersDictionaryRequest $request
      * @return JsonResponse
      */

@@ -19,7 +19,7 @@ class CreateOrderRequest extends FormRequest
             'comment' => 'sometimes|string|max:255|nullable',
             'amount' => 'required|string',
             'accepted_date' => 'required|date_format:Y-m-d',
-            'order_date' => 'required|date_format:Y-m-d',
+            'order_date' => 'required|date_format:Y-m-d|after_or_equal:tomorrow',
             'order_time' => 'required|date_format:H:i',
             'manufacturer_id' => 'required|integer',
             'source_id' => 'required|integer',
@@ -31,13 +31,17 @@ class CreateOrderRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'username' => __('attributes.user.username'),
-            'password' => __('attributes.user.password'),
-            'first_name' => __('attributes.user.first_name'),
-            'last_name' => __('attributes.user.last_name'),
-            'email' => __('attributes.user.email'),
-            'birth_date' => __('attributes.user.birth_date'),
-            'role_id' => __('attributes.user.role'),
+            'name' => __('attributes.order.name'),
+            'label' => __('attributes.order.label'),
+            'comment' => __('attributes.order.comment'),
+            'amount' => __('attributes.order.amount'),
+            'accepted_date' => __('attributes.order.accepted_date'),
+            'order_date' => __('attributes.order.order_date'),
+            'order_time' => __('attributes.order.order_time'),
+            'manufacturer_id' => __('attributes.order.manufacturer_id'),
+            'source_id' => __('attributes.order.source_id'),
+            'seller_id' => __('attributes.order.seller_id'),
+            'file_ids' => __('attributes.order.file_ids'),
         ];
     }
 }

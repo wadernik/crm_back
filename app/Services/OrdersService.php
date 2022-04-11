@@ -7,7 +7,6 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Traits\Filterable;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 
 class OrdersService
 {
@@ -84,7 +83,7 @@ class OrdersService
             'source_id' => $params['source_id'],
             'seller_id' => $params['seller_id'],
             'number' => $this->generateOrderNumber(),
-            'status' => $params['status'],
+            'status' => Order::STATUS_ACCEPTED,
             'product_code' => $params['product_code'] ?? '',
             'accepted_date' => $params['accepted_date'],
             'order_date' => $params['order_date'],
@@ -108,9 +107,10 @@ class OrdersService
 
         OrderDetail::query()->create($orderDetailsAttributes);
 
-        // Create files relation
+        // Create files relations
+        // TODO check if files do actually exist before syncing; may cause problems
         if (isset($params['file_ids'])) {
-            $this->syncOrderFiles($order, $params['file_ids']);
+            $order->files()->sync($params['file_ids']);
         }
 
         return $orderId;
@@ -162,14 +162,5 @@ class OrdersService
         $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
 
         return $ordersAmountFormatted . $nowCarbon->format('m');
-    }
-
-    /**
-     * @param Builder $order
-     * @param array $files
-     */
-    private function syncOrderFiles(Builder $order, array $files): void
-    {
-        $order->files()->sync($files);
     }
 }

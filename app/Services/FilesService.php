@@ -2,13 +2,34 @@
 
 namespace App\Services;
 
+use App\ModelFilters\FilesFilter;
 use App\Models\File;
+use App\Services\Traits\Filterable;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 
 class FilesService
 {
+    use Filterable;
+
+    /**
+     * @param array $ids
+     * @param array|string[] $attributes
+     * @return array
+     */
+    public function getFiles(array $ids, array $attributes = ['*']): array
+    {
+        $filesQuery = File::query();
+
+        $filterParams = ['filter' => ['ids' => $ids]];
+        $this->applyFilterParams($filesQuery, $filterParams, FilesFilter::class);
+
+        return $filesQuery
+            ->get($attributes)
+            ->toArray();
+    }
+
     /**
      * @param UploadedFile $file
      * @return int file id

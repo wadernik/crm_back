@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
+    use Filterable;
     use SoftDeletes;
 
     protected $fillable = [
@@ -20,5 +24,17 @@ class File extends Model
         'created_at',
         'update_at',
         'deleted_at',
+        'pivot',
     ];
+
+    protected $appends = [
+        'url'
+    ];
+
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Storage::url('uploads/' . $this->filename),
+        );
+    }
 }

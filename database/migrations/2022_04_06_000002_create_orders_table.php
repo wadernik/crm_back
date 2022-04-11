@@ -19,7 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('source_id'); // Где был сделан заказ; Model: Seller
             $table->unsignedBigInteger('seller_id'); // Где будет получен заказ; Model: Seller
             $table->string('number'); // Номер заказа внутренний
-            $table->string('number_external'); // Номер заказа внешний
+            $table->string('number_external')->nullable(); // Номер заказа внешний
+            $table->unsignedInteger('price')->nullable(); // Окончательная стоимость заказа
             $table->unsignedSmallInteger('status'); // Статус заказа
             $table->string('product_code')->nullable(); // Код товара
             $table->date('accepted_date'); // Дата принятия заказа

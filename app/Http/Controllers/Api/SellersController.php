@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SellersController extends BaseApiController
 {
     /**
+     * Dictionary
      * @param SellersDictionaryRequest $request
      * @param SellersService $sellersService
      * @return JsonResponse

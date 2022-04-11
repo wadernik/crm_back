@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PermissionsController extends BaseApiController
 {
     /**
+     * Dictionary
      * @param PermissionsDictionaryRequest $request
      * @param PermissionsService $permissionsService
      * @return JsonResponse

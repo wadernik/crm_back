@@ -17,6 +17,7 @@ class RolesController extends BaseApiController
     ) {}
 
     /**
+     * Dictionary
      * @param RolesDictionaryRequest $request
      * @return JsonResponse
      */

@@ -49,7 +49,7 @@ class OrdersController extends BaseApiController
             $orders = $this->ordersService->getOrders(
                 attributes: $attributes,
                 requestParams: $request->validated(),
-                with: ['details']
+                with: ['details', 'files:id,filename']
             );
 
             return $this->responseSuccess(data: $orders, headers: ['x-total-count' => count($orders)]);
@@ -75,7 +75,7 @@ class OrdersController extends BaseApiController
         try {
             $validated = $request->validated();
 
-            $manufacturer = $manufacturersService->getManufacturer($validated['id'], ['id', 'limit']);
+            $manufacturer = $manufacturersService->getManufacturer($validated['manufacturer_id'], ['id', 'limit']);
 
             if (!$manufacturer) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -110,7 +110,7 @@ class OrdersController extends BaseApiController
         }
 
         try {
-            $order = $this->ordersService->getOrder(id: $id, with: ['details']);
+            $order = $this->ordersService->getOrder(id: $id, with: ['details', 'files:id,filename']);
 
             if (!$order) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);

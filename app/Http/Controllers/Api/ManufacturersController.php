@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ManufacturersController extends BaseApiController
 {
     /**
+     * Dictionary
      * @param ManufacturersDictionaryRequest $request
      * @param ManufacturersService $manufacturersService
      * @return JsonResponse

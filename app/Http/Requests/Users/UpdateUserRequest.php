@@ -18,7 +18,7 @@ class UpdateUserRequest extends FormRequest
             'last_name' => 'sometimes|string|max:128|nullable',
             'phone' => 'sometimes|regex:/^\d{11}$/',
             'email' => 'sometimes|string|email|nullable',
-            'birth_date' => 'sometimes|date_format:Y-m-d|nullable',
+            'birth_date' => 'sometimes|date_format:Y-m-d|before:today|after:1920-01-01|nullable',
             'role_id' => 'sometimes',
         ];
     }
