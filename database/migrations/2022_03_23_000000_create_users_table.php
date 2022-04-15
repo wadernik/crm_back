@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', static function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('username')->unique();
             $table->string('password');
+            $table->unsignedBigInteger('role_id');
             $table->string('phone', 16)->nullable();
             $table->string('email')->nullable();
-            $table->unsignedBigInteger('role_id');
+            $table->date('birth_date')->nullable();
+            $table->timestamp('last_seen')->nullable();
 
             $table->rememberToken();
             $table->timestamps();
@@ -41,7 +43,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             $table->dropForeign('users_role_id_foreign');
         });
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Parental\HasParent;
 
-class OrderDetail extends BaseOrderDetail
+class OrderDraft extends BaseOrder
 {
     use HasParent;
 }

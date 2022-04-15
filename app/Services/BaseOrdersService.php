@@ -8,9 +8,12 @@ use App\Models\BaseOrderDetail;
 use App\Services\Traits\Filterable;
 use Carbon\Carbon;
 
-class OrdersService
+abstract class BaseOrdersService
 {
     use Filterable;
+
+    protected BaseOrder $orderClass;
+    protected BaseOrderDetail $orderDetailClass;
 
     /**
      * @param int $id
@@ -18,9 +21,9 @@ class OrdersService
      * @param array $with
      * @return array
      */
-    public function getOrder(int $id, array $attributes = ['*'], array $with = []): array
+    protected function getOrder(int $id, array $attributes = ['*'], array $with = []): array
     {
-        $order = BaseOrder::query()->find($id, $attributes);
+        $order = $this->orderClass::query()->find($id, $attributes);
 
         return $order ? $order->load($with)->toArray() : [];
     }
@@ -33,7 +36,7 @@ class OrdersService
      */
     public function getOrders(array $attributes = ['*'], array $requestParams = [], array $with = []): array
     {
-        $ordersQuery = BaseOrder::query();
+        $ordersQuery = $this->orderClass::query();
 
         $this->applyFilterParams($ordersQuery, $requestParams, OrdersFilter::class);
         $this->applyPageParams($ordersQuery, $requestParams);
@@ -46,14 +49,14 @@ class OrdersService
     }
 
     /**
-     * @param array $filterParams
+     * @param array $params
      * @return int
      */
-    public function countOrders(array $filterParams = []): int
+    public function countOrders(array $params = []): int
     {
-        $ordersQuery = BaseOrder::query();
+        $ordersQuery = $this->orderClass::query();
 
-        $this->applyFilterParams($ordersQuery, $filterParams, OrdersFilter::class);
+        $this->applyFilterParams($ordersQuery, $params, OrdersFilter::class);
 
         return $ordersQuery->count('id');
     }
@@ -64,7 +67,7 @@ class OrdersService
      */
     public function getStatuses(): array
     {
-        return collect(BaseOrder::statusCaptions())
+        return collect($this->orderClass::statusCaptions())
             ->map(function (string $statusCaption, int $status) {
                 return [
                     'id' => $status,
@@ -77,8 +80,7 @@ class OrdersService
 
     public function createOrder(array $params): ?int
     {
-        // Create an BaseOrder instance
-        $orderAttributes = [
+        $orderAttributes = array_filter([
             'manufacturer_id' => $params['manufacturer_id'],
             'source_id' => $params['source_id'],
             'seller_id' => $params['seller_id'],
@@ -88,40 +90,30 @@ class OrdersService
             'accepted_date' => $params['accepted_date'],
             'order_date' => $params['order_date'],
             'order_time' => $params['order_time'],
-        ];
+        ]);
 
-        $order = BaseOrder::query()->create($orderAttributes);
+        $orderInstance = $this->orderClass::query()->create($orderAttributes);
 
-        if (!$orderId = $order['id']) {
+        if (!$orderInstanceId = ($orderInstance['id'] ?? null)) {
             return null;
         }
 
-        // Create an OrderDetails instance
         $orderDetailsAttributes = array_filter([
-            'order_id' => $orderId,
+            'order_id' => $orderInstanceId,
             'name' => $params['name'],
             'amount' => $params['amount'],
             'label' => $params['label'],
             'comment' => $params['comment'],
         ]);
 
-        BaseOrderDetail::query()->create($orderDetailsAttributes);
+        $this->orderDetailClass::query()->create($orderDetailsAttributes);
 
-        // Create files relations
         // TODO check if files do actually exist before syncing; may cause problems
         if (isset($params['file_ids'])) {
-            $order->files()->sync($params['file_ids']);
+            $orderInstance->files()->sync($params['file_ids']);
         }
 
-        return $orderId;
-    }
-
-    public function processOrder()
-    {
-    }
-
-    public function approveOrder()
-    {
+        return $orderInstanceId;
     }
 
     /**
@@ -133,14 +125,14 @@ class OrdersService
      */
     public function canCreateOrder(string $orderDate, array $manufacturer): bool
     {
-        $filterParams = [
+        $params = [
             'filter' => [
                 'manufacturer_id' => $manufacturer['id'],
                 'order_date' => $orderDate,
             ],
         ];
 
-        $ordersAmount = $this->countOrders($filterParams);
+        $ordersAmount = $this->countOrders($params);
 
         return $ordersAmount <= $manufacturer['limit'];
     }
@@ -152,13 +144,13 @@ class OrdersService
     {
         $nowCarbon = Carbon::now();
 
-        $filterParams = [
+        $params = [
             'filter' => [
                 'order_date' => $nowCarbon->format('Y-m-d'),
             ],
         ];
 
-        $ordersAmount = $this->countOrders($filterParams) + 1;
+        $ordersAmount = $this->countOrders($params) + 1;
         $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
 
         return $ordersAmountFormatted . $nowCarbon->format('m');
