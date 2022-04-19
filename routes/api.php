@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\ManufacturersController;
 use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\Api\OrdersController2;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
@@ -30,7 +31,9 @@ Route::group(
     static function () {
         Route::apiResource('users', UsersController::class);
         Route::apiResource('roles', RolesController::class);
-        Route::apiResource('orders', OrdersController::class);
+        Route::apiResource('sellers', SellersController::class);
+        Route::apiResource('manufacturers', ManufacturersController::class);
+        Route::apiResource('orders_new', OrdersController2::class);
     }
 );
 
@@ -45,17 +48,28 @@ Route::group(
     }
 );
 
-// Справочники
+// Справочники с авторизацией
+Route::group(
+    [
+        'prefix' => 'dictionary',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function () {
+        Route::get('/roles', [RolesController::class, 'all']);
+        Route::get('/permissions', [PermissionsController::class, 'all']);
+        Route::get('/order_statuses', [OrdersController::class, 'statuses']);
+        Route::get('/order_statuses_new', [OrdersController2::class, 'statuses']);
+        Route::get('/manufacturers', [ManufacturersController::class, 'all']);
+        Route::get('/sellers', [SellersController::class, 'all']);
+    }
+);
+
+// Справочники без авторизации
 Route::group(
     [
         'prefix' => 'dictionary',
     ],
     static function () {
         Route::get('/users', [UsersController::class, 'all']);
-        Route::get('/roles', [RolesController::class, 'all']);
-        Route::get('/permissions', [PermissionsController::class, 'all']);
-        Route::get('/order_statuses', [OrdersController::class, 'statuses']);
-        Route::get('/manufacturers', [ManufacturersController::class, 'all']);
-        Route::get('/sellers', [SellersController::class, 'all']);
     }
 );

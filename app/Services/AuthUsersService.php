@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthUsersService
 {
+    /**
+     * @param array $attributes
+     * @return string
+     */
     public function getToken(array $attributes): string
     {
         if (!Auth::attempt($attributes)) {
             return '';
         }
-
-        // $user = User::query()
-        //     ->where('username', $attributes['username'])
-        //     ->first();
 
         $user = User::query()->find($attributes['id']);
 
@@ -42,6 +42,9 @@ class AuthUsersService
         auth()->user()->tokens()->delete();
     }
 
+    /**
+     * @return string
+     */
     public function refreshToken(): string
     {
         $user = auth()->user();
