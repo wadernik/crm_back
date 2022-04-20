@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\ManufacturersController;
 use App\Http\Controllers\Api\OrdersController;
-use App\Http\Controllers\Api\OrdersController2;
+use App\Http\Controllers\Api\OrdersDraftsController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
@@ -18,7 +18,7 @@ Route::group(
     ],
     static function () {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
         Route::post('/refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum']);
     }
 );
@@ -33,7 +33,8 @@ Route::group(
         Route::apiResource('roles', RolesController::class);
         Route::apiResource('sellers', SellersController::class);
         Route::apiResource('manufacturers', ManufacturersController::class);
-        Route::apiResource('orders_new', OrdersController2::class);
+        Route::apiResource('orders', OrdersController::class);
+        Route::apiResource('orders_drafts', OrdersDraftsController::class);
     }
 );
 
@@ -58,7 +59,6 @@ Route::group(
         Route::get('/roles', [RolesController::class, 'all']);
         Route::get('/permissions', [PermissionsController::class, 'all']);
         Route::get('/order_statuses', [OrdersController::class, 'statuses']);
-        Route::get('/order_statuses_new', [OrdersController2::class, 'statuses']);
         Route::get('/manufacturers', [ManufacturersController::class, 'all']);
         Route::get('/sellers', [SellersController::class, 'all']);
     }

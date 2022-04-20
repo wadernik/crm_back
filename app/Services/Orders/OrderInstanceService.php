@@ -4,16 +4,14 @@ namespace App\Services\Orders;
 
 use App\Models\BaseOrder;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderInstanceService extends BaseOrderInstanceService
 {
-    public function __construct(Order $order, OrderDetail $orderDetail)
+    public function __construct(Order $order)
     {
         $this->modelClass = $order;
-        $this->orderDetailClass = $orderDetail;
     }
 
     /**

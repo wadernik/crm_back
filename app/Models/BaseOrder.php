@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use JetBrains\PhpStorm\ArrayShape;
 use Parental\HasChildren;
 
 class BaseOrder extends Model
@@ -38,6 +39,7 @@ class BaseOrder extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'type',
     ];
 
     public const STATUS_ACCEPTED = 1;
@@ -45,6 +47,12 @@ class BaseOrder extends Model
     public const STATUS_SOLD = 3;
     public const STATUS_CANCELED = 4;
 
+    #[ArrayShape([
+        self::STATUS_ACCEPTED => "mixed",
+        self::STATUS_TAKEN => "mixed",
+        self::STATUS_SOLD => "mixed",
+        self::STATUS_CANCELED => "mixed"
+    ])]
     public static function statusCaptions(): array
     {
         return [
@@ -72,11 +80,11 @@ class BaseOrder extends Model
 
     public function details(): HasMany
     {
-        return $this->hasMany(BaseOrderDetail::class, 'order_id', 'id');
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
     public function files(): BelongsToMany
     {
-        return $this->belongsToMany(File::class, 'order_files');
+        return $this->belongsToMany(File::class, 'order_files', 'order_id', 'file_id');
     }
 }

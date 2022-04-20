@@ -2,14 +2,10 @@
 
 namespace App\Services\Orders;
 
-use App\Models\BaseOrder;
-use App\Models\BaseOrderDetail;
 use App\Services\BaseCollectionService;
 
 abstract class BaseOrdersCollectionService extends BaseCollectionService
 {
-    protected BaseOrderDetail $orderDetailClass;
-
     /**
      * Retrieve order statuses with captions
      * @return array
