@@ -4,11 +4,11 @@ This project is a simple REST API backend based on Laravel which features tools
 for managing internal business processes.
 
 ## Implemented:
-- Token based auth made with [Laravel Sanctum](https://laravel.com/docs/sanctum)
-- User's methods with roles and permissions (staff)
-- Manufacturer's methods (one who fulfills placed orders)
-- Seller's methods
-- Order's processing methods (partially)
+- Token based auth
+- User's control methods with roles and permissions (for staff)
+- Manufacturer's control methods (one who fulfills placed orders)
+- Seller's control methods
+- Order's processing methods (partially; there are drafted and completed orders)
 - File uploading methods
 
 ## Planned:
@@ -17,3 +17,31 @@ for managing internal business processes.
 - Reports
 - Chat (?)
 - Catalogue (future iterations)
+
+## Installation:
+
+Install composer dependencies
+```sh
+composer install
+```
+
+Create and configure the `.env` file based on `.env.example`
+
+Run migrations: `:fresh` is optional
+```sh
+php artisan migrate:fresh
+```
+
+Seed the DB with temporarily dev data:
+```sh
+php artisan db:seed
+```
+
+Run the built-in server or configure external web server
+```sh
+php artisan serve
+```
+
+## Additionals:
+- [Laravel Sanctum](https://laravel.com/docs/sanctum)
+- [Parental (STI implementation)](https://github.com/calebporzio/parental)
