@@ -2,7 +2,6 @@
 
 namespace App\Services\Traits;
 
-use App\ModelFilters\BaseModelFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 trait Filterable
@@ -58,6 +57,11 @@ trait Filterable
         return $pageParams;
     }
 
+    /**
+     * @param Builder $builder
+     * @param array $params
+     * @param string $filterClass
+     */
     public function applyFilterParams(Builder $builder, array $params, string $filterClass): void
     {
         $filterParams = $this->createFilterParams($params);

@@ -13,15 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_details', function (Blueprint $table) {
+        Schema::create('order_details', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('name', 255)->nullable(); // Наименование заказа
-            $table->unsignedInteger('amount'); // Количество / вес в граммах
-            $table->string('label', 255); // Надпись
-            $table->string('comment', 255); // Комментарий от покупателя
+            $table->unsignedInteger('amount')->nullable(); // Количество / вес в граммах
+            $table->string('label', 255)->nullable(); // Надпись
+            $table->string('comment', 255)->nullable(); // Комментарий от покупателя
 
             $table->softDeletes();
+
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders')
+                ->onDelete('cascade');
         });
     }
 
@@ -32,6 +37,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('order_details', static function (Blueprint $table) {
+            $table->dropForeign('order_details_order_id_foreign');
+        });
         Schema::dropIfExists('order_details');
     }
 };

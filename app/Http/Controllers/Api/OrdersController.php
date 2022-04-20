@@ -4,26 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Orders\CreateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
-use App\Services\ManufacturersService;
-use App\Services\OrdersService;
+use App\Services\Manufacturers\ManufacturerInstanceService;
+use App\Services\Orders\OrderInstanceService;
+use App\Services\Orders\OrdersCollectionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrdersController extends BaseApiController
 {
-    public function __construct(
-        private OrdersService $ordersService
-    ) {}
-
     /**
      * Dictionary
+     * @param OrdersCollectionService $ordersCollectionService
      * @return JsonResponse
      */
-    public function statuses(): JsonResponse
+    public function statuses(OrdersCollectionService $ordersCollectionService): JsonResponse
     {
         try {
-            $statuses = $this->ordersService->getStatuses();
+            $statuses = $ordersCollectionService->getStatuses();
 
             return $this->responseSuccess(data: $statuses, headers: ['x-total-count' => count($statuses)]);
         } catch (\Exception $e) {
@@ -36,9 +34,10 @@ class OrdersController extends BaseApiController
 
     /**
      * @param ListOrdersRequest $request
+     * @param OrdersCollectionService $ordersCollectionService
      * @return JsonResponse
      */
-    public function index(ListOrdersRequest $request): JsonResponse
+    public function index(ListOrdersRequest $request, OrdersCollectionService $ordersCollectionService): JsonResponse
     {
         if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -46,7 +45,7 @@ class OrdersController extends BaseApiController
 
         try {
             $attributes = ['*'];
-            $orders = $this->ordersService->getOrders(
+            $orders = $ordersCollectionService->getInstances(
                 attributes: $attributes,
                 requestParams: $request->validated(),
                 with: ['details', 'files:id,filename']
@@ -62,39 +61,23 @@ class OrdersController extends BaseApiController
     }
 
     /**
-     * @param CreateOrderRequest $request
-     * @param ManufacturersService $manufacturersService
+     * @param int $id
+     * @param OrderInstanceService $orderInstanceService
      * @return JsonResponse
      */
-    public function store(CreateOrderRequest $request, ManufacturersService $manufacturersService): JsonResponse
+    public function show(int $id, OrderInstanceService $orderInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('orders.edit')) {
+        if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $validated = $request->validated();
-
-            $manufacturer = $manufacturersService->getManufacturer($validated['manufacturer_id'], ['id', 'limit']);
-
-            if (!$manufacturer) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            $order = $orderInstanceService->getInstance(id: $id, with: ['details', 'files:id,filename']);
+            if (!$order) {
+                return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
-            if (!$this->ordersService->canCreateOrder($validated['order_date'], $manufacturer)) {
-                return $this->responseError(
-                    code: Response::HTTP_UNPROCESSABLE_ENTITY,
-                    message: __('order.limit_reached')
-                );
-            }
-
-            $orderId = $this->ordersService->createOrder($validated);
-
-            if (!$orderId) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            return $this->responseSuccess(data: ['id' => $orderId], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $order);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -103,20 +86,46 @@ class OrdersController extends BaseApiController
         }
     }
 
-    public function show(int $id): JsonResponse
-    {
-        if (!$this->isAllowed('orders.view')) {
+    /**
+     * @param CreateOrderRequest $request
+     * @param OrderInstanceService $orderInstanceService
+     * @param ManufacturerInstanceService $manufacturerInstanceService
+     * @return JsonResponse
+     */
+    public function store(
+        CreateOrderRequest $request,
+        OrderInstanceService $orderInstanceService,
+        ManufacturerInstanceService $manufacturerInstanceService
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $order = $this->ordersService->getOrder(id: $id, with: ['details', 'files:id,filename']);
+            $validated = $request->validated();
+            $manufacturer = $manufacturerInstanceService->getInstance($validated['manufacturer_id'], ['id', 'limit']);
 
-            if (!$order) {
-                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            if (!$manufacturer) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            return $this->responseSuccess(data: $order);
+            if (!$orderInstanceService->canCreateOrder($validated['order_date'], $manufacturer)) {
+                return $this->responseError(
+                    code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                    message: __('order.limit_reached')
+                );
+            }
+
+            // TODO think about this one
+            $validated['user_id'] = auth()->id();
+
+            $order = $orderInstanceService->createInstance($validated);
+
+            if (!$order) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess(data: ['id' => $order['id']], code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

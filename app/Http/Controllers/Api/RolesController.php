@@ -5,26 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Dictionaries\RolesDictionaryRequest;
 use App\Http\Requests\Roles\CreateRoleRequest;
 use App\Http\Requests\Roles\UpdateRolesRequest;
-use App\Services\RolesService;
+use App\Services\Roles\RoleInstanceService;
+use App\Services\Roles\RolesCollectionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolesController extends BaseApiController
 {
-    public function __construct(
-        private RolesService $rolesService
-    ) {}
-
     /**
      * Dictionary
      * @param RolesDictionaryRequest $request
+     * @param RolesCollectionService $rolesCollectionService
      * @return JsonResponse
      */
-    public function all(RolesDictionaryRequest $request): JsonResponse
+    public function all(RolesDictionaryRequest $request, RolesCollectionService $rolesCollectionService): JsonResponse
     {
         try {
-            $roles = $this->rolesService->getRoles(
+            $roles = $rolesCollectionService->getInstances(
                 requestParams: $request->validated(),
                 with: ['permissions:id,label']
             );
@@ -39,16 +37,17 @@ class RolesController extends BaseApiController
     }
 
     /**
+     * @param RolesCollectionService $rolesCollectionService
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(RolesCollectionService $rolesCollectionService): JsonResponse
     {
         if (!$this->isAllowed('roles.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $roles = $this->rolesService->getRoles(with: ['permissions:id,label']);
+            $roles = $rolesCollectionService->getInstances(with: ['permissions:id,label']);
 
             return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
         } Catch (\Exception $e) {
@@ -61,16 +60,19 @@ class RolesController extends BaseApiController
 
     /**
      * @param int $id
+     * @param RoleInstanceService $roleInstanceService
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(int $id, RoleInstanceService $roleInstanceService): JsonResponse
     {
         if (!$this->isAllowed('roles.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $role = $this->rolesService->getRole($id, ['permissions:id,label']);
+            if (!$role = $roleInstanceService->getInstance($id, with: ['permissions:id,label'])) {
+                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            }
 
             return $this->responseSuccess(data: $role);
         } Catch (\Exception $e) {
@@ -83,16 +85,17 @@ class RolesController extends BaseApiController
 
     /**
      * @param CreateRoleRequest $request
+     * @param RoleInstanceService $roleInstanceService
      * @return JsonResponse
      */
-    public function store(CreateRoleRequest $request): JsonResponse
+    public function store(CreateRoleRequest $request, RoleInstanceService $roleInstanceService): JsonResponse
     {
         if (!$this->isAllowed('roles.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $roleId = $this->rolesService->createRole($request->validated());
+            $roleId = $roleInstanceService->createInstance($request->validated());
 
             return $this->responseSuccess(data: ['id' => $roleId], code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
@@ -104,18 +107,21 @@ class RolesController extends BaseApiController
     }
 
     /**
+     * @param int $id
      * @param UpdateRolesRequest $request
-     * @param $id
+     * @param RoleInstanceService $roleInstanceService
      * @return JsonResponse
      */
-    public function update(UpdateRolesRequest $request, $id): JsonResponse
+    public function update(int $id, UpdateRolesRequest $request, RoleInstanceService $roleInstanceService): JsonResponse
     {
         if (!$this->isAllowed('roles.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $this->rolesService->editRole($id, $request->validated());
+            if (!$roleInstanceService->editInstance($id, $request->validated())) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
 
             return $this->responseSuccess();
         } Catch (\Exception $e) {
@@ -128,16 +134,17 @@ class RolesController extends BaseApiController
 
     /**
      * @param int $id
+     * @param RoleInstanceService $roleInstanceService
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id, RoleInstanceService $roleInstanceService): JsonResponse
     {
         if (!$this->isAllowed('roles.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            if (!$this->rolesService->deleteRole($id)) {
+            if (!$roleInstanceService->deleteInstance($id)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 

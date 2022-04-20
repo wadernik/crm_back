@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_files', function (Blueprint $table) {
+        Schema::create('order_files', static function (Blueprint $table) {
             $table->primary(['order_id', 'file_id']);
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('file_id');
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('order_files', function (Blueprint $table) {
+        Schema::table('order_files', static function (Blueprint $table) {
             $table->dropForeign('order_files_order_id_foreign');
             $table->dropForeign('order_files_file_id_foreign');
         });

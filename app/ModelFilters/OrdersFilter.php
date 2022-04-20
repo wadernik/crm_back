@@ -29,6 +29,14 @@ class OrdersFilter extends BaseModelFilter
     }
 
     /**
+     * @param int $id
+     */
+    public function filterUserId(int $id): void
+    {
+        $this->builder->where('user_id', $id);
+    }
+
+    /**
      * @param string $date
      */
     public function filterOrderDate(string $date): void

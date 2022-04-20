@@ -6,27 +6,25 @@ use App\Http\Requests\Dictionaries\UsersDictionaryRequest;
 use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Http\Requests\Users\ListUsersRequest;
-use App\Services\UsersService;
+use App\Services\Users\UserInstanceService;
+use App\Services\Users\UsersCollectionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends BaseApiController
 {
-    public function __construct(
-        private UsersService $userService
-    ) {}
-
     /**
      * Dictionary
      * @param UsersDictionaryRequest $request
+     * @param UsersCollectionService $usersCollectionService
      * @return JsonResponse
      */
-    public function all(UsersDictionaryRequest $request): JsonResponse
+    public function all(UsersDictionaryRequest $request, UsersCollectionService $usersCollectionService): JsonResponse
     {
         try {
             $attributes = ['id', 'first_name', 'last_name'];
-            $records = $this->userService->getUsers(
+            $records = $usersCollectionService->getInstances(
                 attributes: $attributes,
                 requestParams: $request->validated()
             );
@@ -42,9 +40,10 @@ class UsersController extends BaseApiController
 
     /**
      * @param ListUsersRequest $request
+     * @param UsersCollectionService $usersCollectionService
      * @return JsonResponse
      */
-    public function index(ListUsersRequest $request): JsonResponse
+    public function index(ListUsersRequest $request, UsersCollectionService $usersCollectionService): JsonResponse
     {
         if (!$this->isAllowed('users.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -52,7 +51,7 @@ class UsersController extends BaseApiController
 
         try {
             $attributes = ['id', 'first_name', 'last_name', 'email', 'role_id', 'last_seen'];
-            $records = $this->userService->getUsers($attributes, $request->validated());
+            $records = $usersCollectionService->getInstances($attributes, $request->validated());
 
             return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
         } catch (\Exception $e) {
@@ -65,20 +64,19 @@ class UsersController extends BaseApiController
 
     /**
      * @param CreateUserRequest $request
+     * @param UserInstanceService $userInstanceService
      * @return JsonResponse
      */
-    public function store(CreateUserRequest $request): JsonResponse
+    public function store(CreateUserRequest $request, UserInstanceService $userInstanceService): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        $validated = $request->validated();
-
         try {
-            $userId = $this->userService->createUser($validated);
+            $user = $userInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $userId], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: ['id' => $user['id']], code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -89,19 +87,19 @@ class UsersController extends BaseApiController
 
     /**
      * @param int $id
+     * @param UserInstanceService $userInstanceService
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(int $id, UserInstanceService $userInstanceService): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $attributes = ['id', 'first_name', 'last_name', 'email', 'role_id'];
-            $user = $this->userService->getUser($id, $attributes);
+            $attributes = ['id', 'first_name', 'last_name', 'email', 'role_id', 'last_seen'];
+            if (!$user = $userInstanceService->getInstance($id, $attributes)) {
 
-            if (!$user) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
@@ -115,18 +113,19 @@ class UsersController extends BaseApiController
     }
 
     /**
-     * @param UpdateUserRequest $request
      * @param int $id
+     * @param UpdateUserRequest $request
+     * @param UserInstanceService $userInstanceService
      * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request, int $id): JsonResponse
+    public function update(int $id, UpdateUserRequest $request, UserInstanceService $userInstanceService): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            if (!$this->userService->editUser($id, $request->validated())) {
+            if (!$userInstanceService->editInstance($id, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -141,16 +140,17 @@ class UsersController extends BaseApiController
 
     /**
      * @param int $id
+     * @param UserInstanceService $userInstanceService
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id, UserInstanceService $userInstanceService): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            if (!$this->userService->deleteUser($id)) {
+            if (!$userInstanceService->deleteInstance($id)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
