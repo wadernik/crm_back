@@ -37,6 +37,22 @@ class OrdersFilter extends BaseModelFilter
     }
 
     /**
+     * @param int $statusId
+     */
+    public function filterStatus(int $statusId): void
+    {
+        $this->builder->where('status', $statusId);
+    }
+
+    /**
+     *
+     */
+    public function filterStatusIsNull(): void
+    {
+        $this->builder->whereNull('status');
+    }
+
+    /**
      * @param string $date
      */
     public function filterOrderDate(string $date): void
