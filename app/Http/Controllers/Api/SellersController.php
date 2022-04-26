@@ -97,7 +97,7 @@ class SellersController extends BaseApiController
         try {
             $seller = $sellerInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: $seller['id'], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: ['id' => $seller['id']], code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

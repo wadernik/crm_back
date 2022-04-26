@@ -10,8 +10,8 @@ class UpdateRolesRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:64',
-            'label' => 'sometimes|string|max:128',
-            'permissions' => 'sometimes|array'
+            'label' => 'sometimes|string|max:128|nullable',
+            'permissions' => 'sometimes|array|nullable',
         ];
     }
 }

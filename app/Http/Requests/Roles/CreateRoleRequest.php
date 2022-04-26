@@ -15,7 +15,8 @@ class CreateRoleRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:64',
-            'label' => 'sometimes|string|max:128'
+            'label' => 'sometimes|string|max:128|nullable',
+            'permissions' => 'sometimes|array|nullable',
         ];
     }
 }

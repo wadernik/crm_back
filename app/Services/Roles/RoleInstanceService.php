@@ -16,6 +16,26 @@ class RoleInstanceService extends BaseInstanceService
     }
 
     /**
+     * @param array $attributes
+     * @return Model
+     */
+    public function createInstance(array $attributes): Model
+    {
+        $params = array_filter([
+            'name' => $attributes['name'] ?? null,
+            'label' => $attributes['label'] ?? null,
+        ]);
+
+        $role = parent::createInstance($params);
+
+        if (isset($attributes['permissions'])) {
+            $role->permissions()->sync($attributes['permissions']);
+        }
+
+        return $role;
+    }
+
+    /**
      * @param int $id
      * @param array $attributes
      * @return Model|null

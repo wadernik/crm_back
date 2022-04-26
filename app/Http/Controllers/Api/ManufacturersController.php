@@ -102,7 +102,7 @@ class ManufacturersController extends BaseApiController
         try {
             $manufacturer = $manufacturerInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: $manufacturer['id'], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: ['id' => $manufacturer['id']], code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
