@@ -76,7 +76,7 @@ class UsersController extends BaseApiController
         try {
             $user = $userInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $user['id']], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $user['id'], code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

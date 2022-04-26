@@ -95,9 +95,9 @@ class RolesController extends BaseApiController
         }
 
         try {
-            $roleId = $roleInstanceService->createInstance($request->validated());
+            $role = $roleInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $roleId], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $role['id'], code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
