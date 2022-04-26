@@ -24,7 +24,7 @@ class RolesController extends BaseApiController
         try {
             $roles = $rolesCollectionService->getInstances(
                 requestParams: $request->validated(),
-                with: ['permissions:id,label']
+                with: ['permissions']
             );
 
             return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
@@ -47,7 +47,7 @@ class RolesController extends BaseApiController
         }
 
         try {
-            $roles = $rolesCollectionService->getInstances(with: ['permissions:id,label']);
+            $roles = $rolesCollectionService->getInstances(with: ['permissions']);
 
             return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
         } Catch (\Exception $e) {
@@ -70,7 +70,7 @@ class RolesController extends BaseApiController
         }
 
         try {
-            if (!$role = $roleInstanceService->getInstance($id, with: ['permissions:id,label'])) {
+            if (!$role = $roleInstanceService->getInstance($id, with: ['permissions'])) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
