@@ -50,7 +50,7 @@ class UsersController extends BaseApiController
         }
 
         try {
-            $attributes = ['id', 'first_name', 'last_name', 'email', 'role_id', 'last_seen'];
+            $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen'];
             $records = $usersCollectionService->getInstances($attributes, $request->validated());
 
             return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
@@ -97,7 +97,17 @@ class UsersController extends BaseApiController
         }
 
         try {
-            $attributes = ['id', 'first_name', 'last_name', 'email', 'role_id', 'last_seen'];
+            $attributes = [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'phone',
+                'sex',
+                'birth_date',
+                'role_id',
+                'last_seen',
+            ];
             if (!$user = $userInstanceService->getInstance($id, $attributes)) {
 
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);

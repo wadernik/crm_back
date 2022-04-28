@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\ModelFilters\FilesFilter;
+use App\ModelModifiers\ModelFilters\FilesFilter;
 use App\Models\File;
-use App\Services\Traits\Filterable;
+use App\Services\Traits\FilterableTrait;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 
 class FilesService
 {
-    use Filterable;
+    use FilterableTrait;
 
     /**
      * @param array $ids

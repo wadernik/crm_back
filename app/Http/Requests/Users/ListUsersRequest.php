@@ -18,9 +18,11 @@ class ListUsersRequest extends FormRequest
             'filter.first_name' => 'sometimes|string|max:128',
             'filter.last_name' => 'sometimes|string|max:128|nullable',
             'filter.role_id' => 'sometimes|integer',
-            'filter.status' => 'sometimes|string',
+            'filter.is_online' => 'sometimes|string',
             'limit' => 'sometimes',
             'page' => 'sometimes',
+            'sort' => 'sometimes|string',
+            'order' => 'sometimes|string',
         ];
     }
 

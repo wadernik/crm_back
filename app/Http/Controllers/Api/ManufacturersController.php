@@ -25,7 +25,8 @@ class ManufacturersController extends BaseApiController
         ManufacturersCollectionService $manufacturersCollectionService
     ): JsonResponse {
         try {
-            $manufacturers = $manufacturersCollectionService->getInstances(requestParams: $request->validated());
+            $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
+            $manufacturers = $manufacturersCollectionService->getInstances(requestParams: $validated);
 
             return $this->responseSuccess(data: $manufacturers, headers: ['x-total-count' => count($manufacturers)]);
         } Catch (\Exception $e) {

@@ -1,6 +1,9 @@
 <?php
 
-namespace App\ModelFilters;
+namespace App\ModelModifiers\ModelFilters;
+
+use App\Models\User;
+use Carbon\Carbon;
 
 class UsersFilter extends BaseModelFilter
 {
@@ -39,5 +42,23 @@ class UsersFilter extends BaseModelFilter
     public function filterRoleId(int $roleId): void
     {
         $this->builder->where('role_id', $roleId);
+    }
+
+    /**
+     * @param bool $isOnline
+     */
+    public function filterIsOnline(bool $isOnline): void
+    {
+        $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
+
+        if ($isOnline) {
+            $this->builder
+                ->whereNotNull('last_seen')
+                ->where('last_seen', '>=', $now);
+        } else {
+            $this->builder
+                ->where('last_seen', '<=', $now)
+                ->orWhereNull('last_seen');
+        }
     }
 }

@@ -18,6 +18,8 @@ abstract class BaseDictionaryRequest extends FormRequest
             'filter.ids' => 'sometimes|array|nullable',
             'limit' => 'sometimes',
             'page' => 'sometimes',
+            'sort' => 'sometimes|string',
+            'order' => 'sometimes|string',
         ];
     }
 }

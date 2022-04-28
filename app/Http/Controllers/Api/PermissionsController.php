@@ -21,7 +21,8 @@ class PermissionsController extends BaseApiController
         PermissionsCollectionService $permissionsCollectionService
     ): JsonResponse {
         try {
-            $permissions = $permissionsCollectionService->getInstances(requestParams: $request->validated());
+            $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
+            $permissions = $permissionsCollectionService->getInstances(requestParams: $validated);
 
             return $this->responseSuccess(data: $permissions, headers: ['x-total-count' => count($permissions)]);
         } Catch (\Exception $e) {

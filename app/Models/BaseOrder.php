@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Filterable;
+use App\Models\Traits\FilterableTrait;
+use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\ArrayShape;
 use Parental\HasChildren;
 
 class BaseOrder extends Model
 {
-    use Filterable;
+    use FilterableTrait;
     use SoftDeletes;
+    use SortableTrait;
     use HasChildren;
 
     protected $table = 'orders';
@@ -78,9 +81,9 @@ class BaseOrder extends Model
         return $this->belongsTo(Manufacturer::class, 'manufacturer_id');
     }
 
-    public function details(): HasMany
+    public function details(): HasOne
     {
-        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+        return $this->hasOne(OrderDetail::class, 'order_id', 'id');
     }
 
     public function files(): BelongsToMany

@@ -2,10 +2,9 @@
 
 namespace App\Models\Traits;
 
-use App\ModelFilters\BaseModelFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-trait Filterable
+trait FilterableTrait
 {
     public function scopeFilter(Builder $builder, string $filterClass, array $params): void
     {

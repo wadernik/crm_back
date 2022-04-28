@@ -25,7 +25,8 @@ class SellersController extends BaseApiController
         SellersCollectionService $sellersCollectionService
     ): JsonResponse {
         try {
-            $sellers = $sellersCollectionService->getInstances(requestParams: $request->validated());
+            $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
+            $sellers = $sellersCollectionService->getInstances(requestParams: $validated);
             return $this->responseSuccess(data: $sellers, headers: ['x-total-count' => count($sellers)]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());

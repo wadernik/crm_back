@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone', 16)->nullable();
             $table->string('email')->nullable();
             $table->date('birth_date')->nullable();
+            $table->unsignedTinyInteger('sex')->nullable();
             $table->timestamp('last_seen')->nullable();
 
             $table->rememberToken();

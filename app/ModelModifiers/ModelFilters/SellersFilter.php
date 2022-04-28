@@ -1,8 +1,8 @@
 <?php
 
-namespace App\ModelFilters;
+namespace App\ModelModifiers\ModelFilters;
 
-class PermissionsFilter extends BaseModelFilter
+class SellersFilter extends BaseModelFilter
 {
     /**
      * @param int $id

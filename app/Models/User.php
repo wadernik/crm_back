@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Filterable;
+use App\Models\Traits\FilterableTrait;
+use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,14 +15,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Filterable;
+    use FilterableTrait;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use SortableTrait;
     use SoftDeletes;
 
     // In minutes
-    private const ONLINE_STATUS_BORDER = 5;
+    public const ONLINE_STATUS_BORDER = 5;
+    public const SEX_M = 1;
+    public const SEX_W = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -36,8 +40,10 @@ class User extends Authenticatable
         'role_id',
         'phone',
         'email',
-        'remember_token',
+        'birth_date',
+        'sex',
         'last_seen',
+        'remember_token',
     ];
 
     /**
@@ -51,7 +57,6 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at',
-        'last_seen',
     ];
 
     protected function isOnline(): Attribute

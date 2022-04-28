@@ -16,38 +16,10 @@ class FilesController extends BaseApiController
     {}
 
     /**
-     * @param CreateFileUploadRequest $request
-     * @return JsonResponse
-     */
-    public function uploadFile(CreateFileUploadRequest $request): JsonResponse
-    {
-        if (!$this->isAllowed('files.edit')) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        }
-
-        $file = $request->file('file');
-
-        if (!$file) {
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        try {
-            $fileId = $this->filesService->uploadFile($file);
-
-            return $this->responseSuccess(data: ['id' => $fileId], code: Response::HTTP_CREATED);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-    }
-
-    /**
      * @param CreateFilesUploadRequest $request
      * @return JsonResponse
      */
-    public function uploadFiles(CreateFilesUploadRequest $request): JsonResponse
+    public function upload(CreateFilesUploadRequest $request): JsonResponse
     {
         if (!$this->isAllowed('files.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);

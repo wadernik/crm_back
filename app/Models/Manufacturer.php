@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Filterable;
+use App\Models\Traits\FilterableTrait;
+use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Manufacturer extends Model
 {
-    use Filterable;
+    use FilterableTrait;
+    use SortableTrait;
 
     public $timestamps = false;
 

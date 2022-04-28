@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Dictionaries\RolesDictionaryRequest;
 use App\Http\Requests\Roles\CreateRoleRequest;
+use App\Http\Requests\Roles\ListRolesRequest;
 use App\Http\Requests\Roles\UpdateRolesRequest;
 use App\Services\Roles\RoleInstanceService;
 use App\Services\Roles\RolesCollectionService;
@@ -22,8 +23,9 @@ class RolesController extends BaseApiController
     public function all(RolesDictionaryRequest $request, RolesCollectionService $rolesCollectionService): JsonResponse
     {
         try {
+            $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
             $roles = $rolesCollectionService->getInstances(
-                requestParams: $request->validated(),
+                requestParams: $validated,
                 with: ['permissions']
             );
 
@@ -37,17 +39,18 @@ class RolesController extends BaseApiController
     }
 
     /**
+     * @param ListRolesRequest $request
      * @param RolesCollectionService $rolesCollectionService
      * @return JsonResponse
      */
-    public function index(RolesCollectionService $rolesCollectionService): JsonResponse
+    public function index(ListRolesRequest $request, RolesCollectionService $rolesCollectionService): JsonResponse
     {
         if (!$this->isAllowed('roles.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
-            $roles = $rolesCollectionService->getInstances(with: ['permissions']);
+            $roles = $rolesCollectionService->getInstances(requestParams: $request->validated(), with: ['permissions']);
 
             return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
         } Catch (\Exception $e) {

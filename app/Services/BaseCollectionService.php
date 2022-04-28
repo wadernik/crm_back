@@ -2,16 +2,22 @@
 
 namespace App\Services;
 
-use App\ModelFilters\BaseModelFilter;
-use App\Services\Traits\Filterable;
+use App\ModelModifiers\ModelFilters\BaseModelFilter;
+use App\ModelModifiers\ModelSorts\BaseModelSort;
+use App\Services\Traits\FilterableTrait;
+use App\Services\Traits\PaginationableTrait;
+use App\Services\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseCollectionService
 {
-    use Filterable;
+    use FilterableTrait;
+    use PaginationableTrait;
+    use SortableTrait;
 
     protected Model $modelClass;
     protected BaseModelFilter $modelFilter;
+    protected BaseModelSort $modelSort;
 
     /**
      * @param array|string[] $attributes
@@ -21,12 +27,13 @@ abstract class BaseCollectionService
      */
     public function getInstances(array $attributes = ['*'], array $requestParams = [], array $with = []): array
     {
-        $sellersQuery = $this->modelClass::query();
+        $query = $this->modelClass::query();
 
-        $this->applyFilterParams($sellersQuery, $requestParams, $this->modelFilter::class);
-        $this->applyPageParams($sellersQuery, $requestParams);
+        $this->applyFilterParams($query, $requestParams, $this->modelFilter::class);
+        $this->applyPageParams($query, $requestParams);
+        $this->applySortParams($query, $requestParams, $this->modelSort::class);
 
-        return $sellersQuery
+        return $query
             ->get($attributes)
             ->load($with)
             ->toArray();

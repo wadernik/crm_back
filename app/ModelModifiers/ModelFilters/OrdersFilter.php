@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ModelFilters;
+namespace App\ModelModifiers\ModelFilters;
 
 class OrdersFilter extends BaseModelFilter
 {

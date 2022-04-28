@@ -38,8 +38,8 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
         OrderDetail::query()->create($orderDetailsAttributes);
 
         // TODO check if files do actually exist before syncing; may cause problems
-        if (isset($params['file_ids'])) {
-            $orderInstance->files()->sync($params['file_ids']);
+        if (isset($attributes['file_ids'])) {
+            $orderInstance->files()->sync($attributes['file_ids']);
         }
 
         return $orderInstance;

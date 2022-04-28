@@ -2,16 +2,18 @@
 
 namespace App\Services\Users;
 
-use App\ModelFilters\UsersFilter;
+use App\ModelModifiers\ModelFilters\UsersFilter;
+use App\ModelModifiers\ModelSorts\UsersSort;
 use App\Models\User;
 use App\Services\BaseCollectionService;
 
 class UsersCollectionService extends BaseCollectionService
 {
-    public function __construct(User $user, UsersFilter $filter)
+    public function __construct(User $user, UsersFilter $filter, UsersSort $sort)
     {
         $this->modelClass = $user;
         $this->modelFilter = $filter;
+        $this->modelSort = $sort;
     }
 
     /**
@@ -27,9 +29,16 @@ class UsersCollectionService extends BaseCollectionService
         $this->applyFilterParams($userQuery, $requestParams, UsersFilter::class);
         $this->applyPageParams($userQuery, $requestParams);
 
+        // Default sorting by first_name for users
+        if (!isset($requestParams['sort'])) {
+            $requestParams['sort'] = 'first_name';
+            $requestParams['order'] = 'asc';
+        }
+
+        $this->applySortParams($userQuery, $requestParams, UsersSort::class);
+
         $users = $userQuery
-            ->get($attributes)
-            ->makeVisible($attributes);
+            ->get($attributes);
 
         if (in_array('last_seen', $attributes, true)) {
             $users->append('is_online');

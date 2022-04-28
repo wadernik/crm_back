@@ -21,10 +21,11 @@ class UsersTableSeeder extends Seeder
                 'first_name' => 'Илья',
                 'last_name' => 'Закарая',
                 'username' => 'ilia',
-                'password' => bcrypt('kavkazdag'), // password
+                'password' => bcrypt('123123'), // password
                 // 'remember_token' => Str::random(10),
                 'email' => 'chill@stroman.org',
                 'phone' => '79111111111',
+                'sex' => 1,
                 'role_id' => 1,
             ],
             [
@@ -35,6 +36,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('123123'), // password
                 'email' => 'admin@aidadev.ru',
                 'phone' => '79111111112',
+                'sex' => 1,
                 'role_id' => 1,
             ],
             [
@@ -45,6 +47,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('#manager1'), // password
                 'email' => 'manager@stroman.org',
                 'phone' => '79111111115',
+                'sex' => 2,
                 'role_id' => 2,
             ],
             [
@@ -55,17 +58,28 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('#cashier1'), // password
                 'email' => 'chashier@stroman.org',
                 'phone' => '79111111113',
+                'sex' => 2,
                 'role_id' => 3,
             ],
             [
                 'id' => 5,
                 'first_name' => 'Пекарь',
-                // 'last_name' => null,
                 'username' => 'pekar_1',
                 'password' => bcrypt('#pekar1'), // password
                 'email' => 'pekar@stroman.org',
                 'phone' => '79111111114',
+                'sex' => 2,
                 'role_id' => 4,
+            ],
+            [
+                'id' => 6,
+                'first_name' => 'Павел',
+                'username' => 'pavel',
+                'password' => bcrypt('123123'), // password
+                'email' => 'freepzu@gmail.com',
+                'phone' => '79111111115',
+                'sex' => 1,
+                'role_id' => 1,
             ],
         ];
 

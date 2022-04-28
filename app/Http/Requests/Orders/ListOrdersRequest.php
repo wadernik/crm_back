@@ -24,6 +24,8 @@ class ListOrdersRequest extends FormRequest
             'filter.order_date' => 'sometimes|string',
             'filter.order_date_start' => 'sometimes|string',
             'filter.order_date_end' => 'sometimes|string',
+            'sort' => 'sometimes|string',
+            'order' => 'sometimes|string',
         ];
     }
 }

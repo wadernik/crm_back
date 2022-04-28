@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Filterable;
+use App\Models\Traits\FilterableTrait;
+use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
-    use Filterable;
+    use FilterableTrait;
+    use SortableTrait;
 
     public $timestamps = false;
 
