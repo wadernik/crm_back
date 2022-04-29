@@ -35,7 +35,7 @@ class FilesController extends BaseApiController
             $fileIds = [];
             foreach ($files['files'] as $file) {
                 /** @var UploadedFile */
-                $uploadedFile = $file['file'];
+                $uploadedFile = $file;
 
                 $fileIds[] = $this->filesService->uploadFile($uploadedFile);
             }
