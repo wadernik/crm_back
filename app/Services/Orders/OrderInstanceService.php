@@ -62,7 +62,7 @@ class OrderInstanceService extends BaseOrderInstanceService
             ],
         ];
 
-        $ordersAmount = app(BaseCollectionService::class)->countInstances($params);
+        $ordersAmount = app(OrdersCollectionService::class)->countInstances($params);
 
         return $ordersAmount <= $manufacturer['limit'];
     }
@@ -80,7 +80,7 @@ class OrderInstanceService extends BaseOrderInstanceService
             ],
         ];
 
-        $ordersAmount = app(BaseCollectionService::class)->countInstances($params) + 1;
+        $ordersAmount = app(OrdersCollectionService::class)->countInstances($params) + 1;
         $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
 
         return $ordersAmountFormatted . $nowCarbon->format('m');
