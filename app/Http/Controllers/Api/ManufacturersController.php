@@ -27,8 +27,9 @@ class ManufacturersController extends BaseApiController
         try {
             $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
             $manufacturers = $manufacturersCollectionService->getInstances(requestParams: $validated);
+            $total = $manufacturersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $manufacturers, headers: ['x-total-count' => count($manufacturers)]);
+            return $this->responseSuccess(data: $manufacturers, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -51,9 +52,11 @@ class ManufacturersController extends BaseApiController
         }
 
         try {
-            $manufacturers = $manufacturersCollectionService->getInstances(requestParams: $request->validated());
+            $validated = $request->validated();
+            $manufacturers = $manufacturersCollectionService->getInstances(requestParams: $validated);
+            $total = $manufacturersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $manufacturers, headers: ['x-total-count' => count($manufacturers)]);
+            return $this->responseSuccess(data: $manufacturers, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

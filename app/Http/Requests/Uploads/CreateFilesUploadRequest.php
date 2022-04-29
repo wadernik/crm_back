@@ -17,4 +17,11 @@ class CreateFilesUploadRequest extends FormRequest
             'files.*' => 'required|mimes:jpeg,jpg,png|max:4096',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'files.*' => __('attributes.files.file'),
+        ];
+    }
 }

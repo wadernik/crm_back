@@ -21,4 +21,16 @@ class CreateSellerRequest extends FormRequest
             'working_hours' => 'sometimes|string|max:255|nullable',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => __('attributes.seller.name'),
+            'phone' => __('attributes.seller.phone'),
+            'email' => __('attributes.seller.email'),
+            'address' => __('attributes.seller.address'),
+            'working_hours' =>
+                __('attributes.seller.working_hours'),
+        ];
+    }
 }

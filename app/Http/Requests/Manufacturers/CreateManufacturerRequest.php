@@ -21,4 +21,15 @@ class CreateManufacturerRequest extends FormRequest
             'limit' => 'sometimes|integer|nullable',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => __('attributes.manufacturer.name'),
+            'address' => __('attributes.manufacturer.address'),
+            'phone' => __('attributes.manufacturer.phone'),
+            'email' => __('attributes.manufacturer.email'),
+            'limit' => __('attributes.manufacturer.limit'),
+        ];
+    }
 }

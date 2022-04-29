@@ -38,4 +38,17 @@ abstract class BaseCollectionService
             ->load($with)
             ->toArray();
     }
+
+    /**
+     * @param array $requestParams
+     * @return int
+     */
+    public function countInstances(array $requestParams = []): int
+    {
+        $query = $this->modelClass::query();
+
+        $this->applyFilterParams($query, $requestParams, $this->modelFilter::class);
+
+        return $query->count();
+    }
 }

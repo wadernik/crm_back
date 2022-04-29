@@ -32,8 +32,9 @@ class OrdersDraftsController extends BaseApiController
                 requestParams: $requestParams,
                 with: $with
             );
+            $total = $ordersDraftsCollectionService->countInstances($requestParams);
 
-            return $this->responseSuccess(data: $orders, headers: ['x-total-count' => count($orders)]);
+            return $this->responseSuccess(data: $orders, headers: ['x-total-count' => $total]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

@@ -22,11 +22,29 @@ return [
         'email' => 'Email',
         'phone' => 'Телефон',
         'birth_date' => 'День рождения',
+        'sex' => 'Пол',
         'role' => 'Роль',
     ],
     'role' => [
         'name' => 'Название',
         'label' => 'Краткое описание',
         'permissions' => 'Разрешения',
+    ],
+    'manufacturer' => [
+        'name' => 'Название',
+        'address' => 'Адрес',
+        'phone' => 'Телефон',
+        'email' => 'Email',
+        'limit' => 'Ограничение',
+    ],
+    'seller' => [
+        'name' => 'Название',
+        'phone' => 'Телефон',
+        'email' => 'Email',
+        'address' => 'Адрес',
+        'working_hours' => 'Рабочие часы',
+    ],
+    'files' => [
+        'file' => 'Файл',
     ],
 ];

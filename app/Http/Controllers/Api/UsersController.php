@@ -24,12 +24,14 @@ class UsersController extends BaseApiController
     {
         try {
             $attributes = ['id', 'first_name', 'last_name'];
+            $validated = $request->validated();
             $records = $usersCollectionService->getInstances(
                 attributes: $attributes,
-                requestParams: $request->validated()
+                requestParams: $validated
             );
+            $total = $usersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
+            return $this->responseSuccess(data: $records, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -51,9 +53,11 @@ class UsersController extends BaseApiController
 
         try {
             $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen'];
-            $records = $usersCollectionService->getInstances($attributes, $request->validated());
+            $validated = $request->validated();
+            $records = $usersCollectionService->getInstances($attributes, $validated);
+            $total = $usersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $records, headers: ['x-total-count' => count($records)]);
+            return $this->responseSuccess(data: $records, headers: ['x-total-count' => $total]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

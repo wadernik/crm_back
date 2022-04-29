@@ -45,13 +45,15 @@ class OrdersController extends BaseApiController
 
         try {
             $attributes = ['*'];
+            $validated = $request->validated();
             $orders = $ordersCollectionService->getInstances(
                 attributes: $attributes,
-                requestParams: $request->validated(),
+                requestParams: $validated,
                 with: ['details', 'files:id,filename']
             );
+            $total = $ordersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $orders, headers: ['x-total-count' => count($orders)]);
+            return $this->responseSuccess(data: $orders, headers: ['x-total-count' => $total]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

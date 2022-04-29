@@ -23,8 +23,9 @@ class PermissionsController extends BaseApiController
         try {
             $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
             $permissions = $permissionsCollectionService->getInstances(requestParams: $validated);
+            $total = $permissionsCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $permissions, headers: ['x-total-count' => count($permissions)]);
+            return $this->responseSuccess(data: $permissions, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

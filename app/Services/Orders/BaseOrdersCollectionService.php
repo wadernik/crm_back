@@ -22,17 +22,4 @@ abstract class BaseOrdersCollectionService extends BaseCollectionService
             ->values()
             ->toArray();
     }
-
-    /**
-     * @param array $params
-     * @return int
-     */
-    public function countOrders(array $params = []): int
-    {
-        $ordersQuery = $this->modelClass::query();
-
-        $this->applyFilterParams($ordersQuery, $params, $this->modelFilter::class);
-
-        return $ordersQuery->count('id');
-    }
 }

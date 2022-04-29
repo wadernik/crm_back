@@ -24,12 +24,10 @@ class RolesController extends BaseApiController
     {
         try {
             $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
-            $roles = $rolesCollectionService->getInstances(
-                requestParams: $validated,
-                with: ['permissions']
-            );
+            $roles = $rolesCollectionService->getInstances(requestParams: $validated, with: ['permissions']);
+            $total = $rolesCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
+            return $this->responseSuccess(data: $roles, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -50,9 +48,11 @@ class RolesController extends BaseApiController
         }
 
         try {
-            $roles = $rolesCollectionService->getInstances(requestParams: $request->validated(), with: ['permissions']);
+            $validated = $request->validated();
+            $roles = $rolesCollectionService->getInstances(requestParams: $validated, with: ['permissions']);
+            $total = $rolesCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $roles, headers: ['x-total-count' => count($roles)]);
+            return $this->responseSuccess(data: $roles, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

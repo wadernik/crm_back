@@ -27,7 +27,9 @@ class SellersController extends BaseApiController
         try {
             $validated = array_merge($request->validated(), ['sort' => 'id', 'order' => 'asc']);
             $sellers = $sellersCollectionService->getInstances(requestParams: $validated);
-            return $this->responseSuccess(data: $sellers, headers: ['x-total-count' => count($sellers)]);
+            $total = $sellersCollectionService->countInstances($validated);
+
+            return $this->responseSuccess(data: $sellers, headers: ['x-total-count' => $total]);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
@@ -48,9 +50,11 @@ class SellersController extends BaseApiController
         }
 
         try {
-            $sellers = $sellersCollectionService->getInstances(requestParams: $request->validated());
+            $validated = $request->validated();
+            $sellers = $sellersCollectionService->getInstances(requestParams: $validated);
+            $total = $sellersCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $sellers, headers: ['x-total-count' => count($sellers)]);
+            return $this->responseSuccess(data: $sellers, headers: ['x-total-count' => $total]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

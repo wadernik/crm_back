@@ -19,4 +19,13 @@ class CreateRoleRequest extends FormRequest
             'permissions' => 'sometimes|array|nullable',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => __('attributes.role.name'),
+            'label' => __('attributes.role.label'),
+            'permissions' => __('attributes.role.permissions'),
+        ];
+    }
 }

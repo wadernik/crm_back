@@ -33,8 +33,10 @@ class CreateUserRequest extends FormRequest
             'password' => __('attributes.user.password'),
             'first_name' => __('attributes.user.first_name'),
             'last_name' => __('attributes.user.last_name'),
+            'phone' => __('attributes.user.phone'),
             'email' => __('attributes.user.email'),
             'birth_date' => __('attributes.user.birth_date'),
+            'sex' => __('attributes.user.sex'),
             'role_id' => __('attributes.user.role'),
         ];
     }

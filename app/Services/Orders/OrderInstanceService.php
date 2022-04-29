@@ -4,6 +4,7 @@ namespace App\Services\Orders;
 
 use App\Models\BaseOrder;
 use App\Models\Order;
+use App\Services\BaseCollectionService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -61,7 +62,7 @@ class OrderInstanceService extends BaseOrderInstanceService
             ],
         ];
 
-        $ordersAmount = app(OrdersCollectionService::class)->countOrders($params);
+        $ordersAmount = app(BaseCollectionService::class)->countInstances($params);
 
         return $ordersAmount <= $manufacturer['limit'];
     }
@@ -79,7 +80,7 @@ class OrderInstanceService extends BaseOrderInstanceService
             ],
         ];
 
-        $ordersAmount = app(OrdersCollectionService::class)->countOrders($params) + 1;
+        $ordersAmount = app(BaseCollectionService::class)->countInstances($params) + 1;
         $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
 
         return $ordersAmountFormatted . $nowCarbon->format('m');
