@@ -14,10 +14,11 @@ class CreateOrderDraftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255|nullable',
-            'label' => 'sometimes|string|max:255|nullable',
-            'comment' => 'sometimes|string|max:255|nullable',
-            'amount' => 'sometimes|string|nullable',
+            'details' => 'sometimes|array|nullable',
+            'details.name' => 'sometimes|string|max:255|nullable',
+            'details.label' => 'sometimes|string|max:255|nullable',
+            'details.comment' => 'sometimes|string|max:255|nullable',
+            'details.amount' => 'sometimes|string|nullable',
             'accepted_date' => 'sometimes|date_format:Y-m-d|nullable',
             'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow|nullable',
             'order_time' => 'sometimes|date_format:H:i|nullable',
@@ -31,10 +32,10 @@ class CreateOrderDraftRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => __('attributes.order.name'),
-            'label' => __('attributes.order.label'),
-            'comment' => __('attributes.order.comment'),
-            'amount' => __('attributes.order.amount'),
+            'details.name' => __('attributes.order.name'),
+            'details.label' => __('attributes.order.label'),
+            'details.comment' => __('attributes.order.comment'),
+            'details.amount' => __('attributes.order.amount'),
             'accepted_date' => __('attributes.order.accepted_date'),
             'order_date' => __('attributes.order.order_date'),
             'order_time' => __('attributes.order.order_time'),

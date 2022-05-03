@@ -20,6 +20,8 @@ class OrderDetail extends Model
     ];
 
     protected $hidden = [
+        'id',
+        'order_id',
         'deleted_at',
     ];
 }

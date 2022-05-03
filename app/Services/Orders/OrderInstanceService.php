@@ -4,7 +4,6 @@ namespace App\Services\Orders;
 
 use App\Models\BaseOrder;
 use App\Models\Order;
-use App\Services\BaseCollectionService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,11 +20,12 @@ class OrderInstanceService extends BaseOrderInstanceService
      */
     public function createInstance(array $attributes): Model
     {
+        $orderNumber = $this->generateOrderNumber();
         $order = parent::createInstance($attributes);
 
         $order->update([
             'status' => BaseOrder::STATUS_ACCEPTED,
-            'number' => $this->generateOrderNumber(),
+            'number' => $orderNumber,
         ]);
 
         return $order;
@@ -50,7 +50,7 @@ class OrderInstanceService extends BaseOrderInstanceService
      * Manufacturers can fulfill a limited amount of orders per day.
      * Function checks if it can take an order for a specific date.
      * @param string $orderDate
-     * @param array $manufacturer`
+     * @param array $manufacturer
      * @return bool
      */
     public function canCreateOrder(string $orderDate, array $manufacturer): bool
@@ -64,7 +64,7 @@ class OrderInstanceService extends BaseOrderInstanceService
 
         $ordersAmount = app(OrdersCollectionService::class)->countInstances($params);
 
-        return $ordersAmount <= $manufacturer['limit'];
+        return $ordersAmount < $manufacturer['limit'];
     }
 
     /**
@@ -76,7 +76,8 @@ class OrderInstanceService extends BaseOrderInstanceService
 
         $params = [
             'filter' => [
-                'order_date' => $nowCarbon->format('Y-m-d'),
+                'order_date_start' => $nowCarbon->startOfMonth()->format('Y-m-d'),
+                'order_date_end' => $nowCarbon->endOfMonth()->format('Y-m-d'),
             ],
         ];
 

@@ -7,7 +7,6 @@ use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\ArrayShape;
@@ -43,6 +42,10 @@ class BaseOrder extends Model
         'updated_at',
         'deleted_at',
         'type',
+    ];
+
+    protected $casts = [
+        'order_time' => 'datetime:H:i'
     ];
 
     public const STATUS_ACCEPTED = 1;

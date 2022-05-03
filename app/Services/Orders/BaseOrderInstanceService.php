@@ -30,10 +30,10 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
 
         $orderDetailsAttributes = array_filter([
             'order_id' => $orderInstance['id'],
-            'name' => $attributes['name'] ?? null,
-            'amount' => $attributes['amount'] ?? null,
-            'label' => $attributes['label'] ?? null,
-            'comment' => $attributes['comment'] ?? null,
+            'name' => $attributes['details']['name'] ?? null,
+            'amount' => $attributes['details']['amount'] ?? null,
+            'label' => $attributes['details']['label'] ?? null,
+            'comment' => $attributes['details']['comment'] ?? null,
         ]);
 
         OrderDetail::query()->create($orderDetailsAttributes);
@@ -72,10 +72,10 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
 
         $orderDetailsAttributes = array_filter([
             'order_id' => $order['id'],
-            'name' => $attributes['name'] ?? null,
-            'amount' => $attributes['amount'] ?? null,
-            'label' => $attributes['label'] ?? null,
-            'comment' => $attributes['comment'] ?? null,
+            'name' => $attributes['details']['name'] ?? null,
+            'amount' => $attributes['details']['amount'] ?? null,
+            'label' => $attributes['details']['label'] ?? null,
+            'comment' => $attributes['details']['comment'] ?? null,
         ]);
 
         $orderDetail = OrderDetail::query()
