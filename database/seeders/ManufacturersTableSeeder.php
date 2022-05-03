@@ -17,8 +17,8 @@ class ManufacturersTableSeeder extends Seeder
         $items = [
             [
                 'id' => 1,
-                'name' => 'Государевы пекарни производство',
-                'address' => 'Строка адреса',
+                'name' => 'Производство',
+                'address' => 'ул. Советская, д. 127',
                 'phone' => '79111111111',
                 'email' => 'fake@email.com',
                 'limit' => 10,
@@ -26,7 +26,7 @@ class ManufacturersTableSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'Тестовое производство, чтобы было',
-                'address' => 'Строка адреса',
+                'address' => 'ул. Тестовая, д. 1337',
                 'phone' => '79111111112',
                 'email' => 'fake@email.com',
                 'limit' => 5,
