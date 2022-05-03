@@ -21,6 +21,7 @@ class File extends Model
     ];
 
     protected $hidden = [
+        'path',
         'created_at',
         'update_at',
         'deleted_at',
@@ -34,7 +35,7 @@ class File extends Model
     protected function url(): Attribute
     {
         return Attribute::make(
-            get: fn () => Storage::url('uploads/' . $this->filename),
+            get: fn () => config('app.url') . Storage::url('uploads/' . $this->filename),
         );
     }
 }

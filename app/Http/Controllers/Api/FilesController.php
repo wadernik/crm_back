@@ -32,15 +32,15 @@ class FilesController extends BaseApiController
         }
 
         try {
-            $fileIds = [];
+            $uploadedFiles = [];
             foreach ($files['files'] as $file) {
                 /** @var UploadedFile */
                 $uploadedFile = $file;
 
-                $fileIds[] = $this->filesService->uploadFile($uploadedFile);
+                $uploadedFiles[] = $this->filesService->uploadFile($uploadedFile);
             }
 
-            return $this->responseSuccess(data: ['file_ids' => $fileIds], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $uploadedFiles, code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

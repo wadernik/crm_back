@@ -32,25 +32,21 @@ class FilesService
 
     /**
      * @param UploadedFile $file
-     * @return int file id
+     * @return array
      */
-    public function uploadFile(UploadedFile $file): int
+    public function uploadFile(UploadedFile $file): array
     {
-        $nowTimeStamp = Carbon::now()->getTimestamp();
-        $title = $this->generateFilename($file->getClientOriginalName());
-        // $extension = $file->getClientOriginalExtension();
-        $fileName = $nowTimeStamp . '_'. $title;
-        $filePath = $file->storeAs('uploads', $fileName, 'public');
+        $filename = $file->hashName();
+        $extension = $file->extension();
+        $path = $file->storeAs('uploads', $filename, 'public');
 
-        $savedFile = File::query()
+        return File::query()
             ->create([
-                'title' => $title,
-                'filename' => $fileName,
-                'extension' => '',
-                'path' => $filePath,
-            ]);
-
-        return $savedFile['id'];
+                'filename' => $filename,
+                'path' => $path,
+                'extension' => $extension,
+            ])
+            ->toArray();
     }
 
     /**

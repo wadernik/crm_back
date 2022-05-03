@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('files', static function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
             $table->string('filename')->nullable();
             $table->string('extension')->nullable();
             $table->string('path')->nullable();

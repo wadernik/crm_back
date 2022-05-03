@@ -63,6 +63,22 @@ class OrdersFilter extends BaseModelFilter
     /**
      * @param string $date
      */
+    public function filterAcceptedDateStart(string $date): void
+    {
+        $this->builder->where('accepted_date', '>=', $date);
+    }
+
+    /**
+     * @param string $date
+     */
+    public function filterAcceptedDateEnd(string $date): void
+    {
+        $this->builder->where('accepted_date', '<=', $date);
+    }
+
+    /**
+     * @param string $date
+     */
     public function filterOrderDateStart(string $date): void
     {
         $this->builder->where('order_date', '>=', $date);
