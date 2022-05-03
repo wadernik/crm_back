@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Orders\CreateOrderRequest;
+use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Services\Manufacturers\ManufacturerInstanceService;
 use App\Services\Orders\OrderInstanceService;
@@ -118,8 +119,9 @@ class OrdersController extends BaseApiController
                 );
             }
 
-            // TODO think about this one
-            $validated['user_id'] = auth()->id();
+            if (!isset($validated['user_id'])) {
+                $validated['user_id'] = auth()->id();
+            }
 
             $order = $orderInstanceService->createInstance($validated);
 
@@ -128,6 +130,50 @@ class OrdersController extends BaseApiController
             }
 
             return $this->responseSuccess(data: ['id' => $order['id']], code: Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param UpdateOrderRequest $request
+     * @param OrderInstanceService $orderInstanceService
+     * @param ManufacturerInstanceService $manufacturerInstanceService
+     * @return JsonResponse
+     */
+    public function update(
+        int $id,
+        UpdateOrderRequest $request,
+        OrderInstanceService $orderInstanceService,
+        ManufacturerInstanceService $manufacturerInstanceService
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $validated = $request->validated();
+
+            if (
+                isset($validated['manufacturer_id'])
+                && !$manufacturerInstanceService->getInstance($validated['manufacturer_id'])
+            ) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            if (!isset($validated['user_id'])) {
+                $validated['user_id'] = auth()->id();
+            }
+
+            if (!$orderInstanceService->editInstance($id, $validated)) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
