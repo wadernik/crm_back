@@ -15,7 +15,7 @@ class CreateOrderDraftRequest extends FormRequest
     {
         return [
             'details' => 'sometimes|array|nullable',
-            'details.name' => 'sometimes|string|max:255|nullable',
+            'details.name' => 'required|string|max:255',
             'details.label' => 'sometimes|string|max:255|nullable',
             'details.comment' => 'sometimes|string|max:255|nullable',
             'details.amount' => 'sometimes|string|nullable',

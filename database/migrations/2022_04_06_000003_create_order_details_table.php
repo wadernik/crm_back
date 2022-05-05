@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('name', 255)->nullable(); // Наименование заказа
-            $table->unsignedInteger('amount')->nullable(); // Количество / вес в граммах
+            $table->string('amount', 255)->nullable(); // Количество / вес в граммах
             $table->string('label', 255)->nullable(); // Надпись
             $table->string('comment', 255)->nullable(); // Комментарий от покупателя
 

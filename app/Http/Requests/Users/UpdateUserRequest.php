@@ -19,6 +19,7 @@ class UpdateUserRequest extends FormRequest
             'phone' => 'sometimes|regex:/^\d{11}$/',
             'email' => 'sometimes|string|email|nullable',
             'birth_date' => 'sometimes|date_format:Y-m-d|before:today|after:1920-01-01|nullable',
+            'sex' => 'sometimes|integer|nullable',
             'role_id' => 'sometimes',
         ];
     }
@@ -31,6 +32,7 @@ class UpdateUserRequest extends FormRequest
             'email' => __('attributes.user.email'),
             'phone' => __('attributes.user.phone'),
             'birth_date' => __('attributes.user.birth_date'),
+            'sex' => __('attributes.user.sex'),
             'role_id' => __('attributes.user.role'),
         ];
     }
