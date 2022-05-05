@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ManufacturersController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrdersDraftsController;
 use App\Http\Controllers\Api\PermissionsController;
+use App\Http\Controllers\Api\ProfilesController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
 use App\Http\Controllers\Api\UsersController;
@@ -20,6 +21,17 @@ Route::group(
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
         Route::post('/refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum']);
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'profile',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function() {
+        Route::get('/', [ProfilesController::class, 'show']);
+        Route::put('/{id}', [ProfilesController::class, 'update']);
     }
 );
 

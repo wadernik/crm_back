@@ -113,7 +113,6 @@ class UsersController extends BaseApiController
                 'last_seen',
             ];
             if (!$user = $userInstanceService->getInstance($id, $attributes)) {
-
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
