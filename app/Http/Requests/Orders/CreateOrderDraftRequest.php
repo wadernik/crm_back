@@ -25,7 +25,7 @@ class CreateOrderDraftRequest extends FormRequest
             'manufacturer_id' => 'sometimes|integer|nullable',
             'source_id' => 'sometimes|integer|nullable',
             'seller_id' => 'sometimes|integer|nullable',
-            'file_ids' => 'sometimes|array|nullable',
+            'files' => 'sometimes|array|nullable',
         ];
     }
 
@@ -42,7 +42,7 @@ class CreateOrderDraftRequest extends FormRequest
             'manufacturer_id' => __('attributes.order.manufacturer_id'),
             'source_id' => __('attributes.order.source_id'),
             'seller_id' => __('attributes.order.seller_id'),
-            'file_ids' => __('attributes.order.file_ids'),
+            'files' => __('attributes.order.files'),
         ];
     }
 }

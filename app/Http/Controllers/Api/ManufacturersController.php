@@ -34,7 +34,7 @@ class ManufacturersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,7 +61,7 @@ class ManufacturersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -86,7 +86,7 @@ class ManufacturersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -106,12 +106,12 @@ class ManufacturersController extends BaseApiController
         try {
             $manufacturer = $manufacturerInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $manufacturer['id']], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $manufacturer->toArray(), code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -131,16 +131,16 @@ class ManufacturersController extends BaseApiController
         }
 
         try {
-            if (!$manufacturerInstanceService->editInstance($id, $request->validated())) {
+            if (!$manufacturer = $manufacturerInstanceService->editInstance($id, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(data: $manufacturer->toArray());
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -165,7 +165,7 @@ class ManufacturersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -15,32 +15,19 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
      */
     public function createInstance(array $attributes): Model
     {
-        $orderAttributes = array_filter([
-            'manufacturer_id' => $attributes['manufacturer_id'] ?? null,
-            'source_id' => $attributes['source_id'] ?? null,
-            'seller_id' => $attributes['seller_id'] ?? null,
-            'user_id' => $attributes['user_id'],
-            'product_code' => $attributes['product_code'] ?? null,
-            'accepted_date' => $attributes['accepted_date'] ?? null,
-            'order_date' => $attributes['order_date'] ?? null,
-            'order_time' => $attributes['order_time'] ?? null,
-        ]);
+        [$orderAttributes, $orderDetailsAttributes] = $this->prepareAttributes($attributes);
 
         $orderInstance = $this->modelClass::query()->create($orderAttributes);
 
-        $orderDetailsAttributes = array_filter([
-            'order_id' => $orderInstance['id'],
-            'name' => $attributes['details']['name'] ?? null,
-            'amount' => $attributes['details']['amount'] ?? null,
-            'label' => $attributes['details']['label'] ?? null,
-            'comment' => $attributes['details']['comment'] ?? null,
-        ]);
+        $orderDetailsAttributes['order_id'] = $orderInstance['id'];
 
         OrderDetail::query()->create($orderDetailsAttributes);
 
-        // TODO check if files do actually exist before syncing; may cause problems
-        if (isset($attributes['file_ids'])) {
-            $orderInstance->files()->sync($attributes['file_ids']);
+        if (isset($attributes['files'])) {
+            $fileIds = collect($attributes['files'])
+                ->pluck('id')
+                ->toArray();
+            $orderInstance->files()->sync($fileIds);
         }
 
         return $orderInstance;
@@ -53,30 +40,15 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
      */
     public function editInstance(int $id, array $attributes): ?Model
     {
-        $orderAttributes = array_filter([
-            'manufacturer_id' => $attributes['manufacturer_id'] ?? null,
-            'source_id' => $attributes['source_id'] ?? null,
-            'seller_id' => $attributes['seller_id'] ?? null,
-            'user_id' => $attributes['user_id'],
-            'product_code' => $attributes['product_code'] ?? null,
-            'accepted_date' => $attributes['accepted_date'] ?? null,
-            'order_date' => $attributes['order_date'] ?? null,
-            'order_time' => $attributes['order_time'] ?? null,
-        ]);
+        [$orderAttributes, $orderDetailsAttributes] = $this->prepareAttributes($attributes);
 
         if (!$order = $this->modelClass::query()->find($id)) {
             return null;
         }
 
-        $order->update($orderAttributes);
+        $orderDetailsAttributes['order_id'] = $order['id'];
 
-        $orderDetailsAttributes = array_filter([
-            'order_id' => $order['id'],
-            'name' => $attributes['details']['name'] ?? null,
-            'amount' => $attributes['details']['amount'] ?? null,
-            'label' => $attributes['details']['label'] ?? null,
-            'comment' => $attributes['details']['comment'] ?? null,
-        ]);
+        $order->update($orderAttributes);
 
         $orderDetail = OrderDetail::query()
             ->where('order_id', $order['id'])
@@ -88,11 +60,40 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
 
         $orderDetail->update($orderDetailsAttributes);
 
-        // TODO check if files do actually exist before syncing; may cause problems
-        if (isset($attributes['file_ids'])) {
-            $order->files()->sync($attributes['file_ids']);
+        if (isset($attributes['files'])) {
+            $fileIds = collect($attributes['files'])
+                ->pluck('id')
+                ->toArray();
+            $order->files()->sync($fileIds);
         }
 
         return $order;
+    }
+
+    /**
+     * @param array $attributes
+     * @return array [$orderAttributes, $orderDetailsAttributes]
+     */
+    private function prepareAttributes(array $attributes): array
+    {
+        $orderAttributes = array_filter([
+            'manufacturer_id' => $attributes['manufacturer_id'] ?? null,
+            'source_id' => $attributes['source_id'] ?? null,
+            'seller_id' => $attributes['seller_id'] ?? null,
+            'user_id' => $attributes['user_id'],
+            'product_code' => $attributes['product_code'] ?? null,
+            'accepted_date' => $attributes['accepted_date'] ?? null,
+            'order_date' => $attributes['order_date'] ?? null,
+            'order_time' => $attributes['order_time'] ?? null,
+        ]);
+
+        $orderDetailsAttributes = array_filter([
+            'name' => $attributes['details']['name'] ?? null,
+            'amount' => $attributes['details']['amount'] ?? null,
+            'label' => $attributes['details']['label'] ?? null,
+            'comment' => $attributes['details']['comment'] ?? null,
+        ]);
+
+        return [$orderAttributes, $orderDetailsAttributes];
     }
 }

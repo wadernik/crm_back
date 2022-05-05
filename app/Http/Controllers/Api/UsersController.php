@@ -36,7 +36,7 @@ class UsersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -62,7 +62,7 @@ class UsersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -80,12 +80,12 @@ class UsersController extends BaseApiController
         try {
             $user = $userInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $user['id']], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $user->toArray(), code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -121,7 +121,7 @@ class UsersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -138,16 +138,16 @@ class UsersController extends BaseApiController
         }
 
         try {
-            if (!$userInstanceService->editInstance($id, $request->validated())) {
+            if (!$user = $userInstanceService->editInstance($id, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(data: $user->toArray());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -172,7 +172,7 @@ class UsersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

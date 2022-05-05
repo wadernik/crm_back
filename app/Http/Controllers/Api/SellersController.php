@@ -34,7 +34,7 @@ class SellersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -59,7 +59,7 @@ class SellersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -84,7 +84,7 @@ class SellersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -102,12 +102,12 @@ class SellersController extends BaseApiController
         try {
             $seller = $sellerInstanceService->createInstance($request->validated());
 
-            return $this->responseSuccess(data: ['id' => $seller['id']], code: Response::HTTP_CREATED);
+            return $this->responseSuccess(data: $seller->toArray(), code: Response::HTTP_CREATED);
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -127,16 +127,16 @@ class SellersController extends BaseApiController
         }
 
         try {
-            if (!$sellerInstanceService->editInstance($id, $request->validated())) {
+            if (!$seller = $sellerInstanceService->editInstance($id, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(data: $seller->toArray());
         } Catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -161,7 +161,7 @@ class SellersController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -43,7 +43,7 @@ class ProfilesController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,19 +61,19 @@ class ProfilesController extends BaseApiController
             }
 
             if ($userId !== $id) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+                return $this->responseError(code: Response::HTTP_BAD_REQUEST);
             }
 
-            if (!$userInstanceService->editInstance($userId, $request->validated())) {
+            if (!$user = $userInstanceService->editInstance($userId, $request->validated())) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(data: $user->toArray());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

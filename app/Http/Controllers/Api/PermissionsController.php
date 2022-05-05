@@ -30,7 +30,7 @@ class PermissionsController extends BaseApiController
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
 
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

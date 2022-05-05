@@ -14,7 +14,10 @@ class Role extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'label',
+    ];
 
     protected $hidden = ['pivot'];
 

@@ -12,7 +12,7 @@ return [
         'manufacturer_id' => 'Производство',
         'source_id' => 'Источник продажи',
         'seller_id' => 'Точка выдачи',
-        'file_ids' => 'Файлы',
+        'files' => 'Файлы',
     ],
     'user' => [
         'username' => 'Никнейм',

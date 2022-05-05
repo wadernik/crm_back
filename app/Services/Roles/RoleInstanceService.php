@@ -29,7 +29,11 @@ class RoleInstanceService extends BaseInstanceService
         $role = parent::createInstance($params);
 
         if (isset($attributes['permissions'])) {
-            $role->permissions()->sync($attributes['permissions']);
+            $permissionIds = collect($attributes['permissions'])
+                ->pluck('id')
+                ->toArray();
+
+            $role->permissions()->sync($permissionIds);
         }
 
         return $role;
@@ -52,7 +56,11 @@ class RoleInstanceService extends BaseInstanceService
         }
 
         if (isset($attributes['permissions'])) {
-            $role->permissions()->sync($attributes['permissions']);
+            $permissionIds = collect($attributes['permissions'])
+                ->pluck('id')
+                ->toArray();
+
+            $role->permissions()->sync($permissionIds);
         }
 
         return $role;
