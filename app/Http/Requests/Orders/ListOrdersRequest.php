@@ -21,6 +21,7 @@ class ListOrdersRequest extends FormRequest
             'filter.seller_id' => 'sometimes|integer',
             'filter.number' => 'sometimes|string',
             'filter.status' => 'sometimes|integer',
+            'filter.statuses' => 'sometimes|array',
             'filter.order_date' => 'sometimes|date_format:Y-m-d',
             'filter.order_date_start' => 'sometimes|date_format:Y-m-d',
             'filter.order_date_end' => 'sometimes|date_format:Y-m-d',

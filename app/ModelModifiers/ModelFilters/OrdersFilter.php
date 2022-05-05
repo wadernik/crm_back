@@ -45,6 +45,14 @@ class OrdersFilter extends BaseModelFilter
     }
 
     /**
+     * @param array $statusIds
+     */
+    public function filterStatuses(array $statusIds): void
+    {
+        $this->builder->whereIn('status', $statusIds);
+    }
+
+    /**
      *
      */
     public function filterStatusIsNull(): void
