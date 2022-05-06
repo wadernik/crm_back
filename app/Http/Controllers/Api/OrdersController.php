@@ -165,10 +165,6 @@ class OrdersController extends BaseApiController
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            if (!isset($validated['user_id'])) {
-                $validated['user_id'] = auth()->id();
-            }
-
             if (!$order = $orderInstanceService->editInstance($id, $validated)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
