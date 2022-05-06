@@ -81,7 +81,7 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
             'manufacturer_id' => $attributes['manufacturer_id'] ?? null,
             'source_id' => $attributes['source_id'] ?? null,
             'seller_id' => $attributes['seller_id'] ?? null,
-            'user_id' => $attributes['user_id'],
+            'user_id' => $attributes['user_id'] ?? null,
             'status' => $attributes['status'] ?? null,
             'product_code' => $attributes['product_code'] ?? null,
             'accepted_date' => $attributes['accepted_date'] ?? null,
