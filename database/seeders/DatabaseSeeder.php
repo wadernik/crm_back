@@ -24,7 +24,5 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionTableSeeder::class,
         ]);
-
-        // \App\Models\User::factory(1)->create();
     }
 }

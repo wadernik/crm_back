@@ -19,10 +19,6 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
 
         $orderInstance = $this->modelClass::query()->create($orderAttributes);
 
-        $orderDetailsAttributes['order_id'] = $orderInstance['id'];
-
-        OrderDetail::query()->create($orderDetailsAttributes);
-
         if (isset($attributes['files'])) {
             $fileIds = collect($attributes['files'])
                 ->pluck('id')
@@ -30,7 +26,14 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
             $orderInstance->files()->sync($fileIds);
         }
 
-        return $orderInstance;
+        if (!empty($orderDetailsAttributes)) {
+            $orderDetailsAttributes['order_id'] = $orderInstance['id'];
+            OrderDetail::query()
+                ->where('order_id', $orderDetailsAttributes['order_id'])
+                ->create($orderDetailsAttributes);
+        }
+
+        return $orderInstance->load('details');
     }
 
     /**
@@ -40,25 +43,13 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
      */
     public function editInstance(int $id, array $attributes): ?Model
     {
-        [$orderAttributes, $orderDetailsAttributes] = $this->prepareAttributes($attributes);
-
         if (!$order = $this->modelClass::query()->find($id)) {
             return null;
         }
 
-        $orderDetailsAttributes['order_id'] = $order['id'];
+        [$orderAttributes, $orderDetailsAttributes] = $this->prepareAttributes($attributes);
 
         $order->update($orderAttributes);
-
-        $orderDetail = OrderDetail::query()
-            ->where('order_id', $order['id'])
-            ->first();
-
-        if (!$orderDetail) {
-            return null;
-        }
-
-        $orderDetail->update($orderDetailsAttributes);
 
         if (isset($attributes['files'])) {
             $fileIds = collect($attributes['files'])
@@ -67,7 +58,14 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
             $order->files()->sync($fileIds);
         }
 
-        return $order;
+        if (!empty($orderDetailsAttributes)) {
+            $orderDetailsAttributes['order_id'] = $order['id'];
+            OrderDetail::query()
+                ->where('order_id', $orderDetailsAttributes['order_id'])
+                ->update($orderDetailsAttributes);
+        }
+
+        return $order->load('details');
     }
 
     /**
@@ -81,6 +79,7 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
             'source_id' => $attributes['source_id'] ?? null,
             'seller_id' => $attributes['seller_id'] ?? null,
             'user_id' => $attributes['user_id'],
+            'status' => $attributes['status'] ?? null,
             'product_code' => $attributes['product_code'] ?? null,
             'accepted_date' => $attributes['accepted_date'] ?? null,
             'order_date' => $attributes['order_date'] ?? null,

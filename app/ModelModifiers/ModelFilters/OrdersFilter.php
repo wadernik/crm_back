@@ -37,19 +37,15 @@ class OrdersFilter extends BaseModelFilter
     }
 
     /**
-     * @param int $statusId
+     * @param int|array $status
      */
-    public function filterStatus(int $statusId): void
+    public function filterStatus(int|array $status): void
     {
-        $this->builder->where('status', $statusId);
-    }
-
-    /**
-     * @param array $statusIds
-     */
-    public function filterStatuses(array $statusIds): void
-    {
-        $this->builder->whereIn('status', $statusIds);
+        if (is_array($status)) {
+            $this->builder->whereIn('status', $status);
+        } else {
+            $this->builder->where('status', $status);
+        }
     }
 
     /**
@@ -98,5 +94,21 @@ class OrdersFilter extends BaseModelFilter
     public function filterOrderDateEnd(string $date): void
     {
         $this->builder->where('order_date', '<=', $date);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function filterName(string $name): void
+    {
+        // TODO: apply joins somewhere above this level
+        $this->builder->join(
+            'order_details',
+            'order_details.order_id',
+            '=',
+            'orders.id'
+        );
+
+        $this->builder->where('order_details.name', 'like', '%' . $name . '%');
     }
 }

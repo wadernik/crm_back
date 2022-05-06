@@ -9,6 +9,6 @@ class OrdersSort extends BaseModelSort
      */
     public function sortId(string $direction): void
     {
-        $this->builder->orderBy('id', $direction);
+        $this->builder->orderBy('orders.id', $direction);
     }
 }

@@ -181,4 +181,29 @@ class OrdersController extends BaseApiController
             return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * @param int $id
+     * @param OrderInstanceService $orderInstanceService
+     * @return JsonResponse
+     */
+    public function destroy(int $id, OrderInstanceService $orderInstanceService): JsonResponse
+    {
+        if (!$this->isAllowed('orders.delete')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            if (!$orderInstanceService->deleteInstance($id)) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

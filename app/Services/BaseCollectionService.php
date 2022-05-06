@@ -29,6 +29,7 @@ abstract class BaseCollectionService
     {
         $query = $this->modelClass::query();
 
+        // TODO: add query joins somewhere here, maybe as a trait
         $this->applyFilterParams($query, $requestParams, $this->modelFilter::class);
         $this->applyPageParams($query, $requestParams);
         $this->applySortParams($query, $requestParams, $this->modelSort::class);

@@ -23,6 +23,7 @@ class UpdateOrderRequest extends FormRequest
             'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow',
             'order_time' => 'sometimes|date_format:H:i',
             'manufacturer_id' => 'sometimes|integer',
+            'status' => 'sometimes|integer',
             'source_id' => 'sometimes|integer',
             'seller_id' => 'sometimes|integer',
             'files' => 'sometimes|array|nullable',

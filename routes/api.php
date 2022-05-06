@@ -24,6 +24,7 @@ Route::group(
     }
 );
 
+// Профиль пользователя
 Route::group(
     [
         'prefix' => 'profile',

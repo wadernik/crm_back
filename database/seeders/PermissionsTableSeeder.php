@@ -23,12 +23,13 @@ class PermissionsTableSeeder extends Seeder
             ['id' => 6, 'name' => 'files.edit', 'label' => 'Загрузка, удаление файлов'],
             ['id' => 7, 'name' => 'orders.view', 'label' => 'Просмотр заказов'],
             ['id' => 8, 'name' => 'orders.edit', 'label' => 'Редактирование заказов'],
-            ['id' => 9, 'name' => 'orders.process', 'label' => 'Продвижение заказов'],
-            ['id' => 10, 'name' => 'sellers.view', 'label' => 'Просмотр точек продаж'],
-            ['id' => 11, 'name' => 'sellers.edit', 'label' => 'Редактирование точек продаж'],
-            ['id' => 12, 'name' => 'manufacturers.view', 'label' => 'Просмотр производителей'],
-            ['id' => 13, 'name' => 'manufacturers.edit', 'label' => 'Редактирование производителей'],
-            ['id' => 14, 'name' => 'notifications.view', 'label' => 'Просмотр уведомлений'],
+            ['id' => 9, 'name' => 'orders.delete', 'label' => 'Удаление заказов'],
+            ['id' => 10, 'name' => 'orders.process', 'label' => 'Продвижение заказов'],
+            ['id' => 11, 'name' => 'sellers.view', 'label' => 'Просмотр точек продаж'],
+            ['id' => 12, 'name' => 'sellers.edit', 'label' => 'Редактирование точек продаж'],
+            ['id' => 13, 'name' => 'manufacturers.view', 'label' => 'Просмотр производителей'],
+            ['id' => 14, 'name' => 'manufacturers.edit', 'label' => 'Редактирование производителей'],
+            ['id' => 15, 'name' => 'notifications.view', 'label' => 'Просмотр уведомлений'],
         ];
 
         foreach ($items as $item) {
