@@ -38,14 +38,14 @@ class BaseOrder extends Model
 
     protected $hidden = [
         'parental_type',
-        'created_at',
-        'updated_at',
         'deleted_at',
         'type',
     ];
 
     protected $casts = [
-        'order_time' => 'datetime:H:i'
+        'order_time' => 'datetime:H:i',
+        'created_at' => 'datetime:Y-m-d H:i',
+        'updated_at' => 'datetime:Y-m-d H:i',
     ];
 
     public const STATUS_ACCEPTED = 1;
