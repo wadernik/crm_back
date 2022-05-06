@@ -49,12 +49,10 @@ class OrdersSeeder extends Seeder
                 'accepted_date' => $now->format('Y-m-d'),
                 'order_date' => $now->addDays(random_int(0, 1))->format('Y-m-d'),
                 'order_time' => $now->subMinutes(random_int(0, 55)),
-                'details' => [
-                    'name' => Str::random(),
-                    'label' => Str::random(),
-                    'amount' => random_int(50, 3000),
-                    'comment' => Str::random(),
-                ],
+                'name' => Str::random(),
+                'label' => Str::random(),
+                'amount' => random_int(50, 3000),
+                'comment' => Str::random(),
             ];
 
             $orderService->createInstance($attributes);
