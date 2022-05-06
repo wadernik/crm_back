@@ -4,6 +4,7 @@ namespace App\Services\Orders;
 
 use App\Models\OrderDetail;
 use App\Services\BaseInstanceService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseOrderInstanceService extends BaseInstanceService
@@ -63,6 +64,8 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
             OrderDetail::query()
                 ->where('order_id', $orderDetailsAttributes['order_id'])
                 ->update($orderDetailsAttributes);
+
+            $order->update(['updated_at' => Carbon::now()->timestamp]);
         }
 
         return $order;

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -33,7 +35,8 @@ class BaseOrder extends Model
         'accepted_date',
         'order_date',
         'order_time',
-        'type'
+        'type',
+        'updated_at',
     ];
 
     protected $hidden = [
@@ -44,8 +47,6 @@ class BaseOrder extends Model
 
     protected $casts = [
         'order_time' => 'datetime:H:i',
-        'created_at' => 'datetime:Y-m-d H:i',
-        'updated_at' => 'datetime:Y-m-d H:i',
     ];
 
     public const STATUS_ACCEPTED = 1;
@@ -67,6 +68,34 @@ class BaseOrder extends Model
             self::STATUS_SOLD => __('order.statuses.sold'),
             self::STATUS_CANCELED => __('order.statuses.canceled'),
         ];
+    }
+
+    /**
+     * @return Attribute
+     */
+    public function createdAt(): Attribute
+    {
+        return new Attribute(
+            get: function ($value) {
+                return Carbon::parse($value)
+                    ->setTimezone(config('app.timezone'))
+                    ->format('Y-m-d H:i');
+            }
+        );
+    }
+
+    /**
+     * @return Attribute
+     */
+    public function updatedAt(): Attribute
+    {
+        return new Attribute(
+            get: function ($value) {
+                return Carbon::parse($value)
+                    ->setTimezone(config('app.timezone'))
+                    ->format('Y-m-d H:i');
+            }
+        );
     }
 
     public function seller(): BelongsTo
