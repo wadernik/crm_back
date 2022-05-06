@@ -50,7 +50,7 @@ class OrdersController extends BaseApiController
             $orders = $ordersCollectionService->getInstances(
                 attributes: $attributes,
                 requestParams: $validated,
-                with: ['details', 'files:id,filename']
+                with: ['files:id,filename']
             );
             $total = $ordersCollectionService->countInstances($validated);
 
@@ -75,7 +75,7 @@ class OrdersController extends BaseApiController
         }
 
         try {
-            $order = $orderInstanceService->getInstance(id: $id, with: ['details', 'files:id,filename']);
+            $order = $orderInstanceService->getInstance(id: $id, with: ['files:id,filename']);
             if (!$order) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }

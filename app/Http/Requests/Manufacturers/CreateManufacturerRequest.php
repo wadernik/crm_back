@@ -15,7 +15,7 @@ class CreateManufacturerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'address' => 'sometimes|string|max:255|nullable',
+            'address' => 'required|string|max:255|nullable',
             'phone' => 'sometimes|regex:/^\d{11}$/|nullable',
             'email' => 'sometimes|string|email|nullable',
             'limit' => 'sometimes|integer|nullable',

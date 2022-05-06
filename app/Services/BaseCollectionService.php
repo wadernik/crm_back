@@ -5,6 +5,7 @@ namespace App\Services;
 use App\ModelModifiers\ModelFilters\BaseModelFilter;
 use App\ModelModifiers\ModelSorts\BaseModelSort;
 use App\Services\Traits\FilterableTrait;
+use App\Services\Traits\JoinableTrait;
 use App\Services\Traits\PaginationableTrait;
 use App\Services\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 abstract class BaseCollectionService
 {
     use FilterableTrait;
+    use JoinableTrait;
     use PaginationableTrait;
     use SortableTrait;
 
     protected Model $modelClass;
     protected BaseModelFilter $modelFilter;
     protected BaseModelSort $modelSort;
+    protected array $joins = [];
 
     /**
      * @param array|string[] $attributes
@@ -29,10 +32,10 @@ abstract class BaseCollectionService
     {
         $query = $this->modelClass::query();
 
-        // TODO: add query joins somewhere here, maybe as a trait
         $this->applyFilterParams($query, $requestParams, $this->modelFilter::class);
         $this->applyPageParams($query, $requestParams);
         $this->applySortParams($query, $requestParams, $this->modelSort::class);
+        $this->joinTables($query, $this->joins);
 
         return $query
             ->get($attributes)
@@ -49,6 +52,7 @@ abstract class BaseCollectionService
         $query = $this->modelClass::query();
 
         $this->applyFilterParams($query, $requestParams, $this->modelFilter::class);
+        $this->joinTables($query, $this->joins);
 
         return $query->count();
     }

@@ -12,6 +12,14 @@ class OrderInstanceService extends BaseOrderInstanceService
     public function __construct(Order $order)
     {
         $this->modelClass = $order;
+        $this->joins = [
+            [
+                'table' => 'order_details',
+                'first' => 'order_details.order_id',
+                'operator' => '=',
+                'second' => 'orders.id',
+            ]
+        ];
     }
 
     /**

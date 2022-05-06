@@ -13,5 +13,13 @@ class OrdersDraftsCollectionService extends BaseOrdersCollectionService
         $this->modelClass = $orderDraft;
         $this->modelFilter = $filter;
         $this->modelSort = $sort;
+        $this->joins = [
+            [
+                'table' => 'order_details',
+                'first' => 'order_details.order_id',
+                'operator' => '=',
+                'second' => 'orders.id',
+            ]
+        ];
     }
 }

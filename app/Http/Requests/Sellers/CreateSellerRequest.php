@@ -17,7 +17,7 @@ class CreateSellerRequest extends FormRequest
             'name' => 'required|string|max:255',
             'phone' => 'sometimes|regex:/^\d{11}$/|nullable',
             'email' => 'sometimes|string|email|nullable',
-            'address' => 'sometimes|string|max:255|nullable',
+            'address' => 'required|string|max:255|nullable',
             'working_hours' => 'sometimes|string|max:255|nullable',
         ];
     }

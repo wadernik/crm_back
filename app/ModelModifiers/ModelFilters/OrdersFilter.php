@@ -101,14 +101,6 @@ class OrdersFilter extends BaseModelFilter
      */
     public function filterName(string $name): void
     {
-        // TODO: apply joins somewhere above this level
-        $this->builder->join(
-            'order_details',
-            'order_details.order_id',
-            '=',
-            'orders.id'
-        );
-
         $this->builder->where('order_details.name', 'like', '%' . $name . '%');
     }
 }

@@ -14,11 +14,10 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'details' => 'sometimes|array|nullable',
-            'details.name' => 'sometimes|string|max:255',
-            'details.label' => 'sometimes|string|max:255|nullable',
-            'details.comment' => 'sometimes|string|max:255|nullable',
-            'details.amount' => 'sometimes|string',
+            'name' => 'sometimes|string|max:255',
+            'label' => 'sometimes|string|max:255|nullable',
+            'comment' => 'sometimes|string|max:255|nullable',
+            'amount' => 'sometimes|string',
             'accepted_date' => 'sometimes|date_format:Y-m-d',
             'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow',
             'order_time' => 'sometimes|date_format:H:i',
@@ -33,10 +32,10 @@ class UpdateOrderRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'details.name' => __('attributes.order.name'),
-            'details.label' => __('attributes.order.label'),
-            'details.comment' => __('attributes.order.comment'),
-            'details.amount' => __('attributes.order.amount'),
+            'name' => __('attributes.order.name'),
+            'label' => __('attributes.order.label'),
+            'comment' => __('attributes.order.comment'),
+            'amount' => __('attributes.order.amount'),
             'accepted_date' => __('attributes.order.accepted_date'),
             'order_date' => __('attributes.order.order_date'),
             'order_time' => __('attributes.order.order_time'),

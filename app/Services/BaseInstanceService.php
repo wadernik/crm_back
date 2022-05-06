@@ -2,11 +2,15 @@
 
 namespace App\Services;
 
+use App\Services\Traits\JoinableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseInstanceService
 {
+    use JoinableTrait;
+
     protected Model $modelClass;
+    protected array $joins = [];
 
     /**
      * @param int $id
@@ -16,7 +20,10 @@ abstract class BaseInstanceService
      */
     public function getInstance(int $id, array $attributes = ['*'], array $with = []): array
     {
-        $instance = $this->modelClass::query()->find($id, $attributes);
+        $query = $this->modelClass::query();
+        $this->joinTables($query, $this->joins);
+
+        $instance = $query->find($id, $attributes);
 
         return $instance ? $instance->load($with)->toArray() : [];
     }

@@ -33,7 +33,7 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
                 ->create($orderDetailsAttributes);
         }
 
-        return $orderInstance->load('details');
+        return $orderInstance;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
                 ->update($orderDetailsAttributes);
         }
 
-        return $order->load('details');
+        return $order;
     }
 
     /**
@@ -87,10 +87,10 @@ abstract class BaseOrderInstanceService extends BaseInstanceService
         ]);
 
         $orderDetailsAttributes = array_filter([
-            'name' => $attributes['details']['name'] ?? null,
-            'amount' => $attributes['details']['amount'] ?? null,
-            'label' => $attributes['details']['label'] ?? null,
-            'comment' => $attributes['details']['comment'] ?? null,
+            'name' => $attributes['name'] ?? null,
+            'amount' => $attributes['amount'] ?? null,
+            'label' => $attributes['label'] ?? null,
+            'comment' => $attributes['comment'] ?? null,
         ]);
 
         return [$orderAttributes, $orderDetailsAttributes];

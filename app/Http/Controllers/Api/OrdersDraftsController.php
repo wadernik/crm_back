@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Orders\CreateOrderDraftRequest;
+use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderDraftRequest;
 use App\Services\Orders\OrderDraftInstanceService;
 use App\Services\Orders\OrdersDraftsCollectionService;
@@ -13,26 +14,28 @@ use Symfony\Component\HttpFoundation\Response;
 class OrdersDraftsController extends BaseApiController
 {
     /**
+     * @param ListOrdersRequest $request
      * @param OrdersDraftsCollectionService $ordersDraftsCollectionService
      * @return JsonResponse
      */
-    public function index(OrdersDraftsCollectionService $ordersDraftsCollectionService): JsonResponse
-    {
+    public function index(
+        ListOrdersRequest $request,
+        OrdersDraftsCollectionService $ordersDraftsCollectionService
+    ): JsonResponse {
         if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
         try {
             $attributes = ['*'];
-            $requestParams = ['filter' => ['user_id' => auth()->id()]];
-            $with = ['details'];
+            $validated = $request->validated();
+            $validated['filter']['user_id'] = auth()->id();
 
             $orders = $ordersDraftsCollectionService->getInstances(
                 attributes: $attributes,
-                requestParams: $requestParams,
-                with: $with
+                requestParams: $validated
             );
-            $total = $ordersDraftsCollectionService->countInstances($requestParams);
+            $total = $ordersDraftsCollectionService->countInstances($validated);
 
             return $this->responseSuccess(data: $orders, headers: ['x-total-count' => $total]);
         } catch (\Exception $e) {
@@ -56,7 +59,7 @@ class OrdersDraftsController extends BaseApiController
 
         try {
             $attributes = ['*'];
-            $with = ['details', 'files:id,filename'];
+            $with = ['files:id,filename'];
 
             $orders = $orderDraftInstanceService->getInstance(
                 $id,
