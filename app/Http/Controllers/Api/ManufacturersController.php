@@ -151,7 +151,7 @@ class ManufacturersController extends BaseApiController
      */
     public function destroy(int $id, ManufacturerInstanceService $manufacturerInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('manufacturers.edit')) {
+        if (!$this->isAllowed('manufacturers.delete')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 

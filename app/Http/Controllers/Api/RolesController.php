@@ -142,7 +142,7 @@ class RolesController extends BaseApiController
      */
     public function destroy(int $id, RoleInstanceService $roleInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('roles.edit')) {
+        if (!$this->isAllowed('roles.delete')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 

@@ -147,7 +147,7 @@ class SellersController extends BaseApiController
      */
     public function destroy(int $id, SellerInstanceService $sellerInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('sellers.edit')) {
+        if (!$this->isAllowed('sellers.delete')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 

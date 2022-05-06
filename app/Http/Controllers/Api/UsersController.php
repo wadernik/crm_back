@@ -158,7 +158,7 @@ class UsersController extends BaseApiController
      */
     public function destroy(int $id, UserInstanceService $userInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('users.edit')) {
+        if (!$this->isAllowed('users.delete')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
