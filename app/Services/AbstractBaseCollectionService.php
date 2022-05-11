@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\ModelModifiers\ModelFilters\BaseModelFilter;
-use App\ModelModifiers\ModelSorts\BaseModelSort;
+use App\ModelModifiers\ModelFilters\AbstractBaseModelFilter;
+use App\ModelModifiers\ModelSorts\AbstractBaseModelSort;
 use App\Services\Traits\FilterableTrait;
 use App\Services\Traits\JoinableTrait;
 use App\Services\Traits\PaginationableTrait;
 use App\Services\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseCollectionService
+abstract class AbstractBaseCollectionService
 {
     use FilterableTrait;
     use JoinableTrait;
@@ -18,8 +18,8 @@ abstract class BaseCollectionService
     use SortableTrait;
 
     protected Model $modelClass;
-    protected BaseModelFilter $modelFilter;
-    protected BaseModelSort $modelSort;
+    protected AbstractBaseModelFilter $modelFilter;
+    protected AbstractBaseModelSort $modelSort;
     protected array $joins = [];
 
     /**

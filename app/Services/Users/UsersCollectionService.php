@@ -5,9 +5,9 @@ namespace App\Services\Users;
 use App\ModelModifiers\ModelFilters\UsersFilter;
 use App\ModelModifiers\ModelSorts\UsersSort;
 use App\Models\User;
-use App\Services\BaseCollectionService;
+use App\Services\AbstractBaseCollectionService;
 
-class UsersCollectionService extends BaseCollectionService
+class UsersCollectionService extends AbstractBaseCollectionService
 {
     public function __construct(User $user, UsersFilter $filter, UsersSort $sort)
     {

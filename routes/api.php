@@ -36,7 +36,7 @@ Route::group(
     }
 );
 
-// Админ методы
+// Общие методы
 Route::group(
     [
         'middleware' => ['auth:sanctum'],
@@ -46,17 +46,13 @@ Route::group(
         Route::apiResource('roles', RolesController::class);
         Route::apiResource('sellers', SellersController::class);
         Route::apiResource('manufacturers', ManufacturersController::class);
+
+        // Заказы
         Route::apiResource('orders', OrdersController::class);
         Route::apiResource('orders_drafts', OrdersDraftsController::class);
-    }
-);
+        Route::get('orders/print/{id}', [OrdersController::class, 'print']);
 
-// Общие методы
-Route::group(
-    [
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function () {
+        // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);
     }
 );

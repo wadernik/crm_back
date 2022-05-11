@@ -1,29 +1,25 @@
 <?php
 
-namespace App\ModelModifiers\ModelFilters;
+namespace App\ModelModifiers\ModelSorts;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-abstract class BaseModelFilter
+abstract class AbstractBaseModelSort
 {
     protected Builder $builder;
 
     /**
      * @param Builder $builder
-     * @param array $filterParams
+     * @param array $sortParams
      */
-    public function apply(Builder $builder, array $filterParams): void
+    public function apply(Builder $builder, array $sortParams): void
     {
         $this->builder = $builder;
 
-        foreach ($filterParams as $name => $value) {
-            if (!is_string($name)) {
-                $name = $value; $value = null;
-            }
-
-            $method = $this->getFilterMethod($name);
+        foreach ($sortParams as $name => $value) {
+            $method = $this->getSortMethod($name);
 
             if (!method_exists($this, $method)) {
                 Log::warning(__CLASS__ . ": method [{$method}] not defined");
@@ -38,8 +34,8 @@ abstract class BaseModelFilter
      * @param string $name
      * @return string
      */
-    protected function getFilterMethod(string $name): string
+    private function getSortMethod(string $name): string
     {
-        return 'filter' . Str::studly(preg_replace('/\W/', '', $name));
+        return 'sort' . Str::studly(preg_replace('/\W/', '', $name));
     }
 }

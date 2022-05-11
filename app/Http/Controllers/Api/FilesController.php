@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Uploads\CreateFilesUploadRequest;
-use App\Http\Requests\Uploads\CreateFileUploadRequest;
 use App\Services\FilesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class FilesController extends BaseApiController
+class FilesController extends AbstractBaseApiController
 {
     public function __construct(private FilesService $filesService)
     {}

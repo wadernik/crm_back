@@ -6,7 +6,7 @@ use App\ModelModifiers\ModelFilters\OrdersFilter;
 use App\ModelModifiers\ModelSorts\OrdersSort;
 use App\Models\OrderDraft;
 
-class OrdersDraftsCollectionService extends BaseOrdersCollectionService
+class OrdersDraftsCollectionService extends AbstractBaseOrdersCollectionService
 {
     public function __construct(OrderDraft $orderDraft, OrdersFilter $filter, OrdersSort $sort)
     {

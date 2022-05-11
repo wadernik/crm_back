@@ -4,7 +4,7 @@ namespace App\Http\Requests\Dictionaries;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class BaseDictionaryRequest extends FormRequest
+abstract class AbstractBaseDictionaryRequest extends FormRequest
 {
     public function authorize(): bool
     {

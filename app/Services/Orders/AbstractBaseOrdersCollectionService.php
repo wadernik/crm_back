@@ -2,9 +2,9 @@
 
 namespace App\Services\Orders;
 
-use App\Services\BaseCollectionService;
+use App\Services\AbstractBaseCollectionService;
 
-abstract class BaseOrdersCollectionService extends BaseCollectionService
+abstract class AbstractBaseOrdersCollectionService extends AbstractBaseCollectionService
 {
     /**
      * Retrieve order statuses with captions

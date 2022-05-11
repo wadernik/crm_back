@@ -3,12 +3,12 @@
 namespace App\Services\Roles;
 
 use App\Models\Role;
-use App\Services\BaseInstanceService;
+use App\Services\AbstractBaseInstanceService;
 use App\Services\Users\UsersCollectionService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
-class RoleInstanceService extends BaseInstanceService
+class RoleInstanceService extends AbstractBaseInstanceService
 {
     public function __construct(Role $role)
     {

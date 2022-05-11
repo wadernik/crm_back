@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProfilesController extends BaseApiController
+class ProfilesController extends AbstractBaseApiController
 {
     /**
      * @param UserInstanceService $userInstanceService

@@ -7,7 +7,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderInstanceService extends BaseOrderInstanceService
+class OrderInstanceService extends AbstractBaseOrderInstanceService
 {
     public function __construct(Order $order)
     {

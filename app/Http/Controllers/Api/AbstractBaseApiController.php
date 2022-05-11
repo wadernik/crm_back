@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Responses\BaseApiResponse;
+use App\Http\Responses\BaseApiResponseTrait;
 
-abstract class BaseApiController extends Controller
+abstract class AbstractBaseApiController extends Controller
 {
-    use BaseApiResponse;
+    use BaseApiResponseTrait;
 
+    /**
+     * @param string $permission
+     * @return bool
+     */
     protected function isAllowed(string $permission): bool
     {
         $user = auth()->user();

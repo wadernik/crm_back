@@ -3,9 +3,9 @@
 namespace App\Services\Manufacturers;
 
 use App\Models\Manufacturer;
-use App\Services\BaseInstanceService;
+use App\Services\AbstractBaseInstanceService;
 
-class ManufacturerInstanceService extends BaseInstanceService
+class ManufacturerInstanceService extends AbstractBaseInstanceService
 {
     public function __construct(Manufacturer $manufacturer)
     {

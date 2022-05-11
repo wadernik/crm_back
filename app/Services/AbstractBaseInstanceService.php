@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Services\Traits\JoinableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseInstanceService
+abstract class AbstractBaseInstanceService
 {
     use JoinableTrait;
 

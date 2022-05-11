@@ -3,9 +3,9 @@
 namespace App\Services\Sellers;
 
 use App\Models\Seller;
-use App\Services\BaseInstanceService;
+use App\Services\AbstractBaseInstanceService;
 
-class SellerInstanceService extends BaseInstanceService
+class SellerInstanceService extends AbstractBaseInstanceService
 {
     public function __construct(Seller $seller)
     {

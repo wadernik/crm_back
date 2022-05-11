@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class RolesController extends BaseApiController
+class RolesController extends AbstractBaseApiController
 {
     /**
      * Dictionary

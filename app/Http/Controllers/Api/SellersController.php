@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class SellersController extends BaseApiController
+class SellersController extends AbstractBaseApiController
 {
     /**
      * Dictionary

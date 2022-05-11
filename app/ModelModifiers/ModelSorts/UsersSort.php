@@ -2,7 +2,7 @@
 
 namespace App\ModelModifiers\ModelSorts;
 
-class UsersSort extends BaseModelSort
+class UsersSort extends AbstractBaseModelSort
 {
     /**
      * @param string $direction

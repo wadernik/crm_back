@@ -2,7 +2,7 @@
 
 namespace App\ModelModifiers\ModelFilters;
 
-class FilesFilter extends BaseModelFilter
+class FilesFilter extends AbstractBaseModelFilter
 {
     /**
      * @param int $id

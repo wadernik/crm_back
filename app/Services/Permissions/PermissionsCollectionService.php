@@ -5,9 +5,9 @@ namespace App\Services\Permissions;
 use App\ModelModifiers\ModelFilters\PermissionsFilter;
 use App\ModelModifiers\ModelSorts\PermissionsSort;
 use App\Models\Permission;
-use App\Services\BaseCollectionService;
+use App\Services\AbstractBaseCollectionService;
 
-class PermissionsCollectionService extends BaseCollectionService
+class PermissionsCollectionService extends AbstractBaseCollectionService
 {
     public function __construct(Permission $permission, PermissionsFilter $filter, PermissionsSort $sort)
     {

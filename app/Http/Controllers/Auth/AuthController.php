@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Responses\BaseApiResponse;
+use App\Http\Responses\BaseApiResponseTrait;
 use App\Services\AuthUsersService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    use BaseApiResponse;
+    use BaseApiResponseTrait;
 
     public function __construct(
         private AuthUsersService $authUsersService
@@ -63,7 +63,7 @@ class AuthController extends Controller
             return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return $this->responseSuccess(message: 'Current token was revoked');
+        return $this->responseSuccess();
     }
 
     /**

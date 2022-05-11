@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class OrdersDraftsController extends BaseApiController
+class OrdersDraftsController extends AbstractBaseApiController
 {
     /**
      * @param ListOrdersRequest $request

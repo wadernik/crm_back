@@ -5,9 +5,9 @@ namespace App\Services\Roles;
 use App\ModelModifiers\ModelFilters\RolesFilter;
 use App\ModelModifiers\ModelSorts\RolesSort;
 use App\Models\Role;
-use App\Services\BaseCollectionService;
+use App\Services\AbstractBaseCollectionService;
 
-class RolesCollectionService extends BaseCollectionService
+class RolesCollectionService extends AbstractBaseCollectionService
 {
     public function __construct(Role $role, RolesFilter $filter, RolesSort $sort)
     {

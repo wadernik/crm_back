@@ -2,7 +2,7 @@
 
 namespace App\ModelModifiers\ModelFilters;
 
-class RolesFilter extends BaseModelFilter
+class RolesFilter extends AbstractBaseModelFilter
 {
     /**
      * @param int $id

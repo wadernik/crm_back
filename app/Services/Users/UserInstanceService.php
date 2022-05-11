@@ -3,10 +3,10 @@
 namespace App\Services\Users;
 
 use App\Models\User;
-use App\Services\BaseInstanceService;
+use App\Services\AbstractBaseInstanceService;
 use Illuminate\Database\Eloquent\Model;
 
-class UserInstanceService extends BaseInstanceService
+class UserInstanceService extends AbstractBaseInstanceService
 {
     public function __construct(User $user)
     {

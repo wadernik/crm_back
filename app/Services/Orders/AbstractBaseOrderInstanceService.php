@@ -3,11 +3,11 @@
 namespace App\Services\Orders;
 
 use App\Models\OrderDetail;
-use App\Services\BaseInstanceService;
+use App\Services\AbstractBaseInstanceService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseOrderInstanceService extends BaseInstanceService
+abstract class AbstractBaseOrderInstanceService extends AbstractBaseInstanceService
 {
     /**
      * TODO: подумать над этими методами

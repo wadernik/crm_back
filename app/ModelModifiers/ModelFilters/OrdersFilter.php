@@ -2,7 +2,7 @@
 
 namespace App\ModelModifiers\ModelFilters;
 
-class OrdersFilter extends BaseModelFilter
+class OrdersFilter extends AbstractBaseModelFilter
 {
     /**
      * @param int $id

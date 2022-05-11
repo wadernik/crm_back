@@ -6,13 +6,15 @@ use App\Http\Requests\Orders\CreateOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Services\Manufacturers\ManufacturerInstanceService;
+use App\Services\Orders\OrderExportService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class OrdersController extends BaseApiController
+class OrdersController extends AbstractBaseApiController
 {
     /**
      * Dictionary
@@ -195,6 +197,38 @@ class OrdersController extends BaseApiController
             }
 
             return $this->responseSuccess();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param OrderInstanceService $orderInstanceService
+     * @param OrderExportService $orderExportService
+     * @return BinaryFileResponse|JsonResponse
+     */
+    public function print(
+        int $id,
+        OrderInstanceService $orderInstanceService,
+        OrderExportService $orderExportService
+    ): BinaryFileResponse|JsonResponse {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $order = $orderInstanceService->getInstance(id: $id, with: ['files:id,filename']);
+            if (!$order) {
+                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            }
+
+            [$path, $fileName] = $orderExportService->exportPdf($order);
+
+            return $this->responseBinary($path, $fileName);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

@@ -5,7 +5,7 @@ namespace App\ModelModifiers\ModelFilters;
 use App\Models\User;
 use Carbon\Carbon;
 
-class UsersFilter extends BaseModelFilter
+class UsersFilter extends AbstractBaseModelFilter
 {
     /**
      * @param int $id
