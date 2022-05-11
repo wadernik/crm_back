@@ -3,6 +3,7 @@
 namespace App\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response as BinaryResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -70,11 +71,7 @@ trait BaseApiResponseTrait
             ['Access-Control-Expose-Headers' => "Content-Disposition,X-Suggested-Filename"]
         );
 
-        return response(headers: $headers)
-            ->download(
-                $filePath,
-                $fileName
-            )
+        return BinaryResponse::download(file: $filePath, name: $fileName, headers: $headers)
             ->deleteFileAfterSend($shouldDeleteAfterSend);
     }
 }

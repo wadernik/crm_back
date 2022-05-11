@@ -12,7 +12,7 @@ trait SortableTrait
      */
     public function createSortParams(array $params): array
     {
-        $sortParams = ['id' => 'asc'];
+        $sortParams = ['id' => 'desc'];
 
         if (!empty($params['sort'])) {
             $sortParams = [
