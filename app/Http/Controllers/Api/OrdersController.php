@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Orders\CreateOrderRequest;
+use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Services\Manufacturers\ManufacturerInstanceService;
@@ -206,14 +207,14 @@ class OrdersController extends AbstractBaseApiController
     }
 
     /**
-     * @param int $id
-     * @param OrderInstanceService $orderInstanceService
+     * @param PrintOrdersRequest $request
+     * @param OrdersCollectionService $ordersCollectionService
      * @param OrderExportService $orderExportService
      * @return BinaryFileResponse|JsonResponse
      */
     public function print(
-        int $id,
-        OrderInstanceService $orderInstanceService,
+        PrintOrdersRequest $request,
+        OrdersCollectionService $ordersCollectionService,
         OrderExportService $orderExportService
     ): BinaryFileResponse|JsonResponse {
         if (!$this->isAllowed('orders.view')) {
@@ -221,12 +222,21 @@ class OrdersController extends AbstractBaseApiController
         }
 
         try {
-            $order = $orderInstanceService->getInstance(id: $id, with: ['files:id,filename']);
-            if (!$order) {
+            $orderIds = $request->validated();
+            $requestParams = [
+                'filter' => ['ids' => $orderIds['ids']],
+            ];
+
+            $orders = $ordersCollectionService->getInstances(
+                requestParams: $requestParams,
+                with: ['files:id,filename', 'manufacturer', 'seller', 'source']
+            );
+
+            if (!$orders) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
-            [$path, $fileName] = $orderExportService->exportPdf($order);
+            [$path, $fileName] = $orderExportService->exportPdf($orders);
 
             return $this->responseBinary($path, $fileName);
         } catch (\Exception $e) {
