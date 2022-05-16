@@ -13,19 +13,19 @@
     *,
     ::before,
     ::after {
-      box-sizing: border-box;
-      /* 1 */
-      border-width: 0;
-      /* 2 */
-      border-style: solid;
-      /* 2 */
-      border-color: #e5e7eb;
-      /* 2 */
+    box-sizing: border-box;
+    /* 1 */
+    border-width: 0;
+    /* 2 */
+    border-style: solid;
+    /* 2 */
+    border-color: #e5e7eb;
+    /* 2 */
     }
 
     ::before,
     ::after {
-      --tw-content: '';
+    --tw-content: '';
     }
 
     /*
@@ -36,16 +36,16 @@
     */
 
     html {
-      line-height: 1.5;
-      /* 1 */
-      -webkit-text-size-adjust: 100%;
-      /* 2 */
-      -moz-tab-size: 4;
-      /* 3 */
-      tab-size: 4;
-      /* 3 */
-      font-family: DejaVu Sans, sans-serif;
-      /* 4 */
+    line-height: 1.5;
+    /* 1 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+    -moz-tab-size: 4;
+    /* 3 */
+    tab-size: 4;
+    /* 3 */
+    font-family: DejaVu Sans, sans-serif;
+    /* 4 */
     }
 
     /*
@@ -54,10 +54,10 @@
     */
 
     body {
-      margin: 0;
-      /* 1 */
-      line-height: inherit;
-      /* 2 */
+    margin: 0;
+    /* 1 */
+    line-height: inherit;
+    /* 2 */
     }
 
     /*
@@ -67,12 +67,12 @@
     */
 
     hr {
-      height: 0;
-      /* 1 */
-      color: inherit;
-      /* 2 */
-      border-top-width: 1px;
-      /* 3 */
+    height: 0;
+    /* 1 */
+    color: inherit;
+    /* 2 */
+    border-top-width: 1px;
+    /* 3 */
     }
 
     /*
@@ -80,8 +80,8 @@
     */
 
     abbr:where([title]) {
-      -webkit-text-decoration: underline dotted;
-              text-decoration: underline dotted;
+    -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted;
     }
 
     /*
@@ -94,8 +94,8 @@
     h4,
     h5,
     h6 {
-      font-size: inherit;
-      font-weight: inherit;
+    font-size: inherit;
+    font-weight: inherit;
     }
 
     /*
@@ -103,8 +103,8 @@
     */
 
     a {
-      color: inherit;
-      text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
     }
 
     /*
@@ -113,7 +113,7 @@
 
     b,
     strong {
-      font-weight: bolder;
+    font-weight: bolder;
     }
 
     /*
@@ -125,10 +125,10 @@
     kbd,
     samp,
     pre {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      /* 1 */
-      font-size: 1em;
-      /* 2 */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */
     }
 
     /*
@@ -136,7 +136,7 @@
     */
 
     small {
-      font-size: 80%;
+    font-size: 80%;
     }
 
     /*
@@ -145,18 +145,18 @@
 
     sub,
     sup {
-      font-size: 75%;
-      line-height: 0;
-      position: relative;
-      vertical-align: baseline;
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
     }
 
     sub {
-      bottom: -0.25em;
+    bottom: -0.25em;
     }
 
     sup {
-      top: -0.5em;
+    top: -0.5em;
     }
 
     /*
@@ -166,12 +166,12 @@
     */
 
     table {
-      text-indent: 0;
-      /* 1 */
-      border-color: inherit;
-      /* 2 */
-      border-collapse: collapse;
-      /* 3 */
+    text-indent: 0;
+    /* 1 */
+    border-color: inherit;
+    /* 2 */
+    border-collapse: collapse;
+    /* 3 */
     }
 
     /*
@@ -185,18 +185,18 @@
     optgroup,
     select,
     textarea {
-      font-family: inherit;
-      /* 1 */
-      font-size: 100%;
-      /* 1 */
-      line-height: inherit;
-      /* 1 */
-      color: inherit;
-      /* 1 */
-      margin: 0;
-      /* 2 */
-      padding: 0;
-      /* 3 */
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: inherit;
+    /* 1 */
+    color: inherit;
+    /* 1 */
+    margin: 0;
+    /* 2 */
+    padding: 0;
+    /* 3 */
     }
 
     /*
@@ -205,7 +205,7 @@
 
     button,
     select {
-      text-transform: none;
+    text-transform: none;
     }
 
     /*
@@ -217,12 +217,12 @@
     [type='button'],
     [type='reset'],
     [type='submit'] {
-      -webkit-appearance: button;
-      /* 1 */
-      background-color: transparent;
-      /* 2 */
-      background-image: none;
-      /* 2 */
+    -webkit-appearance: button;
+    /* 1 */
+    background-color: transparent;
+    /* 2 */
+    background-image: none;
+    /* 2 */
     }
 
     /*
@@ -230,7 +230,7 @@
     */
 
     :-moz-focusring {
-      outline: auto;
+    outline: auto;
     }
 
     /*
@@ -238,7 +238,7 @@
     */
 
     :-moz-ui-invalid {
-      box-shadow: none;
+    box-shadow: none;
     }
 
     /*
@@ -246,7 +246,7 @@
     */
 
     progress {
-      vertical-align: baseline;
+    vertical-align: baseline;
     }
 
     /*
@@ -255,7 +255,7 @@
 
     ::-webkit-inner-spin-button,
     ::-webkit-outer-spin-button {
-      height: auto;
+    height: auto;
     }
 
     /*
@@ -264,10 +264,10 @@
     */
 
     [type='search'] {
-      -webkit-appearance: textfield;
-      /* 1 */
-      outline-offset: -2px;
-      /* 2 */
+    -webkit-appearance: textfield;
+    /* 1 */
+    outline-offset: -2px;
+    /* 2 */
     }
 
     /*
@@ -275,7 +275,7 @@
     */
 
     ::-webkit-search-decoration {
-      -webkit-appearance: none;
+    -webkit-appearance: none;
     }
 
     /*
@@ -284,10 +284,10 @@
     */
 
     ::-webkit-file-upload-button {
-      -webkit-appearance: button;
-      /* 1 */
-      font: inherit;
-      /* 2 */
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */
     }
 
     /*
@@ -295,7 +295,7 @@
     */
 
     summary {
-      display: list-item;
+    display: list-item;
     }
 
     /*
@@ -315,24 +315,24 @@
     figure,
     p,
     pre {
-      margin: 0;
+    margin: 0;
     }
 
     fieldset {
-      margin: 0;
-      padding: 0;
+    margin: 0;
+    padding: 0;
     }
 
     legend {
-      padding: 0;
+    padding: 0;
     }
 
     ol,
     ul,
     menu {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
     }
 
     /*
@@ -340,7 +340,7 @@
     */
 
     textarea {
-      resize: vertical;
+    resize: vertical;
     }
 
     /*
@@ -350,10 +350,10 @@
 
     input::placeholder,
     textarea::placeholder {
-      opacity: 1;
-      /* 1 */
-      color: #9ca3af;
-      /* 2 */
+    opacity: 1;
+    /* 1 */
+    color: #9ca3af;
+    /* 2 */
     }
 
     /*
@@ -362,7 +362,7 @@
 
     button,
     [role="button"] {
-      cursor: pointer;
+    cursor: pointer;
     }
 
     /*
@@ -370,13 +370,13 @@
     */
 
     :disabled {
-      cursor: default;
+    cursor: default;
     }
 
     /*
     1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
     2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
-      This can trigger a poorly considered lint error in some tools but is included by design.
+    This can trigger a poorly considered lint error in some tools but is included by design.
     */
 
     img,
@@ -387,10 +387,10 @@
     iframe,
     embed,
     object {
-      display: block;
-      /* 1 */
-      vertical-align: middle;
-      /* 2 */
+    display: block;
+    /* 1 */
+    vertical-align: middle;
+    /* 2 */
     }
 
     /*
@@ -399,8 +399,8 @@
 
     img,
     video {
-      max-width: 100%;
-      height: auto;
+    max-width: 100%;
+    height: auto;
     }
 
     /*
@@ -408,228 +408,290 @@
     */
 
     [hidden] {
-      display: none;
+    display: none;
     }
 
     *, ::before, ::after {
-      --tw-translate-x: 0;
-      --tw-translate-y: 0;
-      --tw-rotate: 0;
-      --tw-skew-x: 0;
-      --tw-skew-y: 0;
-      --tw-scale-x: 1;
-      --tw-scale-y: 1;
-      --tw-pan-x:  ;
-      --tw-pan-y:  ;
-      --tw-pinch-zoom:  ;
-      --tw-scroll-snap-strictness: proximity;
-      --tw-ordinal:  ;
-      --tw-slashed-zero:  ;
-      --tw-numeric-figure:  ;
-      --tw-numeric-spacing:  ;
-      --tw-numeric-fraction:  ;
-      --tw-ring-inset:  ;
-      --tw-ring-offset-width: 0px;
-      --tw-ring-offset-color: #fff;
-      --tw-ring-color: rgb(59 130 246 / 0.5);
-      --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-ring-shadow: 0 0 #0000;
-      --tw-shadow: 0 0 #0000;
-      --tw-shadow-colored: 0 0 #0000;
-      --tw-blur:  ;
-      --tw-brightness:  ;
-      --tw-contrast:  ;
-      --tw-grayscale:  ;
-      --tw-hue-rotate:  ;
-      --tw-invert:  ;
-      --tw-saturate:  ;
-      --tw-sepia:  ;
-      --tw-drop-shadow:  ;
-      --tw-backdrop-blur:  ;
-      --tw-backdrop-brightness:  ;
-      --tw-backdrop-contrast:  ;
-      --tw-backdrop-grayscale:  ;
-      --tw-backdrop-hue-rotate:  ;
-      --tw-backdrop-invert:  ;
-      --tw-backdrop-opacity:  ;
-      --tw-backdrop-saturate:  ;
-      --tw-backdrop-sepia:  ;
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-pan-x:  ;
+    --tw-pan-y:  ;
+    --tw-pinch-zoom:  ;
+    --tw-scroll-snap-strictness: proximity;
+    --tw-ordinal:  ;
+    --tw-slashed-zero:  ;
+    --tw-numeric-figure:  ;
+    --tw-numeric-spacing:  ;
+    --tw-numeric-fraction:  ;
+    --tw-ring-inset:  ;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgb(59 130 246 / 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    --tw-blur:  ;
+    --tw-brightness:  ;
+    --tw-contrast:  ;
+    --tw-grayscale:  ;
+    --tw-hue-rotate:  ;
+    --tw-invert:  ;
+    --tw-saturate:  ;
+    --tw-sepia:  ;
+    --tw-drop-shadow:  ;
+    --tw-backdrop-blur:  ;
+    --tw-backdrop-brightness:  ;
+    --tw-backdrop-contrast:  ;
+    --tw-backdrop-grayscale:  ;
+    --tw-backdrop-hue-rotate:  ;
+    --tw-backdrop-invert:  ;
+    --tw-backdrop-opacity:  ;
+    --tw-backdrop-saturate:  ;
+    --tw-backdrop-sepia:  ;
     }
 
-    .ml-6 {
-      margin-left: 1.5rem;
+    .container {
+    width: 100%;
+    }
+
+    @media (min-width: 640px) {
+    .container {
+        max-width: 640px;
+    }
+    }
+
+    @media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+    }
+
+    @media (min-width: 1024px) {
+    .container {
+        max-width: 1024px;
+    }
+    }
+
+    @media (min-width: 1280px) {
+    .container {
+        max-width: 1280px;
+    }
+    }
+
+    @media (min-width: 1536px) {
+    .container {
+        max-width: 1536px;
+    }
+    }
+
+    .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    .mt-2 {
+    margin-top: 0.5rem;
     }
 
     .mt-4 {
-      margin-top: 1rem;
+    margin-top: 1rem;
     }
 
-    .ml-4 {
-      margin-left: 1rem;
+    .table {
+    display: table;
     }
 
-    .flex {
-      display: flex;
+    .w-full {
+    width: 100%;
     }
 
-    .flex-1 {
-      flex: 1 1 0%;
+    .w-56 {
+    width: 14rem;
     }
 
-    .flex-row {
-      flex-direction: row;
-    }
-
-    .items-center {
-      align-items: center;
-    }
-
-    .justify-between {
-      justify-content: space-between;
+    .border-collapse {
+    border-collapse: collapse;
     }
 
     .border {
-      border-width: 1px;
-    }
-
-    .border-b {
-      border-bottom-width: 1px;
-    }
-
-    .border-l {
-      border-left-width: 1px;
+    border-width: 1px;
     }
 
     .border-black {
-      --tw-border-opacity: 1;
-      border-color: rgb(0 0 0 / var(--tw-border-opacity));
+    --tw-border-opacity: 1;
+    border-color: rgb(0 0 0 / var(--tw-border-opacity));
     }
 
     .bg-gray-50 {
-      --tw-bg-opacity: 1;
-      background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 250 251 / var(--tw-bg-opacity));
     }
 
-    .py-3 {
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
+    .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     }
 
-    .px-6 {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+    .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
     }
 
-    .py-4 {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+    .text-left {
+    text-align: left;
     }
 
-    .text-sm {
-      font-size: 0.875rem;
-      line-height: 1.25rem;
+    .text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
     }
 
     .font-normal {
-      font-weight: 400;
+    font-weight: 400;
     }
 
     .font-bold {
-      font-weight: 700;
+    font-weight: 700;
     }
 
     .uppercase {
-      text-transform: uppercase;
+    text-transform: uppercase;
     }
 
-    .leading-6 {
-      line-height: 1.5rem;
+    .leading-5 {
+    line-height: 1.25rem;
     }
 
     .tracking-wider {
-      letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
     }
 
     .text-red-500 {
-      --tw-text-opacity: 1;
-      color: rgb(239 68 68 / var(--tw-text-opacity));
+    --tw-text-opacity: 1;
+    color: rgb(239 68 68 / var(--tw-text-opacity));
     }
   </style>
 </head>
 <body>
   @foreach ($orders as $order)
-  <div class="text-sm font-normal leading-6">
-    <div class="flex items-center">
-      <div class="font-bold uppercase text-red-500">
-        {{ $order['seller']['address'] }}
-      </div>
-      <div class="ml-6">
-        Код: {{ $order['number'] }}
-      </div>
-    </div>
-    <div class="mt-4">
-      <div class="flex flex-row justify-between border border-black bg-gray-50">
-        <div class="flex-1">
-          <div class="border-b border-black py-3 px-6 text-sm font-bold uppercase tracking-wider">Наименование продукции</div>
-          <div class="py-4 px-6">
+  <div class="mx-auto container text-xs font-normal leading-5">
+    <table class="w-full">
+      <tbody>
+        <tr>
+          <td class="font-bold uppercase text-red-500 w-56">
+            {{ $order['seller']['address'] }}
+          </td>
+          <td>
+            Код: {{ $order['number'] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="w-full mt-2 border-collapse border border-black">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="border border-black py-2 px-4 text-left font-bold uppercase tracking-wider">
+            Наименование продукции
+          </th>
+          <th class="border border-black py-2 px-4 text-left font-bold uppercase tracking-wider">
+            Количество
+          </th>
+          <th class="border border-black py-2 px-4 text-left font-bold uppercase tracking-wider">
+            Дата принятия
+          </th>
+          <th class="border border-black py-2 px-4 text-left font-bold uppercase tracking-wider">
+            Дата исполнения
+          </th>
+          <th class="border border-black py-2 px-4 text-left font-bold uppercase tracking-wider">
+            Время отдачи
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-black py-2 px-4">
             ...
-          </div>
-        </div>
-        <div class="border-l border-black">
-          <div class="border-b border-black py-3 px-6 text-sm font-bold uppercase tracking-wider">Количество</div>
-          <div class="py-4 px-6">
+          </td>
+          <td class="border border-black py-2 px-4">
             {{ $order['amount'] }}
-          </div>
-        </div>
-        <div class="border-l border-black">
-          <div class="border-b border-black py-3 px-6 text-sm font-bold uppercase tracking-wider">Дата принятия</div>
-          <div class="py-4 px-6">
+          </td>
+          <td class="border border-black py-2 px-4">
             {{ \Carbon\Carbon::parse($order['accepted_date'])->format('d.m.Y') }}
-          </div>
-        </div>
-        <div class="border-l border-black">
-          <div class="border-b border-black py-3 px-6 text-sm font-bold uppercase tracking-wider">Дата исполнения</div>
-          <div class="py-4 px-6">
+          </td>
+          <td class="border border-black py-2 px-4">
             {{ \Carbon\Carbon::parse($order['order_date'])->format('d.m.Y') }}
-          </div>
-        </div>
-        <div class="border-l border-black">
-          <div class="border-b border-black py-3 px-6 text-sm font-bold uppercase tracking-wider">Время отдачи</div>
-          <div class="py-4 px-6">
+          </td>
+          <td class="border border-black py-2 px-4">
             {{ $order['order_time'] }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-4 flex">
-      <div class="font-bold">Оформление:</div>
-      <div class="ml-4">
-        {{ $order['name'] }}
-      </div>
-    </div>
-    <div class="mt-4 flex">
-      <div class="font-bold">Надпись:</div>
-      <div class="ml-4">
-        {{ $order['label'] }}
-      </div>
-    </div>
-    <div class="mt-4 flex">
-      <div class="font-bold">Комментарий от покупателя:</div>
-      <div class="ml-4">
-        {{ $order['comment'] }}
-      </div>
-    </div>
-    <div class="mt-4 flex">
-      <div class="font-bold">Код для получения:</div>
-      <div class="ml-4">
-        {{ $order['number'] }}
-      </div>
-    </div>
-    <div class="mt-4">
-      @foreach ($order['files'] as $image)
-      <img src="{{ $image['url'] }}">
-      @endforeach
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="mt-2 w-full">
+      <tbody>
+        <tr>
+          <td class="font-bold w-56">
+            Оформление:
+          </td>
+          <td>
+            {{ $order['name'] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="mt-2 w-full">
+      <tbody>
+        <tr>
+          <td class="font-bold w-56">
+            Надпись:
+          </td>
+          <td>
+            {{ $order['label'] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="mt-2 w-full">
+      <tbody>
+        <tr>
+          <td class="font-bold w-56">
+            Комментарий от покупателя:
+          </td>
+          <td>
+            {{ $order['comment'] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="mt-2 w-full">
+      <tbody>
+        <tr>
+          <td class="font-bold w-56">
+            Код для получения:
+          </td>
+          <td>
+            {{ $order['number'] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="mt-4 w-full">
+      <tbody>
+        @foreach ($order['files'] as $image)
+        <tr>
+          <td>
+            <img src="{{ $image['url'] }}">
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
   <div class="page-break"></div>
   @endforeach
