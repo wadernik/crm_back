@@ -44,7 +44,7 @@
     /* 3 */
     tab-size: 4;
     /* 3 */
-    font-family: DejaVu Sans, sans-serif;
+    font: normal 9px DejaVu Sans, sans-serif;
     /* 4 */
     }
 
@@ -547,24 +547,12 @@
     text-align: left;
     }
 
-    .text-\[9px\] {
-      font-size: 9px;
-    }
-
-    .font-normal {
-    font-weight: 400;
-    }
-
     .font-bold {
     font-weight: 700;
     }
 
     .uppercase {
     text-transform: uppercase;
-    }
-
-    .leading-5 {
-    line-height: 1.25rem;
     }
 
     .tracking-wider {
@@ -575,11 +563,15 @@
     --tw-text-opacity: 1;
     color: rgb(239 68 68 / var(--tw-text-opacity));
     }
+
+    .page-break {
+        page-break-after: always;
+    }
   </style>
 </head>
 <body>
   @foreach ($orders as $order)
-  <div class="mx-auto container text-[9px] font-normal leading-5">
+  <div class="mx-auto container">
     <table class="w-full">
       <tbody>
         <tr>
@@ -692,7 +684,9 @@
       </tbody>
     </table>
   </div>
-  <div class="page-break"></div>
+  @if (!$loop->last)
+    <div class="page-break"></div>
+  @endif
   @endforeach
 </body>
 </html>
