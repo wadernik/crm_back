@@ -14,11 +14,7 @@ class OrderExportService
      */
     public function exportPdf(array $orders, string $fileName = ''): array
     {
-        $dateFormatted = Carbon::now()->format('Y-m-d');
-        if (count($orders) === 1) {
-            $order = array_shift($orders);
-            $dateFormatted = Carbon::parse($order['order_date'])->format('Y-m-d');
-        }
+        $dateFormatted = Carbon::now()->timestamp;
 
         $fileName = $fileName === ''
             ? "orders_$dateFormatted" ?? ''
