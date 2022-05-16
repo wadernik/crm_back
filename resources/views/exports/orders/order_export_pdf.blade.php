@@ -547,9 +547,8 @@
     text-align: left;
     }
 
-    .text-xs {
-    font-size: 0.75rem;
-    line-height: 1rem;
+    .text-\[9px\] {
+      font-size: 9px;
     }
 
     .font-normal {
@@ -580,7 +579,7 @@
 </head>
 <body>
   @foreach ($orders as $order)
-  <div class="mx-auto container text-xs font-normal leading-5">
+  <div class="mx-auto container text-[9px] font-normal leading-5">
     <table class="w-full">
       <tbody>
         <tr>
