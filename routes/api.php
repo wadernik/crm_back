@@ -50,7 +50,7 @@ Route::group(
         // Заказы
         Route::apiResource('orders', OrdersController::class);
         Route::apiResource('orders_drafts', OrdersDraftsController::class);
-        Route::post('orders/export', [OrdersController::class, 'print']);
+        Route::post('orders/export', [OrdersController::class, 'export']);
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);

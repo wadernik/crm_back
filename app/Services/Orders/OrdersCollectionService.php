@@ -8,6 +8,7 @@ use App\Models\Order;
 
 class OrdersCollectionService extends AbstractBaseOrdersCollectionService
 {
+    // TODO: think about it, how to join necessary tables conditionally
     public function __construct(Order $order, OrdersFilter $filter, OrdersSort $sort)
     {
         $this->modelClass = $order;
@@ -19,6 +20,12 @@ class OrdersCollectionService extends AbstractBaseOrdersCollectionService
                 'first' => 'order_details.order_id',
                 'operator' => '=',
                 'second' => 'orders.id',
+            ],
+            [
+                'table' => 'users',
+                'first' => 'users.id',
+                'operator' => '=',
+                'second' => 'orders.user_id',
             ]
         ];
     }

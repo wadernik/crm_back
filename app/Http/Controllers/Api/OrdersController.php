@@ -7,7 +7,7 @@ use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Services\Manufacturers\ManufacturerInstanceService;
-use App\Services\Orders\OrderExportService;
+use App\Services\Orders\OrdersExportService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
 use Illuminate\Http\JsonResponse;
@@ -48,7 +48,7 @@ class OrdersController extends AbstractBaseApiController
         }
 
         try {
-            $attributes = ['*'];
+            $attributes = ['orders.*', 'order_details.*'];
             $validated = $request->validated();
             $orders = $ordersCollectionService->getInstances(
                 attributes: $attributes,
@@ -209,13 +209,13 @@ class OrdersController extends AbstractBaseApiController
     /**
      * @param PrintOrdersRequest $request
      * @param OrdersCollectionService $ordersCollectionService
-     * @param OrderExportService $orderExportService
+     * @param OrdersExportService $orderExportService
      * @return BinaryFileResponse|JsonResponse
      */
-    public function print(
+    public function export(
         PrintOrdersRequest $request,
         OrdersCollectionService $ordersCollectionService,
-        OrderExportService $orderExportService
+        OrdersExportService $orderExportService
     ): BinaryFileResponse|JsonResponse {
         if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);

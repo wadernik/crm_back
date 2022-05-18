@@ -5,7 +5,7 @@ namespace App\Services\Orders;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
-class OrderExportService
+class OrdersExportService
 {
     /**
      * @param array $orders
