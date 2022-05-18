@@ -98,4 +98,14 @@ class OrdersFilter extends AbstractBaseModelFilter
     {
         $this->builder->where(self::ORDER_DETAILS_TABLE_ALIAS . '.name', 'like', '%' . $name . '%');
     }
+
+    /**
+     * @param bool $onlyTrashed
+     */
+    protected function filterOnlyTrashed(bool $onlyTrashed = true): void
+    {
+        if ($onlyTrashed) {
+            $this->builder->onlyTrashed();
+        }
+    }
 }

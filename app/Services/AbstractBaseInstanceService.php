@@ -67,4 +67,23 @@ abstract class AbstractBaseInstanceService
 
         return true;
     }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function forceDeleteInstance(int $id): bool
+    {
+        $instance = $this->modelClass::query()
+            ->withTrashed()
+            ->find($id);
+
+        if (!$instance) {
+            return false;
+        }
+
+        $instance->forceDelete();
+
+        return true;
+    }
 }
