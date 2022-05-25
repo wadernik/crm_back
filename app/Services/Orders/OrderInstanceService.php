@@ -4,6 +4,7 @@ namespace App\Services\Orders;
 
 use App\Models\BaseOrder;
 use App\Models\Order;
+use App\Services\Orders\Dooglys\DooglysService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,30 +29,35 @@ class OrderInstanceService extends AbstractBaseOrderInstanceService
      */
     public function createInstance(array $attributes): Model
     {
-        $orderNumber = $this->generateOrderNumber();
-        $order = parent::createInstance($attributes);
+        $attributes['status'] = BaseOrder::STATUS_ACCEPTED;
+        $attributes['number'] = $this->generateOrderNumber();
 
-        $order->update([
-            'status' => BaseOrder::STATUS_ACCEPTED,
-            'number' => $orderNumber,
-        ]);
-
-        return $order;
+        return parent::createInstance($attributes);
     }
 
     /**
-     * @param int $orderId
-     * @param int $status
+     * @param int $id
+     * @param array $attributes
+     * @return Model|null
      */
-    public function setStatus(int $orderId, int $status): void
+    public function editInstance(int $id, array $attributes): ?Model
     {
-        $order = Order::query()->find($orderId);
+        $order = parent::editInstance($id, $attributes);
 
         if (!$order) {
-            return;
+            return null;
         }
 
-        $order->update(['status' => $status]);
+        if (!empty($order['number_external']) && $order['status'] === BaseOrder::STATUS_SOLD) {
+            $finalPrice = app(DooglysService::class)->getOrderFinalPriceByNumber(
+                $order['created_at'],
+                $order['number_external']
+            );
+
+            $order->update(['price' => $finalPrice]);
+        }
+
+        return $order;
     }
 
     /**

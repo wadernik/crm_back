@@ -50,7 +50,7 @@ class BaseOrder extends Model
     ];
 
     public const STATUS_ACCEPTED = 1;
-    public const STATUS_TAKEN = 2;
+    public const STATUS_TAKEN = 2; // Взят на исполнение
     public const STATUS_SOLD = 3;
     public const STATUS_CANCELED = 4;
 

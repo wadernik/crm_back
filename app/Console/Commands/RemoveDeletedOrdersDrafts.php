@@ -22,6 +22,10 @@ class RemoveDeletedOrdersDrafts extends Command
      */
     protected $description = 'Command description';
 
+    /**
+     * @param OrdersDraftsCollectionService $ordersDraftsCollectionService
+     * @param OrderDraftInstanceService $orderDraftInstanceService
+     */
     public function __construct(
         private OrdersDraftsCollectionService $ordersDraftsCollectionService,
         private OrderDraftInstanceService $orderDraftInstanceService

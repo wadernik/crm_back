@@ -87,6 +87,9 @@ abstract class AbstractBaseOrderInstanceService extends AbstractBaseInstanceServ
             'accepted_date' => $attributes['accepted_date'] ?? null,
             'order_date' => $attributes['order_date'] ?? null,
             'order_time' => $attributes['order_time'] ?? null,
+            'number' => $attributes['number'] ?? null,
+            'number_external' => $attributes['number_external'] ?? null,
+            'price' => $attributes['price'] ?? null,
         ]);
 
         $orderDetailsAttributes = array_filter([
