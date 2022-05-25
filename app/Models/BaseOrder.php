@@ -99,6 +99,16 @@ class BaseOrder extends Model
         );
     }
 
+    /**
+     * @return Attribute
+     */
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => number_format((float) $value / 100, 2),
+        );
+    }
+
     public function seller(): BelongsTo
     {
         return $this->belongsTo(Seller::class, 'seller_id');
