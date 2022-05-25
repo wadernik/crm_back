@@ -30,6 +30,7 @@ class BaseOrder extends Model
         'user_id',
         'number',
         'number_external',
+        'price',
         'status',
         'product_code',
         'accepted_date',
