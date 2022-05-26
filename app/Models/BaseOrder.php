@@ -46,6 +46,10 @@ class BaseOrder extends Model
         'type',
     ];
 
+    protected $appends = [
+        'price_original',
+    ];
+
     protected $casts = [
         'order_time' => 'datetime:H:i',
     ];
@@ -106,6 +110,22 @@ class BaseOrder extends Model
     {
         return new Attribute(
             get: fn ($value) => number_format((float) $value / 100, 2),
+        );
+    }
+
+    /**
+     * @return Attribute
+     */
+    protected function priceOriginal(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if (!$this->price) {
+                    return null;
+                }
+
+                return $this->getRawOriginal('price');
+            }
         );
     }
 

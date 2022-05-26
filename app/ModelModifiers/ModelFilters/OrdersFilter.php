@@ -40,6 +40,14 @@ class OrdersFilter extends AbstractBaseModelFilter
     }
 
     /**
+     * @param array $ids
+     */
+    public function filterUserIds(array $ids): void
+    {
+        $this->builder->whereIn(self::ORDERS_TABLE_ALIAS . '.user_id', $ids);
+    }
+
+    /**
      * @param int|array $status
      */
     public function filterStatus(int|array $status): void
@@ -89,6 +97,22 @@ class OrdersFilter extends AbstractBaseModelFilter
     public function filterOrderDateEnd(string $date): void
     {
         $this->builder->where(self::ORDERS_TABLE_ALIAS . '.order_date', '<=', $date);
+    }
+
+    /**
+     * @param string $date
+     */
+    public function filterCreatedAtStart(string $date): void
+    {
+        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.created_at', '>=', $date);
+    }
+
+    /**
+     * @param string $date
+     */
+    public function filterCreatedAtEnd(string $date): void
+    {
+        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.created_at', '<=', $date);
     }
 
     /**

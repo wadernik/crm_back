@@ -52,7 +52,7 @@ class UsersController extends AbstractBaseApiController
         }
 
         try {
-            $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen'];
+            $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen', 'sex'];
             $validated = $request->validated();
             $records = $usersCollectionService->getInstances($attributes, $validated);
             $total = $usersCollectionService->countInstances($validated);

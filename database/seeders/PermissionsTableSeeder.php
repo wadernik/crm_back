@@ -34,6 +34,8 @@ class PermissionsTableSeeder extends Seeder
             ['id' => 17, 'name' => 'manufacturers.edit', 'label' => 'Редактирование производителей'],
             ['id' => 18, 'name' => 'manufacturers.delete', 'label' => 'Удаление производителей'],
             ['id' => 19, 'name' => 'notifications.view', 'label' => 'Просмотр уведомлений'],
+            ['id' => 20, 'name' => 'reports.view', 'label' => 'Возможность просматривать отчеты'],
+            ['id' => 21, 'name' => 'users_report.view', 'label' => 'Просмотр отчета по продажам персонала'],
         ];
 
         foreach ($items as $item) {

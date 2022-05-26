@@ -45,6 +45,14 @@ class UsersFilter extends AbstractBaseModelFilter
     }
 
     /**
+     * @param array $roleIds
+     */
+    public function filterRoleIds(array $roleIds): void
+    {
+        $this->builder->whereIn('role_id', $roleIds);
+    }
+
+    /**
      * @param bool $isOnline
      */
     public function filterIsOnline(bool $isOnline): void

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrdersDraftsController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\ProfilesController;
+use App\Http\Controllers\Api\Reports\UsersReportController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
 use App\Http\Controllers\Api\UsersController;
@@ -54,6 +55,17 @@ Route::group(
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);
+    }
+);
+
+// Отчеты
+Route::group(
+    [
+        'prefix' => 'reports',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function () {
+        Route::get('/users', [UsersReportController::class, 'index']);
     }
 );
 
