@@ -66,6 +66,7 @@ Route::group(
     ],
     static function () {
         Route::get('/users', [UsersReportController::class, 'index']);
+        Route::post('/users', [UsersReportController::class, 'export']);
     }
 );
 
