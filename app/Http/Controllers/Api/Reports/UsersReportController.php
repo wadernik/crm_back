@@ -51,27 +51,23 @@ class UsersReportController extends AbstractBaseApiController
             'role_id' => $requestRoleId,
         ]);
 
-        $users = [];
         if (!empty($usersFilterParams)) {
             $usersFilterParams = ['filter' => $usersFilterParams];
-            $users = $this->usersCollectionService->getInstances(requestParams: $usersFilterParams);
         }
 
-        if (!empty($users)) {
-            $users = collect($users);
+        $users = collect($this->usersCollectionService->getInstances(requestParams: $usersFilterParams));
 
-            $userIds = $users
-                ->pluck('id')
-                ->toArray();
+        $userIds = $users
+            ->pluck('id')
+            ->toArray();
+        $ordersFilterParams['user_ids'] = $userIds;
 
-            $users = $users
-                ->keyBy('id')
-                ->toArray();
-
-            $ordersFilterParams['user_ids'] = $userIds;
-        }
+        $users = $users
+            ->keyBy('id')
+            ->toArray();
 
         $ordersFilterParams = ['filter' => $ordersFilterParams];
+
         $orders = $this->ordersCollectionService->getInstances(
             attributes: ['orders.*'],
             requestParams: $ordersFilterParams
