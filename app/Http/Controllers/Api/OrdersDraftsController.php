@@ -29,7 +29,7 @@ class OrdersDraftsController extends AbstractBaseApiController
         try {
             $attributes = ['*'];
             $validated = $request->validated();
-            $validated['filter']['user_id'] = auth()->id();
+            $validated['filter']['user_id'] = auth('sanctum')->id();
 
             $orders = $ordersDraftsCollectionService->getInstances(
                 attributes: $attributes,
@@ -93,7 +93,7 @@ class OrdersDraftsController extends AbstractBaseApiController
             $validated = $request->validated();
 
             // TODO think about this one
-            $validated['user_id'] = auth()->id();
+            $validated['user_id'] = auth('sanctum')->id();
 
             if (!$order = $orderDraftInstanceService->createInstance($validated)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -127,7 +127,7 @@ class OrdersDraftsController extends AbstractBaseApiController
             $validated = $request->validated();
 
             // TODO think about this one
-            $validated['user_id'] = auth()->id();
+            $validated['user_id'] = auth('sanctum')->id();
 
             if (!$order = $orderDraftInstanceService->editInstance($id, $validated)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);

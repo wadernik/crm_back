@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Services\AuthUsersService;
 use App\Services\Users\UserInstanceService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProfilesController extends AbstractBaseApiController
 {
     /**
+     * @param Request $request
      * @param UserInstanceService $userInstanceService
      * @return JsonResponse
      */
-    public function show(UserInstanceService $userInstanceService): JsonResponse
+    public function show(Request $request, UserInstanceService $userInstanceService): JsonResponse
     {
         try {
             $attributes = [
@@ -30,13 +33,16 @@ class ProfilesController extends AbstractBaseApiController
             ];
             $with = ['role.permissions'];
 
-            if (!$userId = auth()->id()) {
+            if (!$userId = auth('sanctum')->id()) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
             if (!$user = $userInstanceService->getInstance($userId, $attributes, $with)) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
+
+            $deviceName = $request->header('user-agent');
+            $user['devices'] = $userInstanceService->getUserDevices($userId, $deviceName);
 
             return $this->responseSuccess(data: $user);
         } catch (\Exception $e) {
@@ -56,7 +62,7 @@ class ProfilesController extends AbstractBaseApiController
     public function update(int $id, UpdateUserRequest $request, UserInstanceService $userInstanceService): JsonResponse
     {
         try {
-            if (!$userId = auth()->id()) {
+            if (!$userId = auth('sanctum')->id()) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
@@ -69,6 +75,29 @@ class ProfilesController extends AbstractBaseApiController
             }
 
             return $this->responseSuccess(data: $user->toArray());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param int $tokenId
+     * @param AuthUsersService $authUsersService
+     * @return JsonResponse
+     */
+    public function logoutDevice(int $tokenId, AuthUsersService $authUsersService): JsonResponse
+    {
+        try {
+            if (!auth('sanctum')->id()) {
+                return $this->responseError(code: Response::HTTP_NOT_FOUND);
+            }
+
+            $authUsersService->revokeTokenById($tokenId);
+
+            return $this->responseSuccess();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

@@ -26,9 +26,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $attributes = $request->validated();
+        $deviceName = $request->header('user-agent');
 
         try {
-            $token = $this->authUsersService->getToken($attributes);
+            $token = $this->authUsersService->getToken($attributes, $deviceName);
 
             if ($token === '') {
                 return $this->responseError(code: Response::HTTP_UNAUTHORIZED);
@@ -64,29 +65,5 @@ class AuthController extends Controller
         }
 
         return $this->responseSuccess();
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function refresh(): JsonResponse
-    {
-        try {
-            $token = $this->authUsersService->refreshToken();
-
-            if ($token === '') {
-                return $this->responseError(code: Response::HTTP_UNAUTHORIZED);
-            }
-
-            return response()->json(data: [
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-            ]);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
     }
 }

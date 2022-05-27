@@ -15,7 +15,7 @@ abstract class AbstractBaseApiController extends Controller
      */
     protected function isAllowed(string $permission): bool
     {
-        $user = auth()->user();
+        $user = auth('sanctum')->user();
 
         if (!$user) {
             return false;

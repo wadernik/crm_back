@@ -34,6 +34,7 @@ Route::group(
     static function() {
         Route::get('/', [ProfilesController::class, 'show']);
         Route::put('/{id}', [ProfilesController::class, 'update']);
+        Route::delete('/logout/{id}', [ProfilesController::class, 'logoutDevice']);
     }
 );
 

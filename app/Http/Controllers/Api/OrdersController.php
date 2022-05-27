@@ -123,7 +123,7 @@ class OrdersController extends AbstractBaseApiController
             }
 
             if (!isset($validated['user_id'])) {
-                $validated['user_id'] = auth()->id();
+                $validated['user_id'] = auth('sanctum')->id();
             }
 
             $order = $orderInstanceService->createInstance($validated);

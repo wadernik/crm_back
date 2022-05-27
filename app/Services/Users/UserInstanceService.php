@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Models\User;
 use App\Services\AbstractBaseInstanceService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class UserInstanceService extends AbstractBaseInstanceService
@@ -39,5 +40,31 @@ class UserInstanceService extends AbstractBaseInstanceService
         }
 
         return $user ? $user->load($with)->toArray() : [];
+    }
+
+    /**
+     * @param int $id
+     * @param string $deviceName
+     * @return array|null
+     */
+    public function getUserDevices(int $id, string $deviceName): ?array
+    {
+        $user = $this->modelClass::query()->find($id, ['id']);
+
+        if (!$user) {
+            return [];
+        }
+
+        return collect($user->getTokens())
+            ->map(function (array $token) use ($deviceName) {
+                if (!empty($token['last_used_at'])) {
+                    $token['last_used_at'] = Carbon::parse($token['last_used_at'])->format('d.m.Y H:i');
+                }
+
+                $token['current_device'] = $token['name'] === $deviceName;
+
+                return $token;
+            })
+            ->toArray();
     }
 }

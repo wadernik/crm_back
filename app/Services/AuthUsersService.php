@@ -9,9 +9,10 @@ class AuthUsersService
 {
     /**
      * @param array $attributes
+     * @param string $deviceName
      * @return string
      */
-    public function getToken(array $attributes): string
+    public function getToken(array $attributes, string $deviceName = 'auth_token'): string
     {
         if (!Auth::attempt($attributes)) {
             return '';
@@ -23,42 +24,33 @@ class AuthUsersService
             return '';
         }
 
-        $user->tokens()->delete();
+        $this->revokeTokenByDeviceName($deviceName);
 
         $userPermissions = $user->getUserPermissions() ?? ['*'];
 
         return $user
-            ->createToken('auth_token', $userPermissions)
+            ->createToken($deviceName, $userPermissions)
             ->plainTextToken;
     }
 
-    public function revokeToken(): void
+    /**
+     * @param string $deviceName
+     */
+    public function revokeTokenByDeviceName(string $deviceName): void
     {
-        auth()->user()->currentAccessToken()->delete();
+        auth('sanctum')->user()?->tokens()->where('name', 'LIKE', $deviceName)->delete();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function revokeTokenById(int $id): void
+    {
+        auth('sanctum')->user()?->tokens()->where('id', $id)->delete();
     }
 
     public function revokeAllTokens(): void
     {
-        auth()->user()->tokens()->delete();
-    }
-
-    /**
-     * @return string
-     */
-    public function refreshToken(): string
-    {
-        $user = auth()->user();
-
-        if (!$user) {
-            return '';
-        }
-
-        $this->revokeAllTokens();
-
-        $userPermissions = $user->getUserPermissions() ?? ['*'];
-
-        return $user
-            ->createToken('auth_token', $userPermissions)
-            ->plainTextToken;
+        auth('sanctum')->user()?->tokens()->delete();
     }
 }

@@ -87,4 +87,12 @@ class User extends Authenticatable
     {
         return $this->role->permissions->unique()->pluck('name')->toArray();
     }
+
+    /**
+     * @return array|null
+     */
+    public function getTokens(): ?array
+    {
+        return $this->tokens()->get(['id', 'name', 'last_used_at'])->toArray();
+    }
 }
