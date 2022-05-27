@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\AbstractBaseApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Responses\BaseApiResponseTrait;
 use App\Services\AuthUsersService;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends Controller
+class AuthController extends AbstractBaseApiController
 {
     use BaseApiResponseTrait;
 
@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $attributes = $request->validated();
-        $deviceName = $request->header('user-agent');
+        $deviceName = $this->getStyledUserAgent($request->header('user-agent'));
 
         try {
             $token = $this->authUsersService->getToken($attributes, $deviceName);

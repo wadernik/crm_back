@@ -41,7 +41,8 @@ class ProfilesController extends AbstractBaseApiController
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
-            $deviceName = $request->header('user-agent');
+            // Setting styled user-agent for user's token device name
+            $deviceName = $this->getStyledUserAgent($request->header('user-agent'));
             $user['devices'] = $userInstanceService->getUserDevices($userId, $deviceName);
 
             return $this->responseSuccess(data: $user);

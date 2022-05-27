@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\Reports\UsersReportController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
 use App\Http\Controllers\Api\UsersController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 // Авторизация
