@@ -34,8 +34,6 @@ abstract class AbstractBaseApiController extends Controller
         $agent = new Agent();
         $agent->setHttpHeaders($userAgent);
 
-        $device = $agent->device() ?: 'Desktop';
-
         $browser = $agent->browser();
         $browserVersion = $agent->version($browser);
 
@@ -43,6 +41,6 @@ abstract class AbstractBaseApiController extends Controller
         $platformVersion = $agent->version($platform);
         $platformAsString = $platform . ($platformVersion ? " $platformVersion" : '');
 
-        return collect([$device, "$browser $browserVersion", $platformAsString])->join('; ');
+        return collect([$platformAsString, "$browser $browserVersion"])->join('; ');
     }
 }
