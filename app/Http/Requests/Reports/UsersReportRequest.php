@@ -14,10 +14,10 @@ class UsersReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.user_id' => 'sometimes|integer|nullable',
-            'filter.role_id' => 'sometimes|integer|nullable',
-            'filter.date_start' => 'required|date_format:Y-m-d',
-            'filter.date_end' => 'sometimes|date_format:Y-m-d',
+            'user_id' => 'sometimes|integer|nullable',
+            'role_id' => 'sometimes|integer|nullable',
+            'date_start' => 'required|date_format:Y-m-d',
+            'date_end' => 'sometimes|date_format:Y-m-d',
         ];
     }
 }

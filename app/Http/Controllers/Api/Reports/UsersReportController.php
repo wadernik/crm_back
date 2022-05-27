@@ -36,7 +36,7 @@ class UsersReportController extends AbstractBaseApiController
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        $requestParams = $request->validated()['filter'];
+        $requestParams = $request->validated();
 
         $total = $this->getReportData($requestParams);
 
@@ -53,7 +53,7 @@ class UsersReportController extends AbstractBaseApiController
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        $requestParams = $request->validated()['filter'];
+        $requestParams = $request->validated();
 
         $total = $this->getReportData($requestParams);
 
