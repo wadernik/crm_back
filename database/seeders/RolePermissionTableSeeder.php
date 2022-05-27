@@ -18,9 +18,5 @@ class RolePermissionTableSeeder extends Seeder
         $permissions = Permission::all();
         $adminRole = Role::find(1);
         $adminRole->permissions()->sync($permissions);
-
-        $specificPermission = Permission::find(2);
-        $cashierRole = Role::find(2);
-        $cashierRole->permissions()->sync($specificPermission);
     }
 }

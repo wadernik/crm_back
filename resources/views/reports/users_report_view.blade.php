@@ -79,10 +79,6 @@
         border-collapse: collapse
       }
 
-      .border {
-        border-width: 1px
-      }
-
       .py-2 {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem
@@ -115,20 +111,20 @@
           </tr>
         </tbody>
       </table>
-      <table class="table w-full border-collapse">
+      <table class="table w-full border-collapse border">
         <thead class="thead">
           <tr>
-            <th class="th py-2 px-4 text-left font-normal">Имя Фамилия</th>
-            <th class="th py-2 px-4 text-left font-normal">Количество заказов</th>
-            <th class="th py-2 px-4 text-left font-normal">Продано</th>
+            <th class="th border py-2 px-4 text-left font-normal">Имя Фамилия</th>
+            <th class="th border py-2 px-4 text-left font-normal">Количество заказов</th>
+            <th class="th border py-2 px-4 text-left font-normal">Продано</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($total as $row)
           <tr>
-            <td class="td py-2 px-4">{{ $row['name'] }}</td>
-            <td class="td py-2 px-4">{{ $row['total_sold'] }}</td>
-            <td class="td py-2 px-4">{{ $row['total_price'] }}</td>
+            <td class="td border py-2 px-4">{{ $row['name'] }}</td>
+            <td class="td border py-2 px-4">{{ $row['total_sold'] }}</td>
+            <td class="td border py-2 px-4">{{ $row['total_price'] }}</td>
           </tr>
           @endforeach
         </tbody>

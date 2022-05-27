@@ -41,25 +41,13 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'first_name' => 'Манагер',
-                // 'last_name' => null,
-                'username' => 'manager_1',
-                'password' => bcrypt('#manager1'), // password
-                'email' => 'manager@stroman.org',
+                'first_name' => 'Павел',
+                'username' => 'pavel',
+                'password' => bcrypt('123123'), // password
+                'email' => 'freepzu@gmail.com',
                 'phone' => '79111111115',
-                'sex' => 2,
-                'role_id' => 2,
-            ],
-            [
-                'id' => 4,
-                'first_name' => 'Рандом',
-                'last_name' => 'Кассир',
-                'username' => 'cashier_1',
-                'password' => bcrypt('#cashier1'), // password
-                'email' => 'chashier@stroman.org',
-                'phone' => '79111111113',
-                'sex' => 2,
-                'role_id' => 3,
+                'sex' => 1,
+                'role_id' => 1,
             ],
             [
                 'id' => 5,
@@ -70,16 +58,6 @@ class UsersTableSeeder extends Seeder
                 'phone' => '79111111114',
                 'sex' => 2,
                 'role_id' => 4,
-            ],
-            [
-                'id' => 6,
-                'first_name' => 'Павел',
-                'username' => 'pavel',
-                'password' => bcrypt('123123'), // password
-                'email' => 'freepzu@gmail.com',
-                'phone' => '79111111115',
-                'sex' => 1,
-                'role_id' => 1,
             ],
         ];
 

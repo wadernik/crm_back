@@ -97,6 +97,7 @@ abstract class AbstractBaseOrderInstanceService extends AbstractBaseInstanceServ
             'amount' => $attributes['amount'] ?? null,
             'label' => $attributes['label'] ?? null,
             'comment' => $attributes['comment'] ?? null,
+            'decoration' => $attributes['decoration'] ?? null,
         ]);
 
         return [$orderAttributes, $orderDetailsAttributes];

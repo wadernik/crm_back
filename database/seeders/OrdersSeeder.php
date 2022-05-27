@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 
 class OrdersSeeder extends Seeder
 {
-    public const ORDERS_LIMIT = 20;
+    public const ORDERS_LIMIT = 10;
 
     public function run(): void
     {

@@ -137,22 +137,20 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($total as $row)
           <tr>
-            <td class="td border py-2 px-4">...</td>
+            <td class="td border py-2 px-4">{{ $order['name'] }}</td>
             <td class="td border py-2 px-4">{{ $order['amount'] }}</td>
             <td class="td border py-2 px-4">{{ \Carbon\Carbon::parse($order['accepted_date'])->format('d.m.Y') }}</td>
             <td class="td border py-2 px-4">{{ \Carbon\Carbon::parse($order['order_date'])->format('d.m.Y') }}</td>
             <td class="td border py-2 px-4">{{ $order['order_time'] }}</td>
           </tr>
-          @endforeach
         </tbody>
       </table>
       <table class="w-full border-collapse">
         <tbody>
           <tr>
             <td class="td w-20 py-2 px-4">Оформление</td>
-            <td class="td py-2 px-4">{{ $order['name'] }}</td>
+            <td class="td py-2 px-4">{{ $order['decoration'] ?: '-' }}</td>
           </tr>
           <tr>
             <td class="td w-20 py-2 px-4">Надпись</td>

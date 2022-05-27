@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name', 255)->nullable(); // Наименование заказа
             $table->string('amount', 255)->nullable(); // Количество / вес в граммах
             $table->string('label', 255)->nullable(); // Надпись
+            $table->string('decoration', 255)->nullable(); // Оформление
             $table->string('comment', 255)->nullable(); // Комментарий от покупателя
 
             $table->softDeletes();

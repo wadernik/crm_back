@@ -17,6 +17,7 @@ class OrderDetail extends Model
         'amount',
         'label',
         'comment',
+        'decoration',
     ];
 
     protected $hidden = [
