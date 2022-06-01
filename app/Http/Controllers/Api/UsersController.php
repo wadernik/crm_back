@@ -96,7 +96,7 @@ class UsersController extends AbstractBaseApiController
      */
     public function show(int $id, UserInstanceService $userInstanceService): JsonResponse
     {
-        if (!$this->isAllowed('users.edit')) {
+        if (!$this->isAllowed('users.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 

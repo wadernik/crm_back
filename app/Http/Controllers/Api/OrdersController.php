@@ -6,6 +6,7 @@ use App\Http\Requests\Orders\CreateOrderRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
+use App\Http\Requests\Orders\UpdateOrderStatusRequest;
 use App\Services\Manufacturers\ManufacturerInstanceService;
 use App\Services\Orders\OrdersExportService;
 use App\Services\Orders\OrderInstanceService;
@@ -167,6 +168,38 @@ class OrdersController extends AbstractBaseApiController
             ) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
             }
+
+            if (!$order = $orderInstanceService->editInstance($id, $validated)) {
+                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return $this->responseSuccess(data: $order->toArray());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param UpdateOrderStatusRequest $request
+     * @param OrderInstanceService $orderInstanceService
+     * @return JsonResponse
+     */
+    public function updateStatus(
+        UpdateOrderStatusRequest $request,
+        OrderInstanceService $orderInstanceService
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.process')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $validated = $request->validated();
+
+            $id = $validated['id'];
+            unset($validated['id']);
 
             if (!$order = $orderInstanceService->editInstance($id, $validated)) {
                 return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);

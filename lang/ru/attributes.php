@@ -14,6 +14,7 @@ return [
         'source_id' => 'Источник продажи',
         'seller_id' => 'Точка выдачи',
         'files' => 'Файлы',
+        'number_external' => 'Внешний номер заказа',
     ],
     'user' => [
         'username' => 'Никнейм',

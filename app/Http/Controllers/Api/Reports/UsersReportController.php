@@ -63,7 +63,7 @@ class UsersReportController extends AbstractBaseApiController
             : '';
 
         $fileName = 'Отчет по продажам сотрудников '
-            . $dateStartFormatted . ($dateEndFormatted !== '' ? " $dateEndFormatted" : '');
+            . $dateStartFormatted . ($dateEndFormatted !== '' ? " $dateEndFormatted" : '') . '.pdf';
 
         $template = 'reports.users_report_view';
 

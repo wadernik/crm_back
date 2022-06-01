@@ -38,6 +38,6 @@ class DooglysService
             return $order['number'] === $orderNumber;
         });
 
-        return $order['total_cost'] * 100 ?? 0;
+        return ($order['total_cost'] ?? 0) * 100;
     }
 }

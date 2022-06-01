@@ -20,9 +20,9 @@ class FilesController extends AbstractBaseApiController
      */
     public function upload(CreateFilesUploadRequest $request): JsonResponse
     {
-        if (!$this->isAllowed('files.edit')) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        }
+        // if (!$this->isAllowed('files.edit')) {
+        //     return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        // }
 
         $files = $request->allFiles();
 

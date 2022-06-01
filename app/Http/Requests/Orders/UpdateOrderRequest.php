@@ -24,7 +24,7 @@ class UpdateOrderRequest extends FormRequest
             'order_time' => 'sometimes|date_format:H:i',
             'manufacturer_id' => 'sometimes|integer',
             'status' => 'sometimes|integer',
-            'number_external' => 'sometimes|string',
+            'number_external' => 'sometimes|string|nullable',
             'source_id' => 'sometimes|integer',
             'seller_id' => 'sometimes|integer',
             'files' => 'sometimes|array|nullable',
@@ -46,6 +46,7 @@ class UpdateOrderRequest extends FormRequest
             'source_id' => __('attributes.order.source_id'),
             'seller_id' => __('attributes.order.seller_id'),
             'files' => __('attributes.order.files'),
+            'number_external' => __('attributes.order.number_external'),
         ];
     }
 }

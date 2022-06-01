@@ -53,6 +53,7 @@ Route::group(
         Route::apiResource('orders', OrdersController::class);
         Route::apiResource('orders_drafts', OrdersDraftsController::class);
         Route::post('orders/export', [OrdersController::class, 'export']);
+        Route::post('orders/status', [OrdersController::class, 'updateStatus']);
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);
