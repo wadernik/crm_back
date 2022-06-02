@@ -6,15 +6,16 @@ for managing internal business processes.
 ## Implemented:
 - Token based auth
 - User's control methods with roles and permissions (for staff)
+- Current user's profile with personal settings
 - Manufacturer's control methods (one who fulfills placed orders)
 - Seller's control methods
-- Order's processing methods (partially; there are drafted and completed orders)
+- Order's processing methods
 - File uploading methods
+- Calendar (a flexible way to show summary info about orders grouped by date)
+- Reports (for now, only one has been implemented due to no more needed at the moment)
 
 ## Planned:
-- Calendar (a flexible way to show summary info about orders grouped by date)
 - Notifications
-- Reports
 - Chat (?)
 - Catalogue (future iterations)
 
