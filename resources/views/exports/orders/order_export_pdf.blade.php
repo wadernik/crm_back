@@ -5,7 +5,7 @@
     <style>
       body {
         margin: 0;
-        font: normal 9px DejaVu Sans, sans-serif;
+        font: normal 9px "DejaVu Sans", sans-serif;
       }
 
       .border {
@@ -108,6 +108,10 @@
       .text-red-500 {
         --tw-text-opacity: 1;
         color: rgb(239 68 68 / var(--tw-text-opacity))
+      }
+
+      img {
+          max-width: 100%;
       }
     </style>
   </head>
