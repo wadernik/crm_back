@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 abstract class AbstractBaseOrderInstanceService extends AbstractBaseInstanceService
 {
     /**
-     * TODO: подумать над этими методами
      * @param array $attributes
      * @return Model
      */

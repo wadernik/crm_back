@@ -15,6 +15,7 @@ for managing internal business processes.
 - Reports (for now, only one has been implemented due to no more needed at the moment)
 
 ## Planned:
+- Cache (Redis)
 - Notifications
 - Chat (?)
 - Catalogue (future iterations)

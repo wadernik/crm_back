@@ -9,7 +9,7 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortId(string $direction): void
     {
-        $this->builder->orderBy('id', $direction);
+        $this->builder->orderBy($this->getColumnName('id'), $direction);
     }
 
     /**
@@ -17,7 +17,7 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortName(string $direction): void
     {
-        $this->builder->orderBy('name', $direction);
+        $this->builder->orderBy($this->getColumnName('name'), $direction);
     }
 
     /**
@@ -25,7 +25,7 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortAddress(string $direction): void
     {
-        $this->builder->orderBy('address', $direction);
+        $this->builder->orderBy($this->getColumnName('address'), $direction);
     }
 
     /**
@@ -33,7 +33,7 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortPhone(string $direction): void
     {
-        $this->builder->orderBy('phone', $direction);
+        $this->builder->orderBy($this->getColumnName('phone'), $direction);
     }
 
     /**
@@ -41,7 +41,7 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortEmail(string $direction): void
     {
-        $this->builder->orderBy('email', $direction);
+        $this->builder->orderBy($this->getColumnName('email'), $direction);
     }
 
     /**
@@ -49,6 +49,6 @@ class SellersSort extends AbstractBaseModelSort
      */
     public function sortWorkingHours(string $direction): void
     {
-        $this->builder->orderBy('working_hours', $direction);
+        $this->builder->orderBy($this->getColumnName('working_hours'), $direction);
     }
 }

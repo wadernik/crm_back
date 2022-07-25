@@ -56,4 +56,12 @@ abstract class AbstractBaseCollectionService
 
         return $query->count();
     }
+
+    /**
+     * @param array $tables
+     */
+    public function setJoins(array $tables): void
+    {
+        $this->joins[] = $tables;
+    }
 }

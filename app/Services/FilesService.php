@@ -5,9 +5,7 @@ namespace App\Services;
 use App\ModelModifiers\ModelFilters\FilesFilter;
 use App\Models\File;
 use App\Services\Traits\FilterableTrait;
-use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 
 class FilesService
 {
@@ -47,17 +45,5 @@ class FilesService
                 'extension' => $extension,
             ])
             ->toArray();
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    private function generateFilename(string $name = ''): string
-    {
-        $nameParts = explode('.', $name);
-        $extension = Arr::last($nameParts);
-
-        return uniqid('', true) . '.' . $extension;
     }
 }

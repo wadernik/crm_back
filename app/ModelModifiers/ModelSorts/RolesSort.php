@@ -9,7 +9,7 @@ class RolesSort extends AbstractBaseModelSort
      */
     public function sortId(string $direction): void
     {
-        $this->builder->orderBy('id', $direction);
+        $this->builder->orderBy($this->getColumnName('id'), $direction);
     }
 
     /**
@@ -17,6 +17,6 @@ class RolesSort extends AbstractBaseModelSort
      */
     public function sortName(string $direction): void
     {
-        $this->builder->orderBy('name', $direction);
+        $this->builder->orderBy($this->getColumnName('name'), $direction);
     }
 }

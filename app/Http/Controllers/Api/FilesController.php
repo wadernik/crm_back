@@ -11,14 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FilesController extends AbstractBaseApiController
 {
-    public function __construct(private FilesService $filesService)
-    {}
-
     /**
      * @param CreateFilesUploadRequest $request
+     * @param FilesService $filesService
      * @return JsonResponse
      */
-    public function upload(CreateFilesUploadRequest $request): JsonResponse
+    public function upload(CreateFilesUploadRequest $request, FilesService $filesService): JsonResponse
     {
         // if (!$this->isAllowed('files.edit')) {
         //     return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -36,7 +34,7 @@ class FilesController extends AbstractBaseApiController
                 /** @var UploadedFile */
                 $uploadedFile = $file;
 
-                $uploadedFiles[] = $this->filesService->uploadFile($uploadedFile);
+                $uploadedFiles[] = $filesService->uploadFile($uploadedFile);
             }
 
             return $this->responseSuccess(data: $uploadedFiles, code: Response::HTTP_CREATED);
@@ -46,15 +44,5 @@ class FilesController extends AbstractBaseApiController
 
             return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * @TODO implement file download api method
-     */
-    public function download(): void
-    {
-        // if (!$this->isAllowed('files.view')) {
-        //     return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        // }
     }
 }

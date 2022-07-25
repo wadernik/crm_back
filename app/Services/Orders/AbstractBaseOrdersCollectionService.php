@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders;
 
+use App\Models\BaseOrder;
 use App\Services\AbstractBaseCollectionService;
 
 abstract class AbstractBaseOrdersCollectionService extends AbstractBaseCollectionService
@@ -12,7 +13,7 @@ abstract class AbstractBaseOrdersCollectionService extends AbstractBaseCollectio
      */
     public function getStatuses(): array
     {
-        return collect($this->modelClass::statusCaptions())
+        return collect(BaseOrder::statusCaptions())
             ->map(function (string $statusCaption, int $status) {
                 return [
                     'id' => $status,

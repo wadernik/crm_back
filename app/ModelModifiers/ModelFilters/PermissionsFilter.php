@@ -9,7 +9,7 @@ class PermissionsFilter extends AbstractBaseModelFilter
      */
     public function filterId(int $id): void
     {
-        $this->builder->where('id', $id);
+        $this->builder->where($this->getColumnName('id'), $id);
     }
 
     /**
@@ -17,6 +17,6 @@ class PermissionsFilter extends AbstractBaseModelFilter
      */
     public function filterIds(array $ids): void
     {
-        $this->builder->whereIn('id', $ids);
+        $this->builder->whereIn($this->getColumnName('id'), $ids);
     }
 }

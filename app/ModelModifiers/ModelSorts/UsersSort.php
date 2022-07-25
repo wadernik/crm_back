@@ -9,7 +9,7 @@ class UsersSort extends AbstractBaseModelSort
      */
     public function sortId(string $direction): void
     {
-        $this->builder->orderBy('id', $direction);
+        $this->builder->orderBy($this->getColumnName('id'), $direction);
     }
 
     /**
@@ -17,6 +17,6 @@ class UsersSort extends AbstractBaseModelSort
      */
     public function sortFirstName(string $direction): void
     {
-        $this->builder->orderBy('first_name', $direction);
+        $this->builder->orderBy($this->getColumnName('first_name'), $direction);
     }
 }

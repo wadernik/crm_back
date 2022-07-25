@@ -26,12 +26,21 @@ abstract class AbstractBaseModelFilter
             $method = $this->getFilterMethod($name);
 
             if (!method_exists($this, $method)) {
-                Log::warning(__CLASS__ . ": method [{$method}] not defined");
+                Log::warning(__CLASS__ . ": method [$method] not defined");
                 continue;
             }
 
             $this->$method($value);
         }
+    }
+
+    /**
+     * @param string $columnName
+     * @return string
+     */
+    public function getColumnName(string $columnName): string
+    {
+        return $this->builder->qualifyColumn($columnName);
     }
 
     /**

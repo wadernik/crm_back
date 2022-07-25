@@ -92,7 +92,6 @@ class OrdersDraftsController extends AbstractBaseApiController
         try {
             $validated = $request->validated();
 
-            // TODO think about this one
             $validated['user_id'] = auth('sanctum')->id();
 
             if (!$order = $orderDraftInstanceService->createInstance($validated)) {
@@ -126,7 +125,6 @@ class OrdersDraftsController extends AbstractBaseApiController
         try {
             $validated = $request->validated();
 
-            // TODO think about this one
             $validated['user_id'] = auth('sanctum')->id();
 
             if (!$order = $orderDraftInstanceService->editInstance($id, $validated)) {

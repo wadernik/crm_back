@@ -12,12 +12,12 @@ class UsersFilter extends AbstractBaseModelFilter
      */
     public function filterId(int $id): void
     {
-        $this->builder->where('id', $id);
+        $this->builder->where($this->getColumnName('id'), $id);
     }
 
     public function filterIds(array $ids): void
     {
-        $this->builder->whereIn('id', $ids);
+        $this->builder->whereIn($this->getColumnName('id'), $ids);
     }
 
     /**
@@ -25,7 +25,7 @@ class UsersFilter extends AbstractBaseModelFilter
      */
     public function filterFirstName(string $name): void
     {
-        $this->builder->where('first_name', 'LIKE', "%{$name}%");
+        $this->builder->where($this->getColumnName('first_name'), 'LIKE', "%$name%");
     }
 
     /**
@@ -33,7 +33,7 @@ class UsersFilter extends AbstractBaseModelFilter
      */
     public function filterLastName(string $name): void
     {
-        $this->builder->where('last_name', 'LIKE', "%{$name}%");
+        $this->builder->where($this->getColumnName('last_name'), 'LIKE', "%$name%");
     }
 
     /**
@@ -41,7 +41,7 @@ class UsersFilter extends AbstractBaseModelFilter
      */
     public function filterRoleId(int $roleId): void
     {
-        $this->builder->where('role_id', $roleId);
+        $this->builder->where($this->getColumnName('role_id'), $roleId);
     }
 
     /**
@@ -49,7 +49,7 @@ class UsersFilter extends AbstractBaseModelFilter
      */
     public function filterRoleIds(array $roleIds): void
     {
-        $this->builder->whereIn('role_id', $roleIds);
+        $this->builder->whereIn($this->getColumnName('role_id'), $roleIds);
     }
 
     /**
@@ -58,15 +58,16 @@ class UsersFilter extends AbstractBaseModelFilter
     public function filterIsOnline(bool $isOnline): void
     {
         $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
+        $lastSeenColumn = $this->getColumnName('last_seen');
 
         if ($isOnline) {
             $this->builder
-                ->whereNotNull('last_seen')
-                ->where('last_seen', '>=', $now);
+                ->whereNotNull($lastSeenColumn)
+                ->where($lastSeenColumn, '>=', $now);
         } else {
             $this->builder
-                ->where('last_seen', '<=', $now)
-                ->orWhereNull('last_seen');
+                ->where($lastSeenColumn, '<=', $now)
+                ->orWhereNull($lastSeenColumn);
         }
     }
 }

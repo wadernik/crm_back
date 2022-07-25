@@ -4,7 +4,6 @@ namespace App\ModelModifiers\ModelSorts;
 
 class OrdersSort extends AbstractBaseModelSort
 {
-    private const ORDERS_TABLE_ALIAS = 'orders';
     private const USERS_TABLE_ALIAS = 'users';
 
     /**
@@ -12,7 +11,7 @@ class OrdersSort extends AbstractBaseModelSort
      */
     public function sortId(string $direction): void
     {
-        $this->builder->orderBy(self::ORDERS_TABLE_ALIAS . '.id', $direction);
+        $this->builder->orderBy($this->getColumnName('id'), $direction);
     }
 
     /**
@@ -20,11 +19,11 @@ class OrdersSort extends AbstractBaseModelSort
      */
     public function sortOrderDate(string $direction): void
     {
-        $this->builder->orderBy(self::ORDERS_TABLE_ALIAS . '.order_date', $direction);
+        $this->builder->orderBy($this->getColumnName('order_date'), $direction);
     }
 
     /**
-     * TODO: think about it, how to join necessary tables conditionally
+     * It is necessary to join user's table for this sorting to work correctly.
      * @param string $direction
      */
     public function sortUserId(string $direction): void

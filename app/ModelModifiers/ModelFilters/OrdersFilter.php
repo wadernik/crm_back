@@ -4,7 +4,6 @@ namespace App\ModelModifiers\ModelFilters;
 
 class OrdersFilter extends AbstractBaseModelFilter
 {
-    private const ORDERS_TABLE_ALIAS = 'orders';
     private const ORDER_DETAILS_TABLE_ALIAS = 'order_details';
 
     /**
@@ -12,7 +11,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterId(int $id): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.id', $id);
+        $this->builder->where($this->getColumnName('id'), $id);
     }
 
     /**
@@ -20,7 +19,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterIds(array $ids): void
     {
-        $this->builder->whereIn(self::ORDERS_TABLE_ALIAS . '.id', $ids);
+        $this->builder->whereIn($this->getColumnName('id'), $ids);
     }
 
     /**
@@ -28,7 +27,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterManufacturerId(int $id): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.manufacturer_id', $id);
+        $this->builder->where($this->getColumnName('.manufacturer_id'), $id);
     }
 
     /**
@@ -36,7 +35,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterUserId(int $id): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.user_id', $id);
+        $this->builder->where($this->getColumnName('user_id'), $id);
     }
 
     /**
@@ -44,7 +43,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterUserIds(array $ids): void
     {
-        $this->builder->whereIn(self::ORDERS_TABLE_ALIAS . '.user_id', $ids);
+        $this->builder->whereIn($this->getColumnName('user_id'), $ids);
     }
 
     /**
@@ -53,9 +52,9 @@ class OrdersFilter extends AbstractBaseModelFilter
     public function filterStatus(int|array $status): void
     {
         if (is_array($status)) {
-            $this->builder->whereIn(self::ORDERS_TABLE_ALIAS . '.status', $status);
+            $this->builder->whereIn($this->getColumnName('status'), $status);
         } else {
-            $this->builder->where(self::ORDERS_TABLE_ALIAS . '.status', $status);
+            $this->builder->where($this->getColumnName('status'), $status);
         }
     }
 
@@ -64,7 +63,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterOrderDate(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.order_date', $date);
+        $this->builder->where($this->getColumnName('order_date'), $date);
     }
 
     /**
@@ -72,7 +71,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterAcceptedDateStart(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.accepted_date', '>=', $date);
+        $this->builder->where($this->getColumnName('accepted_date'), '>=', $date);
     }
 
     /**
@@ -80,7 +79,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterAcceptedDateEnd(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.accepted_date', '<=', $date);
+        $this->builder->where($this->getColumnName('accepted_date'), '<=', $date);
     }
 
     /**
@@ -88,7 +87,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterOrderDateStart(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.order_date', '>=', $date);
+        $this->builder->where($this->getColumnName('order_date'), '>=', $date);
     }
 
     /**
@@ -96,7 +95,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterOrderDateEnd(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.order_date', '<=', $date);
+        $this->builder->where($this->getColumnName('order_date'), '<=', $date);
     }
 
     /**
@@ -104,7 +103,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterCreatedAtStart(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.created_at', '>=', $date);
+        $this->builder->where($this->getColumnName('created_at'), '>=', $date);
     }
 
     /**
@@ -112,7 +111,7 @@ class OrdersFilter extends AbstractBaseModelFilter
      */
     public function filterCreatedAtEnd(string $date): void
     {
-        $this->builder->where(self::ORDERS_TABLE_ALIAS . '.created_at', '<=', $date);
+        $this->builder->where($this->getColumnName('created_at'), '<=', $date);
     }
 
     /**

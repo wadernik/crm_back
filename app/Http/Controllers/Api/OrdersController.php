@@ -51,11 +51,22 @@ class OrdersController extends AbstractBaseApiController
         try {
             $attributes = ['orders.*', 'order_details.*'];
             $validated = $request->validated();
+
+            $ordersCollectionService->setJoins(
+                [
+                    'table' => 'users',
+                    'first' => 'users.id',
+                    'operator' => '=',
+                    'second' => 'orders.user_id',
+                ]
+            );
+
             $orders = $ordersCollectionService->getInstances(
                 attributes: $attributes,
                 requestParams: $validated,
                 with: ['files:id,filename']
             );
+
             $total = $ordersCollectionService->countInstances($validated);
 
             return $this->responseSuccess(data: $orders, headers: ['x-total-count' => $total]);
