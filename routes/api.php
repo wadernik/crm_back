@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FilesController;
+use App\Http\Controllers\Api\ManufacturerDateLimitsController;
 use App\Http\Controllers\Api\ManufacturersController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrdersDraftsController;
@@ -48,6 +49,7 @@ Route::group(
         Route::apiResource('roles', RolesController::class);
         Route::apiResource('sellers', SellersController::class);
         Route::apiResource('manufacturers', ManufacturersController::class);
+        Route::apiResource('manufacturer_date_limits', ManufacturerDateLimitsController::class);
 
         // Заказы
         Route::apiResource('orders', OrdersController::class);

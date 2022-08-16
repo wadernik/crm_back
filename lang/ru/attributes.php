@@ -39,6 +39,11 @@ return [
         'email' => 'Email',
         'limit' => 'Ограничение',
     ],
+    'manufacturer_date_limit' => [
+        'manufacturer_id' => 'Производство',
+        'date' => 'Дата, на которую ограничено принятие заказов',
+        'limit_type' => 'Тип ограничения',
+    ],
     'seller' => [
         'name' => 'Название',
         'phone' => 'Телефон',

@@ -37,6 +37,11 @@ return [
         'email' => 'Email',
         'limit' => 'Limit',
     ],
+    'manufacturer_date_limit' => [
+        'manufacturer_id' => 'Manufacturer',
+        'date' => 'Date limit',
+        'limit_type' => 'Limit type',
+    ],
     'seller' => [
         'name' => 'Name',
         'phone' => 'Phone',

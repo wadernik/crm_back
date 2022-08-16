@@ -7,7 +7,7 @@ use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
-use App\Services\Manufacturers\ManufacturerInstanceService;
+use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
 use App\Services\Orders\OrdersExportService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
@@ -107,13 +107,13 @@ class OrdersController extends AbstractBaseApiController
     /**
      * @param CreateOrderRequest $request
      * @param OrderInstanceService $orderInstanceService
-     * @param ManufacturerInstanceService $manufacturerInstanceService
+     * @param ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
      * @return JsonResponse
      */
     public function store(
         CreateOrderRequest $request,
         OrderInstanceService $orderInstanceService,
-        ManufacturerInstanceService $manufacturerInstanceService
+        ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
     ): JsonResponse {
         if (!$this->isAllowed('orders.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -121,16 +121,14 @@ class OrdersController extends AbstractBaseApiController
 
         try {
             $validated = $request->validated();
-            $manufacturer = $manufacturerInstanceService->getInstance($validated['manufacturer_id'], ['id', 'limit']);
 
-            if (!$manufacturer) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            if (!$orderInstanceService->canCreateOrder($validated['order_date'], $manufacturer)) {
+            if (!$manufacturerDateLimitsCollectionService->canAcceptOrderForDate(
+                manufacturerId: $validated['manufacturer_id'],
+                date: $validated['order_date'])
+            ) {
                 return $this->responseError(
                     code: Response::HTTP_UNPROCESSABLE_ENTITY,
-                    message: __('order.limit_reached')
+                    message: __('order.limited_date')
                 );
             }
 
@@ -157,14 +155,14 @@ class OrdersController extends AbstractBaseApiController
      * @param int $id
      * @param UpdateOrderRequest $request
      * @param OrderInstanceService $orderInstanceService
-     * @param ManufacturerInstanceService $manufacturerInstanceService
+     * @param ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
      * @return JsonResponse
      */
     public function update(
         int $id,
         UpdateOrderRequest $request,
         OrderInstanceService $orderInstanceService,
-        ManufacturerInstanceService $manufacturerInstanceService
+        ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
     ): JsonResponse {
         if (!$this->isAllowed('orders.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -173,11 +171,20 @@ class OrdersController extends AbstractBaseApiController
         try {
             $validated = $request->validated();
 
-            if (
-                isset($validated['manufacturer_id'])
-                && !$manufacturerInstanceService->getInstance($validated['manufacturer_id'])
-            ) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            $manufacturerId = null;
+            $orderDate = '';
+            if (!isset($validated['manufacturer_id'], $validated['order_date'])) {
+                $order = $orderInstanceService->getInstance($id, ['manufacturer_id']);
+
+                $manufacturerId = $validated['manufacturer_id'] ?? $order['manufacturer_id'];
+                $orderDate = $validated['order_date'] ?? $order['order_date'];
+            }
+
+            if (!$manufacturerDateLimitsCollectionService->canAcceptOrderForDate($manufacturerId, $orderDate)) {
+                return $this->responseError(
+                    code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                    message: __('order.limited_date')
+                );
             }
 
             if (!$order = $orderInstanceService->editInstance($id, $validated)) {
