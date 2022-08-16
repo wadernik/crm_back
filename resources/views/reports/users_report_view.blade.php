@@ -5,7 +5,7 @@
     <style>
       body {
         margin: 0;
-        font: normal 9px DejaVu Sans, sans-serif;
+        font: normal 9px "DejaVu Sans", sans-serif;
       }
 
       .border {
