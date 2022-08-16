@@ -4,6 +4,7 @@ return [
     'statuses' => [
         'accepted' => 'Принят',
         'taken' => 'В работе',
+        'delivery' => 'Передано в магазин',
         'sold' => 'Исполнен',
         'canceled' => 'Отменен',
     ],

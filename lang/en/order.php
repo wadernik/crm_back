@@ -4,6 +4,7 @@ return [
     'statuses' => [
         'accepted' => 'Accepted',
         'taken' => 'Processing',
+        'delivery' => 'In delivery',
         'sold' => 'Sold',
         'canceled' => 'Canceled',
     ],
