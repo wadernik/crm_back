@@ -49,7 +49,7 @@ Route::group(
         Route::apiResource('roles', RolesController::class);
         Route::apiResource('sellers', SellersController::class);
         Route::apiResource('manufacturers', ManufacturersController::class);
-        Route::apiResource('manufacturer_date_limits', ManufacturerDateLimitsController::class);
+        Route::apiResource('manufacturers/limits', ManufacturerDateLimitsController::class);
 
         // Заказы
         Route::apiResource('orders', OrdersController::class);
