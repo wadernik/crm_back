@@ -44,9 +44,9 @@ class ManufacturerDateLimitsCollectionService extends AbstractBaseCollectionServ
     /**
      * @return array
      */
-    public function getStatuses(): array
+    public function getLimitTypes(): array
     {
-        return collect(ManufacturerDateLimit::statusCaptions())
+        return collect(ManufacturerDateLimit::limitTypes())
             ->map(function (string $statusCaption, int $status) {
                 return [
                     'id' => $status,

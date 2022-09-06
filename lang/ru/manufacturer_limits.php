@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'statuses' => [
+    'limit_types' => [
         'partial_stop' => 'Остановить, кроме фотопечати',
         'full_stop' => 'Остановить',
     ],

@@ -18,10 +18,10 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
      * @param ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
      * @return JsonResponse
      */
-    public function statuses(
+    public function limitTypes(
         ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
     ): JsonResponse {
-        $statuses = $manufacturerDateLimitsCollectionService->getStatuses();
+        $statuses = $manufacturerDateLimitsCollectionService->getLimitTypes();
 
         return $this->responseSuccess(data: $statuses, headers: ['x-total-count' => count($statuses)]);
     }

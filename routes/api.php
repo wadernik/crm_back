@@ -86,6 +86,7 @@ Route::group(
         Route::get('/order_statuses', [OrdersController::class, 'statuses']);
         Route::get('/manufacturers', [ManufacturersController::class, 'all']);
         Route::get('/sellers', [SellersController::class, 'all']);
+        Route::get('/manufacturers_limits/limit_types', [ManufacturerDateLimitsController::class, 'limitTypes']);
     }
 );
 
