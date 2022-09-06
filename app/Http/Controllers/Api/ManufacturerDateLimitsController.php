@@ -13,6 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ManufacturerDateLimitsController extends AbstractBaseApiController
 {
+
+    /**
+     * @param ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
+     * @return JsonResponse
+     */
+    public function statuses(
+        ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
+    ): JsonResponse {
+        $statuses = $manufacturerDateLimitsCollectionService->getStatuses();
+
+        return $this->responseSuccess(data: $statuses, headers: ['x-total-count' => count($statuses)]);
+    }
+
     /**
      * @param ListManufacturerDateLimitsRequest $request
      * @param ManufacturerDateLimitsCollectionService $manufacturerDateLimitsCollectionService
@@ -57,11 +70,19 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
         try {
             $validated = $request->validated();
 
-            if (!$dateLimit = $manufacturerDateLimitsInstanceService->createInstance($validated)) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            if (isset($validated['date'])) {
+                $manufacturerDateLimitsInstanceService->createInstance($validated);
+            } elseif (isset($validated['dates'])) {
+                $dates = $validated['dates'];
+                unset($validated['dates']);
+
+                foreach ($dates as $date) {
+                    $validated['date'] = $date;
+                    $manufacturerDateLimitsInstanceService->createInstance($validated);
+                }
             }
 
-            return $this->responseSuccess(data: $dateLimit->toArray(), code: Response::HTTP_CREATED);
+            return $this->responseSuccess(code: Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());

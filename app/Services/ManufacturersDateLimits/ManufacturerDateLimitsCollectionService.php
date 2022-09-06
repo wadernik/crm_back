@@ -40,4 +40,20 @@ class ManufacturerDateLimitsCollectionService extends AbstractBaseCollectionServ
 
         return empty($this->getInstances(requestParams: $params));
     }
+
+    /**
+     * @return array
+     */
+    public function getStatuses(): array
+    {
+        return collect(ManufacturerDateLimit::statusCaptions())
+            ->map(function (string $statusCaption, int $status) {
+                return [
+                    'id' => $status,
+                    'name' => $statusCaption,
+                ];
+            })
+            ->values()
+            ->toArray();
+    }
 }

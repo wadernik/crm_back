@@ -24,8 +24,12 @@ class User extends Authenticatable
 
     // In minutes
     public const ONLINE_STATUS_BORDER = 5;
+
     public const SEX_M = 1;
     public const SEX_W = 2;
+
+    public const STATUS_ONLINE = 1;
+    public const STATUS_OFFLINE = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -64,13 +68,15 @@ class User extends Authenticatable
         return new Attribute(
             get: function () {
                 if (!$this->last_seen) {
-                    return false;
+                    return self::STATUS_OFFLINE;
                 }
 
                 $now = Carbon::now()->subMinutes(self::ONLINE_STATUS_BORDER);
                 $lastSeenCarbon = Carbon::parse($this->last_seen);
 
-                return !$lastSeenCarbon->lt($now);
+                return ($lastSeenCarbon->lt($now))
+                    ? self::STATUS_OFFLINE
+                    : self::STATUS_ONLINE;
             }
         );
     }

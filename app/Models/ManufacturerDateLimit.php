@@ -21,4 +21,12 @@ class ManufacturerDateLimit extends Model
 
     public const STATUS_FULL_STOP = 1;
     public const STATUS_PARTIAL_STOP = 2;
+
+    public static function statusCaptions(): array
+    {
+        return [
+            self::STATUS_FULL_STOP => __('manufacturer_limits.statuses.full_stop'),
+            self::STATUS_PARTIAL_STOP => __('manufacturer_limits.statuses.partial_stop'),
+        ];
+    }
 }

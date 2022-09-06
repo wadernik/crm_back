@@ -40,6 +40,7 @@ return [
     'manufacturer_date_limit' => [
         'manufacturer_id' => 'Manufacturer',
         'date' => 'Date limit',
+        'dates' => 'Dates limit',
         'limit_type' => 'Limit type',
     ],
     'seller' => [

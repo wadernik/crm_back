@@ -17,7 +17,7 @@ class ManufacturerDateLimitFilter extends AbstractBaseModelFilter
      */
     public function filterManufacturerId(int $manufacturerId): void
     {
-        $this->builder->where($this->getColumnName('id'), $manufacturerId);
+        $this->builder->where($this->getColumnName('manufacturer_id'), $manufacturerId);
     }
 
     /**
