@@ -25,8 +25,8 @@ class ManufacturerDateLimit extends Model
     public static function limitTypes(): array
     {
         return [
-            self::STATUS_FULL_STOP => __('manufacturer_limits.statuses.full_stop'),
-            self::STATUS_PARTIAL_STOP => __('manufacturer_limits.statuses.partial_stop'),
+            self::STATUS_FULL_STOP => __('manufacturer_limits.limit_types.full_stop'),
+            self::STATUS_PARTIAL_STOP => __('manufacturer_limits.limit_types.partial_stop'),
         ];
     }
 }
