@@ -17,6 +17,8 @@ class VkGetAccessTokenRequest extends FormRequest
             'access_token' => 'required|string',
             'expires_in' => 'required|integer',
             'user_id' => 'sometimes|integer',
+            'access_denied' => 'sometimes|string',
+            'error_description' => 'sometimes|string',
         ];
     }
 }

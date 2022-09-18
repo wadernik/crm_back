@@ -15,6 +15,8 @@ class VkGetCodeRequest extends FormRequest
     {
         return [
             'code' => 'required|string',
+            'access_denied' => 'sometimes|string',
+            'error_description' => 'sometimes|string',
         ];
     }
 }
