@@ -34,7 +34,7 @@ Route::group(
     ],
     static function() {
         Route::get('/code', [VkController::class, 'getCode']);
-        Route::post('/access_token', [VkController::class, 'getAccessToken']);
+        Route::get('/access_token', [VkController::class, 'getAccessToken']);
     }
 );
 
