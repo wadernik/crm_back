@@ -30,11 +30,10 @@ Route::group(
 // Авторизация VK
 Route::group(
     [
-        'prefix' => 'oauth/vk',
+        'prefix' => 'vk',
     ],
     static function() {
-        Route::get('/code', [VkController::class, 'getCode']);
-        Route::get('/access_token', [VkController::class, 'getAccessToken']);
+        Route::get('/redirect', [VkController::class, 'catchRedirect']);
     }
 );
 
