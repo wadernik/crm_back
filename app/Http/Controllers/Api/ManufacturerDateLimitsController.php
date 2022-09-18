@@ -8,7 +8,6 @@ use App\Http\Requests\ManufacturersDateLimits\UpdateManufacturerDateLimitsReques
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsInstanceService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class ManufacturerDateLimitsController extends AbstractBaseApiController
@@ -39,19 +38,12 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        try {
-            $validated = $request->validated();
+        $validated = $request->validated();
 
-            $dateLimits = $manufacturerDateLimitsCollectionService->getInstances(requestParams: $validated);
-            $total = $manufacturerDateLimitsCollectionService->countInstances($validated);
+        $dateLimits = $manufacturerDateLimitsCollectionService->getInstances(requestParams: $validated);
+        $total = $manufacturerDateLimitsCollectionService->countInstances($validated);
 
-            return $this->responseSuccess(data: $dateLimits, headers: ['x-total-count' => $total]);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return $this->responseSuccess(data: $dateLimits, headers: ['x-total-count' => $total]);
     }
 
     /**
@@ -63,32 +55,25 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
         CreateManufacturerDateLimitsRequest $request,
         ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
     ): JsonResponse {
-        if (!$this->isAllowed('orders.edit')) {
+        if (!$this->isAllowed('orders.stop.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        try {
-            $validated = $request->validated();
+        $validated = $request->validated();
 
-            if (isset($validated['date'])) {
+        if (isset($validated['date'])) {
+            $manufacturerDateLimitsInstanceService->createInstance($validated);
+        } elseif (isset($validated['dates'])) {
+            $dates = $validated['dates'];
+            unset($validated['dates']);
+
+            foreach ($dates as $date) {
+                $validated['date'] = $date;
                 $manufacturerDateLimitsInstanceService->createInstance($validated);
-            } elseif (isset($validated['dates'])) {
-                $dates = $validated['dates'];
-                unset($validated['dates']);
-
-                foreach ($dates as $date) {
-                    $validated['date'] = $date;
-                    $manufacturerDateLimitsInstanceService->createInstance($validated);
-                }
             }
-
-            return $this->responseSuccess(code: Response::HTTP_CREATED);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        return $this->responseSuccess(code: Response::HTTP_CREATED);
     }
 
     /**
@@ -102,24 +87,17 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
         UpdateManufacturerDateLimitsRequest $request,
         ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
     ): JsonResponse {
-        if (!$this->isAllowed('orders.edit')) {
+        if (!$this->isAllowed('orders.stop.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        try {
-            $validated = $request->validated();
+        $validated = $request->validated();
 
-            if (!$dateLimit = $manufacturerDateLimitsInstanceService->editInstance($id, $validated)) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            return $this->responseSuccess(data: $dateLimit->toArray());
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        if (!$dateLimit = $manufacturerDateLimitsInstanceService->editInstance($id, $validated)) {
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        return $this->responseSuccess(data: $dateLimit->toArray());
     }
 
     /**
@@ -131,21 +109,14 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
         int $id,
         ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
     ): JsonResponse {
-        if (!$this->isAllowed('orders.delete')) {
+        if (!$this->isAllowed('orders.stop.edit')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
         }
 
-        try {
-            if (!$manufacturerDateLimitsInstanceService->deleteInstance($id)) {
-                return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            return $this->responseSuccess();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            Log::error($e->getTraceAsString());
-
-            return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
+        if (!$manufacturerDateLimitsInstanceService->deleteInstance($id)) {
+            return $this->responseError(code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        return $this->responseSuccess();
     }
 }

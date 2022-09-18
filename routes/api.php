@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SellersController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\VkController;
 use Illuminate\Support\Facades\Route;
 
 // Авторизация
@@ -23,6 +24,17 @@ Route::group(
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
         Route::post('/refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum']);
+    }
+);
+
+// Авторизация VK
+Route::group(
+    [
+        'prefix' => 'oauth/vk',
+    ],
+    static function() {
+        Route::get('/code', [VkController::class, 'getCode']);
+        Route::post('/access_token', [VkController::class, 'getAccessToken']);
     }
 );
 

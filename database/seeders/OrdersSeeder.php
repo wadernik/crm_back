@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Manufacturer;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use App\Models\Seller;
 use App\Models\User;
 use App\Services\Orders\OrderInstanceService;

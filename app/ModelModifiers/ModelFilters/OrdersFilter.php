@@ -25,25 +25,38 @@ class OrdersFilter extends AbstractBaseModelFilter
     /**
      * @param int $id
      */
-    public function filterManufacturerId(int $id): void
+    public function filterManufacturerId(int $manufacturerId): void
     {
-        $this->builder->where($this->getColumnName('.manufacturer_id'), $id);
+        $this->builder->where($this->getColumnName('manufacturer_id'), $manufacturerId);
     }
 
     /**
      * @param int $id
      */
-    public function filterUserId(int $id): void
+    public function filterSourceId(int $sourceId): void
     {
-        $this->builder->where($this->getColumnName('user_id'), $id);
+        $this->builder->where($this->getColumnName('source_id'), $sourceId);
+    }
+
+    public function filterSellerId(int $sellerId): void
+    {
+        $this->builder->where($this->getColumnName('seller_id'), $sellerId);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function filterUserId(int $userId): void
+    {
+        $this->builder->where($this->getColumnName('user_id'), $userId);
     }
 
     /**
      * @param array $ids
      */
-    public function filterUserIds(array $ids): void
+    public function filterUserIds(array $userIds): void
     {
-        $this->builder->whereIn($this->getColumnName('user_id'), $ids);
+        $this->builder->whereIn($this->getColumnName('user_id'), $userIds);
     }
 
     /**
