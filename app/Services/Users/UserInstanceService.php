@@ -44,6 +44,16 @@ class UserInstanceService extends AbstractBaseInstanceService
 
     /**
      * @param int $id
+     * @param string $accessToken
+     */
+    public function setVkAccessToken(int $id, string $accessToken): void
+    {
+        $user = $this->modelClass::query()->find($id, ['id']);
+        $user->vkAccessToken()->sync($accessToken);
+    }
+
+    /**
+     * @param int $id
      * @param string $deviceName
      * @return array|null
      */

@@ -33,6 +33,7 @@ Route::group(
         'prefix' => 'vk',
     ],
     static function() {
+        Route::get('/authorize', [VkController::class, 'authorizeAppLink']);
         Route::get('/redirect', [VkController::class, 'catchRedirect']);
     }
 );

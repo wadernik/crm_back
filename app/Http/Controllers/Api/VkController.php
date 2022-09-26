@@ -3,20 +3,39 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\OAuth\Vk\VkCatchRedirectRequest;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
+use App\Services\External\Vk\VkService;
+use App\Services\Users\UserInstanceService;
+use Illuminate\Http\JsonResponse;
 
 class VkController extends AbstractBaseApiController
 {
-    public function authorizeApp(): Response
+    /**
+     * @param VkService $vkService
+     * @return JsonResponse
+     */
+    public function authorizeAppLink(VkService $vkService): JsonResponse
     {
-        return response('', 200);
+        return $this->responseSuccess(['url' => $vkService->getUrlCode()]);
     }
 
-    public function catchRedirect(VkCatchRedirectRequest $request): Response
-    {
-        Log::info($request->validated());
+    /**
+     * @param VkCatchRedirectRequest $request
+     * @param VkService $vkService
+     * @param UserInstanceService $userInstanceService
+     * @return JsonResponse
+     */
+    public function catchRedirect(
+        VkCatchRedirectRequest $request,
+        VkService $vkService,
+        UserInstanceService $userInstanceService
+    ): JsonResponse {
+        $validated = $request->validated();
 
-        return response('', 200);
+        if (isset($validated['code'])) {
+            $token = $vkService->getAccessToken($validated['code']);
+            $userInstanceService->setVkAccessToken(auth('sanctum')->id(), $token);
+        }
+
+        return $this->responseSuccess();
     }
 }
