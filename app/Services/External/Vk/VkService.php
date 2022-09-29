@@ -2,8 +2,6 @@
 
 namespace App\Services\External\Vk;
 
-use Illuminate\Support\Facades\Log;
-
 class VkService
 {
     private VkApiClient $vkApiClient;
@@ -34,8 +32,11 @@ class VkService
     public function getAccessToken(string $code): ?string
     {
         // TODO: think about expired_at
-        $responseData = $this->vkApiClient->retrieveAccessToken($code);
-        Log::debug($responseData);
+        [$success, $responseData] = $this->vkApiClient->retrieveAccessToken($code);
+
+        if (!$success) {
+            return null;
+        }
 
         return collect($responseData['groups'])->first()['access_token'] ?? '';
     }
