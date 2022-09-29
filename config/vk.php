@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'url' => env('vk_oauth_url'),
-    'client_id' => env('vk_client_id'),
-    'client_secret' => env('vk_client_secret'),
-    'group_ids' => trim(env('vk_group_ids')),
-    'redirect_uri' => env('vk_redirect_uri'),
+    'url' => env('VK_OAUTH_URL'),
+    'client_id' => env('VK_CLIENT_ID'),
+    'client_secret' => env('VK_CLIENT_SECRET'),
+    'group_ids' => trim(env('VK_GROUP_IDS')),
+    'redirect_uri' => env('VK_REDIRECT_URI'),
 ];
