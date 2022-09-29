@@ -2,6 +2,8 @@
 
 namespace App\Services\External\Vk;
 
+use Illuminate\Support\Facades\Log;
+
 class VkService
 {
     private VkApiClient $vkApiClient;
@@ -33,6 +35,7 @@ class VkService
     {
         // TODO: think about expired_at
         $responseData = $this->vkApiClient->retrieveAccessToken($code);
+        Log::debug($responseData);
 
         return collect($responseData['groups'])->first()['access_token'] ?? '';
     }
