@@ -8,6 +8,7 @@ use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
+use App\Models\BaseOrder;
 use App\Models\OrderDetail;
 use App\Services\Activity\ActivityCollectionService;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
@@ -346,6 +347,8 @@ class OrdersController extends AbstractBaseApiController
         $order = $orderInstanceService->getInstance($id, attributes: $attributes);
 
         $attributes = ['id', 'event', 'causer_id', 'properties', 'updated_at'];
+        $validated['filter']['subject_id'] = $id;
+        $validated['filter']['subject'] = BaseOrder::class;
 
         $orderActivities = $activityCollectionService->getInstances(
             attributes: $attributes,

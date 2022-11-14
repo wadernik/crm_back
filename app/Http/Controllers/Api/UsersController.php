@@ -23,7 +23,7 @@ class UsersController extends AbstractBaseApiController
     public function all(UsersDictionaryRequest $request, UsersCollectionService $usersCollectionService): JsonResponse
     {
         try {
-            $attributes = ['id', 'first_name', 'last_name'];
+            $attributes = ['id', 'first_name', 'last_name', 'sex'];
             $validated = $request->validated();
             $records = $usersCollectionService->getInstances(
                 attributes: $attributes,
