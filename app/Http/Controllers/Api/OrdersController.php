@@ -193,12 +193,13 @@ class OrdersController extends AbstractBaseApiController
         try {
             $validated = $request->validated();
 
-            $manufacturerId = null;
+            $manufacturerId = $validated['manufacturer_id'] ?? null;
             $orderDate = '';
-            if (!isset($validated['manufacturer_id'], $validated['order_date'])) {
+
+            if (!isset($validated['order_date'])) {
                 $order = $orderInstanceService->getInstance($id, ['manufacturer_id']);
 
-                $manufacturerId = $validated['manufacturer_id'] ?? $order['manufacturer_id'];
+                $manufacturerId = $manufacturerId ?: $order['manufacturer_id'];
                 $orderDate = $validated['order_date'] ?? $order['order_date'];
             }
 
