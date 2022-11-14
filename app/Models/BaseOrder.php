@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\ArrayShape;
 use Parental\HasChildren;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BaseOrder extends Model
 {
@@ -20,6 +22,7 @@ class BaseOrder extends Model
     use SoftDeletes;
     use SortableTrait;
     use HasChildren;
+    use LogsActivity;
 
     protected $table = 'orders';
 
@@ -54,6 +57,8 @@ class BaseOrder extends Model
         'order_time' => 'datetime:H:i',
     ];
 
+    protected static array $recordEvents = ['created', 'updated'];
+
     public const STATUS_ACCEPTED = 1;
     public const STATUS_TAKEN = 2; // Взят на исполнение
     public const STATUS_DELIVERY = 3;
@@ -75,6 +80,15 @@ class BaseOrder extends Model
             self::STATUS_SOLD => __('order.statuses.sold'),
             self::STATUS_CANCELED => __('order.statuses.canceled'),
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logExcept(['updated_at'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /**

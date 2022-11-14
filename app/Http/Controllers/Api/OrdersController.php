@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Orders\CreateOrderRequest;
+use App\Http\Requests\Orders\ListOrdersActivityRequest;
+use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
-use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
+use App\Models\OrderDetail;
+use App\Services\Activity\ActivityCollectionService;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
-use App\Services\Orders\OrdersExportService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
+use App\Services\Orders\OrdersExportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -49,8 +52,17 @@ class OrdersController extends AbstractBaseApiController
         }
 
         try {
-            $attributes = ['orders.*', 'order_details.*'];
             $validated = $request->validated();
+
+            $attributes = [
+                'orders.*',
+                'order_details.id AS order_detail_id',
+                'order_details.name',
+                'order_details.amount',
+                'order_details.label',
+                'order_details.decoration',
+                'order_details.comment',
+            ];
 
             $ordersCollectionService->setJoins(
                 [
@@ -90,7 +102,17 @@ class OrdersController extends AbstractBaseApiController
         }
 
         try {
-            $order = $orderInstanceService->getInstance(id: $id, with: ['files:id,filename']);
+            $attributes = [
+                'orders.*',
+                'order_details.id AS order_detail_id',
+                'order_details.name',
+                'order_details.amount',
+                'order_details.label',
+                'order_details.decoration',
+                'order_details.comment',
+            ];
+
+            $order = $orderInstanceService->getInstance(id: $id, attributes: $attributes, with: ['files:id,filename']);
             if (!$order) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
@@ -296,5 +318,52 @@ class OrdersController extends AbstractBaseApiController
 
             return $this->responseError(code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * @TODO: отрефакторить это дерьмо
+     * @param int $id
+     * @param ListOrdersActivityRequest $request
+     * @param OrderInstanceService $orderInstanceService
+     * @param ActivityCollectionService $activityCollectionService
+     * @return JsonResponse
+     */
+    public function activities(
+        int $id,
+        ListOrdersActivityRequest $request,
+        OrderInstanceService $orderInstanceService,
+        ActivityCollectionService $activityCollectionService
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $validated = $request->validated();
+
+        $attributes = ['orders.id', 'order_details.id AS order_detail_id'];
+
+        $order = $orderInstanceService->getInstance($id, attributes: $attributes);
+
+        $attributes = ['id', 'event', 'causer_id', 'properties', 'updated_at'];
+
+        $orderActivities = $activityCollectionService->getInstances(
+            attributes: $attributes,
+            requestParams: $validated
+        );
+
+        $validated['filter']['subject_id'] = $order['order_detail_id'];
+        $validated['filter']['subject'] = OrderDetail::class;
+        $detailsActivities = $activityCollectionService->getInstances(
+            attributes: $attributes,
+            requestParams: $validated
+        );
+
+        $total = $activityCollectionService->countInstances($validated);
+        $total += $activityCollectionService->countInstances($validated);
+
+        return $this->responseSuccess(
+            data: array_merge($orderActivities, $detailsActivities),
+            headers: ['x-total-count' => $total]
+        );
     }
 }

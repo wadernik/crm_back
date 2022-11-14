@@ -62,6 +62,8 @@ abstract class AbstractBaseOrderInstanceService extends AbstractBaseInstanceServ
             $orderDetailsAttributes['order_id'] = $order['id'];
             OrderDetail::query()
                 ->where('order_id', $orderDetailsAttributes['order_id'])
+                ->get()
+                ->first()
                 ->update($orderDetailsAttributes);
 
             $order->update(['updated_at' => Carbon::now()->timestamp]);
