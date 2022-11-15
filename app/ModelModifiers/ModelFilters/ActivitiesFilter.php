@@ -13,7 +13,7 @@ final class ActivitiesFilter extends AbstractBaseModelFilter
 
     public function filterSubject(string $subject): void
     {
-        $this->builder->where($this->getColumnName('subject_type'), 'like', '%' . $subject);
+        $this->builder->where($this->getColumnName('subject_type'), $subject);
     }
 
     public function filterSubjectId(int $subjectId): void
