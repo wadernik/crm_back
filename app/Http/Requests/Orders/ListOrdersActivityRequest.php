@@ -14,7 +14,6 @@ class ListOrdersActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer|nullable',
             'limit' => 'sometimes',
             'page' => 'sometimes',
             'sort' => 'sometimes|string',

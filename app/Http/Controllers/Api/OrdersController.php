@@ -8,9 +8,7 @@ use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
-use App\Models\BaseOrder;
-use App\Models\OrderDetail;
-use App\Services\Activity\ActivityCollectionService;
+use App\Services\Activity\ActivitiesService;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
@@ -326,15 +324,13 @@ class OrdersController extends AbstractBaseApiController
      * @TODO: отрефакторить это дерьмо
      * @param int $id
      * @param ListOrdersActivityRequest $request
-     * @param OrderInstanceService $orderInstanceService
-     * @param ActivityCollectionService $activityCollectionService
+     * @param ActivitiesService $service
      * @return JsonResponse
      */
     public function activities(
         int $id,
         ListOrdersActivityRequest $request,
-        OrderInstanceService $orderInstanceService,
-        ActivityCollectionService $activityCollectionService
+        ActivitiesService $service
     ): JsonResponse {
         if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -342,31 +338,10 @@ class OrdersController extends AbstractBaseApiController
 
         $validated = $request->validated();
 
-        $attributes = ['orders.id', 'order_details.id AS order_detail_id'];
-
-        $order = $orderInstanceService->getInstance($id, attributes: $attributes);
-
-        $attributes = ['id', 'event', 'causer_id', 'properties', 'updated_at'];
-        $validated['filter']['subject_id'] = $id;
-        $validated['filter']['subject'] = BaseOrder::class;
-
-        $orderActivities = $activityCollectionService->getInstances(
-            attributes: $attributes,
-            requestParams: $validated
-        );
-
-        $validated['filter']['subject_id'] = $order['order_detail_id'];
-        $validated['filter']['subject'] = OrderDetail::class;
-        $detailsActivities = $activityCollectionService->getInstances(
-            attributes: $attributes,
-            requestParams: $validated
-        );
-
-        $total = $activityCollectionService->countInstances($validated);
-        $total += $activityCollectionService->countInstances($validated);
+        [$results, $total] = $service->getActivities($id, $validated);
 
         return $this->responseSuccess(
-            data: array_merge($orderActivities, $detailsActivities),
+            data: $results,
             headers: ['x-total-count' => $total]
         );
     }
