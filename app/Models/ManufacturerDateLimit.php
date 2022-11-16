@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class ManufacturerDateLimit extends Model
 {
     use FilterableTrait;
     use SortableTrait;
+    use LogsActivity;
 
     public $timestamps = false;
 
@@ -28,5 +31,13 @@ class ManufacturerDateLimit extends Model
             self::STATUS_FULL_STOP => __('manufacturer_limits.limit_types.full_stop'),
             self::STATUS_PARTIAL_STOP => __('manufacturer_limits.limit_types.partial_stop'),
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }

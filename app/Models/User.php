@@ -13,6 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
@@ -22,6 +24,7 @@ class User extends Authenticatable
     use Notifiable;
     use SortableTrait;
     use SoftDeletes;
+    use LogsActivity;
 
     // In minutes
     public const ONLINE_STATUS_BORDER = 5;
@@ -80,6 +83,15 @@ class User extends Authenticatable
                     : self::STATUS_ONLINE;
             }
         );
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logExcept(['last_seen'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function role(): BelongsTo

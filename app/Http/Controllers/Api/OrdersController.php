@@ -8,8 +8,8 @@ use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
-use App\Services\Activity\ActivitiesService;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
+use App\Services\Orders\OrderActivitiesService;
 use App\Services\Orders\OrderInstanceService;
 use App\Services\Orders\OrdersCollectionService;
 use App\Services\Orders\OrdersExportService;
@@ -324,13 +324,13 @@ class OrdersController extends AbstractBaseApiController
      * @TODO: отрефакторить это дерьмо
      * @param int $id
      * @param ListOrdersActivityRequest $request
-     * @param ActivitiesService $service
+     * @param OrderActivitiesService $service
      * @return JsonResponse
      */
     public function activities(
         int $id,
         ListOrdersActivityRequest $request,
-        ActivitiesService $service
+        OrderActivitiesService $service
     ): JsonResponse {
         if (!$this->isAllowed('orders.view')) {
             return $this->responseError(code: Response::HTTP_FORBIDDEN);
@@ -338,7 +338,10 @@ class OrdersController extends AbstractBaseApiController
 
         $validated = $request->validated();
 
-        [$results, $total] = $service->getActivities($id, $validated);
+        [$results, $total] = $service->getActivities(
+            subjectId: $id,
+            requestParams: $validated
+        );
 
         return $this->responseSuccess(
             data: $results,

@@ -6,59 +6,50 @@ namespace App\Services\Activity;
 
 use App\Models\BaseOrder;
 use App\Models\OrderDetail;
-use App\Services\Orders\OrderInstanceService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
-final class ActivitiesService
+final class ActivitiesService implements ActivitiesInterface
 {
-    private OrderInstanceService $orderInstanceService;
     private ActivityCollectionService $activityCollectionService;
 
     public function __construct()
     {
-        $this->orderInstanceService = app(OrderInstanceService::class);
         $this->activityCollectionService = app(ActivityCollectionService::class);
     }
 
-    public function getActivities(int $orderId, array $requestParams = []): array
+    public function getActivities(?int $subjectId = null, array $requestParams = []): array
     {
-        $attributes = ['orders.id', 'order_details.id AS order_detail_id'];
-
-        $order = $this->orderInstanceService->getInstance($orderId, attributes: $attributes);
-
-        if (!$order) {
-            return [[], 0];
+        if ($subjectId) {
+            $requestParams['filter']['subject_id'] = $subjectId;
         }
 
-        $attributes = ['id', 'event', 'causer_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
 
-        $requestParams['filter']['subject_id'] = $orderId;
-        $requestParams['filter']['subject'] = BaseOrder::class;
-
-        $orderActivities = $this->activityCollectionService->getInstances(
+        $activities = $this->activityCollectionService->getInstances(
             attributes: $attributes,
             requestParams: $requestParams
         );
-
-        $requestParams['filter']['subject_id'] = $order['order_detail_id'];
-        $requestParams['filter']['subject'] = OrderDetail::class;
-
-        $detailsActivities = $this->activityCollectionService->getInstances(
-            attributes: $attributes,
-            requestParams: $requestParams
-        );
-
-        $results = collect($orderActivities)
-            ->merge($detailsActivities)
-            ->sortByDesc(static function ($activity) {
-                return Carbon::parse($activity['updated_at'])->timestamp;
-            })
-            ->values()
-            ->toArray();
 
         $total = $this->activityCollectionService->countInstances($requestParams);
-        $total += $this->activityCollectionService->countInstances($requestParams);
 
-        return [$results, $total];
+        $result = collect($activities)
+            ->mapToGroups(static function (array $activity) {
+                $groupBy = $activity['subject_type'];
+
+                if ($groupBy === OrderDetail::class) {
+                    $groupBy = BaseOrder::class;
+                }
+
+                return [$groupBy => $activity];
+            })
+            ->map(static function (Collection $activitiesGroup) {
+                return $activitiesGroup->sortByDesc(static function ($activity) {
+                    return Carbon::parse($activity['updated_at'])->timestamp;
+                });
+            })
+            ->toArray();
+
+        return [$result, $total];
     }
 }

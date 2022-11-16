@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ActivitiesController;
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\ManufacturerDateLimitsController;
 use App\Http\Controllers\Api\ManufacturersController;
@@ -72,6 +73,8 @@ Route::group(
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);
+
+        Route::get('activities', [ActivitiesController::class, 'index']);
     }
 );
 
@@ -100,6 +103,7 @@ Route::group(
         Route::get('/manufacturers', [ManufacturersController::class, 'all']);
         Route::get('/sellers', [SellersController::class, 'all']);
         Route::get('/manufacturers_limit_types', [ManufacturerDateLimitsController::class, 'limitTypes']);
+        Route::get('/activities', [ActivitiesController::class, 'listSubjects']);
     }
 );
 

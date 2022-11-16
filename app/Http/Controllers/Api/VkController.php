@@ -6,6 +6,7 @@ use App\Http\Requests\OAuth\Vk\VkCatchRedirectRequest;
 use App\Services\External\Vk\VkService;
 use App\Services\Users\UserInstanceService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class VkController extends AbstractBaseApiController
 {
@@ -15,6 +16,10 @@ class VkController extends AbstractBaseApiController
      */
     public function authorizeAppLink(VkService $vkService): JsonResponse
     {
+        if (!$this->isAllowed('vk.integration.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
         return $this->responseSuccess(['url' => $vkService->getUrlCode()]);
     }
 
@@ -29,6 +34,10 @@ class VkController extends AbstractBaseApiController
         VkService $vkService,
         UserInstanceService $userInstanceService
     ): JsonResponse {
+        if (!$this->isAllowed('vk.integration.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
         $validated = $request->validated();
 
         if (isset($validated['code'])) {
