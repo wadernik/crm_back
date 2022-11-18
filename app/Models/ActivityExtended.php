@@ -17,30 +17,38 @@ final class ActivityExtended extends Activity
     {
         return [
             [
+                'id' => 1,
                 'name' => BaseOrder::class,
                 'display_name' => __('activities.display_name.base_order'),
             ],
             [
+                'id' => 2,
                 'name' => Manufacturer::class,
                 'display_name' => __('activities.display_name.manufacturer'),
             ],
             [
+                'id' => 3,
                 'name' => ManufacturerDateLimit::class,
                 'display_name' => __('activities.display_name.manufacturer_date_limit'),
             ],
             [
+                'id' => 4,
                 'name' => Permission::class,
                 'display_name' => __('activities.display_name.permission'),
             ],
             [
+                'id' => 5,
                 'name' => Role::class,
                 'display_name' => __('activities.display_name.role'),
             ],
             [
+                'id' => 6,
                 'name' => Seller::class,
                 'display_name' => __('activities.display_name.seller'),
             ],
             [
+                'id' => 7,
+                'name' => Seller::class,
                 'name' => User::class,
                 'display_name' => __('activities.display_name.user'),
             ],
