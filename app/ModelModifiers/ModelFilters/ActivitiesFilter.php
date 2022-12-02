@@ -21,6 +21,15 @@ final class ActivitiesFilter extends AbstractBaseModelFilter
         $this->builder->where($this->getColumnName('subject_id'), $subjectId);
     }
 
+    /**
+     * @param array<int> $subjectIds
+     * @return void
+     */
+    public function filterSubjectIds(array $subjectIds): void
+    {
+        $this->builder->whereIn($this->getColumnName('subject_id'), $subjectIds);
+    }
+
     public function filterCauserType(string $causerType): void
     {
         $this->builder->where($this->getColumnName('causer_type'), $causerType);

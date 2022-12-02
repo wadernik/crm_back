@@ -167,6 +167,6 @@ class BaseOrder extends Model
 
     public function files(): BelongsToMany
     {
-        return $this->belongsToMany(File::class, 'order_files', 'order_id', 'file_id');
+        return $this->belongsToMany(File::class, 'order_files', 'order_id', 'file_id')->using(OrderFile::class);
     }
 }

@@ -48,9 +48,13 @@ final class ActivityExtended extends Activity
             ],
             [
                 'id' => 7,
-                'name' => Seller::class,
                 'name' => User::class,
                 'display_name' => __('activities.display_name.user'),
+            ],
+            [
+                'id' => 8,
+                'name' => OrderFile::class,
+                'display_name' => __('activities.display_name.order_file'),
             ],
         ];
     }

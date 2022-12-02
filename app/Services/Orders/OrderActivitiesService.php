@@ -6,6 +6,7 @@ namespace App\Services\Orders;
 
 use App\Models\BaseOrder;
 use App\Models\OrderDetail;
+use App\Models\OrderFile;
 use App\Services\Activity\ActivitiesInterface;
 use App\Services\Activity\ActivityCollectionService;
 use Illuminate\Support\Carbon;
@@ -25,13 +26,16 @@ final class OrderActivitiesService implements ActivitiesInterface
     {
         $attributes = ['orders.id', 'order_details.id AS order_detail_id'];
 
-        $order = $this->orderInstanceService->getInstance($subjectId, attributes: $attributes);
+        $order = $this->orderInstanceService->getInstance(
+            id: $subjectId,
+            attributes: $attributes,
+        );
 
         if (!$order) {
             return [[], 0];
         }
 
-        $attributes = ['id', 'event', 'causer_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
 
         $requestParams['filter']['subject_id'] = $subjectId;
         $requestParams['filter']['subject'] = BaseOrder::class;
@@ -49,8 +53,29 @@ final class OrderActivitiesService implements ActivitiesInterface
             requestParams: $requestParams
         );
 
+        // TODO: костыль
+        $orderFiles = OrderFile::query()
+            ->get(['*'])
+            ->where('order_id', $order['id'])
+            ->toArray();
+
+        $orderFilesIds = collect($orderFiles)
+            ->pluck('id')
+            ->toArray();
+
+        unset($requestParams['filter']['subject_id']);
+
+        $requestParams['filter']['subject_ids'] = $orderFilesIds;
+        $requestParams['filter']['subject'] = OrderFile::class;
+
+        $fileActivities = $this->activityCollectionService->getInstances(
+            attributes: $attributes,
+            requestParams: $requestParams
+        );
+
         $results = collect($orderActivities)
             ->merge($detailsActivities)
+            ->merge($fileActivities)
             ->sortByDesc(static function ($activity) {
                 return Carbon::parse($activity['updated_at'])->timestamp;
             })

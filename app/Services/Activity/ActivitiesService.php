@@ -6,12 +6,17 @@ namespace App\Services\Activity;
 
 use App\Models\BaseOrder;
 use App\Models\OrderDetail;
+use App\Models\OrderFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 final class ActivitiesService implements ActivitiesInterface
 {
     private ActivityCollectionService $activityCollectionService;
+    private const WHITELISTED_CLASSES = [
+        OrderDetail::class => true,
+        OrderFile::class => true,
+    ];
 
     public function __construct()
     {
@@ -37,7 +42,7 @@ final class ActivitiesService implements ActivitiesInterface
             ->mapToGroups(static function (array $activity) {
                 $groupBy = $activity['subject_type'];
 
-                if ($groupBy === OrderDetail::class) {
+                if (isset(self::WHITELISTED_CLASSES[$groupBy])) {
                     $groupBy = BaseOrder::class;
                 }
 

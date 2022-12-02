@@ -9,6 +9,7 @@ return [
         'permission' => 'Permission',
         'role' => 'Role',
         'seller' => 'Seller',
-        'user' => 'User'
+        'user' => 'User',
+        'order_files' => 'Order files',
     ],
 ];
