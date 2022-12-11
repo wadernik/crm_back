@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Activity;
 
 use App\Models\BaseOrder;
+use App\Models\CustomComments;
 use App\Models\OrderDetail;
 use App\Models\OrderFile;
 use Illuminate\Support\Carbon;
@@ -16,6 +17,7 @@ final class ActivitiesService implements ActivitiesInterface
     private const WHITELISTED_CLASSES = [
         OrderDetail::class => true,
         OrderFile::class => true,
+        CustomComments::class => true,
     ];
 
     public function __construct()

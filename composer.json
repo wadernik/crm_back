@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
+        "beyondcode/laravel-comments": "^1.3",
         "calebporzio/parental": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
         "jenssegers/agent": "^2.6",

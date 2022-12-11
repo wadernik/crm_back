@@ -70,6 +70,8 @@ Route::group(
         Route::post('orders/export', [OrdersController::class, 'export']);
         Route::post('orders/status', [OrdersController::class, 'updateStatus']);
         Route::get('orders/{id}/logs', [OrdersController::class, 'activities']);
+        Route::get('orders/{id}/comments', [OrdersController::class, 'getComments']);
+        Route::post('orders/{id}/comments', [OrdersController::class, 'postComment']);
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
+use BeyondCode\Comments\Contracts\Commentator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Commentator
 {
     use FilterableTrait;
     use HasApiTokens;
@@ -83,6 +84,11 @@ class User extends Authenticatable
                     : self::STATUS_ONLINE;
             }
         );
+    }
+
+    public function needsCommentApproval($model): bool
+    {
+        return false;
     }
 
     public function getActivitylogOptions(): LogOptions

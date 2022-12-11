@@ -56,6 +56,11 @@ final class ActivityExtended extends Activity
                 'name' => OrderFile::class,
                 'display_name' => __('activities.display_name.order_file'),
             ],
+            [
+                'id' => 9,
+                'name' => CustomComments::class,
+                'display_name' => __('activities.display_name.comments'),
+            ]
         ];
     }
 }

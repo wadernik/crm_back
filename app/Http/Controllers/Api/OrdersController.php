@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Comments\CreateCommentRequest;
 use App\Http\Requests\Orders\CreateOrderRequest;
 use App\Http\Requests\Orders\ListOrdersActivityRequest;
 use App\Http\Requests\Orders\ListOrdersRequest;
 use App\Http\Requests\Orders\PrintOrdersRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderStatusRequest;
+use App\Models\Order;
 use App\Services\ManufacturersDateLimits\ManufacturerDateLimitsCollectionService;
 use App\Services\Orders\OrderActivitiesService;
 use App\Services\Orders\OrderInstanceService;
@@ -347,5 +349,41 @@ class OrdersController extends AbstractBaseApiController
             data: $results,
             headers: ['x-total-count' => $total]
         );
+    }
+
+    /**
+     * @param int $orderId
+     * @return JsonResponse
+     */
+    public function getComments(int $orderId): JsonResponse
+    {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $order = Order::query()->find($orderId);
+
+        return $this->responseSuccess($order->comments->toArray());
+    }
+
+    /**
+     * @param int $orderId
+     * @param CreateCommentRequest $request
+     * @return JsonResponse
+     */
+    public function postComment(
+        int $orderId,
+        CreateCommentRequest $request
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $comment = $request->validated()['comment'];
+
+        $order = Order::query()->find($orderId);
+        $order->comment($comment);
+
+        return $this->responseSuccess();
     }
 }

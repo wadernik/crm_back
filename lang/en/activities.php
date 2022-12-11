@@ -11,5 +11,6 @@ return [
         'seller' => 'Seller',
         'user' => 'User',
         'order_files' => 'Order files',
+        'comments' => 'Comments',
     ],
 ];
