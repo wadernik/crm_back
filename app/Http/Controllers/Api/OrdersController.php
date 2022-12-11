@@ -382,8 +382,8 @@ class OrdersController extends AbstractBaseApiController
         $comment = $request->validated()['comment'];
 
         $order = Order::query()->find($orderId);
-        $order->comment($comment);
+        $comment = $order->comment($comment);
 
-        return $this->responseSuccess();
+        return $this->responseSuccess($comment->toArray());
     }
 }
