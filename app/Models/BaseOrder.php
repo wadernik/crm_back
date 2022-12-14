@@ -57,7 +57,7 @@ class BaseOrder extends Model
         'order_time' => 'datetime:H:i',
     ];
 
-    protected static array $recordEvents = ['created', 'updated'];
+    protected static array $recordEvents = ['created', 'updated', 'deleted'];
 
     public const STATUS_ACCEPTED = 1;
     public const STATUS_TAKEN = 2; // Взят на исполнение

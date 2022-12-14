@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ActivitiesController;
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\ManufacturerDateLimitsController;
 use App\Http\Controllers\Api\ManufacturersController;
+use App\Http\Controllers\Api\OrderCommentsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrdersDraftsController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -70,8 +71,10 @@ Route::group(
         Route::post('orders/export', [OrdersController::class, 'export']);
         Route::post('orders/status', [OrdersController::class, 'updateStatus']);
         Route::get('orders/{id}/logs', [OrdersController::class, 'activities']);
-        Route::get('orders/{id}/comments', [OrdersController::class, 'getComments']);
-        Route::post('orders/{id}/comments', [OrdersController::class, 'postComment']);
+        Route::get('orders/{id}/comments', [OrderCommentsController::class, 'getComments']);
+        Route::post('orders/{id}/comments', [OrderCommentsController::class, 'postComment']);
+        Route::put('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'editComment']);
+        Route::delete('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'deleteComment']);
 
         // Загрузка фотографий
         Route::post('/upload', [FilesController::class, 'upload']);

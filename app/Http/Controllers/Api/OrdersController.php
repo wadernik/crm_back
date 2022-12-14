@@ -282,6 +282,7 @@ class OrdersController extends AbstractBaseApiController
     }
 
     /**
+     * TODO: put to standalone controller class
      * @param PrintOrdersRequest $request
      * @param OrdersCollectionService $ordersCollectionService
      * @param OrdersExportService $orderExportService
@@ -349,41 +350,5 @@ class OrdersController extends AbstractBaseApiController
             data: $results,
             headers: ['x-total-count' => $total]
         );
-    }
-
-    /**
-     * @param int $orderId
-     * @return JsonResponse
-     */
-    public function getComments(int $orderId): JsonResponse
-    {
-        if (!$this->isAllowed('orders.view')) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        }
-
-        $order = Order::query()->find($orderId);
-
-        return $this->responseSuccess($order->comments->toArray());
-    }
-
-    /**
-     * @param int $orderId
-     * @param CreateCommentRequest $request
-     * @return JsonResponse
-     */
-    public function postComment(
-        int $orderId,
-        CreateCommentRequest $request
-    ): JsonResponse {
-        if (!$this->isAllowed('orders.view')) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
-        }
-
-        $comment = $request->validated()['comment'];
-
-        $order = Order::query()->find($orderId);
-        $comment = $order->comment($comment);
-
-        return $this->responseSuccess($comment->toArray());
     }
 }

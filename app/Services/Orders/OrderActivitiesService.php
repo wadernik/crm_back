@@ -60,6 +60,7 @@ final class OrderActivitiesService implements ActivitiesInterface
         $comments = CustomComments::query()
             ->where('commentable_type', BaseOrder::class)
             ->where('commentable_id', $subjectId)
+            ->withTrashed()
             ->get()
             ->toArray();
 
