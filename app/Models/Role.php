@@ -24,6 +24,8 @@ class Role extends Model
 
     protected $hidden = ['pivot'];
 
+    public const ROLE_ADMIN = 1;
+
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'role_permission');

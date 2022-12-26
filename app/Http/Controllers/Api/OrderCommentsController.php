@@ -8,6 +8,7 @@ use App\Http\Requests\Comments\CreateCommentRequest;
 use App\Http\Requests\Comments\EditCommentRequest;
 use App\Models\CustomComments;
 use App\Models\Order;
+use App\Models\Role;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -119,12 +120,15 @@ final class OrderCommentsController extends AbstractBaseApiController
             return $this->responseError(code: Response::HTTP_NOT_FOUND);
         }
 
-        if ($comment->user_id !== auth('sanctum')->id()) {
-            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        if (
+            $comment->user_id === auth('sanctum')->id()
+            || auth('sanctum')->user()->role->id === Role::ROLE_ADMIN
+        ) {
+            $comment->delete();
+
+            return $this->responseSuccess();
         }
 
-        $comment->delete();
-
-        return $this->responseSuccess();
+        return $this->responseError(code: Response::HTTP_FORBIDDEN);
     }
 }

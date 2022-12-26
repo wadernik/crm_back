@@ -15,7 +15,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         $items = [
-            ['id' => 1, 'name' => 'Администратор'],
+            ['id' => Role::ROLE_ADMIN, 'name' => 'Администратор'],
             ['id' => 2, 'name' => 'Менеджер'],
             ['id' => 3, 'name' => 'Продавец-кассир'],
             ['id' => 4, 'name' => 'Пекарь'],
