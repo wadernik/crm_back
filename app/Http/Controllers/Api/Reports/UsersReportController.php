@@ -67,11 +67,11 @@ class UsersReportController extends AbstractBaseApiController
 
         $template = 'reports.users_report_view';
 
-        $templateData = array_filter([
+        $templateData = [
             'dateStart' => $dateStartFormatted,
             'dateEnd' => $dateEndFormatted !== '' ? $dateEndFormatted : null,
             'total' => $total
-        ]);
+        ];
 
         $pdfInstance = Pdf::loadView($template, $templateData);
 

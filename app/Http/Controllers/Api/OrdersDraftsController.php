@@ -27,7 +27,25 @@ class OrdersDraftsController extends AbstractBaseApiController
         }
 
         try {
-            $attributes = ['*'];
+            $attributes = [
+                'orders.*',
+                'order_details.id AS order_detail_id',
+                'order_details.name',
+                'order_details.amount',
+                'order_details.label',
+                'order_details.decoration',
+                'order_details.comment',
+            ];
+
+            $ordersDraftsCollectionService->setJoins(
+                [
+                    'table' => 'users',
+                    'first' => 'users.id',
+                    'operator' => '=',
+                    'second' => 'orders.user_id',
+                ]
+            );
+
             $validated = $request->validated();
             $validated['filter']['user_id'] = auth('sanctum')->id();
 

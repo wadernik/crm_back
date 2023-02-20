@@ -47,6 +47,24 @@ class ManufacturerDateLimitsController extends AbstractBaseApiController
     }
 
     /**
+     * @param int $id
+     * @param ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
+     * @return JsonResponse
+     */
+    public function show(
+        int $id,
+        ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
+    ): JsonResponse {
+        if (!$this->isAllowed('orders.view')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $dateLimit = $manufacturerDateLimitsInstanceService->getInstance($id);
+
+        return $this->responseSuccess($dateLimit);
+    }
+
+    /**
      * @param CreateManufacturerDateLimitsRequest $request
      * @param ManufacturerDateLimitsInstanceService $manufacturerDateLimitsInstanceService
      * @return JsonResponse
