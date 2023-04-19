@@ -178,7 +178,7 @@ return array(
           *
           * @var string
           */
-        'default_paper_orientation' => "landscape",
+        'default_paper_orientation' => "portrait",
 
         /**
          * The default font family
