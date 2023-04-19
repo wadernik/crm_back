@@ -84,10 +84,6 @@
         text-align: left;
       }
 
-      .align-bottom {
-        vertical-align: bottom;
-      }
-
       .font-bold {
         font-weight: 700;
       }
@@ -110,86 +106,88 @@
     </style>
   </head>
   <body>
-    @foreach ($orders as $order)
-    <div style="width: 877px; height: 620px;" class="float-left">
-      <table class="w-full border-collapse">
-        <tbody>
-          <tr>
-            <td>
-              <table class="w-full border-collapse">
-                <tbody>
-                  <tr>
-                    <td class="td px-4 py-2">
-                      <span class="font-bold uppercase text-red-500">{{ $order['seller']['address'] }}</span>
-                      <span class="ml-2">Код: {{ $order['number'] }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table class="w-full border-collapse border">
-                <thead class="thead">
-                  <tr>
-                    <th class="th border px-4 py-2 text-left font-normal">Наименование продукции</th>
-                    <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Количество</th>
-                    <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Дата принятия</th>
-                    <th class="th border px-4 py-2 text-left font-normal" style="width: 20%">Дата исполнения</th>
-                    <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Время отдачи</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="td border px-4 py-2">{{ $order['name'] }}</td>
-                    <td class="td border px-4 py-2">{{ $order['amount'] }}</td>
-                    <td class="td border px-4 py-2">{{ \Carbon\Carbon::parse($order['accepted_date'])->format('d.m.Y') }}</td>
-                    <td class="td border px-4 py-2">{{ \Carbon\Carbon::parse($order['order_date'])->format('d.m.Y') }}</td>
-                    <td class="td border px-4 py-2">{{ $order['order_time'] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table class="border-collapse" style="width: 70%">
-                <tbody>
-                  <tr>
-                    <td class="td py-1">
-                      <span class="font-bold">Оформление:</span>
-                      <span>{{ $order['decoration'] ?: '-' }}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="td py-1">
-                      <span class="font-bold">Надпись:</span>
-                      <span>{{ $order['label'] }}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="td py-1">
-                      <span class="font-bold">Комментарий от покупателя:</span>
-                      <span>{{ $order['comment'] }}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="td py-1">
-                      <span class="font-bold">Код для получения:</span>
-                      <span>{{ $order['number'] }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="font-size: 0px;" class="-m-1 p-1">
-                @foreach ($order['files'] as $image)
-                <div class="align-bottom p-1" style="width: 50%;">
-                  <img src="{{ $image['url'] }}" />
+    <div class="" style="font-size: 0px;">
+      @foreach ($orders as $order)
+      <div style="width: 877px; height: 620px;" class="inline-block">
+        <table class="w-full border-collapse">
+          <tbody>
+            <tr>
+              <td>
+                <table class="w-full border-collapse">
+                  <tbody>
+                    <tr>
+                      <td class="td px-4 py-2">
+                        <span class="font-bold uppercase text-red-500">{{ $order['seller']['address'] }}</span>
+                        <span class="ml-2">Код: {{ $order['number'] }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="w-full border-collapse border">
+                  <thead class="thead">
+                    <tr>
+                      <th class="th border px-4 py-2 text-left font-normal">Наименование продукции</th>
+                      <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Количество</th>
+                      <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Дата принятия</th>
+                      <th class="th border px-4 py-2 text-left font-normal" style="width: 20%">Дата исполнения</th>
+                      <th class="th border px-4 py-2 text-left font-normal" style="width: 15%">Время отдачи</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="td border px-4 py-2">{{ $order['name'] }}</td>
+                      <td class="td border px-4 py-2">{{ $order['amount'] }}</td>
+                      <td class="td border px-4 py-2">{{ \Carbon\Carbon::parse($order['accepted_date'])->format('d.m.Y') }}</td>
+                      <td class="td border px-4 py-2">{{ \Carbon\Carbon::parse($order['order_date'])->format('d.m.Y') }}</td>
+                      <td class="td border px-4 py-2">{{ $order['order_time'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="border-collapse" style="width: 70%">
+                  <tbody>
+                    <tr>
+                      <td class="td py-1">
+                        <span class="font-bold">Оформление:</span>
+                        <span>{{ $order['decoration'] ?: '-' }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td py-1">
+                        <span class="font-bold">Надпись:</span>
+                        <span>{{ $order['label'] }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td py-1">
+                        <span class="font-bold">Комментарий от покупателя:</span>
+                        <span>{{ $order['comment'] }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td py-1">
+                        <span class="font-bold">Код для получения:</span>
+                        <span>{{ $order['number'] }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="font-size: 0px;" class="-m-1">
+                  @foreach ($order['files'] as $image)
+                  <div class="float-left p-1" style="width: 50%;">
+                    <img src="{{ $image['url'] }}" />
+                  </div>
+                  @endforeach
                 </div>
-                @endforeach
-              </div>
-            </td>
-            <td style="width: 20%"></td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td style="width: 30%"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- @if (!$loop->last)
+      <div class="page-break"></div>
+      @endif -->
+      @endforeach
     </div>
-    <!-- @if (!$loop->last)
-    <div class="page-break"></div>
-    @endif -->
-    @endforeach
   </body>
 </html>
