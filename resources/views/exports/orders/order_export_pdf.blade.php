@@ -131,11 +131,11 @@
           </tr>
         </tbody>
       </table>
-      <table class="w-full border-collapse">
+      <div class="">
         @foreach ($order['files'] as $image)
         <img src="{{ $image['url'] }}" style="width: 50%" />
         @endforeach
-      </table>
+      </div>
     </div>
     @if (!$loop->last)
     <div class="page-break"></div>
