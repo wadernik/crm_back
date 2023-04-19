@@ -24,6 +24,14 @@
         font-size: 9px;
       }
 
+      .float-left {
+        float: left;
+      }
+
+      .clear-both {
+        clear: both;
+      }
+
       .-m-1 {
         margin: -0.25rem;
       }
@@ -33,17 +41,8 @@
         margin-bottom: 0.25rem;
       }
 
-      .my-2 {
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
       .ml-2 {
         margin-left: 0.5rem;
-      }
-
-      .inline-block {
-        display: inline-block;
       }
 
       .table {
@@ -146,7 +145,6 @@
                 </tr>
               </tbody>
             </table>
-            <div class="my-2"></div>
             <table class="border-collapse" style="width: 70%">
               <tbody>
                 <tr>
@@ -175,13 +173,13 @@
                 </tr>
               </tbody>
             </table>
-            <div class="my-2"></div>
-            <div style="font-size: 0px;" class="-m-1 p-1 align-bottom">
+            <div style="font-size: 0px;" class="-m-1 p-1">
               @foreach ($order['files'] as $image)
-              <div class="inline-block p-1" style="width: 50%;">
+              <div class="float-left p-1" style="width: 50%;">
                 <img src="{{ $image['url'] }}" />
               </div>
               @endforeach
+            <div class="clear-both"></div>
             </div>
           </td>
           <td style="width: 20%"></td>
