@@ -103,30 +103,10 @@
       img {
         max-width: 100%;
       }
-
-      .grid {
-        display: grid;
-      }
-
-      .grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .bg-gray-500 {
-        --tw-bg-opacity: 1;
-        background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-      }
     </style>
   </head>
   <body>
-    <div class="grid grid-cols-2">
-      @foreach ($orders as $order)
-      <div class="bg-gray-500">
-        test...
-      </div>
-      @endforeach
-    </div>
-    <!-- <div class="">
+    <div class="" style="font-size: 0px;">
       @foreach ($orders as $order)
       <div style="width: 877px; height: 620px;" class="float-left">
         <table class="w-full border-collapse">
@@ -197,7 +177,6 @@
                     <img src="{{ $image['url'] }}" />
                   </div>
                   @endforeach
-                  <div class="clear-both"></div>
                 </div>
               </td>
               <td style="width: 30%"></td>
@@ -205,10 +184,10 @@
           </tbody>
         </table>
       </div>
-      @if (!$loop->last)
-      <div class="page-break clear-both"></div>
-      @endif
+      <!-- @if (!$loop->last)
+      <div class="page-break"></div>
+      @endif -->
       @endforeach
-    </div> -->
+    </div>
   </body>
 </html>
