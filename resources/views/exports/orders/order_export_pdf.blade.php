@@ -176,8 +176,8 @@
                   <img src="{{ $image['url'] }}" />
                 </div>
                 @endforeach
+                <div class="clear-both"></div>
               </div>
-              <div class="clear-both"></div>
             </td>
             <td style="width: 30%"></td>
           </tr>
