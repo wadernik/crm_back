@@ -24,55 +24,70 @@
         font-size: 9px;
       }
 
-      .table {
-        display: table
+      .float-left {
+        float: left;
       }
 
-      .w-full {
-        width: 100%
+      .clear-both {
+        clear: both;
+      }
+
+      .-m-1 {
+        margin: -0.25rem;
+      }
+
+      .table {
+        display: table;
       }
 
       .w-20 {
-        width: 5rem
+        width: 5rem;
+      }
+
+      .w-full {
+        width: 100%;
       }
 
       .border-collapse {
-        border-collapse: collapse
+        border-collapse: collapse;
       }
 
       .border {
-        border-width: 1px
+        border-width: 1px;
       }
 
-      .py-2 {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem
+      .p-1 {
+        padding: 0.25rem;
       }
 
       .px-4 {
         padding-left: 1rem;
-        padding-right: 1rem
+        padding-right: 1rem;
+      }
+
+      .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
       }
 
       .text-left {
-        text-align: left
+        text-align: left;
       }
 
       .font-bold {
-        font-weight: 700
+        font-weight: 700;
       }
 
       .font-normal {
-        font-weight: 400
+        font-weight: 400;
       }
 
       .text-red-500 {
-        --tw-text-opacity: 1;
-        color: rgb(239 68 68 / var(--tw-text-opacity))
+        color: #ef4444;
       }
 
       img {
-          max-width: 100%;
+        max-width: 100%;
       }
     </style>
   </head>
@@ -131,11 +146,14 @@
           </tr>
         </tbody>
       </table>
-      <div class="">
+      <div style="font-size: 0px;" class="-m-1 p-1">
         @foreach ($order['files'] as $image)
-        <img src="{{ $image['url'] }}" style="width: 50%" />
+        <div class="float-left p-1" style="width: 50%;">
+          <img src="{{ $image['url'] }}" />
+        </div>
         @endforeach
       </div>
+      <div class="clear-both"></div>
     </div>
     @if (!$loop->last)
     <div class="page-break"></div>
