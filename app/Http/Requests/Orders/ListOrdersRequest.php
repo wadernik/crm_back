@@ -15,7 +15,7 @@ class ListOrdersRequest extends FormRequest
     {
         return [
             'filter.id' => 'sometimes|integer',
-            'filter.ids' => 'sometimes|integer',
+            'filter.ids' => 'sometimes|array|nullable',
             'filter.manufacturer_id' => 'sometimes|integer',
             'filter.source_id' => 'sometimes|integer',
             'filter.seller_id' => 'sometimes|integer',
