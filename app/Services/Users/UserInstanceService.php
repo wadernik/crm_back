@@ -49,7 +49,10 @@ class UserInstanceService extends AbstractBaseInstanceService
      */
     public function setVkAccessToken(int $id, string $accessToken): void
     {
-        UserToken::query()->updateOrCreate(['user_id' => $id, 'token' => $accessToken]);
+        UserToken::query()->updateOrCreate(
+            ['user_id' => $id],
+            ['token' => $accessToken]
+        );
     }
 
     /**
