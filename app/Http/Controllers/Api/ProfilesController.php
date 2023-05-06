@@ -41,6 +41,10 @@ class ProfilesController extends AbstractBaseApiController
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
             }
 
+            if ($token = $user->vkAccessToken()) {
+                $user['access_token'] = $token;
+            }
+
             // Setting styled user-agent for user's token device name
             $deviceName = $this->getStyledUserAgent($request->header('user-agent'));
             $user['devices'] = $userInstanceService->getUserDevices($userId, $deviceName);

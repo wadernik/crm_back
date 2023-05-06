@@ -3,6 +3,7 @@
 namespace App\Services\Users;
 
 use App\Models\User;
+use App\Models\UserToken;
 use App\Services\AbstractBaseInstanceService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -48,8 +49,7 @@ class UserInstanceService extends AbstractBaseInstanceService
      */
     public function setVkAccessToken(int $id, string $accessToken): void
     {
-        $user = $this->modelClass::query()->find($id, ['id']);
-        $user->vkAccessToken()->sync($accessToken);
+        UserToken::query()->create(['user_id' => $id, 'token' => $accessToken]);
     }
 
     /**
