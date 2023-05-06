@@ -9,6 +9,8 @@ class UserToken extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'user_token';
+
     protected $fillable = [
         'user_id',
         'token'
