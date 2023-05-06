@@ -15,4 +15,12 @@ class UserToken extends Model
         'user_id',
         'token'
     ];
+
+    protected $hidden = [
+        'id',
+        'user_id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

@@ -31,7 +31,7 @@ class ProfilesController extends AbstractBaseApiController
                 'last_seen',
                 'role_id',
             ];
-            $with = ['role.permissions'];
+            $with = ['role.permissions', 'vkAccessToken'];
 
             if (!$userId = auth('sanctum')->id()) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
@@ -39,10 +39,6 @@ class ProfilesController extends AbstractBaseApiController
 
             if (!$user = $userInstanceService->getInstance($userId, $attributes, $with)) {
                 return $this->responseError(code: Response::HTTP_NOT_FOUND);
-            }
-
-            if ($token = $user->vkAccessToken()) {
-                $user['access_token'] = $token;
             }
 
             // Setting styled user-agent for user's token device name
