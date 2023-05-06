@@ -40,10 +40,15 @@ class VkController extends AbstractBaseApiController
 
         $validated = $request->validated();
 
+        $token = '';
+
         if (isset($validated['code'])) {
             $token = $vkService->getAccessToken($validated['code']);
-            $userInstanceService->setVkAccessToken(auth('sanctum')->id(), $token);
+        } elseif (isset($validated['access_token'])) {
+            $token = $validated['access_token'];
         }
+
+        $userInstanceService->setVkAccessToken(auth('sanctum')->id(), $token);
 
         return $this->responseSuccess();
     }
