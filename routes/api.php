@@ -37,6 +37,7 @@ Route::group(
     static function() {
         Route::get('/authorize', [VkController::class, 'authorizeAppLink']);
         Route::get('/redirect', [VkController::class, 'catchRedirect']);
+        Route::delete('/logout', [VkController::class, 'removeToken']);
     }
 );
 

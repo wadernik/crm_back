@@ -52,4 +52,15 @@ class VkController extends AbstractBaseApiController
 
         return $this->responseSuccess();
     }
+
+    public function removeToken(UserInstanceService $userInstanceService): JsonResponse
+    {
+        if (!$this->isAllowed('vk.integration.edit')) {
+            return $this->responseError(code: Response::HTTP_FORBIDDEN);
+        }
+
+        $userInstanceService->removeAccessToken(auth('sanctum')->id());
+
+        return $this->responseSuccess();
+    }
 }

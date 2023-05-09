@@ -55,6 +55,13 @@ class UserInstanceService extends AbstractBaseInstanceService
         );
     }
 
+    public function removeAccessToken(int $userId): void
+    {
+        UserToken::query()
+            ->where('user_id', $userId)
+            ->update(['token' => null]);
+    }
+
     /**
      * @param int $id
      * @param string $deviceName
