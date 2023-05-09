@@ -59,7 +59,7 @@ class UserInstanceService extends AbstractBaseInstanceService
     {
         UserToken::query()
             ->where('user_id', $userId)
-            ->update(['token' => null]);
+            ->forceDelete();
     }
 
     /**
