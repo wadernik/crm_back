@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\Role\Role;
 use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             ['id' => Role::ROLE_ADMIN, 'name' => 'Администратор'],
@@ -24,7 +24,7 @@ class RolesTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            Role::firstOrCreate(['id' => $item['id']], $item);
+            Role::query()->firstOrCreate(['id' => $item['id']], $item);
         }
     }
 }

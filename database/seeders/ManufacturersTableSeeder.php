@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Manufacturer;
+use App\Models\Manufacturer\Manufacturer;
 use Illuminate\Database\Seeder;
 
 class ManufacturersTableSeeder extends Seeder
@@ -12,7 +12,7 @@ class ManufacturersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             [
@@ -34,7 +34,7 @@ class ManufacturersTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            Manufacturer::firstOrCreate(['id' => $item['id']], $item);
+            Manufacturer::query()->firstOrCreate(['id' => $item['id']], $item);
         }
     }
 }

@@ -2,6 +2,6 @@
 
 namespace App\Http\Requests\Dictionaries;
 
-class RolesDictionaryRequest extends AbstractBaseDictionaryRequest
+class RolesDictionaryRequest extends AbstractDictionaryRequest
 {
 }

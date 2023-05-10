@@ -17,6 +17,3 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-// TODO: remove this
-Route::get('/orders_export_test', [TestController::class, 'index']);

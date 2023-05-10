@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\BaseApiResponseTrait;
+use App\Http\Responses\ApiResponseTrait;
 use Closure;
 use Illuminate\Http\Request;
 
 class SanctumPermissions
 {
-    use BaseApiResponseTrait;
+    use ApiResponseTrait;
 
     public function handle(Request $request, Closure $next, ...$permissions)
     {

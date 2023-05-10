@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Seller;
+use App\Models\Seller\Seller;
 use Illuminate\Database\Seeder;
 
 class SellersTableSeeder extends Seeder
@@ -12,7 +12,7 @@ class SellersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             [
@@ -67,7 +67,7 @@ class SellersTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            Seller::firstOrCreate(['id' => $item['id']], $item);
+            Seller::query()->firstOrCreate(['id' => $item['id']], $item);
         }
     }
 }

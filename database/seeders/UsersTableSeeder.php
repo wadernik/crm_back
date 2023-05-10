@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -13,7 +12,7 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             [
@@ -62,7 +61,7 @@ class UsersTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            User::firstOrCreate(['id' => $item['id']], $item);
+            User::query()->firstOrCreate(['id' => $item['id']], $item);
         }
     }
 }

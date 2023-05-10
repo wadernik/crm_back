@@ -2,7 +2,25 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CorsHandler;
+use App\Http\Middleware\ForceJsonResponse;
+use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SanctumPermissions;
+use App\Http\Middleware\TrimStrings;
+use App\Http\Middleware\UserActivity;
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
+use Illuminate\Http\Middleware\SetCacheHeaders;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ValidateSignature;
 
 class Kernel extends HttpKernel
 {
@@ -14,12 +32,11 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \Illuminate\Http\Middleware\HandleCors::class,
-        \App\Http\Middleware\CorsHandler::class,
-        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        CorsHandler::class,
+        PreventRequestsDuringMaintenance::class,
+        ValidatePostSize::class,
+        TrimStrings::class,
+        ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -41,9 +58,9 @@ class Kernel extends HttpKernel
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             // 'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\ForceJsonResponse::class,
-            \App\Http\Middleware\UserActivity::class,
+            SubstituteBindings::class,
+            ForceJsonResponse::class,
+            UserActivity::class,
         ],
     ];
 
@@ -55,19 +72,19 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'sanctum.permissions' => \App\Http\Middleware\SanctumPermissions::class,
+        'auth' => Authenticate::class,
+        'auth.basic' => AuthenticateWithBasicAuth::class,
+        'cache.headers' => SetCacheHeaders::class,
+        'can' => Authorize::class,
+        'guest' => RedirectIfAuthenticated::class,
+        'password.confirm' => RequirePassword::class,
+        'signed' => ValidateSignature::class,
+        'throttle' => ThrottleRequests::class,
+        'verified' => EnsureEmailIsVerified::class,
+        'sanctum.permissions' => SanctumPermissions::class,
     ];
 
     protected $middlewarePriority = [
-        \App\Http\Middleware\ForceJsonResponse::class,
+        ForceJsonResponse::class,
     ];
 }

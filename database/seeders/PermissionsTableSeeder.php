@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Permission;
+use App\Models\Permission\Permission;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -12,7 +12,7 @@ class PermissionsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             ['id' => 1, 'name' => 'roles.edit', 'label' => 'Создание и назначение ролей'],
@@ -44,7 +44,7 @@ class PermissionsTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            Permission::updateOrCreate(['id' => $item['id']], $item);
+            Permission::query()->updateOrCreate(['id' => $item['id']], $item);
         }
     }
 }

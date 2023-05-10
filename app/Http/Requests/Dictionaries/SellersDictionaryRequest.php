@@ -2,6 +2,6 @@
 
 namespace App\Http\Requests\Dictionaries;
 
-class SellersDictionaryRequest extends AbstractBaseDictionaryRequest
+class SellersDictionaryRequest extends AbstractDictionaryRequest
 {
 }

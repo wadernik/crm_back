@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Manufacturer;
-use App\Models\Order;
-use App\Models\Seller;
-use App\Models\User;
+use App\Models\Manufacturer\Manufacturer;
+use App\Models\Order\Order;
+use App\Models\Seller\Seller;
+use App\Models\User\User;
 use App\Services\Orders\OrderInstanceService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
