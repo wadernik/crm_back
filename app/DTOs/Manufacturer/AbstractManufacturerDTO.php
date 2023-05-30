@@ -43,4 +43,9 @@ abstract class AbstractManufacturerDTO implements CreateManufacturerDTOInterface
     {
         return $this->attributes['limit'] ?? null;
     }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Roles;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRolesRequest extends FormRequest
+class UpdateRoleRequest extends FormRequest
 {
     public function rules(): array
     {

@@ -4,7 +4,7 @@ namespace App\Http\Requests\ManufacturersDateLimits;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateManufacturerDateLimitsRequest extends FormRequest
+class CreateManufacturerDateLimitRequest extends FormRequest
 {
     public function authorize(): bool
     {

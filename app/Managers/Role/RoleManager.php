@@ -13,7 +13,7 @@ final class RoleManager implements RoleManagerInterface
 {
     public function create(CreateRoleDTOInterface $roleDTO): Model
     {
-        return Role::query()->find($roleDTO->toArray());
+        return Role::query()->create($roleDTO->toArray());
     }
 
     public function update(int $id, UpdateRoleDTOInterface $roleDTO): ?Model

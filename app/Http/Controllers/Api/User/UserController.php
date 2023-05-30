@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api\User;
 use App\DTOs\User\CreateUserDTO;
 use App\DTOs\User\UpdateUserDTO;
 use App\Http\Controllers\Api\AbstractApiController;
-use App\Http\Requests\Dictionaries\UserDictionaryRequest;
 use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\ListUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
@@ -19,18 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UserController extends AbstractApiController
 {
-    public function all(UserDictionaryRequest $request, UserRepositoryInterface $userRepository): JsonResponse
-    {
-        $attributes = ['id', 'first_name', 'last_name', 'sex'];
-
-        $criteria = $request->validated();
-
-        $users = $userRepository->findAllBy($criteria, $attributes);
-        $total = $userRepository->count($criteria);
-
-        return ApiResponse::responseSuccess(data: $users->toArray(), headers: ['x-total-count' => $total]);
-    }
-
     public function index(ListUserRequest $request, UserRepositoryInterface $userRepository): JsonResponse
     {
         if (!$this->isAllowed('users.view')) {
@@ -44,7 +31,7 @@ final class UserController extends AbstractApiController
         $users = $userRepository->findAllBy($criteria, $attributes);
         $total = $userRepository->count($criteria);
 
-        return ApiResponse::responseSuccess(data: $users->toArray(), headers: ['x-total-count' => $total]);
+        return ApiResponse::responseSuccess(data: $users->toArray(), total: $total);
     }
 
     public function show(int $id, UserRepositoryInterface $userRepository): JsonResponse

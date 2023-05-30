@@ -4,7 +4,7 @@ namespace App\Http\Requests\Roles;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListRolesRequest extends FormRequest
+class ListRoleRequest extends FormRequest
 {
     public function authorize(): bool
     {

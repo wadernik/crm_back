@@ -4,7 +4,7 @@ namespace App\Http\Requests\Manufacturers;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListManufacturersRequest extends FormRequest
+class ListManufacturerRequest extends FormRequest
 {
     public function authorize(): bool
     {

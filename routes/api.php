@@ -1,7 +1,15 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
+use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
+use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
+use App\Http\Controllers\Api\Role\RoleController;
+use App\Http\Controllers\Api\Role\RoleDictionaryController;
+use App\Http\Controllers\Api\Seller\SellerController;
+use App\Http\Controllers\Api\Seller\SellerDictionaryController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\User\UserDictionaryController;
 use Illuminate\Support\Facades\Route;
 
 // Авторизация
@@ -16,7 +24,9 @@ Route::group(
     }
 );
 
-// Авторизация VK
+/**
+ * Авторизация VK
+ */
 // Route::group(
 //     [
 //         'prefix' => 'vk',
@@ -28,7 +38,9 @@ Route::group(
 //     }
 // );
 
-// Профиль пользователя
+/**
+ * Профиль пользователя
+ */
 // Route::group(
 //     [
 //         'prefix' => 'profile',
@@ -41,7 +53,9 @@ Route::group(
 //     }
 // );
 
-// Общие методы
+/**
+ * Общие методы
+ */
 Route::group(
     [
         'middleware' => ['auth:sanctum'],
@@ -49,11 +63,12 @@ Route::group(
     static function () {
         Route::resources([
             'users' => UserController::class,
+            'manufacturers' => ManufacturerController::class,
+            'roles' => RoleController::class,
+            'sellers' => SellerController::class,
         ]);
 
-        // Route::apiResource('roles', RolesController::class);
         // Route::apiResource('sellers', SellersController::class);
-        // Route::apiResource('manufacturers', ManufacturersController::class);
         // Route::apiResource('manufacturers_limits', ManufacturerDateLimitsController::class);
 
         // Заказы
@@ -87,29 +102,33 @@ Route::group(
 //     }
 // );
 
-// Справочники с авторизацией
-// Route::group(
-//     [
-//         'prefix' => 'dictionary',
-//         'middleware' => ['auth:sanctum'],
-//     ],
-//     static function () {
-//         Route::get('/roles', [RolesController::class, 'all']);
-//         Route::get('/permissions', [PermissionsController::class, 'all']);
-//         Route::get('/order_statuses', [OrdersController::class, 'statuses']);
-//         Route::get('/manufacturers', [ManufacturersController::class, 'all']);
-//         Route::get('/sellers', [SellersController::class, 'all']);
-//         Route::get('/manufacturers_limit_types', [ManufacturerDateLimitsController::class, 'limitTypes']);
-//         Route::get('/activities', [ActivitiesController::class, 'listSubjects']);
-//     }
-// );
+/**
+ * Справочники с авторизацией
+ */
+Route::group(
+    [
+        'prefix' => 'dictionary',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function () {
+        Route::get('/roles', [RoleDictionaryController::class, 'all']);
+        Route::get('/permissions', [PermissionDictionaryController::class, 'all']);
+        // Route::get('/order_statuses', [OrdersController::class, 'statuses']);
+        Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
+        Route::get('/sellers', [SellerDictionaryController::class, 'all']);
+        // Route::get('/manufacturers_limit_types', [ManufacturerDateLimitsController::class, 'limitTypes']);
+        // Route::get('/activities', [ActivitiesController::class, 'listSubjects']);
+    }
+);
 
-// Справочники без авторизации
-// Route::group(
-//     [
-//         'prefix' => 'dictionary',
-//     ],
-//     static function () {
-//         Route::get('/users', [UsersController::class, 'all']);
-//     }
-// );
+/**
+ * Справочники без авторизации
+ */
+Route::group(
+    [
+        'prefix' => 'dictionary',
+    ],
+    static function () {
+        Route::get('/users', [UserDictionaryController::class, 'all']);
+    }
+);

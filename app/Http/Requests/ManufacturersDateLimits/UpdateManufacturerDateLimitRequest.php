@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\ManufacturersDateLimits;
 
-class UpdateManufacturerDateLimitsRequest extends CreateManufacturerDateLimitsRequest
+class UpdateManufacturerDateLimitRequest extends CreateManufacturerDateLimitRequest
 {
     public function rules(): array
     {

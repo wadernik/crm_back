@@ -13,11 +13,17 @@ final class ApiResponse implements ApiResponseInterface
 {
     public static function responseSuccess(
         array $data = [],
+        int $total = 1,
         int $code = Response::HTTP_OK,
         array $headers = []
     ): JsonResponse {
+        // TODO: think about this
+        $dataResponse = $total === 1
+            ? $data
+            : ['items' => $data, 'total' => $total];
+
         return response()->json(
-            data: $data,
+            data: $dataResponse,
             status: $code,
             headers: $headers
         );

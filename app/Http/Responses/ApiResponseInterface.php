@@ -12,6 +12,7 @@ interface ApiResponseInterface
 {
     public static function responseSuccess(
         array $data = [],
+        int $total = 0,
         int $code = Response::HTTP_OK,
         array $headers = []
     ): JsonResponse;
