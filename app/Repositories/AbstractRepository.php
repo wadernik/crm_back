@@ -69,7 +69,7 @@ abstract class AbstractRepository implements FindAllByCriteriaInterface, CountIn
         if (!$sort) {
             $sort = [
                 'sort' => 'id',
-                'order' => 'desc',
+                'order' => 'asc',
             ];
         }
 

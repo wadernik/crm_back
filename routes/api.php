@@ -3,11 +3,15 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
+use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
+use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
+use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Role\RoleController;
 use App\Http\Controllers\Api\Role\RoleDictionaryController;
 use App\Http\Controllers\Api\Seller\SellerController;
 use App\Http\Controllers\Api\Seller\SellerDictionaryController;
+use App\Http\Controllers\Api\Upload\UploadController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\UserDictionaryController;
 use Illuminate\Support\Facades\Route;
@@ -41,17 +45,17 @@ Route::group(
 /**
  * Профиль пользователя
  */
-// Route::group(
-//     [
-//         'prefix' => 'profile',
-//         'middleware' => ['auth:sanctum'],
-//     ],
-//     static function() {
-//         Route::get('/', [ProfilesController::class, 'show']);
-//         Route::put('/{id}', [ProfilesController::class, 'update']);
-//         Route::delete('/logout/{id}', [ProfilesController::class, 'logoutDevice']);
-//     }
-// );
+Route::group(
+    [
+        'prefix' => 'profile',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function() {
+        Route::get('/', [ProfileController::class, 'profile']);
+        Route::put('/{id}', [ProfileController::class, 'update']);
+        Route::delete('/logout/{id}', [ProfileController::class, 'revokeDevice']);
+    }
+);
 
 /**
  * Общие методы
@@ -66,10 +70,11 @@ Route::group(
             'manufacturers' => ManufacturerController::class,
             'roles' => RoleController::class,
             'sellers' => SellerController::class,
+            'manufacturers_limits' => DateLimitController::class,
         ]);
 
-        // Route::apiResource('sellers', SellersController::class);
-        // Route::apiResource('manufacturers_limits', ManufacturerDateLimitsController::class);
+        // Загрузка фотографий
+        Route::post('/upload', [UploadController::class, 'upload']);
 
         // Заказы
         // Route::apiResource('orders', OrdersController::class);
@@ -81,9 +86,6 @@ Route::group(
         // Route::post('orders/{id}/comments', [OrderCommentsController::class, 'postComment']);
         // Route::put('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'editComment']);
         // Route::delete('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'deleteComment']);
-
-        // Загрузка фотографий
-        // Route::post('/upload', [FilesController::class, 'upload']);
 
         // Логи
         // Route::get('activities', [ActivitiesController::class, 'index']);
@@ -116,7 +118,7 @@ Route::group(
         // Route::get('/order_statuses', [OrdersController::class, 'statuses']);
         Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
         Route::get('/sellers', [SellerDictionaryController::class, 'all']);
-        // Route::get('/manufacturers_limit_types', [ManufacturerDateLimitsController::class, 'limitTypes']);
+        Route::get('/manufacturers_limit_types', [DateLimitDictionaryController::class, 'limitTypes']);
         // Route::get('/activities', [ActivitiesController::class, 'listSubjects']);
     }
 );

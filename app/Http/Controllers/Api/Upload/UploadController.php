@@ -15,7 +15,11 @@ final class UploadController extends AbstractApiController
 {
     public function upload(CreateFilesUploadRequest $request, UploadManagerInterface $manager): JsonResponse
     {
-        $uploaded = $manager->create(...$request->allFiles());
+        $uploaded = [];
+
+        foreach ($manager->create(...collect($request->allFiles())->first()) as $file) {
+            $uploaded[] = $file;
+        }
 
         return ApiResponse::responseSuccess(data: $uploaded, code: Response::HTTP_CREATED);
     }

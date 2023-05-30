@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Factory\Profile\ProfileFactory;
+use App\Factory\Profile\ProfileFactoryInterface;
 use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
@@ -26,6 +28,12 @@ use App\Repositories\Seller\SellerRepository;
 use App\Repositories\Seller\SellerRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Auth\AuthUserService;
+use App\Services\Auth\AuthUserServiceInterface;
+use App\Services\Profile\ProfileService;
+use App\Services\Profile\ProfileServiceInterface;
+use App\Services\Profile\StyledUserAgentService;
+use App\Services\Profile\StyledUserAgentServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -56,6 +64,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ManufacturerManagerInterface::class, ManufacturerManager::class);
         $this->app->bind(SellerManagerInterface::class, SellerManager::class);
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
+
+        /**
+         * SERVICES
+         */
+        $this->app->bind(AuthUserServiceInterface::class, AuthUserService::class);
+        $this->app->bind(StyledUserAgentServiceInterface::class, StyledUserAgentService::class);
+        $this->app->bind(ProfileServiceInterface::class, ProfileService::class);
+        $this->app->bind(ProfileFactoryInterface::class, ProfileFactory::class);
     }
 
     /**

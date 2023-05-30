@@ -84,5 +84,14 @@ final class DateLimitController extends AbstractApiController
 
     public function destroy(int $id, DateLimitManagerInterface $manager): JsonResponse
     {
+        if (!$this->isAllowed('orders.stop.edit')) {
+            return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$dateLimit = $manager->delete($id)) {
+            return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
+        }
+
+        return ApiResponse::responseSuccess($dateLimit->toArray());
     }
 }

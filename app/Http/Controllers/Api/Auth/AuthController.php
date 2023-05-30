@@ -5,25 +5,22 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Responses\ApiResponse;
-use App\Services\Auth\AuthUsersService;
+use App\Services\Auth\AuthUserServiceInterface;
+use App\Services\Profile\StyledUserAgentServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends AbstractApiController
 {
-    public function __construct(private AuthUsersService $authUsersService)
+    public function __construct(private AuthUserServiceInterface $authUsersService)
     {
     }
 
-    /**
-     * @param LoginRequest $request
-     * @return JsonResponse
-     */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request, StyledUserAgentServiceInterface $userAgent): JsonResponse
     {
         $attributes = $request->validated();
-        $deviceName = $this->getStyledUserAgent($request->header('user-agent'));
+        $deviceName = $userAgent->agent($request->header('user-agent'));
 
         $token = $this->authUsersService->getToken($attributes, $deviceName);
 
@@ -37,10 +34,6 @@ class AuthController extends AbstractApiController
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function logout(Request $request): JsonResponse
     {
         $this->authUsersService->revokeAllTokens();

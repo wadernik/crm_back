@@ -23,23 +23,4 @@ abstract class AbstractApiController extends Controller
 
         return collect($user->getUserPermissions())->contains($permission);
     }
-
-    /**
-     * @param string $userAgent
-     * @return string
-     */
-    protected function getStyledUserAgent(string $userAgent): string
-    {
-        $agent = new Agent();
-        $agent->setHttpHeaders($userAgent);
-
-        $browser = $agent->browser();
-        $browserVersion = $agent->version($browser);
-
-        $platform = $agent->platform();
-        $platformVersion = $agent->version($platform);
-        $platformAsString = $platform . ($platformVersion ? " $platformVersion" : '');
-
-        return collect([$platformAsString, "$browser $browserVersion"])->join('; ');
-    }
 }

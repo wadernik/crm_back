@@ -10,6 +10,8 @@ use App\Repositories\FindAllByIdsInterface;
 use App\Repositories\FindOneByIdInterface;
 
 interface UserRepositoryInterface extends FindAllByCriteriaInterface,
+                                          FindProfileWithRolesAndVKInterface,
+                                          FindDevicesInterface,
                                           FindOneByIdInterface,
                                           FindAllByIdsInterface,
                                           CountInterface
