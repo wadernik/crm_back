@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController
 use App\Http\Controllers\Api\Order\ExportOrderController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
+use App\Http\Controllers\Api\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Role\RoleController;
@@ -75,13 +76,13 @@ Route::group(
             'sellers' => SellerController::class,
             'manufacturers_limits' => DateLimitController::class,
             'orders' => OrderController::class,
+            'orders_drafts' => OrderDraftController::class,
         ]);
 
         // Загрузка фотографий
         Route::post('/upload', [UploadController::class, 'upload']);
 
         // Заказы
-        // Route::apiResource('orders_drafts', OrdersDraftsController::class);
         Route::post('orders/export', [ExportOrderController::class, 'export']);
         Route::post('orders/status', [UpdateOrderStatusController::class, 'updateStatus']);
         // Route::get('orders/{id}/logs', [OrdersController::class, 'activities']);

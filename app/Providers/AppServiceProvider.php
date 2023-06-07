@@ -8,6 +8,8 @@ use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
 use App\Managers\ManufacturerDateLimit\DateLimitManagerInterface;
+use App\Managers\Order\Draft\OrderDraftManager;
+use App\Managers\Order\Draft\OrderDraftManagerInterface;
 use App\Managers\Order\OrderManager;
 use App\Managers\Order\OrderManagerInterface;
 use App\Managers\Role\RoleManager;
@@ -40,6 +42,10 @@ use App\Services\Auth\AuthUserService;
 use App\Services\Auth\AuthUserServiceInterface;
 use App\Services\DateLimit\AcceptOrderValidatorService;
 use App\Services\DateLimit\AcceptOrderValidatorServiceInterface;
+use App\Services\Order\Draft\OrderDraftCreatorService;
+use App\Services\Order\Draft\OrderDraftCreatorServiceInterface;
+use App\Services\Order\Draft\OrderDraftUpdaterService;
+use App\Services\Order\Draft\OrderDraftUpdaterServiceInterface;
 use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
 use App\Services\Order\OrderCreatorService;
@@ -85,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SellerManagerInterface::class, SellerManager::class);
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
         $this->app->bind(OrderManagerInterface::class, OrderManager::class);
+        $this->app->bind(OrderDraftManagerInterface::class, OrderDraftManager::class);
 
         /**
          * SERVICES
@@ -96,6 +103,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderFilterInterface::class, OrderFilter::class);
         $this->app->bind(OrderCreatorServiceInterface::class, OrderCreatorService::class);
         $this->app->bind(OrderUpdaterServiceInterface::class, OrderUpdaterService::class);
+        $this->app->bind(OrderDraftCreatorServiceInterface::class, OrderDraftCreatorService::class);
+        $this->app->bind(OrderDraftUpdaterServiceInterface::class, OrderDraftUpdaterService::class);
         $this->app->bind(OrderNumberGeneratorServiceInterface::class, OrderNumberGeneratorService::class);
         $this->app->bind(AcceptOrderValidatorServiceInterface::class, AcceptOrderValidatorService::class);
         $this->app->bind(OrderExportServiceInterface::class, OrderExportService::class);
