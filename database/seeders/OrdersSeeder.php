@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\DTOs\Order\CreateOrderDTO;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\Order;
 use App\Models\Seller\Seller;
@@ -56,7 +55,7 @@ class OrdersSeeder extends Seeder
                 'comment' => Str::random(),
             ];
 
-            $orderService->create(new CreateOrderDTO($attributes));
+            $orderService->create($attributes);
         }
     }
 }
