@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories\Role;
 
-use App\Repositories\CountInterface;
-use App\Repositories\FindAllByCriteriaInterface;
-use App\Repositories\FindOneByIdInterface;
+use App\Repositories\Sub\ApplyWithInterface;
+use App\Repositories\Sub\CountInterface;
+use App\Repositories\Sub\FindAllByCriteriaInterface;
+use App\Repositories\Sub\FindOneByIdInterface;
 
-interface RoleRepositoryInterface extends FindAllByCriteriaInterface, FindOneByIdInterface, CountInterface
+interface RoleRepositoryInterface extends FindAllByCriteriaInterface,
+                                          FindOneByIdInterface,
+                                          ApplyWithInterface,
+                                          CountInterface
 {
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Sub;
 
 use Illuminate\Support\Collection;
 
@@ -24,12 +24,4 @@ interface FindAllByCriteriaInterface
         ?int $limit = null,
         ?int $offset = null
     ): Collection;
-
-    public function applyFilter(array $criteria): void;
-
-    public function applySort(array $sort = []): void;
-
-    public function applyLimit(?int $limit = null): void;
-
-    public function applyOffset(?int $limit = null, ?int $offset = null): void;
 }

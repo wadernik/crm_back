@@ -4,7 +4,7 @@ namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListOrdersRequest extends FormRequest
+class ListOrderRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,8 +14,7 @@ class ListOrdersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer',
-            'filter.ids' => 'sometimes|array|nullable',
+            'filter.id' => 'sometimes|nullable',
             'filter.manufacturer_id' => 'sometimes|integer',
             'filter.source_id' => 'sometimes|integer',
             'filter.seller_id' => 'sometimes|integer',

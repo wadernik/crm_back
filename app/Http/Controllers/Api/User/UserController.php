@@ -26,10 +26,14 @@ final class UserController extends AbstractApiController
 
         $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen', 'sex'];
 
-        $criteria = $request->validated();
+        $requestData = $request->validated();
 
-        $users = $userRepository->findAllBy($criteria, $attributes);
-        $total = $userRepository->count($criteria);
+        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['offset'] ?? null;
+
+        $users = $userRepository->findAllBy($requestData, $attributes, $sort, $limit, $offset);
+        $total = $userRepository->count($requestData);
 
         return ApiResponse::responseSuccess(data: $users->toArray(), total: $total);
     }

@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController;
+use App\Http\Controllers\Api\Order\ExportOrderController;
+use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Role\RoleController;
@@ -71,16 +74,16 @@ Route::group(
             'roles' => RoleController::class,
             'sellers' => SellerController::class,
             'manufacturers_limits' => DateLimitController::class,
+            'orders' => OrderController::class,
         ]);
 
         // Загрузка фотографий
         Route::post('/upload', [UploadController::class, 'upload']);
 
         // Заказы
-        // Route::apiResource('orders', OrdersController::class);
         // Route::apiResource('orders_drafts', OrdersDraftsController::class);
-        // Route::post('orders/export', [OrdersController::class, 'export']);
-        // Route::post('orders/status', [OrdersController::class, 'updateStatus']);
+        Route::post('orders/export', [ExportOrderController::class, 'export']);
+        Route::post('orders/status', [UpdateOrderStatusController::class, 'updateStatus']);
         // Route::get('orders/{id}/logs', [OrdersController::class, 'activities']);
         // Route::get('orders/{id}/comments', [OrderCommentsController::class, 'getComments']);
         // Route::post('orders/{id}/comments', [OrderCommentsController::class, 'postComment']);

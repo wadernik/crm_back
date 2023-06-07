@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Http\Responses\ApiResponse;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,4 +29,16 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function register(): void
+    {
+        $this->renderable(function (OrderException $exception) {
+            return ApiResponse::responseError(
+                code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                message: $exception->getMessage()
+            );
+        });
+
+        parent::register();
+    }
 }

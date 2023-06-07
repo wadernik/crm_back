@@ -24,10 +24,14 @@ final class ManufacturerController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $criteria = $request->validated();
+        $requestData = $request->validated();
 
-        $items = $repository->findAllBy($criteria);
-        $total = $repository->count($criteria);
+        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['offset'] ?? null;
+
+        $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+        $total = $repository->count($requestData);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }

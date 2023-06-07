@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Repositories\Sub\AbstractRepositoryInterface;
+use App\Repositories\Sub\CountInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-abstract class AbstractRepository implements FindAllByCriteriaInterface, CountInterface
+abstract class AbstractRepository implements AbstractRepositoryInterface, CountInterface
 {
     public function __construct(private Builder $builder)
     {
@@ -41,13 +43,6 @@ abstract class AbstractRepository implements FindAllByCriteriaInterface, CountIn
         return $this->builder->get($attributes);
     }
 
-    public function count(array $criteria): int
-    {
-        $this->applyFilter($criteria);
-
-        return $this->builder->count();
-    }
-
     public function applyFilter(array $criteria): void
     {
         if (!isset($criteria['filter'])) {
@@ -55,9 +50,8 @@ abstract class AbstractRepository implements FindAllByCriteriaInterface, CountIn
         }
 
         foreach ($criteria['filter'] as $key => $criterion) {
-            // TODO: think about this
-            if ($key === 'ids') {
-                $this->builder->whereIn('id', $criterion);
+            if (is_array($criterion)) {
+                $this->builder->whereIn($key, $criterion);
             } else {
                 $this->builder->where($key, $criterion);
             }
@@ -66,14 +60,19 @@ abstract class AbstractRepository implements FindAllByCriteriaInterface, CountIn
 
     public function applySort(array $sort = []): void
     {
-        if (!$sort) {
-            $sort = [
-                'sort' => 'id',
-                'order' => 'asc',
+        $sortParams = [
+            'sort' => 'id',
+            'order' => 'asc',
+        ];
+
+        if (isset($sort['sort'])) {
+            $sortParams = [
+                'sort' => $sort['sort'],
+                'order' => (($sort['order'] ?? 'asc') === 'desc' ? 'desc' : 'asc'),
             ];
         }
 
-        $this->builder->orderBy($sort['sort'], $sort['order']);
+        $this->builder->orderBy($sortParams['sort'], $sortParams['order']);
     }
 
     public function applyLimit(?int $limit = null): void
@@ -88,5 +87,17 @@ abstract class AbstractRepository implements FindAllByCriteriaInterface, CountIn
         if ($offset && $limit) {
             $this->builder->offset($limit * ($offset - 1));
         }
+    }
+
+    public function applyWith(array $with): void
+    {
+        $this->builder->with($with);
+    }
+
+    public function count(array $criteria): int
+    {
+        $this->applyFilter($criteria);
+
+        return $this->builder->count();
     }
 }

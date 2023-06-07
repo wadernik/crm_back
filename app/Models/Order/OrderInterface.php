@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
+ * @property int id
  * @property int $manufacturer_id
  * @property int $source_id
  * @property int $seller_id
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int price
  * @property int $status
  * @property string $product_code
+ * @property string $order_date
  */
 interface OrderInterface
 {

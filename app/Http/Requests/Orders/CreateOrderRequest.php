@@ -26,6 +26,7 @@ class CreateOrderRequest extends FormRequest
             'manufacturer_id' => 'required|integer',
             'source_id' => 'required|integer',
             'seller_id' => 'required|integer',
+            'user_id' => 'sometimes|integer',
             'files' => 'sometimes|array|nullable',
         ];
     }

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\ManufacturerDateLimit;
 
-use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Responses\ApiResponse;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
-final class DateLimitDictionaryController extends AbstractApiController
+final class DateLimitDictionaryController
 {
     public function limitTypes(DateLimitRepositoryInterface $repository): JsonResponse
     {

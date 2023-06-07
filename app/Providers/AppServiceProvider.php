@@ -8,6 +8,8 @@ use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
 use App\Managers\ManufacturerDateLimit\DateLimitManagerInterface;
+use App\Managers\Order\OrderManager;
+use App\Managers\Order\OrderManagerInterface;
 use App\Managers\Role\RoleManager;
 use App\Managers\Role\RoleManagerInterface;
 use App\Managers\Seller\SellerManager;
@@ -20,6 +22,12 @@ use App\Repositories\Manufacturer\ManufacturerRepository;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepository;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
+use App\Repositories\Order\Draft\OrderDraftRepository;
+use App\Repositories\Order\Draft\OrderDraftRepositoryInterface;
+use App\Repositories\Order\OrderFilter;
+use App\Repositories\Order\OrderFilterInterface;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
@@ -30,6 +38,16 @@ use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthUserService;
 use App\Services\Auth\AuthUserServiceInterface;
+use App\Services\DateLimit\AcceptOrderValidatorService;
+use App\Services\DateLimit\AcceptOrderValidatorServiceInterface;
+use App\Services\Order\Export\OrderExportService;
+use App\Services\Order\Export\OrderExportServiceInterface;
+use App\Services\Order\OrderCreatorService;
+use App\Services\Order\OrderCreatorServiceInterface;
+use App\Services\Order\OrderNumberGeneratorService;
+use App\Services\Order\OrderNumberGeneratorServiceInterface;
+use App\Services\Order\OrderUpdaterService;
+use App\Services\Order\OrderUpdaterServiceInterface;
 use App\Services\Profile\ProfileService;
 use App\Services\Profile\ProfileServiceInterface;
 use App\Services\Profile\StyledUserAgentService;
@@ -54,6 +72,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SellerRepositoryInterface::class, SellerRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->bind(DateLimitRepositoryInterface::class, DateLimitRepository::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(OrderDraftRepositoryInterface::class, OrderDraftRepository::class);
 
         /**
          * MANAGERS
@@ -64,6 +84,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ManufacturerManagerInterface::class, ManufacturerManager::class);
         $this->app->bind(SellerManagerInterface::class, SellerManager::class);
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
+        $this->app->bind(OrderManagerInterface::class, OrderManager::class);
 
         /**
          * SERVICES
@@ -72,6 +93,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(StyledUserAgentServiceInterface::class, StyledUserAgentService::class);
         $this->app->bind(ProfileServiceInterface::class, ProfileService::class);
         $this->app->bind(ProfileFactoryInterface::class, ProfileFactory::class);
+        $this->app->bind(OrderFilterInterface::class, OrderFilter::class);
+        $this->app->bind(OrderCreatorServiceInterface::class, OrderCreatorService::class);
+        $this->app->bind(OrderUpdaterServiceInterface::class, OrderUpdaterService::class);
+        $this->app->bind(OrderNumberGeneratorServiceInterface::class, OrderNumberGeneratorService::class);
+        $this->app->bind(AcceptOrderValidatorServiceInterface::class, AcceptOrderValidatorService::class);
+        $this->app->bind(OrderExportServiceInterface::class, OrderExportService::class);
     }
 
     /**

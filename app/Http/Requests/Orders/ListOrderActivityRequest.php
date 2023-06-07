@@ -4,7 +4,7 @@ namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListOrdersActivityRequest extends FormRequest
+class ListOrderActivityRequest extends FormRequest
 {
     public function authorize(): bool
     {

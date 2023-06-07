@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\DTOs\Order\CreateOrderDTO;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\Order;
 use App\Models\Seller\Seller;
 use App\Models\User\User;
-use App\Services\Orders\OrderInstanceService;
+use App\Services\Order\OrderCreatorServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -17,7 +18,8 @@ class OrdersSeeder extends Seeder
 
     public function run(): void
     {
-        $orderService = app(OrderInstanceService::class);
+        /** @var OrderCreatorServiceInterface $orderService */
+        $orderService = app(OrderCreatorServiceInterface::class);
         for ($i = 1; $i <= self::ORDERS_LIMIT; $i++) {
             $manufacturer = Manufacturer::query()
                 ->inRandomOrder()
@@ -54,7 +56,7 @@ class OrdersSeeder extends Seeder
                 'comment' => Str::random(),
             ];
 
-            $orderService->createInstance($attributes);
+            $orderService->create(new CreateOrderDTO($attributes));
         }
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PrintOrdersRequest extends FormRequest
+class PrintOrderRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class PrintOrdersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids' => 'required|array',
+            'id' => 'required|array',
         ];
     }
 }
