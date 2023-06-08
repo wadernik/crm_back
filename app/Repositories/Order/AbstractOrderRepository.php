@@ -44,8 +44,8 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
         array $criteria,
         array $attributes = ['*'],
         array $sort = [],
-        ?int $limit = null,
-        ?int $offset = null
+        ?string $limit = null,
+        ?string $offset = null
     ): Collection
     {
         $this->applyFilter($criteria);
@@ -117,7 +117,7 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
                 continue;
             }
 
-            $this->filter->$method((string) $value);
+            $this->filter->$method($value);
         }
     }
 
