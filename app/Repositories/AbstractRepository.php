@@ -19,8 +19,8 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
      * @param array $criteria
      * @param array $attributes
      * @param array $sort
-     * @param int|null $limit
-     * @param int|null $offset
+     * @param string|null $limit
+     * @param string|null $offset
      *
      * @return Collection
      */
@@ -28,8 +28,8 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         array $criteria,
         array $attributes = ['*'],
         array $sort = [],
-        ?int $limit = null,
-        ?int $offset = null
+        ?string $limit = null,
+        ?string $offset = null
     ): Collection
     {
         $this->applyFilter($criteria);
