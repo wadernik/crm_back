@@ -117,7 +117,7 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
                 continue;
             }
 
-            $this->filter->$method($value);
+            $this->filter->$method((string) $value);
         }
     }
 
