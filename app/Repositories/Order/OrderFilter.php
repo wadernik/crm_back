@@ -50,7 +50,7 @@ final class OrderFilter implements OrderFilterInterface
         if (is_array($status)) {
             $this->builder->whereIn('orders.status', $status);
         } else {
-            $this->builder->where('orders.status');
+            $this->builder->where('orders.status', $status);
         }
     }
 

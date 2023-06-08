@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Factory\Profile\ProfileFactory;
 use App\Factory\Profile\ProfileFactoryInterface;
+use App\Managers\Comment\CommentManager;
+use App\Managers\Comment\CommentManagerInterface;
 use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
@@ -20,6 +22,10 @@ use App\Managers\Upload\UploadManager;
 use App\Managers\Upload\UploadManagerInterface;
 use App\Managers\User\UserManager;
 use App\Managers\User\UserManagerInterface;
+use App\Repositories\Activity\ActivityRepository;
+use App\Repositories\Activity\ActivityRepositoryInterface;
+use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Manufacturer\ManufacturerRepository;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepository;
@@ -38,10 +44,14 @@ use App\Repositories\Seller\SellerRepository;
 use App\Repositories\Seller\SellerRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Activity\ActivityServiceInterface;
+use App\Services\Activity\ActivityService;
 use App\Services\Auth\AuthUserService;
 use App\Services\Auth\AuthUserServiceInterface;
 use App\Services\DateLimit\AcceptOrderValidatorService;
 use App\Services\DateLimit\AcceptOrderValidatorServiceInterface;
+use App\Services\Order\Activity\OrderActivityService;
+use App\Services\Order\Activity\OrderActivityServiceInterface;
 use App\Services\Order\Draft\OrderDraftCreatorService;
 use App\Services\Order\Draft\OrderDraftCreatorServiceInterface;
 use App\Services\Order\Draft\OrderDraftUpdaterService;
@@ -58,6 +68,14 @@ use App\Services\Profile\ProfileService;
 use App\Services\Profile\ProfileServiceInterface;
 use App\Services\Profile\StyledUserAgentService;
 use App\Services\Profile\StyledUserAgentServiceInterface;
+use App\Services\User\ExportUserReportService;
+use App\Services\User\ExportUserReportServiceInterface;
+use App\Services\User\UserReportService;
+use App\Services\User\UserReportServiceInterface;
+use App\Services\VK\VkApiClient;
+use App\Services\VK\VkApiClientInterface;
+use App\Services\VK\VkService;
+use App\Services\VK\VkServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -80,6 +98,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DateLimitRepositoryInterface::class, DateLimitRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderDraftRepositoryInterface::class, OrderDraftRepository::class);
+        $this->app->bind(ActivityRepositoryInterface::class, ActivityRepository::class);
+        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
 
         /**
          * MANAGERS
@@ -92,6 +112,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
         $this->app->bind(OrderManagerInterface::class, OrderManager::class);
         $this->app->bind(OrderDraftManagerInterface::class, OrderDraftManager::class);
+        $this->app->bind(CommentManagerInterface::class, CommentManager::class);
 
         /**
          * SERVICES
@@ -108,6 +129,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderNumberGeneratorServiceInterface::class, OrderNumberGeneratorService::class);
         $this->app->bind(AcceptOrderValidatorServiceInterface::class, AcceptOrderValidatorService::class);
         $this->app->bind(OrderExportServiceInterface::class, OrderExportService::class);
+        $this->app->bind(ActivityServiceInterface::class, ActivityService::class);
+        $this->app->bind(OrderActivityServiceInterface::class, OrderActivityService::class);
+        $this->app->bind(UserReportServiceInterface::class, UserReportService::class);
+        $this->app->bind(ExportUserReportServiceInterface::class, ExportUserReportService::class);
+        $this->app->bind(VkApiClientInterface::class, VkApiClient::class);
+        $this->app->bind(VkServiceInterface::class, VkService::class);
     }
 
     /**

@@ -9,6 +9,7 @@ interface AbstractRepositoryInterface extends FindAllByCriteriaInterface,
                                               ApplySortInterface,
                                               ApplyLimitInterface,
                                               ApplyOffsetInterface,
-                                              ApplyWithInterface
+                                              ApplyWithInterface,
+                                              ApplyWithTrashedInterface
 {
 }

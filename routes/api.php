@@ -1,12 +1,20 @@
 <?php
 
+use App\Http\Controllers\Api\Activity\ActivityController;
+use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController;
+use App\Http\Controllers\Api\Order\Comment\DeleteOrderCommentController;
+use App\Http\Controllers\Api\Order\Comment\EditOrderCommentController;
+use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
+use App\Http\Controllers\Api\Order\Comment\PostOrderCommentController;
 use App\Http\Controllers\Api\Order\ExportOrderController;
+use App\Http\Controllers\Api\Order\OrderActivityController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
@@ -16,8 +24,13 @@ use App\Http\Controllers\Api\Role\RoleDictionaryController;
 use App\Http\Controllers\Api\Seller\SellerController;
 use App\Http\Controllers\Api\Seller\SellerDictionaryController;
 use App\Http\Controllers\Api\Upload\UploadController;
+use App\Http\Controllers\Api\User\ExportUserReportController;
+use App\Http\Controllers\Api\User\ListUserReportController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\UserDictionaryController;
+use App\Http\Controllers\Api\VK\AuthVkAppController;
+use App\Http\Controllers\Api\VK\CreateOrUpdateVkTokenController;
+use App\Http\Controllers\Api\VK\RemoveVkTokenController;
 use Illuminate\Support\Facades\Route;
 
 // Авторизация
@@ -35,16 +48,16 @@ Route::group(
 /**
  * Авторизация VK
  */
-// Route::group(
-//     [
-//         'prefix' => 'vk',
-//     ],
-//     static function() {
-//         Route::get('/authorize', [VkController::class, 'authorizeAppLink']);
-//         Route::get('/redirect', [VkController::class, 'catchRedirect']);
-//         Route::delete('/logout', [VkController::class, 'removeToken']);
-//     }
-// );
+Route::group(
+    [
+        'prefix' => 'vk',
+    ],
+    static function() {
+        Route::get('/authorize', [AuthVkAppController::class, 'auth']);
+        Route::get('/redirect', [CreateOrUpdateVkTokenController::class, 'createOrUpdate']);
+        Route::delete('/logout', [RemoveVkTokenController::class, 'destroy']);
+    }
+);
 
 /**
  * Профиль пользователя
@@ -85,28 +98,28 @@ Route::group(
         // Заказы
         Route::post('orders/export', [ExportOrderController::class, 'export']);
         Route::post('orders/status', [UpdateOrderStatusController::class, 'updateStatus']);
-        // Route::get('orders/{id}/logs', [OrdersController::class, 'activities']);
-        // Route::get('orders/{id}/comments', [OrderCommentsController::class, 'getComments']);
-        // Route::post('orders/{id}/comments', [OrderCommentsController::class, 'postComment']);
-        // Route::put('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'editComment']);
-        // Route::delete('orders/{orderId}/comments/{commentId}', [OrderCommentsController::class, 'deleteComment']);
+        Route::get('orders/{id}/logs', [OrderActivityController::class, 'activities']);
+        Route::get('orders/{id}/comments', [ListOrderCommentController::class, 'comments']);
+        Route::post('orders/{id}/comments', [PostOrderCommentController::class, 'comment']);
+        Route::put('orders/{orderId}/comments/{commentId}', [EditOrderCommentController::class, 'edit']);
+        Route::delete('orders/{orderId}/comments/{commentId}', [DeleteOrderCommentController::class, 'destroy']);
 
         // Логи
-        // Route::get('activities', [ActivitiesController::class, 'index']);
+        Route::get('activities', [ActivityController::class, 'index']);
     }
 );
 
 // Отчеты
-// Route::group(
-//     [
-//         'prefix' => 'reports',
-//         'middleware' => ['auth:sanctum'],
-//     ],
-//     static function () {
-//         Route::get('/users', [UsersReportController::class, 'index']);
-//         Route::post('/users', [UsersReportController::class, 'export']);
-//     }
-// );
+Route::group(
+    [
+        'prefix' => 'reports',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function () {
+        Route::get('/users', [ListUserReportController::class, 'list']);
+        Route::post('/users', [ExportUserReportController::class, 'export']);
+    }
+);
 
 /**
  * Справочники с авторизацией
@@ -119,11 +132,11 @@ Route::group(
     static function () {
         Route::get('/roles', [RoleDictionaryController::class, 'all']);
         Route::get('/permissions', [PermissionDictionaryController::class, 'all']);
-        // Route::get('/order_statuses', [OrdersController::class, 'statuses']);
+        Route::get('/order_statuses', [OrderDictionaryController::class, 'statuses']);
         Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
         Route::get('/sellers', [SellerDictionaryController::class, 'all']);
         Route::get('/manufacturers_limit_types', [DateLimitDictionaryController::class, 'limitTypes']);
-        // Route::get('/activities', [ActivitiesController::class, 'listSubjects']);
+        Route::get('/activities', [ActivityDictionaryController::class, 'subjects']);
     }
 );
 

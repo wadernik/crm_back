@@ -7,7 +7,7 @@ namespace App\Managers\User;
 use App\DTOs\User\CreateUserDTOInterface;
 use App\DTOs\User\UpdateUserDTOInterface;
 use App\Models\User\User;
-
+use App\Models\User\UserToken;
 use Illuminate\Database\Eloquent\Model;
 
 use function bcrypt;
@@ -43,5 +43,20 @@ final class UserManager implements UserManagerInterface
         $user->delete();
 
         return $user;
+    }
+
+    public function createToken(int $id, string $accessToken): void
+    {
+        UserToken::query()->updateOrCreate(
+            ['user_id' => $id],
+            ['token' => $accessToken]
+        );
+    }
+
+    public function deleteToken(int $id): void
+    {
+        UserToken::query()
+            ->where('user_id', $id)
+            ->forceDelete();
     }
 }

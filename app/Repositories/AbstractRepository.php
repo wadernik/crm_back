@@ -94,6 +94,11 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         $this->builder->with($with);
     }
 
+    public function withTrashed(): void
+    {
+        $this->builder->withTrashed();
+    }
+
     public function count(array $criteria): int
     {
         $this->applyFilter($criteria);

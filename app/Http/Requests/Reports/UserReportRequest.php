@@ -4,7 +4,7 @@ namespace App\Http\Requests\Reports;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UsersReportRequest extends FormRequest
+class UserReportRequest extends FormRequest
 {
     public function authorize(): bool
     {
