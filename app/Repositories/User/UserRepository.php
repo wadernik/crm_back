@@ -10,6 +10,7 @@ use App\Models\User\User;
 use App\Models\User\UserInterface;
 use App\Repositories\AbstractRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -31,6 +32,28 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
         return User::query()
             ->where('id', $ids)
             ->get();
+    }
+
+    public function addExtraFilter(Builder $builder, array &$criteria): void
+    {
+        if (!isset($criteria['filter']['is_online'])) {
+            return;
+        }
+
+        $isOnline = $criteria['filter']['is_online'];
+        unset($criteria['filter']['is_online']);
+
+        $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
+
+        if ($isOnline) {
+            $builder
+                ->whereNotNull('last_seen')
+                ->where('last_seen', '>=', $now);
+        } else {
+            $builder
+                ->where('last_seen', '<=', $now)
+                ->orWhereNull('last_seen');
+        }
     }
 
     public function profile(int $userId): ?Model

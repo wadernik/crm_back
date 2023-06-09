@@ -6,6 +6,7 @@ namespace App\Repositories\Comment;
 
 use App\Models\Comment\CustomComments;
 use App\Repositories\AbstractRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 final class CommentRepository extends AbstractRepository implements CommentRepositoryInterface
@@ -13,6 +14,10 @@ final class CommentRepository extends AbstractRepository implements CommentRepos
     public function __construct()
     {
         parent::__construct(CustomComments::query());
+    }
+
+    public function addExtraFilter(Builder $builder, array &$criteria): void
+    {
     }
 
     public function find(int $id): ?Model

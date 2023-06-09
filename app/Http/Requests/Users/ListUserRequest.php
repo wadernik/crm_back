@@ -14,7 +14,7 @@ class ListUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer',
+            'filter.id' => 'sometimes',
             'filter.first_name' => 'sometimes|string|max:128',
             'filter.last_name' => 'sometimes|string|max:128|nullable',
             'filter.role_id' => 'sometimes|integer',

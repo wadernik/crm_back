@@ -6,6 +6,7 @@ namespace App\Repositories\Seller;
 
 use App\Models\Seller\Seller;
 use App\Repositories\AbstractRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 final class SellerRepository extends AbstractRepository implements SellerRepositoryInterface
@@ -13,6 +14,10 @@ final class SellerRepository extends AbstractRepository implements SellerReposit
     public function __construct()
     {
         parent::__construct(Seller::query());
+    }
+
+    public function addExtraFilter(Builder $builder, array &$criteria): void
+    {
     }
 
     public function find(int $id): ?Model

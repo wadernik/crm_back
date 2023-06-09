@@ -6,11 +6,16 @@ namespace App\Repositories\Permission;
 
 use App\Models\Permission\Permission;
 use App\Repositories\AbstractRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 final class PermissionRepository extends AbstractRepository implements PermissionRepositoryInterface
 {
     public function __construct()
     {
         parent::__construct(Permission::query());
+    }
+
+    public function addExtraFilter(Builder $builder, array &$criteria): void
+    {
     }
 }

@@ -15,6 +15,8 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
     {
     }
 
+    abstract function addExtraFilter(Builder $builder, array &$criteria): void;
+
     /**
      * @param array $criteria
      * @param array $attributes
@@ -48,6 +50,8 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         if (!isset($criteria['filter'])) {
             return;
         }
+
+        $this->addExtraFilter($this->builder, $criteria);
 
         foreach ($criteria['filter'] as $key => $criterion) {
             if (is_array($criterion)) {

@@ -14,8 +14,7 @@ class ListManufacturerDateLimitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer|nullable',
-            'filter.ids' => 'sometimes|array|nullable',
+            'filter.id' => 'sometimes|nullable',
             'filter.manufacturer_id' => 'sometimes|integer',
             'filter.date' => 'sometimes|date_format:Y-m-d',
             'filter.date_gte' => 'sometimes|date_format:Y-m-d',

@@ -14,8 +14,8 @@ class ListActivitiesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer',
-            'filter.subject_id' => 'sometimes|integer',
+            'filter.id' => 'sometimes',
+            'filter.subject_id' => 'sometimes',
             'filter.subject' => 'sometimes|string',
             'limit' => 'sometimes',
             'page' => 'sometimes',

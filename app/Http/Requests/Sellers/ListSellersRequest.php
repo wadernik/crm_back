@@ -14,8 +14,7 @@ class ListSellersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.id' => 'sometimes|integer|nullable',
-            'filter.ids' => 'sometimes|array|nullable',
+            'filter.id' => 'sometimes|nullable',
             'limit' => 'sometimes',
             'page' => 'sometimes',
             'sort' => 'sometimes|string',
