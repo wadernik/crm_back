@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\User\ExportUserReportController;
 use App\Http\Controllers\Api\User\ListUserReportController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\UserDictionaryController;
+use App\Http\Controllers\Api\User\UserStatusDictionaryController;
 use App\Http\Controllers\Api\VK\AuthVkAppController;
 use App\Http\Controllers\Api\VK\CreateOrUpdateVkTokenController;
 use App\Http\Controllers\Api\VK\RemoveVkTokenController;
@@ -149,5 +150,6 @@ Route::group(
     ],
     static function () {
         Route::get('/users', [UserDictionaryController::class, 'all']);
+        Route::get('/users/status', [UserStatusDictionaryController::class, 'statuses']);
     }
 );

@@ -14,6 +14,7 @@ interface UserRepositoryInterface extends FindAllByCriteriaInterface,
                                           FindDevicesInterface,
                                           FindOneByIdInterface,
                                           FindAllByIdsInterface,
-                                          CountInterface
+                                          CountInterface,
+                                          UserStatusesInterface
 {
 }

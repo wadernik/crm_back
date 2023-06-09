@@ -1,3 +1,8 @@
 <?php
 
-return [];
+return [
+    'statuses' => [
+        'online' => 'Online',
+        'offline' => 'Offline',
+    ]
+];

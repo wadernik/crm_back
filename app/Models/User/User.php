@@ -63,6 +63,14 @@ class User extends Authenticatable implements UserInterface
         'is_online'
     ];
 
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_ONLINE => __('users.statuses.online'),
+            self::STATUS_OFFLINE => __('users.statuses.offline'),
+        ];
+    }
+
     protected function isOnline(): Attribute
     {
         return new Attribute(

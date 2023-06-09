@@ -40,7 +40,11 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             return;
         }
 
-        $isOnline = $criteria['filter']['is_online'];
+        $isOnline = match((int) $criteria['filter']['is_online']) {
+            User::STATUS_ONLINE => true,
+            User::STATUS_OFFLINE => false,
+        };
+
         unset($criteria['filter']['is_online']);
 
         $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
@@ -79,5 +83,18 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
 
                 return new Device($token->id, $token->name, $lastUsedAt, $token->name === $deviceName);
             });
+    }
+
+    public function statuses(): array
+    {
+        return collect(User::statuses())
+            ->map(function (string $statusCaption, int $status) {
+                return [
+                    'id' => $status,
+                    'name' => $statusCaption,
+                ];
+            })
+            ->values()
+            ->toArray();
     }
 }
