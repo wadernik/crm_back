@@ -78,13 +78,18 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
     public function applyLimit(?string $limit = null): void
     {
         if ($limit) {
+            $limit = (int) $limit;
+
             $this->builder->limit($limit);
         }
     }
 
-    public function applyOffset(?int $limit = null, ?int $offset = null): void
+    public function applyOffset(?string $limit = null, ?string $offset = null): void
     {
         if ($offset && $limit) {
+            $limit = (int) $limit;
+            $offset = (int) $offset;
+
             $this->builder->offset($limit * ($offset - 1));
         }
     }
