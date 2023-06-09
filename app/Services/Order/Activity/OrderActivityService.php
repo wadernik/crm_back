@@ -128,7 +128,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $this->commentRepository->withTrashed();
 
         $comments = $this->commentRepository->findAllBy(
-            ['commentable_type' => BaseOrder::class, 'commentable_id' => $subjectId]
+            ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $subjectId]]
         );
 
         $commentsIds = $comments

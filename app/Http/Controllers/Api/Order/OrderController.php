@@ -12,6 +12,7 @@ use App\Http\Responses\ApiResponse;
 use App\Managers\Order\OrderManagerInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Services\Order\OrderCreatorServiceInterface;
+use App\Services\Order\OrderFindWithCommentServiceInterface;
 use App\Services\Order\OrderUpdaterServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,15 +50,13 @@ final class OrderController extends AbstractApiController
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
 
-    public function show(int $id, OrderRepositoryInterface $repository): JsonResponse
+    public function show(int $id, OrderFindWithCommentServiceInterface $repository): JsonResponse
     {
         if (!$this->isAllowed('orders.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $repository->applyWith(['files:id,filename']);
-
-        if (!$order = $repository->find($id)) {
+        if (!$order = $repository->findWithTotalComments($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 

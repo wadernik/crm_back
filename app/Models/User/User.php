@@ -59,6 +59,10 @@ class User extends Authenticatable implements UserInterface
         'deleted_at',
     ];
 
+    protected $appends = [
+        'is_online'
+    ];
+
     protected function isOnline(): Attribute
     {
         return new Attribute(

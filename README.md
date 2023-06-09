@@ -47,3 +47,4 @@ php artisan serve
 ## Additionals:
 - [Laravel Sanctum](https://laravel.com/docs/sanctum)
 - [Parental (STI implementation)](https://github.com/calebporzio/parental)
+- [Laravel Comments](https://github.com/beyondcode/laravel-comments)
