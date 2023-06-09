@@ -6,5 +6,5 @@ namespace App\Repositories\Sub;
 
 interface ApplyLimitInterface
 {
-    public function applyLimit(?int $limit = null): void;
+    public function applyLimit(?string $limit = null): void;
 }

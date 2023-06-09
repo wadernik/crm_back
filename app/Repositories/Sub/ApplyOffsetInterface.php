@@ -6,5 +6,5 @@ namespace App\Repositories\Sub;
 
 interface ApplyOffsetInterface
 {
-    public function applyOffset(?int $limit = null, ?int $offset = null): void;
+    public function applyOffset(?string $limit = null, ?string $offset = null): void;
 }

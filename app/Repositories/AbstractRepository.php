@@ -75,7 +75,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         $this->builder->orderBy($sortParams['sort'], $sortParams['order']);
     }
 
-    public function applyLimit(?int $limit = null): void
+    public function applyLimit(?string $limit = null): void
     {
         if ($limit) {
             $this->builder->limit($limit);
