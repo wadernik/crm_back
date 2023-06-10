@@ -28,7 +28,7 @@ final class SellerController extends AbstractApiController
 
         $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
         $limit = $requestData['limit'] ?? null;
-        $offset = $requestData['offset'] ?? null;
+        $offset = $requestData['page'] ?? null;
 
         $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
         $total = $repository->count($requestData);

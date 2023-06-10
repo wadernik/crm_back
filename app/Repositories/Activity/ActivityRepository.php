@@ -15,7 +15,18 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
         parent::__construct(ActivityExtended::query());
     }
 
+    // TODO: maybe redo this
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
+        if (isset($criteria['filter']['subject'])) {
+            $subject = array_filter(
+                ActivityExtended::getSubjectsList(),
+                fn(array $subject): bool => $subject['id'] === (int) $criteria['filter']['subject']
+            );
+
+            unset($criteria['filter']['subject']);
+
+            $criteria['filter']['subject_type'] = (array_shift($subject))['name'];
+        }
     }
 }

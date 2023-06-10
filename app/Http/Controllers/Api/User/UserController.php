@@ -30,7 +30,7 @@ final class UserController extends AbstractApiController
 
         $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
         $limit = $requestData['limit'] ?? null;
-        $offset = $requestData['offset'] ?? null;
+        $offset = $requestData['page'] ?? null;
 
         $users = $userRepository->findAllBy($requestData, $attributes, $sort, $limit, $offset);
         $total = $userRepository->count($requestData);

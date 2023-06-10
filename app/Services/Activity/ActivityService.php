@@ -35,9 +35,11 @@ final class ActivityService implements ActivityServiceInterface
 
         $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
 
-        $sort = ['sort' => 'id', 'order' => 'desc'];
+        $sort = ['sort' => $requestData['sort'] ?? 'id', 'order' => $requestData['order'] ?? 'desc'];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
 
-        $activities = ($this->repository->findAllBy($requestParams, $attributes, $sort))->toArray();
+        $activities = ($this->repository->findAllBy($requestParams, $attributes, $sort, $limit, $offset))->toArray();
 
         $total = $this->repository->count($requestParams);
 

@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Repositories\Sub\AbstractRepositoryInterface;
 use App\Repositories\Sub\CountInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 abstract class AbstractRepository implements AbstractRepositoryInterface, CountInterface
@@ -16,6 +17,11 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
     }
 
     abstract function addExtraFilter(Builder $builder, array &$criteria): void;
+
+    public function find(int $id): ?Model
+    {
+        return $this->builder->find($id);
+    }
 
     /**
      * @param array $criteria

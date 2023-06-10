@@ -28,7 +28,7 @@ final class RoleController extends AbstractApiController
 
         $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
         $limit = $requestData['limit'] ?? null;
-        $offset = $requestData['offset'] ?? null;
+        $offset = $requestData['page'] ?? null;
 
         $repository->applyWith(['permissions']);
 
@@ -43,6 +43,8 @@ final class RoleController extends AbstractApiController
         if (!$this->isAllowed('roles.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
+
+        $repository->applyWith(['permissions']);
 
         if (!$role = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
