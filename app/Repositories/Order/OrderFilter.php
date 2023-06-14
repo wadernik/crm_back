@@ -36,6 +36,11 @@ final class OrderFilter implements OrderFilterInterface
         $this->builder->where('orders.seller_id', $sellerId);
     }
 
+    public function filterNumber(string $number): void
+    {
+        $this->builder->where('orders.number', $number);
+    }
+
     public function filterUserId(string|array $userId): void
     {
         if (is_array($userId)) {

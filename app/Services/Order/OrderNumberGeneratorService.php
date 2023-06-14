@@ -17,9 +17,9 @@ final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceIn
     }
 
 
-    public function generate(): string
+    public function generate(string $orderDate): string
     {
-        $nowCarbon = Carbon::now();
+        $nowCarbon = Carbon::parse($orderDate);
 
         $criteria = [
             'filter' => [

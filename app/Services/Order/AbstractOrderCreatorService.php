@@ -38,7 +38,7 @@ abstract class AbstractOrderCreatorService implements OrderCreatorServiceInterfa
         }
 
         $attributes['status'] = BaseOrder::STATUS_ACCEPTED;
-        $attributes['number'] = $this->numberGeneratorService->generate();
+        $attributes['number'] = $this->numberGeneratorService->generate($attributes['order_date']);
 
         return $this->manager->create(new CreateOrderDTO($attributes));
     }

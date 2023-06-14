@@ -6,5 +6,5 @@ namespace App\Services\Order;
 
 interface OrderNumberGeneratorServiceInterface
 {
-    public function generate(): string;
+    public function generate(string $orderDate): string;
 }

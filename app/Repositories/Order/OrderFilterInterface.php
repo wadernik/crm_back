@@ -18,6 +18,8 @@ interface OrderFilterInterface
 
     public function filterSellerId(string $sellerId): void;
 
+    public function filterNumber(string $number): void;
+
     /**
      * @param string|array<string> $userId
      * @return void
