@@ -52,6 +52,7 @@ class User extends Authenticatable implements UserInterface
     ];
 
     protected $hidden = [
+        'username',
         'password',
         'remember_token',
         'created_at',

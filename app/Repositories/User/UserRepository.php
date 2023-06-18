@@ -36,6 +36,20 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
 
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
+        if (isset($criteria['filter']['first_name'])) {
+            $builder
+                ->where('first_name', 'LIKE', "%{$criteria['filter']['first_name']}%")
+                ->orWhere('last_name', 'LIKE', "%{$criteria['filter']['first_name']}%");
+        }
+
+        if (isset($criteria['filter']['last_name'])) {
+            $builder
+                ->where('last_name', 'LIKE', "%{$criteria['filter']['last_name']}%")
+                ->orWhere('first_name', 'LIKE', "%{$criteria['filter']['last_name']}%");
+        }
+
+        unset($criteria['filter']['first_name'], $criteria['filter']['last_name']);
+
         if (!isset($criteria['filter']['is_online'])) {
             return;
         }
