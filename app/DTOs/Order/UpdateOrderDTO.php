@@ -106,8 +106,10 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
 
     public function toArray(): array
     {
-        unset($this->attributes['id'], $this->attributes['files']);
+        $attributes = $this->attributes;
 
-        return $this->attributes;
+        unset($attributes['id'], $attributes['files']);
+
+        return $attributes;
     }
 }

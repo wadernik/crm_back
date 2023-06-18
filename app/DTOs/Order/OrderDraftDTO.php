@@ -106,8 +106,10 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
 
     public function toArray(): array
     {
-        unset($this->attributes['id'], $this->attributes['files']);
+        $attributes = $this->attributes;
 
-        return $this->attributes;
+        unset($attributes['id'], $attributes['files']);
+
+        return $attributes;
     }
 }
