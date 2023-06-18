@@ -27,8 +27,8 @@ abstract class AbstractOrderManager implements OrderManagerInterface
         /** @var OrderInterface|Model $order */
         $order = $this->builder->create($orderAttributes);
 
-        if (isset($attributes['files'])) {
-            $fileIds = collect($attributes['files'])
+        if ($orderDTO->files()) {
+            $fileIds = collect($orderDTO->files())
                 ->pluck('id')
                 ->toArray();
 
@@ -58,8 +58,8 @@ abstract class AbstractOrderManager implements OrderManagerInterface
 
         $order->update($orderAttributes);
 
-        if (isset($attributes['files'])) {
-            $fileIds = collect($attributes['files'])
+        if ($orderDTO->files()) {
+            $fileIds = collect($orderDTO->files())
                 ->pluck('id')
                 ->toArray();
 
@@ -103,7 +103,7 @@ abstract class AbstractOrderManager implements OrderManagerInterface
         ];
 
         return collect($attributes)
-            ->partition(function (string $value, string $key) use ($detailAttributes): bool {
+            ->partition(function (?string $value, string $key) use ($detailAttributes): bool {
                 return !isset($detailAttributes[$key]);
             })
             ->toArray();

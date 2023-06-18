@@ -100,6 +100,8 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
 
     public function toArray(): array
     {
+        unset($this->attributes['files']);
+
         return $this->attributes;
     }
 }
