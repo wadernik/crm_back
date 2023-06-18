@@ -52,6 +52,10 @@ use App\Services\DateLimit\AcceptOrderValidatorService;
 use App\Services\DateLimit\AcceptOrderValidatorServiceInterface;
 use App\Services\Order\Activity\OrderActivityService;
 use App\Services\Order\Activity\OrderActivityServiceInterface;
+use App\Services\Order\Dooglys\DooglysApiClient;
+use App\Services\Order\Dooglys\DooglysApiClientInterface;
+use App\Services\Order\Dooglys\DooglysServiceInterface;
+use App\Services\Order\Dooglys\Sub\DooglysService;
 use App\Services\Order\Draft\OrderDraftCreatorService;
 use App\Services\Order\Draft\OrderDraftCreatorServiceInterface;
 use App\Services\Order\Draft\OrderDraftUpdaterService;
@@ -138,6 +142,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExportUserReportServiceInterface::class, ExportUserReportService::class);
         $this->app->bind(VkApiClientInterface::class, VkApiClient::class);
         $this->app->bind(VkServiceInterface::class, VkService::class);
+        $this->app->bind(DooglysApiClientInterface::class, DooglysApiClient::class);
+        $this->app->bind(DooglysServiceInterface::class, DooglysService::class);
     }
 
     /**

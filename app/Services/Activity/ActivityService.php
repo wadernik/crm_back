@@ -44,6 +44,13 @@ final class ActivityService implements ActivityServiceInterface
         $total = $this->repository->count($requestParams);
 
         $result = collect($activities)
+            ->filter(static function (array $activity): bool {
+                if ($activity['subject_type'] === OrderDetail::class && $activity['event'] === 'created') {
+                    return false;
+                }
+
+                return true;
+            })
             ->mapToGroups(static function (array $activity) {
                 $groupBy = $activity['subject_type'];
 

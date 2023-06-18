@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $status
  * @property string $product_code
  * @property string $order_date
+ * @property string $created_at
  */
 interface OrderInterface
 {
