@@ -13,7 +13,7 @@ final class DateLimitRepository extends AbstractRepository implements DateLimitR
 {
     public function __construct()
     {
-        parent::__construct(ManufacturerDateLimit::query());
+        parent::__construct(ManufacturerDateLimit::class);
     }
 
     public function find(int $id): ?Model

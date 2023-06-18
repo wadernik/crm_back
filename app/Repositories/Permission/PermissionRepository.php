@@ -12,7 +12,7 @@ final class PermissionRepository extends AbstractRepository implements Permissio
 {
     public function __construct()
     {
-        parent::__construct(Permission::query());
+        parent::__construct(Permission::class);
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void

@@ -12,6 +12,6 @@ final class OrderDraftRepository extends AbstractOrderRepository implements Orde
 {
     public function __construct()
     {
-        parent::__construct(OrderDraft::query(), OrderFilter::class);
+        parent::__construct(OrderDraft::class, OrderFilter::class);
     }
 }

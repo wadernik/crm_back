@@ -19,7 +19,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
 {
     public function __construct()
     {
-        parent::__construct(User::query());
+        parent::__construct(User::class);
     }
 
     public function find(int $id): ?Model

@@ -13,7 +13,7 @@ final class ManufacturerRepository extends AbstractRepository implements Manufac
 {
     public function __construct()
     {
-        parent::__construct(Manufacturer::query());
+        parent::__construct(Manufacturer::class);
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void

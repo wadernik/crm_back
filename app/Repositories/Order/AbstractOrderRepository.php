@@ -15,11 +15,21 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
 {
     private OrderFilterInterface $filter;
 
+    private Model $model;
+    private Builder $builder;
+
     /**
+     * @param string $modelClass
+     * @param string $filterClass
+     *
      * @throws BindingResolutionException
      */
-    public function __construct(private Builder $builder, private string $filterClass)
+    public function __construct(private string $modelClass, private string $filterClass)
     {
+        $this->model = new $this->modelClass();
+
+        $this->builder = $this->model::query();
+
         $this->join(
             'order_details',
             'order_details.order_id',
@@ -72,7 +82,11 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
             $this->builder->offset($limit * ($offset - 1));
         }
 
-        return $this->builder->get($attributes);
+        $results = $this->builder->get($attributes);
+
+        $this->reset();
+
+        return $results;
     }
 
     public function find(int $id): ?Model
@@ -121,8 +135,13 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
         }
     }
 
-    protected function getFilterMethod(string $name): string
+    private function getFilterMethod(string $name): string
     {
         return 'filter' . Str::studly(preg_replace('/\W/', '', $name));
+    }
+
+    private function reset(): void
+    {
+        $this->builder = $this->model::query();
     }
 }

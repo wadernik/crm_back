@@ -12,7 +12,7 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
 {
     public function __construct()
     {
-        parent::__construct(ActivityExtended::query());
+        parent::__construct(ActivityExtended::class);
     }
 
     // TODO: maybe redo this

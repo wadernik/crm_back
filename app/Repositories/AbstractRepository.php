@@ -12,8 +12,14 @@ use Illuminate\Support\Collection;
 
 abstract class AbstractRepository implements AbstractRepositoryInterface, CountInterface
 {
-    public function __construct(private Builder $builder)
+    private Builder $builder;
+    private Model $model;
+
+    public function __construct(private string $modelClass)
     {
+        $this->model = new $this->modelClass();
+
+        $this->builder = $this->model::query();
     }
 
     abstract function addExtraFilter(Builder $builder, array &$criteria): void;
@@ -48,7 +54,11 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
 
         $this->applyOffset($limit, $offset);
 
-        return $this->builder->get($attributes);
+        $results = $this->builder->get($attributes);
+
+        $this->reset();
+
+        return $results;
     }
 
     public function applyFilter(array $criteria): void
@@ -119,5 +129,10 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         $this->applyFilter($criteria);
 
         return $this->builder->count();
+    }
+
+    private function reset(): void
+    {
+        $this->builder = $this->model::query();
     }
 }

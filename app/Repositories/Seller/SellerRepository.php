@@ -13,7 +13,7 @@ final class SellerRepository extends AbstractRepository implements SellerReposit
 {
     public function __construct()
     {
-        parent::__construct(Seller::query());
+        parent::__construct(Seller::class);
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void

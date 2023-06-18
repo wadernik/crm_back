@@ -13,7 +13,7 @@ final class RoleRepository extends AbstractRepository implements RoleRepositoryI
 {
     public function __construct()
     {
-        parent::__construct(Role::query());
+        parent::__construct(Role::class);
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void

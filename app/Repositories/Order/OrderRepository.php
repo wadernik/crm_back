@@ -10,6 +10,6 @@ final class OrderRepository extends AbstractOrderRepository implements OrderRepo
 {
     public function __construct()
     {
-        parent::__construct(Order::query(), OrderFilter::class);
+        parent::__construct(Order::class, OrderFilter::class);
     }
 }

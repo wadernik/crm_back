@@ -13,7 +13,7 @@ final class CommentRepository extends AbstractRepository implements CommentRepos
 {
     public function __construct()
     {
-        parent::__construct(CustomComments::query());
+        parent::__construct(CustomComments::class);
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void
