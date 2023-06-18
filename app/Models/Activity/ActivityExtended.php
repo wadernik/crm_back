@@ -8,6 +8,7 @@ use App\Models\Comment\CustomComments;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Models\Order\BaseOrder;
+use App\Models\Order\Detail\OrderDetail;
 use App\Models\Order\File\OrderFile;
 use App\Models\Permission\Permission;
 use App\Models\Role\Role;
@@ -69,6 +70,11 @@ final class ActivityExtended extends Activity implements ActivityInterface
                 'id' => 9,
                 'name' => CustomComments::class,
                 'display_name' => __('activities.display_name.comments'),
+            ],
+            [
+                'id' => 10,
+                'name' => OrderDetail::class,
+                'display_name' => __('activities.display_name.order_detail'),
             ]
         ];
     }
