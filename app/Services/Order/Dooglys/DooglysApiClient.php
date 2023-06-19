@@ -28,7 +28,7 @@ final class DooglysApiClient implements DooglysApiClientInterface
             'query' => [
                 'date_created_from' => $dateStart,
                 'date_created_to' => $dateEnd,
-                'number' => $orderNumber,
+                // 'number' => $orderNumber,
             ],
         ];
 

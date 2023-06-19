@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Order\Dooglys\Sub;
+namespace App\Services\Order\Dooglys;
 
-use App\Services\Order\Dooglys\DooglysApiClientInterface;
-use App\Services\Order\Dooglys\DooglysServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
