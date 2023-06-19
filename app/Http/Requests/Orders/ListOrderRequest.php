@@ -18,6 +18,7 @@ class ListOrderRequest extends FormRequest
             'filter.manufacturer_id' => 'sometimes|integer',
             'filter.source_id' => 'sometimes|integer',
             'filter.seller_id' => 'sometimes|integer',
+            'filter.user_id' => 'sometimes|integer',
             'filter.number' => 'sometimes|string',
             'filter.status' => 'sometimes',
             'filter.order_date' => 'sometimes|date_format:Y-m-d',

@@ -16,8 +16,8 @@ class UserReportRequest extends FormRequest
         return [
             'user_id' => 'sometimes|integer|nullable',
             'role_id' => 'sometimes|integer|nullable',
-            'date_start' => 'required|date_format:Y-m-d',
-            'date_end' => 'sometimes|date_format:Y-m-d',
+            'filter.date_start' => 'required|date_format:Y-m-d',
+            'filter.date_end' => 'sometimes|date_format:Y-m-d',
         ];
     }
 }

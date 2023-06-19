@@ -11,8 +11,10 @@ final class UserReportDTO implements UserReportDTOInterface
      * @param array{
      *     user_id: string|null,
      *     role_id: string|null,
-     *     date_start: string,
-     *     date_end: string|null
+     *     filter: array{
+     *          date_start: string,
+     *          date_end: string|null
+     *     }
      * } $attributes
      */
     public function __construct(private array $attributes)
@@ -31,12 +33,12 @@ final class UserReportDTO implements UserReportDTOInterface
 
     public function dateStart(): string
     {
-        return $this->attributes['date_start'];
+        return $this->attributes['filter']['date_start'];
     }
 
     public function dateEnd(): ?string
     {
-        return $this->attributes['date_end'] ?? null;
+        return $this->attributes['filter']['date_end'] ?? null;
     }
 
     public function toArray(): array

@@ -17,8 +17,8 @@ final class RoleDictionaryController
 
         $repository->applyWith(['permissions']);
 
-        $items = $repository->findAllBy($criteria);
         $total = $repository->count($criteria);
+        $items = $repository->findAllBy($criteria);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }

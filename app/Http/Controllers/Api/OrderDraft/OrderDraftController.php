@@ -45,8 +45,8 @@ final class OrderDraftController extends AbstractApiController
         $repository->join('users', 'users.id', '=', 'orders.user_id');
         $repository->applyWith(['files:id,filename']);
 
-        $items = $repository->findAllBy($requestData, $attributes, $sort, $limit, $offset);
         $total = $repository->count($requestData);
+        $items = $repository->findAllBy($requestData, $attributes, $sort, $limit, $offset);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
