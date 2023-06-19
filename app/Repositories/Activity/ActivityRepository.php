@@ -24,9 +24,17 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
                 fn(array $subject): bool => $subject['id'] === (int) $criteria['filter']['subject']
             );
 
-            unset($criteria['filter']['subject']);
-
             $criteria['filter']['subject_type'] = (array_shift($subject))['name'];
         }
+
+        if (isset($criteria['filter']['date_start'])) {
+            $builder->where('created_at', ">=", $criteria['filter']['date_start']);
+        }
+
+        if (isset($criteria['filter']['date_end'])) {
+            $builder->where('created_at', "<=", $criteria['filter']['date_end']);
+        }
+
+        unset($criteria['filter']['subject'], $criteria['filter']['date_start'], $criteria['filter']['date_end']);
     }
 }
