@@ -8,7 +8,6 @@ final class CreateUserDTO implements CreateUserDTOInterface
 {
     /**
      * @param array{
-     *     username: string,
      *     password: string,
      *     first_name: string,
      *     last_name: string|null,
@@ -23,10 +22,10 @@ final class CreateUserDTO implements CreateUserDTOInterface
     {
     }
 
-    public function username(): string
-    {
-        return $this->attributes['username'];
-    }
+    //public function username(): string
+    //{
+    //    return $this->attributes['username'];
+    //}
 
     public function password(): string
     {

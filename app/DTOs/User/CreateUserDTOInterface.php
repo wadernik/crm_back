@@ -10,7 +10,7 @@ use Illuminate\Contracts\Support\Arrayable;
 
 interface CreateUserDTOInterface extends ImmutablePhoneInterface, EmailInterface, Arrayable
 {
-    public function username(): string;
+    // public function username(): string;
 
     public function password(): string;
 

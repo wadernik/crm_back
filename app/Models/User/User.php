@@ -40,7 +40,7 @@ class User extends Authenticatable implements UserInterface
     protected $fillable = [
         'first_name',
         'last_name',
-        'username',
+        // 'username',
         'password',
         'role_id',
         'phone',

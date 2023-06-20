@@ -33,7 +33,6 @@ final class UserReportService implements UserReportServiceInterface
             'created_at_start' => $requestDateStart,
             'created_at_end' => $requestDateEnd,
             'status' => (string) BaseOrder::STATUS_SOLD,
-            'user_id' => $requestUserId,
         ]);
 
         $usersFilterParams = array_filter([
@@ -51,7 +50,7 @@ final class UserReportService implements UserReportServiceInterface
             ->pluck('id')
             ->toArray();
 
-        $ordersFilterParams['user_ids'] = $userIds;
+        $ordersFilterParams['user_id'] = $userIds;
 
         $users = $users
             ->keyBy('id')

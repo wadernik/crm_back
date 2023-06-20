@@ -14,7 +14,7 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|unique:users|max:64',
+            // 'username' => 'required|string|unique:users|max:64',
             'password' => 'required|string|min:6',
             'first_name' => 'required|string|max:128',
             'last_name' => 'sometimes|string|max:128|nullable',
@@ -29,7 +29,7 @@ class CreateUserRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'username' => __('attributes.user.username'),
+            // 'username' => __('attributes.user.username'),
             'password' => __('attributes.user.password'),
             'first_name' => __('attributes.user.first_name'),
             'last_name' => __('attributes.user.last_name'),

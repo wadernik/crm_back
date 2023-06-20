@@ -14,8 +14,8 @@ class UserReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'sometimes|integer|nullable',
-            'role_id' => 'sometimes|integer|nullable',
+            'filter.user_id' => 'sometimes|integer|nullable',
+            'filter.role_id' => 'sometimes|integer|nullable',
             'filter.date_start' => 'required|date_format:Y-m-d',
             'filter.date_end' => 'sometimes|date_format:Y-m-d',
         ];
