@@ -33,6 +33,7 @@ abstract class AbstractOrderUpdaterService implements OrderUpdaterServiceInterfa
         $orderDate = $attributes['order_date'] ?? null;
         $manufacturerId = $attributes['manufacturer_id'] ?? null;
 
+        // TODO: don't forget about this
         if (!$orderDate || !$manufacturerId) {
             // /** @var OrderInterface $order */
             // $order = $this->repository->find($id);
