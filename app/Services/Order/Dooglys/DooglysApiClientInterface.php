@@ -8,5 +8,10 @@ use App\Services\Order\Dooglys\Sub\DooglysResponseInterface;
 
 interface DooglysApiClientInterface
 {
-    public function orders(int|string $dateStart, int|string $dateEnd, string $orderNumber): DooglysResponseInterface;
+    public function orders(
+        int|string $dateStart,
+        int|string $dateEnd,
+        string $orderNumber,
+        ?int $page = 1
+    ): DooglysResponseInterface;
 }

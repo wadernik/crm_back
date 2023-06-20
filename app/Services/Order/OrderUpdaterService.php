@@ -26,12 +26,16 @@ final class OrderUpdaterService extends AbstractOrderUpdaterService
         /** @var ?Model|?OrderInterface $order */
         $order = parent::update($id, $attributes);
 
-        if (!empty($order->number_external) && $order->status === BaseOrder::STATUS_SOLD) {
-            $finalPrice = $this->dooglysService->finalPrice(
-                $order->created_at,
-                $order->number_external
-            );
+        if (!$order->number_external && $order->status !== BaseOrder::STATUS_SOLD) {
+            return $order;
+        }
 
+        $finalPrice = $this->dooglysService->finalPrice(
+            $order->created_at,
+            $order->number_external
+        );
+
+        if ($finalPrice) {
             $order->update(['price' => $finalPrice]);
         }
 

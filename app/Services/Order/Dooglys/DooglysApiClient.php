@@ -22,13 +22,20 @@ final class DooglysApiClient implements DooglysApiClientInterface
     {
     }
 
-    public function orders(int|string $dateStart, int|string $dateEnd, string $orderNumber): DooglysResponseInterface
+    public function orders(
+        int|string $dateStart,
+        int|string $dateEnd,
+        string $orderNumber,
+        ?int $page = 1
+    ): DooglysResponseInterface
     {
         $requestParams = [
             'query' => [
                 'date_created_from' => $dateStart,
                 'date_created_to' => $dateEnd,
-                // 'number' => $orderNumber,
+                'page' => $page,
+                'per-page' => 200,
+                'number' => $orderNumber
             ],
         ];
 
@@ -47,6 +54,7 @@ final class DooglysApiClient implements DooglysApiClientInterface
         $requestParams[RequestOptions::HEADERS]['Access-Token'] = $this->token;
         $requestParams[RequestOptions::HEADERS]['Content-Type'] = 'application/json; charset=utf-8';
         $requestParams[RequestOptions::HEADERS]['Accept'] = 'application/json';
+        $requestParams[RequestOptions::VERIFY] = false;
 
         $success = false;
         $response = [];

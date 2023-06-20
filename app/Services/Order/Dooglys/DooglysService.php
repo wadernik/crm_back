@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Order\Dooglys;
 
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 final class DooglysService implements DooglysServiceInterface
@@ -33,10 +34,23 @@ final class DooglysService implements DooglysServiceInterface
             return 0;
         }
 
-        $order = collect($response->orders())->first(function (array $order) use ($number) {
-            return $order['number'] === $number;
-        });
+        $order = collect($response->orders())->first($this->lambda($number));
+
+        if (!$order) {
+            $response = $this->apiClient->orders($dateStartTimestamp, $dateEndTimestamp, $number, page: 2);
+
+            if (!$response->status()) {
+                return 0;
+            }
+        }
 
         return ($order['total_cost'] ?? 0) * 100;
+    }
+
+    private function lambda(string $number): Closure
+    {
+        return static function (array $order) use ($number): bool {
+            return $order['number'] === $number;
+        };
     }
 }
