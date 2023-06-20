@@ -15,13 +15,13 @@ use Illuminate\Database\Eloquent\Model;
 abstract class AbstractOrderUpdaterService implements OrderUpdaterServiceInterface
 {
     private OrderManagerInterface $manager;
-    private OrderRepositoryInterface $repository;
+    // private OrderRepositoryInterface $repository;
     private AcceptOrderValidatorServiceInterface $orderValidatorService;
 
     public function __construct(private string $managerClass)
     {
         $this->manager = app($this->managerClass);
-        $this->repository = app(OrderRepositoryInterface::class);
+        // $this->repository = app(OrderRepositoryInterface::class);
         $this->orderValidatorService = app(AcceptOrderValidatorServiceInterface::class);
     }
 
@@ -34,11 +34,12 @@ abstract class AbstractOrderUpdaterService implements OrderUpdaterServiceInterfa
         $manufacturerId = $attributes['manufacturer_id'] ?? null;
 
         if (!$orderDate || !$manufacturerId) {
-            /** @var OrderInterface $order */
-            $order = $this->repository->find($id);
-
-            $orderDate = $orderDate ?: $order->order_date;
-            $manufacturerId = $manufacturerId ?: $order->manufacturer_id;
+            // /** @var OrderInterface $order */
+            // $order = $this->repository->find($id);
+            //
+            // $orderDate = $orderDate ?: $order->order_date;
+            // $manufacturerId = $manufacturerId ?: $order->manufacturer_id;
+            return null;
         }
 
         if (!$this->orderValidatorService->canAccept($manufacturerId, $orderDate)) {
