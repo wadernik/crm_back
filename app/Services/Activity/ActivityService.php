@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Activity;
 
+use App\Models\Activity\ActivityInterface;
 use App\Models\Comment\CustomComments;
 use App\Models\Order\BaseOrder;
 use App\Models\Order\Detail\OrderDetail;
 use App\Models\Order\File\OrderFile;
 use App\Repositories\Activity\ActivityRepositoryInterface;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 final class ActivityService implements ActivityServiceInterface
 {
@@ -33,41 +32,25 @@ final class ActivityService implements ActivityServiceInterface
             $requestParams['filter']['subject_id'] = $subjectId;
         }
 
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
+        $requestParams['filter']['detail'] = true;
 
-        $sort = ['sort' => $requestParams['sort'] ?? 'id', 'order' => $requestParams['order'] ?? 'desc'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'created_at'];
+
+        $sort = ['sort' => $requestParams['sort'] ?? 'created_at', 'order' => $requestParams['order'] ?? 'desc'];
         $limit = $requestParams['limit'] ?? null;
         $offset = $requestParams['page'] ?? null;
 
-        $activities = ($this->repository->findAllBy($requestParams, $attributes, $sort, $limit, $offset))->toArray();
+        $activities = ($this->repository->findAllBy($requestParams, $attributes, $sort, $limit, $offset));
 
         $total = $this->repository->count($requestParams);
 
-        $result = collect($activities)
-            ->filter(static function (array $activity): bool {
-                if ($activity['subject_type'] === OrderDetail::class && $activity['event'] === 'created') {
-                    return false;
+        $result = $activities
+            ->map(static function (ActivityInterface $activity) {
+                if (isset(self::WHITELISTED_CLASSES[$activity->subject_type])) {
+                    $activity->subject_type = BaseOrder::class;
                 }
 
-                return true;
-            })
-            ->mapToGroups(static function (array $activity) {
-                $groupBy = $activity['subject_type'];
-
-                if (isset(self::WHITELISTED_CLASSES[$groupBy])) {
-                    $groupBy = BaseOrder::class;
-                }
-
-                return [$groupBy => $activity];
-            })
-            ->map(static function (Collection $activitiesGroup) {
-                $activitiesGroup = $activitiesGroup->sortByDesc(static function ($activity) {
-                    return $activity['id'];
-                });
-
-                return $activitiesGroup->sortByDesc(static function ($activity) {
-                    return Carbon::parse($activity['updated_at'])->timestamp;
-                });
+                return $activity;
             })
             ->toArray();
 

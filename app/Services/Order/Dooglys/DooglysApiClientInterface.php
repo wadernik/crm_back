@@ -11,7 +11,6 @@ interface DooglysApiClientInterface
     public function orders(
         int|string $dateStart,
         int|string $dateEnd,
-        string $orderNumber,
-        ?int $page = 1
+        string $orderNumber
     ): DooglysResponseInterface;
 }

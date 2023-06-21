@@ -25,17 +25,14 @@ final class DooglysApiClient implements DooglysApiClientInterface
     public function orders(
         int|string $dateStart,
         int|string $dateEnd,
-        string $orderNumber,
-        ?int $page = 1
+        string $orderNumber
     ): DooglysResponseInterface
     {
         $requestParams = [
             'query' => [
-                'date_created_from' => $dateStart,
-                'date_created_to' => $dateEnd,
-                'page' => $page,
-                'per-page' => 200,
-                'number' => $orderNumber
+                // 'date_created_from' => $dateStart,
+                // 'date_created_to' => $dateEnd,
+                'term' => $orderNumber
             ],
         ];
 

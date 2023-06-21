@@ -36,14 +36,6 @@ final class DooglysService implements DooglysServiceInterface
 
         $order = collect($response->orders())->first($this->lambda($number));
 
-        if (!$order) {
-            $response = $this->apiClient->orders($dateStartTimestamp, $dateEndTimestamp, $number, page: 2);
-
-            if (!$response->status()) {
-                return 0;
-            }
-        }
-
         return ($order['total_cost'] ?? 0) * 100;
     }
 
