@@ -34,7 +34,7 @@ final class ListOrderCommentController extends AbstractApiController
 
         $criteria = ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $id]];
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = ['sort' => $requestData['sort'] ?? 'created_at', 'order' => $requestData['order'] ?? 'desc'];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['offset'] ?? null;
 
