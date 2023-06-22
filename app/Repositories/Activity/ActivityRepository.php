@@ -25,7 +25,7 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
                 fn(array $subject): bool => $subject['id'] === (int) $criteria['filter']['subject']
             );
 
-            $criteria['filter']['subject_type'] = (array_shift($subject))['name'];
+            $builder->where('subject_type', (array_shift($subject))['name']);
         }
 
         if (isset($criteria['filter']['date_start'])) {
@@ -39,11 +39,13 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
         if (isset($criteria['filter']['detail'])) {
             $builder
                 ->where(function (Builder $query) {
-                    $query
-                        ->where('subject_type', '<>', OrderDetail::class)
-                        ->where('event', 'created');
-                })
-                ->orWhere('event', 'updated');
+                    $query->where(function (Builder $innerQuery) {
+                        $innerQuery
+                            ->where('subject_type', '<>', OrderDetail::class)
+                            ->where('event', 'created');
+                    })
+                    ->orWhere('event', 'updated');
+                });
         }
 
         unset(
