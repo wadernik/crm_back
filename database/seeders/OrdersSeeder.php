@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Manufacturer\Manufacturer;
-use App\Models\Order\Order;
+use App\Models\Order\OrderStatus;
 use App\Models\Seller\Seller;
 use App\Models\User\User;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
@@ -39,7 +39,7 @@ class OrdersSeeder extends Seeder
 
             $now = Carbon::now()->addDays(random_int(0, 3));
 
-            $status = array_rand(Order::statusCaptions());
+            $status = array_rand(OrderStatus::statusCaptions());
 
             $attributes = [
                 'manufacturer_id' => $manufacturer['id'] ?? 1,
