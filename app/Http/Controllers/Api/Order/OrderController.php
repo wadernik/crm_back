@@ -9,11 +9,11 @@ use App\Http\Requests\Orders\CreateOrderRequest;
 use App\Http\Requests\Orders\ListOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Http\Responses\ApiResponse;
-use App\Managers\Order\OrderManagerInterface;
+use App\Managers\Order\Normal\OrderManagerInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
-use App\Services\Order\OrderCreatorServiceInterface;
+use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
+use App\Services\Order\ManagerExtension\Normal\OrderUpdaterServiceInterface;
 use App\Services\Order\OrderFindWithCommentServiceInterface;
-use App\Services\Order\OrderUpdaterServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,25 +27,23 @@ final class OrderController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
-        $attributes = [
-            'orders.*',
-            'order_details.id AS order_detail_id',
-            'order_details.name',
-            'order_details.amount',
-            'order_details.label',
-            'order_details.decoration',
-            'order_details.comment',
-        ];
-
-        $repository->join('users', 'users.id', '=', 'orders.user_id');
-        $repository->applyWith(['files:id,filename']);
+        $repository->applyWith(
+            [
+                'items',
+                'files:id,filename',
+                'user',
+            ]
+        );
 
         $total = $repository->count($requestData);
-        $items = $repository->findAllBy($requestData, $attributes, $sort, $limit, $offset);
+        $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
@@ -73,29 +71,46 @@ final class OrderController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess($order->toArray());
+        return ApiResponse::responseSuccess(array_merge($order->toArray(), ['items' => $order->items->toArray()]));
     }
 
-    public function update(int $id, UpdateOrderRequest $request, OrderUpdaterServiceInterface $service): JsonResponse
+    public function update(
+        int $id,
+        UpdateOrderRequest $request,
+        OrderRepositoryInterface $orderRepository,
+        OrderUpdaterServiceInterface $service
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$order = $service->update($id, $request->validated())) {
+        if (!$order = $orderRepository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess($order->toArray());
+        if (!$order = $service->update($order, $request->validated())) {
+            return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
+        }
+
+        return ApiResponse::responseSuccess(array_merge($order->toArray(), ['items' => $order->items->toArray()]));
     }
 
-    public function destroy(int $id, OrderManagerInterface $manager): JsonResponse
+    public function destroy(
+        int $id,
+        OrderRepositoryInterface $orderRepository,
+        OrderManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.delete')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$order = $manager->delete($id)) {
+        if (!$order = $orderRepository->find($id)) {
+            return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$order = $manager->delete($order)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 

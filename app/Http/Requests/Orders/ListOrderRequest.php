@@ -26,7 +26,7 @@ class ListOrderRequest extends FormRequest
             'filter.order_date_end' => 'sometimes|date_format:Y-m-d',
             'filter.accepted_date_start' => 'sometimes|date_format:Y-m-d',
             'filter.accepted_date_end' => 'sometimes|date_format:Y-m-d',
-            'filter.name' => 'sometimes|string|max:255',
+            'filter.phone' => 'sometimes|regex:/^\d{11}$/',
             'limit' => 'sometimes',
             'page' => 'sometimes',
             'sort' => 'sometimes|string',

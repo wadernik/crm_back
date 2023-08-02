@@ -6,7 +6,7 @@ use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\Order;
 use App\Models\Seller\Seller;
 use App\Models\User\User;
-use App\Services\Order\OrderCreatorServiceInterface;
+use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -19,6 +19,7 @@ class OrdersSeeder extends Seeder
     {
         /** @var OrderCreatorServiceInterface $orderService */
         $orderService = app(OrderCreatorServiceInterface::class);
+
         for ($i = 1; $i <= self::ORDERS_LIMIT; $i++) {
             $manufacturer = Manufacturer::query()
                 ->inRandomOrder()
@@ -49,10 +50,15 @@ class OrdersSeeder extends Seeder
                 'accepted_date' => $now->format('Y-m-d'),
                 'order_date' => $now->addDays(random_int(0, 1))->format('Y-m-d'),
                 'order_time' => $now->subMinutes(random_int(0, 55)),
-                'name' => Str::random(),
-                'label' => Str::random(),
-                'amount' => random_int(50, 3000),
-                'comment' => Str::random(),
+                'phone' => '79111111111',
+                'items' => [
+                    [
+                        'name' => Str::random(),
+                        'label' => Str::random(),
+                        'amount' => random_int(50, 3000),
+                        'comment' => Str::random(),
+                    ],
+                ],
             ];
 
             $orderService->create($attributes);

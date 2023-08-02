@@ -5,27 +5,30 @@ declare(strict_types=1);
 namespace App\Managers\Order;
 
 use App\DTOs\Order\CreateOrderDTOInterface;
-use App\DTOs\Order\OrderDraftDTOInterface;
 use App\DTOs\Order\UpdateOrderDTOInterface;
-use App\Models\Order\Detail\OrderDetail;
+use App\Models\Order\Item\OrderItem;
+use App\Models\Order\Order;
 use App\Models\Order\OrderInterface;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractOrderManager implements OrderManagerInterface
+abstract class AbstractOrderManager implements AbstractOrderManagerInterface
 {
-    public function __construct(private Builder $builder)
+    public function __construct(private bool $draft)
     {
     }
 
-    // TODO: refactor arguments
-    public function create(CreateOrderDTOInterface|OrderDraftDTOInterface $orderDTO): Model
+    public function create(CreateOrderDTOInterface $orderDTO): Model
     {
-        [$orderAttributes, $orderDetailAttributes] = $this->prepareAttributes($orderDTO->toArray());
+        $mainAttributes = $orderDTO->main();
+        $mainAttributes['draft'] = $this->draft;
 
-        /** @var OrderInterface|Model $order */
-        $order = $this->builder->create($orderAttributes);
+        /** @var OrderInterface|Order $order */
+        $order = Order::query()->create($mainAttributes);
+
+        if ($this->draft) {
+            $order->disableLogging();
+        }
 
         if ($orderDTO->files()) {
             $fileIds = collect($orderDTO->files())
@@ -35,28 +38,27 @@ abstract class AbstractOrderManager implements OrderManagerInterface
             $order->files()->sync($fileIds);
         }
 
-        if ($orderDetailAttributes) {
-            $orderDetailAttributes['order_id'] = $order->id;
+        foreach ($orderDTO->items() as $item) {
+            $item['order_id'] = $order->id;
 
-            OrderDetail::query()
+            OrderItem::query()
                 ->where('order_id', $order->id)
-                ->create($orderDetailAttributes);
+                ->create($item);
         }
 
         return $order;
     }
 
-    // TODO: refactor arguments
-    public function update(int $id, UpdateOrderDTOInterface|OrderDraftDTOInterface $orderDTO): ?Model
+    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): ?Model
     {
-        /** @var OrderInterface|Model $order */
-        if (!$order = $this->builder->find($id)) {
-            return null;
+        $mainAttributes = $orderDTO->main();
+        $mainAttributes['draft'] = $this->draft;
+
+        if ($this->draft) {
+            $order->disableLogging();
         }
 
-        [$orderAttributes, $orderDetailAttributes] = $this->prepareAttributes($orderDTO->toArray());
-
-        $order->update($orderAttributes);
+        $order->update($mainAttributes);
 
         if ($orderDTO->files()) {
             $fileIds = collect($orderDTO->files())
@@ -66,14 +68,12 @@ abstract class AbstractOrderManager implements OrderManagerInterface
             $order->files()->sync($fileIds);
         }
 
-        if ($orderDetailAttributes) {
-            $orderDetailAttributes['order_id'] = $order->id;
+        foreach ($orderDTO->items() as $item) {
+            $item['order_id'] = $order->id;
 
-            OrderDetail::query()
-                ->where('order_id', $order->id)
-                ->get()
-                ->first()
-                ->update($orderDetailAttributes);
+            foreach(OrderItem::query()->where('id', $item['id'])->get() as $orderItem) {
+                $orderItem->update($item);
+            }
 
             $order->update(['updated_at' => Carbon::now()->timestamp]);
         }
@@ -81,31 +81,10 @@ abstract class AbstractOrderManager implements OrderManagerInterface
         return $order;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(Order $order): Order
     {
-        if (!$order = $this->builder->find($id)) {
-            return null;
-        }
-
         $order->delete();
 
         return $order;
-    }
-
-    private function prepareAttributes(array $attributes): array
-    {
-        $detailAttributes = [
-            'name' => true,
-            'amount' => true,
-            'label' => 'true',
-            'decoration' => true,
-            'comment' => true
-        ];
-
-        return collect($attributes)
-            ->partition(function (?string $value, string $key) use ($detailAttributes): bool {
-                return !isset($detailAttributes[$key]);
-            })
-            ->toArray();
     }
 }

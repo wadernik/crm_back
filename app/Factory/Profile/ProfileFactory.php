@@ -21,6 +21,7 @@ final class ProfileFactory implements ProfileFactoryInterface
     {
         $user = $this->repository->profile($userId);
 
+        // TODO: check $user on null
         $devices = $this->repository->devices($user, $device);
 
         return new Profile($user, $devices);

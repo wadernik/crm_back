@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models\Order\OrderWithComment;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Order\Order;
 use Illuminate\Support\Collection;
 
 final class OrderWithComments implements OrderWithCommentsInterface
 {
-    public function __construct(private Model $order, private Collection $comments)
+    public function __construct(private Order $order, private Collection $comments)
     {
     }
 
-    public function order(): Model
+    public function order(): Order
     {
         return $this->order;
     }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Order\OrderWithComment;
 
+use App\Models\Order\Order;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 interface OrderWithCommentsInterface extends Arrayable
 {
-    public function order(): Model;
+    public function order(): Order;
 
     public function comments(): Collection;
 }

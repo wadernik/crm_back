@@ -14,18 +14,24 @@ class CreateOrderDraftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'label' => 'sometimes|string|max:255|nullable',
-            'comment' => 'sometimes|string|max:255|nullable',
-            'decoration' => 'sometimes|string|max:255|nullable',
-            'amount' => 'sometimes|string|nullable',
-            'accepted_date' => 'sometimes|date_format:Y-m-d|nullable',
-            'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow|nullable',
-            'order_time' => 'sometimes|date_format:H:i|nullable',
-            'manufacturer_id' => 'sometimes|integer|nullable',
+            'manufacturer_id' => 'sometimes|integer',
+            'source_id' => 'sometimes|integer',
+            'seller_id' => 'sometimes|integer',
+            'user_id' => 'sometimes|integer',
+            'inspector_id' => 'sometimes|integer',
+            'phone' => 'sometimes|regex:/^\d{11}$/',
+            'accepted_date' => 'sometimes|date_format:Y-m-d',
+            'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow',
+            'order_time' => 'sometimes|date_format:H:i',
             'number_external' => 'sometimes|string|nullable',
-            'source_id' => 'sometimes|integer|nullable',
-            'seller_id' => 'sometimes|integer|nullable',
+            //
+            'items' => 'sometimes|array',
+            'items.*.name' => 'sometimes|string|max:255',
+            'items.*.amount' => 'sometimes|string',
+            'items.*.label' => 'sometimes|string|max:255|nullable',
+            'items.*.comment' => 'sometimes|string|max:255|nullable',
+            'items.*.decoration' => 'sometimes|string|max:255|nullable',
+            //
             'files' => 'sometimes|array|nullable',
         ];
     }
@@ -33,19 +39,19 @@ class CreateOrderDraftRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => __('attributes.order.name'),
-            'label' => __('attributes.order.label'),
-            'comment' => __('attributes.order.comment'),
-            'decoration' => __('attributes.order.decoration'),
-            'amount' => __('attributes.order.amount'),
+            'manufacturer_id' => __('attributes.order.manufacturer_id'),
+            'source_id' => __('attributes.order.source_id'),
+            'seller_id' => __('attributes.order.seller_id'),
             'accepted_date' => __('attributes.order.accepted_date'),
             'order_date' => __('attributes.order.order_date'),
             'order_time' => __('attributes.order.order_time'),
-            'manufacturer_id' => __('attributes.order.manufacturer_id'),
-            'number_external' => 'sometimes|string|nullable',
-            'source_id' => __('attributes.order.source_id'),
-            'seller_id' => __('attributes.order.seller_id'),
-            'files' => __('attributes.order.files'),
+            'items' => __('attributes.order.items'),
+            'items.*.name' => __('attributes.order.name'),
+            'items.*.label' => __('attributes.order.label'),
+            'items.*.comment' => __('attributes.order.comment'),
+            'items.*.decoration' => __('attributes.order.decoration'),
+            'items.*.amount' => __('attributes.order.amount'),
+            'items.*.files' => __('attributes.order.files'),
         ];
     }
 }

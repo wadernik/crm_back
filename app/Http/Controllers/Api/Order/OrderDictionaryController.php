@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Responses\ApiResponse;
-use App\Repositories\Order\OrderRepositoryInterface;
+use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use Illuminate\Http\JsonResponse;
 
 final class OrderDictionaryController
 {
-    public function statuses(OrderRepositoryInterface $repository): JsonResponse
+    public function statuses(OrderStatusesRetrieverInterface $statusesRetriever): JsonResponse
     {
-        return ApiResponse::responseSuccess($repository->statuses());
+        return ApiResponse::responseSuccess($statusesRetriever->get());
     }
 }

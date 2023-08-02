@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Order\Activity;
 
 use App\Models\Comment\CustomComments;
-use App\Models\Order\BaseOrder;
-use App\Models\Order\Detail\OrderDetail;
 use App\Models\Order\File\OrderFile;
+use App\Models\Order\Item\OrderItem;
+use App\Models\Order\Order;
 use App\Repositories\Activity\ActivityRepositoryInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
@@ -38,9 +38,9 @@ final class OrderActivityService implements OrderActivityServiceInterface
         [$orderActivities, $orderActivitiesTotal] = $this->loadOrderActivities($subjectId);
         $total += $orderActivitiesTotal;
 
-        // Details
-        [$detailsActivities, $detailsTotal] = $this->loadDetailActivities($order);
-        $total += $detailsTotal;
+        // Items
+        [$itemsActivities, $itemsTotal] = $this->loadItemsActivities($order);
+        $total += $itemsTotal;
 
         // Files
         [$fileActivities, $fileTotal] = $this->loadFileActivities($order);
@@ -51,7 +51,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $total += $commentTotal;
 
         $results = collect($orderActivities)
-            ->merge($detailsActivities)
+            ->merge($itemsActivities)
             ->merge($fileActivities)
             ->merge($commentsActivities)
             ->sortByDesc(static function ($activity) {
@@ -65,10 +65,10 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadOrderActivities(?int $subjectId = null): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
 
         $requestParams['filter']['subject_id'] = $subjectId;
-        $requestParams['filter']['subject_type'] = BaseOrder::class;
+        $requestParams['filter']['subject_type'] = Order::class;
 
         // TODO: think about this. every call we need to reinitialize builder state
         $activityRepository = app(ActivityRepositoryInterface::class);
@@ -79,25 +79,33 @@ final class OrderActivityService implements OrderActivityServiceInterface
         return [$orderActivities, $total];
     }
 
-    private function loadDetailActivities(Model $order): array
+    private function loadItemsActivities(Order $order): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
 
-        $requestParams['filter']['subject_id'] = $order['order_detail_id'];
-        $requestParams['filter']['subject_type'] = OrderDetail::class;
+        $itemsIds = $order->items
+            ->pluck('id')
+            ->toArray();
+
+        $requestParams['filter']['subject_id'] = $itemsIds;
+        $requestParams['filter']['subject_type'] = OrderItem::class;
 
         $activityRepository = app(ActivityRepositoryInterface::class);
 
-        $detailsActivities = $activityRepository->findAllBy($requestParams, $attributes);
+        $itemsActivities = $activityRepository->findAllBy($requestParams, $attributes);
+
+        foreach ($itemsActivities as $item) {
+            $item->subject_id = $order->id;
+        }
 
         $total = $activityRepository->count($requestParams);
 
-        return [$detailsActivities, $total];
+        return [$itemsActivities, $total];
     }
 
     private function loadFileActivities(Model $order): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
 
         // TODO: костыль
         $orderFiles = OrderFile::query()
@@ -123,12 +131,12 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadCommentActivities(?int $subjectId = null): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
 
         $this->commentRepository->withTrashed();
 
         $comments = $this->commentRepository->findAllBy(
-            ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $subjectId]]
+            ['filter' => ['commentable_type' => Order::class, 'commentable_id' => $subjectId]]
         );
 
         $commentsIds = $comments

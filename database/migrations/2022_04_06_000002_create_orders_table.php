@@ -19,12 +19,13 @@ return new class extends Migration
             $table->unsignedBigInteger('source_id')->nullable(); // Источник заказа / где он был сделан; Model: Seller
             $table->unsignedBigInteger('seller_id')->nullable(); // Где будет отдан/получен заказ; Model: Seller
             $table->unsignedBigInteger('user_id')->nullable(); // Кто принял заказ
-            $table->string('type'); // Тип заказа: Черновик заказа, Полноценный Заказ
+            $table->unsignedBigInteger('inspector_id')->nullable(); // Кто будет контролировать заказ
+            $table->string('phone', 16)->nullable();
+            $table->boolean('draft')->default(false); // Тип заказа: Черновик заказа, Полноценный Заказ
             $table->string('number')->nullable(); // Номер заказа внутренний
             $table->string('number_external')->nullable(); // Номер заказа внешний
             $table->unsignedInteger('price')->nullable(); // Окончательная стоимость заказа
             $table->unsignedSmallInteger('status')->nullable(); // Статус заказа
-            $table->string('product_code')->nullable(); // Код товара
             $table->date('accepted_date')->nullable(); // Дата принятия заказа
             $table->date('order_date')->nullable(); // Дата получения заказа
             $table->time('order_time')->nullable(); // Время получения заказа

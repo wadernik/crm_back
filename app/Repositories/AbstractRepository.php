@@ -22,7 +22,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         $this->builder = $this->model::query();
     }
 
-    abstract function addExtraFilter(Builder $builder, array &$criteria): void;
+    abstract public function addExtraFilter(Builder $builder, array &$criteria): void;
 
     public function find(int $id): ?Model
     {

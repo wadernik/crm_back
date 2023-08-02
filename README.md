@@ -1,4 +1,4 @@
-## Simple backend based on Laravel for CRM systems
+****## Simple backend based on Laravel for CRM systems
 
 This project is a simple REST API backend based on Laravel which features tools
 for managing internal business processes.
@@ -46,5 +46,5 @@ php artisan serve
 
 ## Additionals:
 - [Laravel Sanctum](https://laravel.com/docs/sanctum)
-- [Parental (STI implementation)](https://github.com/calebporzio/parental)
+- ~~[Parental (STI implementation)](https://github.com/calebporzio/parental)~~ (not anymore, but cool implementation)
 - [Laravel Comments](https://github.com/beyondcode/laravel-comments)

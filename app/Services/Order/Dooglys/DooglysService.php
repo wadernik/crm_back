@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Order\Dooglys;
 
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Carbon;
 
 final class DooglysService implements DooglysServiceInterface
 {

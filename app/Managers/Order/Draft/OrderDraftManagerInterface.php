@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Managers\Order\Draft;
 
-use App\Managers\Order\OrderManagerInterface;
+use App\Managers\Order\AbstractOrderManagerInterface;
 
-interface OrderDraftManagerInterface extends OrderManagerInterface
+interface OrderDraftManagerInterface extends AbstractOrderManagerInterface
 {
 }

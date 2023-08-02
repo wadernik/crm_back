@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Services\Order;
 
-use App\Models\Order\BaseOrder;
+use App\Models\Order\Order;
 use App\Models\Order\OrderWithComment\OrderWithComments;
 use App\Models\Order\OrderWithComment\OrderWithCommentsInterface;
 use App\Models\Order\OrderWithTotalComments\OrderWithTotalComments;
@@ -26,14 +26,14 @@ final class OrderFindWithCommentService implements OrderFindWithCommentServiceIn
 
     public function findWithTotalComments(int $id): ?OrderWithTotalCommentsInterface
     {
-        $this->orderRepository->applyWith(['files:id,filename']);
+        $this->orderRepository->applyWith(['items', 'files:id,filename']);
 
         if (!$order = $this->orderRepository->find($id)) {
             return null;
         }
 
         $commentsTotal = $this->commentRepository->count(
-            ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $id]]
+            ['filter' => ['commentable_type' => Order::class, 'commentable_id' => $id]]
         );
 
         return new OrderWithTotalComments($order, $commentsTotal);
@@ -41,7 +41,7 @@ final class OrderFindWithCommentService implements OrderFindWithCommentServiceIn
 
     public function findWithComments(int $id, array $requestParams = []): ?OrderWithCommentsInterface
     {
-        $this->orderRepository->applyWith(['files:id,filename']);
+        $this->orderRepository->applyWith(['items', 'files:id,filename']);
 
         if (!$order = $this->orderRepository->find($id)) {
             return null;
@@ -52,7 +52,7 @@ final class OrderFindWithCommentService implements OrderFindWithCommentServiceIn
         $offset = $requestData['offset'] ?? null;
 
         $comments = $this->commentRepository->findAllBy(
-            criteria: ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $id]],
+            criteria: ['filter' => ['commentable_type' => Order::class, 'commentable_id' => $id]],
             sort: $sort,
             limit: $limit,
             offset: $offset

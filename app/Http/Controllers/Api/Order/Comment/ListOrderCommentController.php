@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\Order\Comment;
 use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Comments\ListCommentRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\Order\BaseOrder;
+use App\Models\Order\Order;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -32,7 +32,7 @@ final class ListOrderCommentController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $criteria = ['filter' => ['commentable_type' => BaseOrder::class, 'commentable_id' => $id]];
+        $criteria = ['filter' => ['commentable_type' => Order::class, 'commentable_id' => $id]];
 
         $sort = ['sort' => $requestData['sort'] ?? 'created_at', 'order' => $requestData['order'] ?? 'desc'];
         $limit = $requestData['limit'] ?? null;

@@ -2,6 +2,7 @@
 
 return [
     'order' => [
+        'items' => 'Items',
         'name' => 'Name',
         'label' => 'Label',
         'comment' => 'comment',

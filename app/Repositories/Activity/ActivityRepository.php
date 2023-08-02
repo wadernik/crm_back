@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Activity;
 
 use App\Models\Activity\ActivityExtended;
-use App\Models\Order\Detail\OrderDetail;
+use App\Models\Order\Item\OrderItem;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
+use function is_array;
+use function array_filter;
 
 final class ActivityRepository extends AbstractRepository implements ActivityRepositoryInterface
 {
@@ -22,7 +24,7 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
         if (isset($criteria['filter']['subject'])) {
             $subject = array_filter(
                 ActivityExtended::getSubjectsList(),
-                fn(array $subject): bool => $subject['id'] === (int) $criteria['filter']['subject']
+                static fn(array $subject): bool => $subject['id'] === (int) $criteria['filter']['subject']
             );
 
             $builder->where('subject_type', (array_shift($subject))['name']);
@@ -41,15 +43,22 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
                 ->where(function (Builder $query) {
                     $query->where(function (Builder $innerQuery) {
                         $innerQuery
-                            ->where('subject_type', '<>', OrderDetail::class)
+                            ->where('subject_type', '<>', OrderItem::class)
                             ->where('event', 'created');
                     })
                     ->orWhere('event', 'updated');
                 });
         }
 
+        if (isset($criteria['filter']['subject_id'])) {
+            is_array($criteria['filter']['subject_id'])
+                ? $builder->whereIn('subject_id', $criteria['filter']['subject_id'])
+                : $builder->where('subject_id', $criteria['filter']['subject_id']);
+        }
+
         unset(
             $criteria['filter']['subject'],
+            $criteria['filter']['subject_id'],
             $criteria['filter']['date_start'],
             $criteria['filter']['date_end'],
             $criteria['filter']['detail']

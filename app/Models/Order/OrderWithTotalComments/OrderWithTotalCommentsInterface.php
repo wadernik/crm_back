@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Order\OrderWithTotalComments;
 
+use App\Models\Order\Order;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model;
 
 interface OrderWithTotalCommentsInterface extends Arrayable
 {
-    public function order(): Model;
+    public function order(): Order;
 
     public function totalComments(): int;
 }
