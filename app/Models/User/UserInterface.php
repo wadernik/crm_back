@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
+use App\Models\Contracts\CommentatorInterface;
 use App\Models\Role\RoleInterface;
-use BeyondCode\Comments\Contracts\Commentator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
@@ -25,7 +25,7 @@ use Illuminate\Support\Collection;
  *
  * @property RoleInterface $role
  */
-interface UserInterface extends Commentator
+interface UserInterface extends CommentatorInterface
 {
     public function getTokens(): Collection;
 

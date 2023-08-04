@@ -2,7 +2,7 @@
 
 namespace App\Models\Contracts;
 
-interface Commentator
+interface CommentatorInterface
 {
     /**
      * Check if a comment for a specific model needs to be approved.

@@ -10,9 +10,9 @@ use App\Models\Order\File\OrderFile;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Seller\Seller;
 use App\Models\Traits\FilterableTrait;
+use App\Models\Traits\HasComments;
 use App\Models\Traits\SortableTrait;
 use App\Models\User\User;
-use BeyondCode\Comments\Traits\HasComments;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Order extends Model implements OrderInterface
