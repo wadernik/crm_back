@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Comment\Comment;
 use App\Models\Contracts\Commentator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -13,7 +14,7 @@ trait HasComments
      *
      * @return MorphMany
      */
-    public function comments()
+    public function comments(): MorphMany
     {
         return $this->morphMany(config('comments.comment_class'), 'commentable');
     }
@@ -22,9 +23,10 @@ trait HasComments
      * Attach a comment to this model.
      *
      * @param string $comment
-     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @return Model
      */
-    public function comment(string $comment)
+    public function comment(string $comment): Model
     {
         return $this->commentAsUser(auth()->user(), $comment);
     }
@@ -34,18 +36,20 @@ trait HasComments
      *
      * @param Model|null $user
      * @param string $comment
-     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @return Model
      */
-    public function commentAsUser(?Model $user, string $comment)
+    public function commentAsUser(?Model $user, string $comment): Model
     {
-        $commentClass = config('comments.comment_class');
+        /** @var string $commentClass */
+        $commentClass = config('comments.comment_class', Comment::class);
 
         $comment = new $commentClass([
             'comment' => $comment,
-            'is_approved' => ($user instanceof Commentator) ? ! $user->needsCommentApproval($this) : false,
+            'is_approved' => $user instanceof Commentator && !$user->needsCommentApproval($this),
             'user_id' => is_null($user) ? null : $user->getKey(),
             'commentable_id' => $this->getKey(),
-            'commentable_type' => get_class(),
+            'commentable_type' => __CLASS__,
         ]);
 
         return $this->comments()->save($comment);
