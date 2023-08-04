@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Order\Activity;
 
-use App\Models\Comment\CustomComments;
+use App\Models\Comment\Comment;
 use App\Models\Order\File\OrderFile;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
@@ -145,7 +145,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
         unset($requestParams);
         $requestParams['filter']['subject_id'] = $commentsIds;
-        $requestParams['filter']['subject_type'] = CustomComments::class;
+        $requestParams['filter']['subject_type'] = Comment::class;
 
         $activityRepository = app(ActivityRepositoryInterface::class);
 

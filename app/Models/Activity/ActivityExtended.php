@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Activity;
 
-use App\Models\Comment\CustomComments;
+use App\Models\Comment\Comment;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Manufacturer\ManufacturerDateLimit;
-use App\Models\Order\BaseOrder;
-use App\Models\Order\Detail\OrderDetail;
 use App\Models\Order\File\OrderFile;
+use App\Models\Order\Item\OrderItem;
+use App\Models\Order\Order;
 use App\Models\Permission\Permission;
 use App\Models\Role\Role;
 use App\Models\Seller\Seller;
@@ -28,7 +28,7 @@ final class ActivityExtended extends Activity implements ActivityInterface
         return [
             [
                 'id' => 1,
-                'name' => BaseOrder::class,
+                'name' => Order::class,
                 'display_name' => __('activities.display_name.base_order'),
             ],
             [
@@ -68,12 +68,12 @@ final class ActivityExtended extends Activity implements ActivityInterface
             ],
             [
                 'id' => 9,
-                'name' => CustomComments::class,
+                'name' => Comment::class,
                 'display_name' => __('activities.display_name.comments'),
             ],
             [
                 'id' => 10,
-                'name' => OrderDetail::class,
+                'name' => OrderItem::class,
                 'display_name' => __('activities.display_name.order_detail'),
             ]
         ];
