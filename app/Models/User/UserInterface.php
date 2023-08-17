@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 /**
+ * @property int    id
  * @property string $first_name
  * @property string $last_name
  * @property string $username

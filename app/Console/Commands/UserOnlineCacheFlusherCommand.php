@@ -15,7 +15,7 @@ final class UserOnlineCacheFlusherCommand extends Command
 {
     private UserManagerInterface $userManager;
 
-    protected $signature = 'user:cache:update-online';
+    protected $signature = 'cache:user:update-online';
 
     protected $description = 'Update users online activity';
 
@@ -47,6 +47,8 @@ final class UserOnlineCacheFlusherCommand extends Command
 
             $progressBar->advance();
         }
+
+        $this->newLine();
 
         $progressBar->finish();
 

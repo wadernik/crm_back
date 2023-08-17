@@ -1,4 +1,4 @@
-****## Simple backend based on Laravel for CRM systems
+# Simple backend based on Laravel for CRM systems
 
 This project is a simple REST API backend based on Laravel which features tools
 for managing internal business processes.

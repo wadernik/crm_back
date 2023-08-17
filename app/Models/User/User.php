@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Helpers\UserCacheKeys;
 use App\Models\Role\Role;
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -75,13 +77,22 @@ class User extends Authenticatable implements UserInterface
     protected function isOnline(): Attribute
     {
         return new Attribute(
-            get: function () {
-                if (!$this->last_seen) {
+            get: function (): int {
+                $cached = [];
+
+                if (Cache::has(UserCacheKeys::USER_ONLINE)) {
+                    $cached = Cache::get(UserCacheKeys::USER_ONLINE);
+                }
+
+                if (!$this->last_seen && !isset($cached[$this->id])) {
                     return self::STATUS_OFFLINE;
                 }
 
+                $lastSeen = $cached[$this->id] ?? $this->last_seen;
+
                 $now = Carbon::now()->subMinutes(self::ONLINE_STATUS_BORDER);
-                $lastSeenCarbon = Carbon::parse($this->last_seen);
+
+                $lastSeenCarbon = Carbon::parse($lastSeen);
 
                 return ($lastSeenCarbon->lt($now))
                     ? self::STATUS_OFFLINE
