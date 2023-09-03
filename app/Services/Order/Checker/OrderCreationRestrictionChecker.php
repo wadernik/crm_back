@@ -7,7 +7,7 @@ namespace App\Services\Order\Checker;
 use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
 
-final class OrderCreateRestrictionChecker implements OrderCreateRestrictionCheckerInterface
+final class OrderCreationRestrictionChecker implements OrderCreationRestrictionCheckerInterface
 {
     public function __construct(private DateLimitRepositoryInterface $repository)
     {

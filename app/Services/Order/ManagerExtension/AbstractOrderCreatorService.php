@@ -9,20 +9,20 @@ use App\Exceptions\OrderException;
 use App\Managers\Order\AbstractOrderManagerInterface;
 use App\Models\Order\Order;
 use App\Models\Order\OrderStatus;
-use App\Services\Order\Checker\OrderCreateRestrictionCheckerInterface;
+use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
 
 abstract class AbstractOrderCreatorService implements AbstractOrderCreatorServiceInterface
 {
     private AbstractOrderManagerInterface $manager;
     private OrderNumberGeneratorServiceInterface $numberGeneratorService;
-    private OrderCreateRestrictionCheckerInterface $orderValidatorService;
+    private OrderCreationRestrictionCheckerInterface $orderValidatorService;
 
-    public function __construct(private string $managerClass)
+    public function __construct(private readonly string $managerClass)
     {
         $this->manager = app($this->managerClass);
         $this->numberGeneratorService = app(OrderNumberGeneratorServiceInterface::class);
-        $this->orderValidatorService = app(OrderCreateRestrictionCheckerInterface::class);
+        $this->orderValidatorService = app(OrderCreationRestrictionCheckerInterface::class);
     }
 
     public function create(array $attributes): Order

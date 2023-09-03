@@ -6,36 +6,37 @@ namespace App\Services\Order\ManagerExtension;
 
 use App\DTOs\Order\UpdateOrderDTO;
 use App\Exceptions\OrderException;
+use App\Jobs\SyncOrderFinalPriceJob;
 use App\Managers\Order\AbstractOrderManagerInterface;
 use App\Models\Order\Order;
-use App\Services\Order\Checker\OrderCreateRestrictionCheckerInterface;
-use App\Services\Order\Processor\OrderFinalPriceProcessorInterface;
+use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
+use App\Services\Order\Checker\OrderFinalPriceCheckerInterface;
 use function app;
 
 abstract class AbstractOrderUpdaterService implements AbstractOrderUpdateServiceInterface
 {
     private AbstractOrderManagerInterface $manager;
-    private OrderCreateRestrictionCheckerInterface $orderCreateRestrictionChecker;
-    private OrderFinalPriceProcessorInterface $finalPriceProcessor;
+    private OrderCreationRestrictionCheckerInterface $orderCreationRestrictionChecker;
+    private OrderFinalPriceCheckerInterface $finalPriceChecker;
 
-    public function __construct(private string $managerClass)
+    public function __construct(private readonly string $managerClass)
     {
         $this->manager = app($this->managerClass);
-        $this->orderCreateRestrictionChecker = app(OrderCreateRestrictionCheckerInterface::class);
-        $this->finalPriceProcessor = app(OrderFinalPriceProcessorInterface::class);
+        $this->orderCreationRestrictionChecker = app(OrderCreationRestrictionCheckerInterface::class);
+        $this->finalPriceChecker = app(OrderFinalPriceCheckerInterface::class);
     }
 
     public function update(Order $order, array $attributes): ?Order
     {
-        if (!$this->orderCreateRestrictionChecker->check(
+        if (!$this->orderCreationRestrictionChecker->check(
             $attributes['manufacturer_id'] ?? null,
             $attributes['order_date'] ?? null
         )) {
             throw new OrderException(message: __('order.limited_date'));
         }
 
-        if ($finalPrice = $this->finalPriceProcessor->run($order)) {
-            $attributes['price'] = $finalPrice;
+        if (!$this->finalPriceChecker->check($order, $attributes)) {
+            SyncOrderFinalPriceJob::dispatch($order);
         }
 
         return $this->manager->update($order, new UpdateOrderDTO($attributes));

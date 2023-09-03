@@ -20,6 +20,7 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     inspector_id: ?int|null,
      *     phone: string|null,
      *     id: int|null,
+     *     price: int|null,
      *     items: array<int, array{
      *          id: int|null,
      *          name: string|null,
@@ -30,7 +31,7 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     }>,
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 
@@ -45,7 +46,7 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
 
     public function items(): array
     {
-        return $this->attributes['items'];
+        return $this->attributes['items'] ?? [];
     }
 
     public function files(): array

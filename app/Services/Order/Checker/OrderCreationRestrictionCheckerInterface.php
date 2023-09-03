@@ -6,7 +6,7 @@ namespace App\Services\Order\Checker;
 
 use App\Models\Manufacturer\ManufacturerDateLimit;
 
-interface OrderCreateRestrictionCheckerInterface
+interface OrderCreationRestrictionCheckerInterface
 {
     public function check(
         ?int $manufacturerId = null,

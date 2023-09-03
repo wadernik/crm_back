@@ -54,8 +54,10 @@ use App\Services\Auth\AuthUserService;
 use App\Services\Auth\AuthUserServiceInterface;
 use App\Services\Order\Activity\OrderActivityService;
 use App\Services\Order\Activity\OrderActivityServiceInterface;
-use App\Services\Order\Checker\OrderCreateRestrictionChecker;
-use App\Services\Order\Checker\OrderCreateRestrictionCheckerInterface;
+use App\Services\Order\Checker\OrderCreationRestrictionChecker;
+use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
+use App\Services\Order\Checker\OrderFinalPriceChecker;
+use App\Services\Order\Checker\OrderFinalPriceCheckerInterface;
 use App\Services\Order\Checker\OrderStateChecker;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
 use App\Services\Order\Dooglys\DooglysApiClient;
@@ -147,7 +149,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(VkServiceInterface::class, VkService::class);
         // Orders
         $this->app->bind(OrderActivityServiceInterface::class, OrderActivityService::class);
-        $this->app->bind(OrderCreateRestrictionCheckerInterface::class, OrderCreateRestrictionChecker::class);
+        $this->app->bind(OrderCreationRestrictionCheckerInterface::class, OrderCreationRestrictionChecker::class);
         $this->app->bind(OrderStateCheckerInterface::class, OrderStateChecker::class);
         $this->app->bind(DooglysApiClientInterface::class, DooglysApiClient::class);
         $this->app->bind(DooglysServiceInterface::class, DooglysService::class);
@@ -160,6 +162,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderFinalPriceProcessorInterface::class, OrderFinalPriceProcessor::class);
         $this->app->bind(OrderFindWithCommentServiceInterface::class, OrderFindWithCommentService::class);
         $this->app->bind(OrderStatusesRetrieverInterface::class, OrderStatusesRetriever::class);
+        $this->app->bind(OrderFinalPriceCheckerInterface::class, OrderFinalPriceChecker::class);
     }
 
     /**

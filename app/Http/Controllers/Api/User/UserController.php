@@ -28,7 +28,7 @@ final class UserController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = ['sort' => $requestData['sort'] ?? 'first_name', 'order' => $requestData['order'] ?? 'asc'];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
