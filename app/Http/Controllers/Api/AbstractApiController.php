@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
-use Jenssegers\Agent\Agent;
+use function auth;
+use function collect;
 
 abstract class AbstractApiController extends Controller
 {
@@ -22,5 +23,18 @@ abstract class AbstractApiController extends Controller
         }
 
         return collect($user->getUserPermissions())->contains($permission);
+    }
+
+    protected function userId(): int
+    {
+        return auth('sanctum')->id();
+    }
+
+    protected function user(): User
+    {
+        /** @var User $user */
+        $user = auth('sanctum')->user();
+
+        return $user;
     }
 }

@@ -19,7 +19,7 @@ final class RemoveVkTokenController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $manager->deleteToken(auth('sanctum')->id());
+        $manager->deleteToken($this->userId());
 
         return ApiResponse::responseSuccess();
     }

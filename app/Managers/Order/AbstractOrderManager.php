@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractOrderManager implements AbstractOrderManagerInterface
 {
-    public function __construct(private bool $draft)
+    public function __construct(private readonly bool $draft)
     {
     }
 
@@ -49,7 +49,7 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
         return $order;
     }
 
-    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): ?Model
+    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Model
     {
         $mainAttributes = $orderDTO->main();
         $mainAttributes['draft'] = $this->draft;

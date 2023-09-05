@@ -26,7 +26,7 @@ final class OrderDraftController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $requestData['filter']['user_id'] = (string) auth('sanctum')->id();
+        $requestData['filter']['user_id'] = (string) $this->userId();
 
         $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
         $limit = $requestData['limit'] ?? null;

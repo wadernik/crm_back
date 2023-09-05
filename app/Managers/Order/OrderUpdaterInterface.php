@@ -10,5 +10,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface OrderUpdaterInterface
 {
-    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): ?Model;
+    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Model;
 }

@@ -19,7 +19,7 @@ final class ProfileController extends AbstractApiController
 {
     public function profile(Request $request, ProfileServiceInterface $profileService): JsonResponse
     {
-        if (!$userId = auth('sanctum')->id()) {
+        if (!$userId = $this->userId()) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
@@ -32,7 +32,7 @@ final class ProfileController extends AbstractApiController
 
     public function update(int $id, UpdateUserRequest $request, UserManagerInterface $manager): JsonResponse
     {
-        if (!$userId = auth('sanctum')->id()) {
+        if (!$userId = $this->userId()) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
@@ -51,7 +51,7 @@ final class ProfileController extends AbstractApiController
 
     public function revokeDevice(int $tokenId, AuthUserServiceInterface $service): JsonResponse
     {
-        if (!auth('sanctum')->id()) {
+        if (!$this->userId()) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 

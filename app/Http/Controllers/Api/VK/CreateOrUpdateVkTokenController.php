@@ -34,7 +34,7 @@ final class CreateOrUpdateVkTokenController extends AbstractApiController
             $token = $validated['access_token'];
         }
 
-        $manager->createToken(auth('sanctum')->id(), $token);
+        $manager->createToken($this->userId(), $token);
 
         return ApiResponse::responseSuccess();
     }

@@ -34,6 +34,11 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             ->get();
     }
 
+    public function findAll(): Collection
+    {
+        return User::all();
+    }
+
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
         if (isset($criteria['filter']['first_name'])) {

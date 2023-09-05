@@ -8,10 +8,11 @@ use App\Models\Contracts\CommentatorInterface;
 use App\Models\Role\RoleInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Collection;
 
 /**
- * @property int    id
+ * @property int    $id
  * @property string $first_name
  * @property string $last_name
  * @property string $username
@@ -25,6 +26,8 @@ use Illuminate\Support\Collection;
  * @property string $remember_token
  *
  * @property RoleInterface $role
+ * @property DatabaseNotificationCollection $notifications
+ * @property DatabaseNotificationCollection $unreadNotifications
  */
 interface UserInterface extends CommentatorInterface
 {

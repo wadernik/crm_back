@@ -34,8 +34,8 @@ final class DeleteOrderCommentController extends AbstractApiController
         }
 
         if (
-            $comment->user_id === auth('sanctum')->id()
-            || auth('sanctum')->user()->role->id === Role::ROLE_ADMIN
+            $comment->user_id === $this->userId()
+            || $this->user()->role->id === Role::ROLE_ADMIN
         ) {
             $comment->delete();
 

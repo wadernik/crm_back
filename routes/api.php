@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController;
+use App\Http\Controllers\Api\Notification\NotificationController;
+use App\Http\Controllers\Api\Notification\NotificationMarkAllAsReadController;
+use App\Http\Controllers\Api\Notification\NotificationMarkAsReadController;
 use App\Http\Controllers\Api\Order\Comment\DeleteOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\EditOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
@@ -72,6 +75,22 @@ Route::group(
         Route::get('/', [ProfileController::class, 'profile']);
         Route::put('/{id}', [ProfileController::class, 'update']);
         Route::delete('/logout/{id}', [ProfileController::class, 'revokeDevice']);
+    }
+);
+
+/**
+ * Уведомления
+ */
+Route::group(
+    [
+        'prefix' => 'notifications',
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function() {
+        Route::get('/', [NotificationController::class, 'list']);
+        Route::get('/unread', [NotificationController::class, 'listUnread']);
+        Route::post('/read/{id}', NotificationMarkAsReadController::class);
+        Route::post('/read', NotificationMarkAllAsReadController::class);
     }
 );
 

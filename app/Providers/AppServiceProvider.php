@@ -30,6 +30,8 @@ use App\Repositories\Manufacturer\ManufacturerRepository;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepository;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
+use App\Repositories\Notification\NotificationRepository;
+use App\Repositories\Notification\NotificationRepositoryInterface;
 use App\Repositories\Order\Filter\OrderFilter;
 use App\Repositories\Order\Filter\OrderFilterInterface;
 use App\Repositories\Order\Filter\OrderFilterProcessor;
@@ -119,6 +121,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ActivityRepositoryInterface::class, ActivityRepository::class);
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
 
         /**
          * MANAGERS

@@ -15,7 +15,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
     private Builder $builder;
     private Model $model;
 
-    public function __construct(private string $modelClass)
+    public function __construct(private readonly string $modelClass)
     {
         $this->model = new $this->modelClass();
 
