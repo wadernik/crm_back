@@ -8,5 +8,5 @@ use App\Models\User\Sub\ProfileInterface;
 
 interface ProfileFactoryInterface
 {
-    public function new(int $userId, ?string $device = null): ProfileInterface;
+    public function new(int $userId, ?string $device = null): ?ProfileInterface;
 }

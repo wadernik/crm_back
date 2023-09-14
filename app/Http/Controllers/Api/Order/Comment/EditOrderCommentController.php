@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Comments\EditCommentRequest;
 use App\Http\Responses\ApiResponse;
 use App\Managers\Comment\CommentManagerInterface;
-use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +20,6 @@ final class EditOrderCommentController extends AbstractApiController
         int $commentId,
         EditCommentRequest $request,
         OrderRepositoryInterface $orderRepository,
-        CommentRepositoryInterface $commentRepository,
         CommentManagerInterface $manager
     ): JsonResponse
     {

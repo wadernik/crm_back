@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\Order\Filter;
 
-use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use function is_string;

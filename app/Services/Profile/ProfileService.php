@@ -18,7 +18,7 @@ final class ProfileService implements ProfileServiceInterface
         $this->factory = app(ProfileFactoryInterface::class);
     }
 
-    public function profile(int $userId, ?string $userAgent = null): ProfileInterface
+    public function profile(int $userId, ?string $userAgent = null): ?ProfileInterface
     {
         $device = $userAgent ? $this->userAgentService->agent($userAgent) : null;
 

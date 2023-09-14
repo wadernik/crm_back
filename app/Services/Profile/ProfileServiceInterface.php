@@ -8,5 +8,5 @@ use App\Models\User\Sub\ProfileInterface;
 
 interface ProfileServiceInterface
 {
-    public function profile(int $userId, ?string $userAgent = null): ProfileInterface;
+    public function profile(int $userId, ?string $userAgent = null): ?ProfileInterface;
 }

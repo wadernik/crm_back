@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 final class OrderWithComments implements OrderWithCommentsInterface
 {
-    public function __construct(private Order $order, private Collection $comments)
+    public function __construct(private readonly Order $order, private readonly Collection $comments)
     {
     }
 

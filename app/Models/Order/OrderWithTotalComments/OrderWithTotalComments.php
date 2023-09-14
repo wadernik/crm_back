@@ -8,7 +8,7 @@ use App\Models\Order\Order;
 
 final class OrderWithTotalComments implements OrderWithTotalCommentsInterface
 {
-    public function __construct(private Order $order, private int $total)
+    public function __construct(private readonly Order $order, private readonly int $total)
     {
     }
 

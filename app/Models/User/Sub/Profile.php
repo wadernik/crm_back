@@ -13,7 +13,7 @@ final class Profile implements ProfileInterface
      * @param Model $user
      * @param Collection<DeviceInterface> $devices
      */
-    public function __construct(private Model $user, private Collection $devices)
+    public function __construct(private readonly Model $user, private readonly Collection $devices)
     {
     }
 

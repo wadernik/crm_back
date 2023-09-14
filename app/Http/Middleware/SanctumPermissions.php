@@ -2,19 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiResponseTrait;
+use App\Http\Responses\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 
 class SanctumPermissions
 {
-    use ApiResponseTrait;
-
     public function handle(Request $request, Closure $next, ...$permissions)
     {
         foreach ($permissions as $permission) {
             if (!$request->user()->tokenCan($permission)) {
-                return $this->responseError(code: 403, message: 'Access denied');
+                return ApiResponse::responseError(code: 403, message: 'Access denied');
             }
         }
 

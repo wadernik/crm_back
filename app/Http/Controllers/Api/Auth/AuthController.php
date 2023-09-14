@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends AbstractApiController
 {
-    public function __construct(private AuthUserServiceInterface $authUsersService)
+    public function __construct(private readonly AuthUserServiceInterface $authUsersService)
     {
     }
 

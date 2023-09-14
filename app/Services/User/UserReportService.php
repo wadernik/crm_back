@@ -6,7 +6,8 @@ declare(strict_types=1);
 namespace App\Services\User;
 
 use App\DTOs\User\UserReportDTOInterface;
-use App\Models\Order\BaseOrder;
+use App\Models\Order\Order;
+use App\Models\Order\OrderStatus;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Collection;
@@ -32,7 +33,7 @@ final class UserReportService implements UserReportServiceInterface
         $ordersFilterParams = array_filter([
             'created_at_start' => $requestDateStart,
             'created_at_end' => $requestDateEnd,
-            'status' => (string) BaseOrder::STATUS_SOLD,
+            'status' => (string) OrderStatus::STATUS_SOLD,
         ]);
 
         $usersFilterParams = array_filter([

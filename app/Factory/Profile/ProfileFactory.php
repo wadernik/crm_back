@@ -17,11 +17,12 @@ final class ProfileFactory implements ProfileFactoryInterface
         $this->repository = app(UserRepositoryInterface::class);
     }
 
-    public function new(int $userId, ?string $device = null): ProfileInterface
+    public function new(int $userId, ?string $device = null): ?ProfileInterface
     {
-        $user = $this->repository->profile($userId);
+        if (!$user = $this->repository->profile($userId)) {
+            return null;
+        }
 
-        // TODO: check $user on null
         $devices = $this->repository->devices($user, $device);
 
         return new Profile($user, $devices);

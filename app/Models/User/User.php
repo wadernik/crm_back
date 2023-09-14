@@ -135,4 +135,9 @@ class User extends Authenticatable implements UserInterface
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return "users.{$this->id}";
+    }
 }

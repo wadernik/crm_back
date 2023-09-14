@@ -6,7 +6,7 @@ namespace App\Services\Order\Dooglys\Sub;
 
 final class DooglysResponse implements DooglysResponseInterface
 {
-    public function __construct(private bool $status, private array $orders)
+    public function __construct(private readonly bool $status, private readonly array $orders)
     {
     }
 

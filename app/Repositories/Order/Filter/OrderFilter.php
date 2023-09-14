@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class OrderFilter implements OrderFilterInterface
 {
-    public function __construct(private Builder $builder)
+    public function __construct(private readonly Builder $builder)
     {
     }
 

@@ -7,10 +7,10 @@ namespace App\Models\User\Sub;
 final class Device implements DeviceInterface
 {
     public function __construct(
-        private int $id,
-        private string $device,
-        private string $lastUsedAt,
-        private bool $isCurrent
+        private readonly int $id,
+        private readonly string $device,
+        private readonly string $lastUsedAt,
+        private readonly bool $isCurrent
     )
     {
     }

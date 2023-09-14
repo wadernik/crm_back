@@ -18,7 +18,7 @@ final class DooglysApiClient implements DooglysApiClientInterface
     private const ACTION_VIEW_ORDER = '/sales/order/view';
     private const ACTION_LIST_ORDERS = '/sales/order/list';
 
-    public function __construct(private string $api, private string $token)
+    public function __construct(private readonly string $api, private readonly string $token)
     {
     }
 
