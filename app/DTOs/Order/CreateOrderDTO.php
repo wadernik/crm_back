@@ -20,6 +20,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     inspector_id: ?int,
      *     phone: string,
      *     items: array<int, array{
+     *          title_id: int|null,
      *          name: string,
      *          amount: string,
      *          label: string|null,
@@ -28,7 +29,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     }>,
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

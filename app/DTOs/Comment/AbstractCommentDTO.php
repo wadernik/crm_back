@@ -6,7 +6,7 @@ namespace App\DTOs\Comment;
 
 abstract class AbstractCommentDTO implements CreateCommentDTOInterface
 {
-    public function __construct(private string $comment)
+    public function __construct(private readonly string $comment)
     {
     }
 

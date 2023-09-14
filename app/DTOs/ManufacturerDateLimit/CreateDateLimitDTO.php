@@ -14,7 +14,7 @@ final class CreateDateLimitDTO implements CreateDateLimitDTOInterface
      *     limit_type: int
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

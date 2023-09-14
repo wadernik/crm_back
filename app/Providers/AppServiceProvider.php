@@ -26,6 +26,8 @@ use App\Repositories\Activity\ActivityRepository;
 use App\Repositories\Activity\ActivityRepositoryInterface;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Dictionary\DictionaryRepository;
+use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use App\Repositories\Manufacturer\ManufacturerRepository;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepository;
@@ -70,8 +72,8 @@ use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorService;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorServiceInterface;
-use App\Services\Order\ManagerExtension\Draft\OrderDraftUpdaterServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftUpdaterService;
+use App\Services\Order\ManagerExtension\Draft\OrderDraftUpdaterServiceInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorService;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderUpdaterService;
@@ -122,6 +124,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
 
         /**
          * MANAGERS

@@ -21,6 +21,7 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *     phone: string|null,
      *     items: array<int, array{
      *          id: int|null,
+     *          title_id: int|null,
      *          name: string|null,
      *          amount: string|null,
      *          label: string|null,
@@ -29,7 +30,7 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *     }>,
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

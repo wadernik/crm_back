@@ -26,6 +26,7 @@ class CreateOrderDraftRequest extends FormRequest
             'number_external' => 'sometimes|string|nullable',
             //
             'items' => 'sometimes|array',
+            'items.*.title_id' => 'sometimes|integer',
             'items.*.name' => 'sometimes|string|max:255',
             'items.*.amount' => 'sometimes|string',
             'items.*.label' => 'sometimes|string|max:255|nullable',

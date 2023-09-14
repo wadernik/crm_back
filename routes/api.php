@@ -152,7 +152,8 @@ Route::group(
     static function () {
         Route::get('/roles', [RoleDictionaryController::class, 'all']);
         Route::get('/permissions', [PermissionDictionaryController::class, 'all']);
-        Route::get('/order_statuses', [OrderDictionaryController::class, 'statuses']);
+        Route::get('/orders/statuses', [OrderDictionaryController::class, 'statuses']);
+        Route::get('/orders/titles', [OrderDictionaryController::class, 'titles']);
         Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
         Route::get('/sellers', [SellerDictionaryController::class, 'all']);
         Route::get('/manufacturers_limit_types', [DateLimitDictionaryController::class, 'limitTypes']);

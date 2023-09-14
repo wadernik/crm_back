@@ -26,7 +26,8 @@ class CreateOrderRequest extends FormRequest
             'number_external' => 'sometimes|string|nullable',
             //
             'items' => 'required|array|min:1',
-            'items.*.name' => 'required|string|max:255',
+            'items.*.title_id' => 'sometimes|integer',
+            'items.*.name' => 'sometimes|string|max:255',
             'items.*.amount' => 'required|string',
             'items.*.label' => 'sometimes|string|max:255|nullable',
             'items.*.comment' => 'sometimes|string|max:255|nullable',

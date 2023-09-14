@@ -15,7 +15,7 @@ abstract class AbstractSellerDTO implements CreateSellerDTOInterface
      *     working_hours: string|null
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

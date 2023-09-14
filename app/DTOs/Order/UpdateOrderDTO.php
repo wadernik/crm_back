@@ -23,6 +23,7 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     price: int|null,
      *     items: array<int, array{
      *          id: int|null,
+     *          title_id: int|null,
      *          name: string|null,
      *          amount: string|null,
      *          label: string|null,

@@ -6,7 +6,7 @@ namespace App\DTOs\Upload;
 
 final class CreateFilesUploadDTO implements CreateFilesUploadDTOInterface
 {
-    public function __construct(private array $rules)
+    public function __construct(private readonly array $rules)
     {
     }
 

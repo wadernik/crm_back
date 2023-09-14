@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ManufacturersTableSeeder::class,
             SellersTableSeeder::class,
+            DictionariesTableSeeder::class,
         ]);
 
         $this->call([

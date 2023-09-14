@@ -18,7 +18,7 @@ final class UpdateUserDTO implements UpdateUserDTOInterface
      *     last_seen: string|null,
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

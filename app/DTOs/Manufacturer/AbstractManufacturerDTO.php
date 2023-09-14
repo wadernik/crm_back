@@ -15,7 +15,7 @@ abstract class AbstractManufacturerDTO implements CreateManufacturerDTOInterface
      *     limit: int|null
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

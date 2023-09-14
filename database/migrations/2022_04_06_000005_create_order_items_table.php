@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('product_code')->nullable(); // Код товара
+            $table->unsignedBigInteger('title_id')->nullable(); // Наименование продукта из справочника
             $table->string('name', 255)->nullable(); // Наименование заказа
             $table->string('amount', 255)->nullable(); // Количество / вес в граммах
             $table->string('label', 255)->nullable(); // Надпись
@@ -28,6 +29,11 @@ return new class extends Migration
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders')
+                ->onDelete('cascade');
+
+            $table->foreign('title_id')
+                ->references('id')
+                ->on('dictionaries')
                 ->onDelete('cascade');
         });
     }
@@ -41,6 +47,7 @@ return new class extends Migration
     {
         Schema::table('order_items', static function (Blueprint $table) {
             $table->dropForeign('order_items_order_id_foreign');
+            $table->dropForeign('order_items_title_id_foreign');
         });
         Schema::dropIfExists('order_items');
     }

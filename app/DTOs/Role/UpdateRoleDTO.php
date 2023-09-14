@@ -13,7 +13,7 @@ final class UpdateRoleDTO implements UpdateRoleDTOInterface
      *     permissions: array
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 

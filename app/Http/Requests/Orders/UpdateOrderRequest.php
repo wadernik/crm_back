@@ -27,6 +27,7 @@ class UpdateOrderRequest extends FormRequest
             //
             'items' => 'sometimes|array',
             'items.*.id' => 'sometimes|integer|min:1',
+            'items.*.title_id' => 'sometimes|integer',
             'items.*.name' => 'sometimes|string|max:255',
             'items.*.amount' => 'sometimes|string',
             'items.*.label' => 'sometimes|string|max:255|nullable',

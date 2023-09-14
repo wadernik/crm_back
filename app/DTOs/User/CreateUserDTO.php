@@ -18,7 +18,7 @@ final class CreateUserDTO implements CreateUserDTOInterface
      *     role_id: int,
      * } $attributes
      */
-    public function __construct(private array $attributes)
+    public function __construct(private readonly array $attributes)
     {
     }
 
