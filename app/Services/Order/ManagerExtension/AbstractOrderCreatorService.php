@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Order\ManagerExtension;
 
-use App\DTOs\Order\CreateOrderDTO;
 use App\Exceptions\OrderException;
 use App\Managers\Order\AbstractOrderManagerInterface;
 use App\Models\Order\Order;
@@ -16,18 +15,21 @@ abstract class AbstractOrderCreatorService implements AbstractOrderCreatorServic
 {
     private AbstractOrderManagerInterface $manager;
     private OrderNumberGeneratorServiceInterface $numberGeneratorService;
-    private OrderCreationRestrictionCheckerInterface $orderValidatorService;
+    private OrderCreationRestrictionCheckerInterface $orderCreationRestrictionChecker;
 
-    public function __construct(private readonly string $managerClass)
+    public function __construct(private readonly string $managerClass, private readonly string $dtoClass)
     {
         $this->manager = app($this->managerClass);
         $this->numberGeneratorService = app(OrderNumberGeneratorServiceInterface::class);
-        $this->orderValidatorService = app(OrderCreationRestrictionCheckerInterface::class);
+        $this->orderCreationRestrictionChecker = app(OrderCreationRestrictionCheckerInterface::class);
     }
 
     public function create(array $attributes): Order
     {
-        if (!$this->orderValidatorService->check($attributes['manufacturer_id'], $attributes['order_date'])) {
+        if (!$this->orderCreationRestrictionChecker->check(
+            $attributes['manufacturer_id'] ?? null,
+            $attributes['order_date'] ?? null
+        )) {
             throw new OrderException(message: __('order.limited_date'));
         }
 
@@ -38,6 +40,6 @@ abstract class AbstractOrderCreatorService implements AbstractOrderCreatorServic
         $attributes['status'] = OrderStatus::STATUS_ACCEPTED;
         $attributes['number'] = $this->numberGeneratorService->generate($attributes['order_date']);
 
-        return $this->manager->create(new CreateOrderDTO($attributes));
+        return $this->manager->create(new $this->dtoClass($attributes));
     }
 }

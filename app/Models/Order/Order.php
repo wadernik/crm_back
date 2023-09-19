@@ -51,6 +51,10 @@ class Order extends Model implements OrderInterface
         'updated_at',
     ];
 
+    protected $hidden = [
+        'draft',
+    ];
+
     protected $appends = [
         'price_original',
     ];

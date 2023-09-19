@@ -19,6 +19,7 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *     files: array|null,
      *     inspector_id: ?int|null,
      *     phone: string|null,
+     *     id: int|null,
      *     items: array<int, array{
      *          id: int|null,
      *          title_id: int|null,
@@ -45,7 +46,7 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
 
     public function items(): array
     {
-        return $this->attributes['items'];
+        return $this->attributes['items'] ?? [];
     }
 
     public function files(): array

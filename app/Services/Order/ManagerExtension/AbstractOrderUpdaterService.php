@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Order\ManagerExtension;
 
-use App\DTOs\Order\UpdateOrderDTO;
 use App\Exceptions\OrderException;
 use App\Jobs\SyncOrderFinalPriceJob;
 use App\Managers\Order\AbstractOrderManagerInterface;
@@ -19,7 +18,7 @@ abstract class AbstractOrderUpdaterService implements AbstractOrderUpdateService
     private OrderCreationRestrictionCheckerInterface $orderCreationRestrictionChecker;
     private OrderFinalPriceCheckerInterface $finalPriceChecker;
 
-    public function __construct(private readonly string $managerClass)
+    public function __construct(private readonly string $managerClass, private readonly string $dtoClass)
     {
         $this->manager = app($this->managerClass);
         $this->orderCreationRestrictionChecker = app(OrderCreationRestrictionCheckerInterface::class);
@@ -39,6 +38,6 @@ abstract class AbstractOrderUpdaterService implements AbstractOrderUpdateService
             SyncOrderFinalPriceJob::dispatch($order);
         }
 
-        return $this->manager->update($order, new UpdateOrderDTO($attributes));
+        return $this->manager->update($order, new $this->dtoClass($attributes));
     }
 }
