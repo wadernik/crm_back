@@ -2,23 +2,29 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Responses\ApiResponse;
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  Request  $request
-     * @return string|null
-     */
-    protected function redirectTo($request): ?string
+    protected function redirectTo(Request $request): ?string
     {
         if (!$request->expectsJson()) {
             return route('');
         }
 
         return null;
+    }
+
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (auth('sanctum')->guest()) {
+            return ApiResponse::responseError(code: Response::HTTP_UNAUTHORIZED, message: "Unauthenticated.");
+        }
+
+        return parent::handle($request, $next, ...$guards);
     }
 }
