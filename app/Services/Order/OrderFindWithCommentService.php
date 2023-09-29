@@ -26,8 +26,6 @@ final class OrderFindWithCommentService implements OrderFindWithCommentServiceIn
 
     public function findWithTotalComments(int $id): ?OrderWithTotalCommentsInterface
     {
-        $this->orderRepository->applyWith(['items', 'files:id,filename']);
-
         if (!$order = $this->orderRepository->find($id)) {
             return null;
         }
@@ -41,8 +39,6 @@ final class OrderFindWithCommentService implements OrderFindWithCommentServiceIn
 
     public function findWithComments(int $id, array $requestParams = []): ?OrderWithCommentsInterface
     {
-        $this->orderRepository->applyWith(['items', 'files:id,filename']);
-
         if (!$order = $this->orderRepository->find($id)) {
             return null;
         }
