@@ -7,6 +7,7 @@ namespace App\Services\Order\Processor;
 use App\Models\Order\Order;
 use App\Services\Order\Dooglys\DooglysServiceInterface;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
+use function app;
 
 final class OrderFinalPriceProcessor implements OrderFinalPriceProcessorInterface
 {

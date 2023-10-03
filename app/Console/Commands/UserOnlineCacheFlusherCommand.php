@@ -9,6 +9,7 @@ use App\Helpers\UserCacheKeys;
 use App\Managers\User\UserManagerInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use function app;
 use function count;
 
 final class UserOnlineCacheFlusherCommand extends Command

@@ -13,6 +13,8 @@ use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use function app;
+use function collect;
 
 final class OrderActivityService implements OrderActivityServiceInterface
 {

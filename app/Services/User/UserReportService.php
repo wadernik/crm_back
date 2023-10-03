@@ -6,11 +6,14 @@ declare(strict_types=1);
 namespace App\Services\User;
 
 use App\DTOs\User\UserReportDTOInterface;
-use App\Models\Order\Order;
 use App\Models\Order\OrderStatus;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Collection;
+use function app;
+use function array_filter;
+use function collect;
+use function number_format;
 
 final class UserReportService implements UserReportServiceInterface
 {

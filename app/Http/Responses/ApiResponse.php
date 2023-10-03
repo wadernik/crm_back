@@ -8,17 +8,19 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response as BinaryResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function array_merge;
+use function response;
 
 final class ApiResponse implements ApiResponseInterface
 {
     public static function responseSuccess(
         array $data = [],
-        int $total = 1,
+        int $total = null,
         int $code = Response::HTTP_OK,
         array $headers = []
     ): JsonResponse {
         // TODO: think about this
-        $dataResponse = $total === 1
+        $dataResponse = !$total
             ? $data
             : ['items' => $data, 'total' => $total];
 

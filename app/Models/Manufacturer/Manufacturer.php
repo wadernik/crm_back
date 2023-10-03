@@ -28,6 +28,7 @@ class Manufacturer extends Model implements ManufacturerInterface
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

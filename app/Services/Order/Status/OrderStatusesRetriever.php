@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Order\Status;
 
 use App\Models\Order\OrderStatus;
+use function collect;
 
 final class OrderStatusesRetriever implements OrderStatusesRetrieverInterface
 {

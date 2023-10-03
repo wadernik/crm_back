@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Order\OrderWithTotalComments;
 
 use App\Models\Order\Order;
+use function array_merge;
 
 final class OrderWithTotalComments implements OrderWithTotalCommentsInterface
 {

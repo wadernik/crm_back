@@ -6,6 +6,7 @@ namespace App\Services\Profile;
 
 use App\Factory\Profile\ProfileFactoryInterface;
 use App\Models\User\Sub\ProfileInterface;
+use function app;
 
 final class ProfileService implements ProfileServiceInterface
 {

@@ -6,6 +6,7 @@ namespace App\Repositories\Order\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use function app;
 use function is_string;
 use function method_exists;
 use function preg_replace;

@@ -16,6 +16,7 @@ use App\Services\Order\ManagerExtension\Normal\OrderUpdaterServiceInterface;
 use App\Services\Order\OrderFindWithCommentServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function array_merge;
 
 final class OrderController extends AbstractApiController
 {

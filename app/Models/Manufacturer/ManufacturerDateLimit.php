@@ -37,6 +37,7 @@ class ManufacturerDateLimit extends Model implements ManufacturerDateLimitInterf
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

@@ -6,6 +6,7 @@ namespace App\Services\Order\Checker;
 
 use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
+use function app;
 
 final class OrderCreationRestrictionChecker implements OrderCreationRestrictionCheckerInterface
 {

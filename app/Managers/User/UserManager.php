@@ -9,7 +9,6 @@ use App\DTOs\User\UpdateUserDTOInterface;
 use App\Models\User\User;
 use App\Models\User\UserToken;
 use Illuminate\Database\Eloquent\Model;
-
 use function bcrypt;
 
 final class UserManager implements UserManagerInterface

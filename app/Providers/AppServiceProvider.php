@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Factory\Profile\ProfileFactory;
 use App\Factory\Profile\ProfileFactoryInterface;
+use App\Formatters\Notification\DatabaseNotificationFormatter;
+use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
 use App\Managers\Comment\CommentManager;
 use App\Managers\Comment\CommentManagerInterface;
 use App\Managers\Manufacturer\ManufacturerManager;
@@ -169,6 +171,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderFindWithCommentServiceInterface::class, OrderFindWithCommentService::class);
         $this->app->bind(OrderStatusesRetrieverInterface::class, OrderStatusesRetriever::class);
         $this->app->bind(OrderFinalPriceCheckerInterface::class, OrderFinalPriceChecker::class);
+        $this->app->bind(DatabaseNotificationFormatterInterface::class, DatabaseNotificationFormatter::class);
     }
 
     /**

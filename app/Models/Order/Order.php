@@ -69,7 +69,7 @@ class Order extends Model implements OrderInterface
     {
         return LogOptions::defaults()
             ->logAll()
-            ->logExcept(['updated_at'])
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

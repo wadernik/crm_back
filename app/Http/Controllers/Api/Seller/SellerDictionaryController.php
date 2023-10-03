@@ -13,10 +13,14 @@ final class SellerDictionaryController
 {
     public function all(SellerDictionaryRequest $request, SellerRepositoryInterface $repository): JsonResponse
     {
-        $criteria = $request->validated();
+        $requestData = $request->validated();
 
-        $items = $repository->findAllBy($criteria);
-        $total = $repository->count($criteria);
+        $sort = ['sort' => $requestData['sort'] ?? 'id', 'order' => $requestData['order'] ?? 'asc'];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
+
+        $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+        $total = $repository->count($requestData);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }

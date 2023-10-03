@@ -9,6 +9,9 @@ use App\DTOs\User\UserReportDTOInterface;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use function file_put_contents;
+use function sys_get_temp_dir;
+use function tempnam;
 
 final class ExportUserReportService implements ExportUserReportServiceInterface
 {

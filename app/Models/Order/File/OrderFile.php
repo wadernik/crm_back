@@ -25,6 +25,7 @@ final class OrderFile extends Pivot
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

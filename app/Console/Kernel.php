@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\UserOnlineCacheFlusherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use function base_path;
 
 class Kernel extends ConsoleKernel
 {

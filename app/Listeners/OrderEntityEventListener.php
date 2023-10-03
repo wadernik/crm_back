@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\Order\OrderEntityEvent;
-use App\Events\Order\OrderEntityEventTypeEnum;
 use App\Models\User\User;
 use App\Notifications\OrderEntityNotification;
 use App\Repositories\User\UserRepositoryInterface;

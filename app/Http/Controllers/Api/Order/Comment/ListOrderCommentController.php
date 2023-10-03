@@ -45,6 +45,6 @@ final class ListOrderCommentController extends AbstractApiController
             offset: $offset
         );
 
-        return ApiResponse::responseSuccess($comments->toArray());
+        return ApiResponse::responseSuccess(data: $comments->toArray(), total: $commentRepository->count($criteria));
     }
 }

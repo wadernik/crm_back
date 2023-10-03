@@ -6,6 +6,7 @@ namespace App\Models\Order\OrderWithComment;
 
 use App\Models\Order\Order;
 use Illuminate\Support\Collection;
+use function array_merge;
 
 final class OrderWithComments implements OrderWithCommentsInterface
 {

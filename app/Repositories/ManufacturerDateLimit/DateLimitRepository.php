@@ -8,6 +8,7 @@ use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use function collect;
 
 final class DateLimitRepository extends AbstractRepository implements DateLimitRepositoryInterface
 {

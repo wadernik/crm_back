@@ -13,13 +13,31 @@ final class UserDictionaryController
 {
     public function all(UserDictionaryRequest $request, UserRepositoryInterface $userRepository): JsonResponse
     {
-        $attributes = ['id', 'first_name', 'last_name', 'sex'];
+        $attributes = [
+            'id',
+            'first_name',
+            'last_name',
+            'sex',
+        ];
 
-        $criteria = $request->validated();
+        $requestData = $request->validated();
 
-        $users = $userRepository->findAllBy($criteria, $attributes);
-        $total = $userRepository->count($criteria);
+        $sort = [
+            'sort' => $requestData['sort'] ?? 'id',
+            'order' => $requestData['order'] ?? 'asc',
+        ];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
 
-        return ApiResponse::responseSuccess(data: $users->toArray(), total: $total);
+        $items = $userRepository->findAllBy(
+            criteria: $requestData,
+            attributes: $attributes,
+            sort: $sort,
+            limit: $limit,
+            offset: $offset
+        );
+        $total = $userRepository->count($requestData);
+
+        return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
 }

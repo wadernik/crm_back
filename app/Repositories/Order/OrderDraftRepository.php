@@ -9,6 +9,7 @@ use App\Repositories\AbstractRepository;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use function app;
 
 final class OrderDraftRepository extends AbstractRepository implements OrderDraftRepositoryInterface
 {

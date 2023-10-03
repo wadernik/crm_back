@@ -4,32 +4,52 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Notification;
 
+use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
 use App\Http\Controllers\Api\AbstractApiController;
+use App\Http\Requests\Notification\ListNotificationRequest;
 use App\Http\Responses\ApiResponse;
+use App\Repositories\Notification\NotificationRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Notifications\DatabaseNotification;
 
 final class NotificationController extends AbstractApiController
 {
-    public function list(): JsonResponse
+    public function list(
+        ListNotificationRequest $request,
+        NotificationRepositoryInterface $notificationRepository,
+        DatabaseNotificationFormatterInterface $notificationFormatter
+    ): JsonResponse
     {
-        $notifications = $this->user()->notifications
-            ->map(static function (DatabaseNotification $notification): array {
-                return array_merge(['id' => $notification->id, 'read' => $notification->read()], $notification->data);
-            })
-            ->toArray();
+        $requestData = $request->validated();
 
-        return ApiResponse::responseSuccess($notifications);
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
+
+        $notifications = $notificationFormatter->formatCollection(
+            $notificationRepository->findAllByUserWithLimitAndOffset($this->user(), $limit, $offset)
+        );
+
+        $total = $notificationRepository->countByUser($this->user());
+
+        return ApiResponse::responseSuccess(data: $notifications, total: $total);
     }
 
-    public function listUnread(): JsonResponse
+    public function listUnread(
+        ListNotificationRequest $request,
+        NotificationRepositoryInterface $notificationRepository,
+        DatabaseNotificationFormatterInterface $notificationFormatter
+    ): JsonResponse
     {
-        $notifications = $this->user()->unreadNotifications
-            ->map(static function (DatabaseNotification $notification): array {
-                return array_merge(['id' => $notification->id, 'read' => $notification->read()], $notification->data);
-            })
-            ->toArray();
+        $requestData = $request->validated();
 
-        return ApiResponse::responseSuccess($notifications);
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
+
+        $notifications = $notificationFormatter->formatCollection(
+            $notificationRepository->findAllUnreadByUserWithLimitAndOffset($this->user(), $limit, $offset)
+        );
+
+        $total = $notificationRepository->countByUser($this->user());
+
+        return ApiResponse::responseSuccess(data: $notifications, total: $total);
     }
 }

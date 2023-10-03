@@ -15,6 +15,7 @@ use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftUpdaterServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function array_merge;
 
 final class OrderDraftController extends AbstractApiController
 {

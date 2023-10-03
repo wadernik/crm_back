@@ -10,6 +10,7 @@ use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Throwable;
+use function app;
 
 final class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {

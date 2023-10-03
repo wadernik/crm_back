@@ -10,6 +10,7 @@ use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
 use function is_array;
 use function array_filter;
+use function array_shift;
 
 final class ActivityRepository extends AbstractRepository implements ActivityRepositoryInterface
 {

@@ -6,6 +6,8 @@ namespace App\Services\Order\OrderNumber;
 
 use App\Repositories\Order\OrderRepositoryInterface;
 use Carbon\Carbon;
+use function app;
+use function sprintf;
 
 final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceInterface
 {

@@ -12,6 +12,7 @@ use App\Models\Order\OrderWithTotalComments\OrderWithTotalComments;
 use App\Models\Order\OrderWithTotalComments\OrderWithTotalCommentsInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
+use function app;
 
 final class OrderFindWithCommentService implements OrderFindWithCommentServiceInterface
 {

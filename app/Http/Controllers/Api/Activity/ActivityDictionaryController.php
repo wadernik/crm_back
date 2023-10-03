@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Activity;
 use App\Http\Responses\ApiResponse;
 use App\Models\Activity\ActivityExtended;
 use Illuminate\Http\JsonResponse;
+use function count;
 
 final class ActivityDictionaryController
 {

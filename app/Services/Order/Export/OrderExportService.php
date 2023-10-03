@@ -6,6 +6,10 @@ namespace App\Services\Order\Export;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use function file_put_contents;
+use function str_replace;
+use function sys_get_temp_dir;
+use function tempnam;
 
 final class OrderExportService implements OrderExportServiceInterface
 {

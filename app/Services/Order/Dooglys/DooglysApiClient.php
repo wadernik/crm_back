@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use function json_decode;
 
 final class DooglysApiClient implements DooglysApiClientInterface
 {

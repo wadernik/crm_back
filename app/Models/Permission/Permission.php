@@ -22,6 +22,7 @@ class Permission extends Model implements PermissionInterface
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

@@ -9,6 +9,7 @@ use App\Repositories\Sub\CountInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use function is_array;
 
 abstract class AbstractRepository implements AbstractRepositoryInterface, CountInterface
 {

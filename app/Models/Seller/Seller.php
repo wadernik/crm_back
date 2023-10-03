@@ -28,6 +28,7 @@ class Seller extends Model implements SellerInterface
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

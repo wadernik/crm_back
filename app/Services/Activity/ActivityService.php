@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Activity;
 
 use App\Models\Order\Item\OrderItem;
-use App\Models\Order\Order;
 use App\Repositories\Activity\ActivityRepositoryInterface;
 use App\Repositories\Order\Item\OrderItemRepositoryInterface;
 use Illuminate\Support\Collection;
+use function app;
 
 final class ActivityService implements ActivityServiceInterface
 {

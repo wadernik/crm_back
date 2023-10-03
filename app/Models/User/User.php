@@ -131,7 +131,7 @@ class User extends Authenticatable implements UserInterface
     {
         return LogOptions::defaults()
             ->logAll()
-            ->logExcept(['last_seen'])
+            ->logExcept(['last_seen', 'created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

@@ -11,6 +11,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use function collect;
 
 abstract class AbstractOrderManager implements AbstractOrderManagerInterface
 {
@@ -68,15 +69,25 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
             $order->files()->sync($fileIds);
         }
 
-        foreach ($orderDTO->items() as $item) {
-            $item['order_id'] = $order->id;
+        $items = collect($orderDTO->items())->keyBy('id');
 
-            foreach(OrderItem::query()->where('id', $item['id'])->get() as $orderItem) {
-                $orderItem->update($item);
+        $itemIds = $items
+            ->keys()
+            ->toArray();
+
+        $orderItems = OrderItem::query()
+            ->whereIn('id', $itemIds)
+            ->get();
+
+        foreach ($orderItems as $orderItem) {
+            if ($orderItem->order_id !== $order->id) {
+                continue;
             }
 
-            $order->update(['updated_at' => Carbon::now()->timestamp]);
+            $orderItem->update($items->get($orderItem->id));
         }
+
+        $order->update(['updated_at' => Carbon::now()->timestamp]);
 
         return $order;
     }

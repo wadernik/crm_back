@@ -6,6 +6,7 @@ namespace App\Models\User\Sub;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use function array_merge;
 
 final class Profile implements ProfileInterface
 {

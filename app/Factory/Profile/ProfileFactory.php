@@ -7,6 +7,7 @@ namespace App\Factory\Profile;
 use App\Models\User\Sub\Profile;
 use App\Models\User\Sub\ProfileInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use function app;
 
 final class ProfileFactory implements ProfileFactoryInterface
 {

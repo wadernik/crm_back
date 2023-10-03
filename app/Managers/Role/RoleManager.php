@@ -9,6 +9,8 @@ use App\DTOs\Role\UpdateRoleDTOInterface;
 use App\Models\Role\Role;
 use App\Models\Role\RoleInterface;
 use Illuminate\Database\Eloquent\Model;
+use function array_filter;
+use function collect;
 
 final class RoleManager implements RoleManagerInterface
 {
@@ -41,11 +43,11 @@ final class RoleManager implements RoleManagerInterface
             'label' => $roleDTO->label()
         ]));
 
-        if ($roleDTO->permissions()) {
-            $permissions = collect($roleDTO->permissions())->pluck('id')->toArray();
+        $permissions = $roleDTO->permissions()
+            ? collect($roleDTO->permissions())->pluck('id')->toArray()
+            : [];
 
-            $role->permissions()->sync($permissions);
-        }
+        $role->permissions()->sync($permissions);
 
         return $role;
     }

@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
+use function auth;
 
 class AuthUserService implements AuthUserServiceInterface
 {

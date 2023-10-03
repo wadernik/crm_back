@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Orders;
 
+use function array_merge;
+
 class UpdateOrderDraftRequest extends CreateOrderDraftRequest
 {
     public function rules(): array

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Dictionaries;
 
+use function array_merge;
+
 class UserDictionaryRequest extends AbstractDictionaryRequest
 {
     public function rules(): array

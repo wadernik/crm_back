@@ -7,6 +7,7 @@ namespace App\Repositories\Order\Item;
 use App\Models\Order\Item\OrderItem;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
+use function is_array;
 
 final class OrderItemRepository extends AbstractRepository implements OrderItemRepositoryInterface
 {

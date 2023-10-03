@@ -27,7 +27,7 @@ class CreateOrderDraftRequest extends FormRequest
             //
             'items' => 'sometimes|array',
             'items.*.title_id' => 'sometimes|integer',
-            'items.*.name' => 'sometimes|string|max:255',
+            // 'items.*.name' => 'sometimes|string|max:255',
             'items.*.amount' => 'sometimes|string',
             'items.*.label' => 'sometimes|string|max:255|nullable',
             'items.*.comment' => 'sometimes|string|max:255|nullable',
@@ -47,7 +47,7 @@ class CreateOrderDraftRequest extends FormRequest
             'order_date' => __('attributes.order.order_date'),
             'order_time' => __('attributes.order.order_time'),
             'items' => __('attributes.order.items'),
-            'items.*.name' => __('attributes.order.name'),
+            // 'items.*.name' => __('attributes.order.name'),
             'items.*.label' => __('attributes.order.label'),
             'items.*.comment' => __('attributes.order.comment'),
             'items.*.decoration' => __('attributes.order.decoration'),

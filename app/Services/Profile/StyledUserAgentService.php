@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Profile;
 
 use Jenssegers\Agent\Agent;
+use function collect;
 
 final class StyledUserAgentService implements StyledUserAgentServiceInterface
 {

@@ -22,7 +22,7 @@ class SyncOrderFinalPriceJob implements ShouldQueue, ShouldBeUnique
     use Queueable;
     use SerializesModels;
 
-    public int $tries = 10;
+    public int $tries = 30;
 
     public function __construct(private readonly Order $order)
     {

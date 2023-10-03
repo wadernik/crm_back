@@ -10,6 +10,8 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderStatus;
 use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
+use function app;
+use function auth;
 
 abstract class AbstractOrderCreatorService implements AbstractOrderCreatorServiceInterface
 {

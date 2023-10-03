@@ -26,6 +26,7 @@ class OrderItem extends Model
 
     protected $hidden = [
         'order_id',
+        'name',
         'deleted_at',
     ];
 
@@ -35,6 +36,7 @@ class OrderItem extends Model
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

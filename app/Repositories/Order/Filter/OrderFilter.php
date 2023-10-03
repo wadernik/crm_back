@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Order\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
+use function is_array;
 
 final class OrderFilter implements OrderFilterInterface
 {

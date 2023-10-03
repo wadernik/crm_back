@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\PersonalAccessToken;
+use function collect;
 
 final class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
