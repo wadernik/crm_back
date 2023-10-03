@@ -4,24 +4,41 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Order;
 
+use App\Http\Requests\Dictionaries\OrderTitlesDictionaryRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Dictionary\DictionaryTypeEnum;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use Illuminate\Http\JsonResponse;
+use function count;
 
 final class OrderDictionaryController
 {
     public function statuses(OrderStatusesRetrieverInterface $statusesRetriever): JsonResponse
     {
-        return ApiResponse::responseSuccess($statusesRetriever->get());
+        $statuses = $statusesRetriever->get();
+        return ApiResponse::responseSuccess(data: $statuses, total: count($statuses));
     }
 
-    public function titles(DictionaryRepositoryInterface $dictionaryRepository): JsonResponse
+    public function titles(
+        OrderTitlesDictionaryRequest $request,
+        DictionaryRepositoryInterface $dictionaryRepository
+    ): JsonResponse
     {
-        return ApiResponse::responseSuccess($dictionaryRepository->findAllBy([
+        $requestData = $request->validated();
+
+        $requestData['filter'] = [
             'type' => DictionaryTypeEnum::PRODUCT_TITLE->value,
             'deleted_at' => null,
-        ])->toArray());
+        ];
+
+        $sort = ['sort' => $requestData['sort'] ?? 'id', 'order' => $requestData['order'] ?? 'asc'];
+        $limit = $requestData['limit'] ?? null;
+        $offset = $requestData['page'] ?? null;
+
+        $items = $dictionaryRepository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+        $total = $dictionaryRepository->count($requestData);
+
+        return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
 }
