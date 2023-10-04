@@ -18,6 +18,7 @@ return [
         'number_external' => 'Внешний номер заказа',
     ],
     'user' => [
+        'id' => 'Сотрудник',
         'username' => 'Никнейм',
         'password' => 'Пароль',
         'first_name' => 'Имя',

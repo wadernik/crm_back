@@ -16,6 +16,7 @@ return [
         'file_ids' => 'Files',
     ],
     'user' => [
+        'id' => 'Employee',
         'username' => 'Username',
         'password' => 'Password',
         'first_name' => 'First name',

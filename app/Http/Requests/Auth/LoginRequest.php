@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function __;
 
 class LoginRequest extends FormRequest
 {
@@ -23,6 +24,7 @@ class LoginRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'id' => __('attributes.user.id'),
             'password' => __('attributes.user.password'),
         ];
     }
