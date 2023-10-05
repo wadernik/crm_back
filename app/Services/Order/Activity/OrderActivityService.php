@@ -57,7 +57,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
             ->merge($fileActivities)
             ->merge($commentsActivities)
             ->sortByDesc(static function ($activity) {
-                return Carbon::parse($activity['updated_at'])->timestamp;
+                return Carbon::parse($activity['created_at'])->timestamp;
             })
             ->values()
             ->toArray();
@@ -67,7 +67,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadOrderActivities(?int $subjectId = null): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'created_at'];
 
         $requestParams['filter']['subject_id'] = $subjectId;
         $requestParams['filter']['subject_type'] = Order::class;
@@ -83,7 +83,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadItemsActivities(Order $order): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'created_at'];
 
         $itemsIds = $order->items
             ->pluck('id')
@@ -107,7 +107,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadFileActivities(Model $order): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'created_at'];
 
         // TODO: костыль
         $orderFiles = OrderFile::query()
@@ -133,7 +133,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
 
     private function loadCommentActivities(?int $subjectId = null): array
     {
-        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'updated_at'];
+        $attributes = ['id', 'event', 'causer_id', 'subject_type', 'subject_id', 'properties', 'created_at'];
 
         $this->commentRepository->withTrashed();
 
