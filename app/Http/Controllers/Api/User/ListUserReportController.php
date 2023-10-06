@@ -12,6 +12,7 @@ use App\Http\Responses\ApiResponse;
 use App\Services\User\UserReportServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function count;
 
 final class ListUserReportController extends AbstractApiController
 {
@@ -25,6 +26,6 @@ final class ListUserReportController extends AbstractApiController
 
         $report = $service->report($reportDTO);
 
-        return ApiResponse::responseSuccess($report->toArray());
+        return ApiResponse::responseSuccess(data: $report->toArray(), total: count($report->toArray()));
     }
 }
