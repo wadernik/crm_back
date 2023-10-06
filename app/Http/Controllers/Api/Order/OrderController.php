@@ -47,8 +47,8 @@ final class OrderController extends AbstractApiController
             ]
         );
 
-        $total = $repository->count($requestData);
         $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+        $total = $repository->count($requestData);
 
         $items = $orderExtender->extendAllWithTotalComments($items);
 
