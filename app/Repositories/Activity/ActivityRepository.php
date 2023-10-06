@@ -45,9 +45,15 @@ final class ActivityRepository extends AbstractRepository implements ActivityRep
                     $query->where(function (Builder $innerQuery) {
                         $innerQuery
                             ->where('subject_type', '<>', OrderItem::class)
-                            ->where('event', 'created');
+                            ->where(function (Builder $innerQuery) {
+                                $innerQuery
+                                    ->where('event', 'created')
+                                    ->orWhere('event', 'updated')
+                                    ->orWhere('event', 'deleted');
+                            });
                     })
-                    ->orWhere('event', 'updated');
+                    ->orWhere('event', 'updated')
+                    ->orWhere('event', 'deleted');
                 });
         }
 

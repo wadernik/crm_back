@@ -19,8 +19,7 @@ final class ApiResponse implements ApiResponseInterface
         int $code = Response::HTTP_OK,
         array $headers = []
     ): JsonResponse {
-        // TODO: think about this
-        $dataResponse = !$total
+        $dataResponse = $total === null
             ? $data
             : ['items' => $data, 'total' => $total];
 

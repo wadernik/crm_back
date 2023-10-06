@@ -13,6 +13,7 @@ use App\Managers\Order\Normal\OrderManagerInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderUpdaterServiceInterface;
+use App\Services\Order\OrderExtendAllWithTotalCommentsServiceInterface;
 use App\Services\Order\OrderFindWithCommentServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,11 @@ use function array_merge;
 
 final class OrderController extends AbstractApiController
 {
-    public function index(ListOrderRequest $request, OrderRepositoryInterface $repository): JsonResponse
+    public function index(
+        ListOrderRequest $request,
+        OrderRepositoryInterface $repository,
+        OrderExtendAllWithTotalCommentsServiceInterface $orderExtender
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -39,12 +44,13 @@ final class OrderController extends AbstractApiController
             [
                 'items',
                 'files:id,filename',
-                'user',
             ]
         );
 
         $total = $repository->count($requestData);
         $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+
+        $items = $orderExtender->extendAllWithTotalComments($items);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }

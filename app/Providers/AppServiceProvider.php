@@ -80,6 +80,8 @@ use App\Services\Order\ManagerExtension\Normal\OrderCreatorService;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderUpdaterService;
 use App\Services\Order\ManagerExtension\Normal\OrderUpdaterServiceInterface;
+use App\Services\Order\OrderExtendAllWithTotalCommentsService;
+use App\Services\Order\OrderExtendAllWithTotalCommentsServiceInterface;
 use App\Services\Order\OrderFindWithCommentService;
 use App\Services\Order\OrderFindWithCommentServiceInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorService;
@@ -171,6 +173,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderFindWithCommentServiceInterface::class, OrderFindWithCommentService::class);
         $this->app->bind(OrderStatusesRetrieverInterface::class, OrderStatusesRetriever::class);
         $this->app->bind(OrderFinalPriceCheckerInterface::class, OrderFinalPriceChecker::class);
+        $this->app->bind(
+            OrderExtendAllWithTotalCommentsServiceInterface::class,
+            OrderExtendAllWithTotalCommentsService::class
+        );
         $this->app->bind(DatabaseNotificationFormatterInterface::class, DatabaseNotificationFormatter::class);
     }
 

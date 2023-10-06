@@ -129,7 +129,11 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
     {
         $this->applyFilter($criteria);
 
-        return $this->builder->count();
+        $count = $this->builder->count();
+
+        $this->reset();
+
+        return $count;
     }
 
     private function reset(): void
