@@ -32,8 +32,8 @@ final class RoleController extends AbstractApiController
 
         $repository->applyWith(['permissions']);
 
-        $total = $repository->count($requestData);
         $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
+        $total = $repository->count($requestData);
 
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
