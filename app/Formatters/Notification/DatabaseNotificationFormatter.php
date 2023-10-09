@@ -12,11 +12,9 @@ final class DatabaseNotificationFormatter implements DatabaseNotificationFormatt
 {
     public function format(DatabaseNotification $notification): array
     {
-        $data = $notification->data;
+        $message = $notification->data['message'] ?? null;
 
-        $message = $data['message'] ?? null;
-
-        unset($data['message']);
+        $data = $notification->data['data'] ?? [];
 
         return [
             'id' => $notification->id,
