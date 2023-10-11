@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('type');
             $table->string('value')->nullable();
+            $table->uuid()->nullable();
 
             $table->timestamps();
             $table->softDeletes();

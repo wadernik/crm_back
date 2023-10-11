@@ -11,6 +11,7 @@ final class Dictionary extends Model
     protected $fillable = [
         'type',
         'value',
+        'uuid',
     ];
 
     protected $hidden = [

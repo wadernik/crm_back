@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Models\Seller;
 
 /**
+ * @property int    $id
  * @property string $name
  * @property string $address
  * @property string $phone
  * @property string $email
  * @property string $working_hours
+ * @property string $uuid
+ * @property string $menu_id
  */
 interface SellerInterface
 {

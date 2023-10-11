@@ -20,6 +20,13 @@ return new class extends Migration
             $table->string('phone', 16)->nullable();
             $table->string('email')->nullable();
             $table->string('working_hours')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->uuid()->nullable();
+            $table->uuid('menu_id')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

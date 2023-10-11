@@ -17,5 +17,14 @@ final class DictionaryRepository extends AbstractRepository implements Dictionar
 
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
+        if (isset($criteria['filter']['uuids'])) {
+            $builder->whereIn('uuid', $criteria['filter']['uuids']);
+        }
+
+        if (isset($criteria['filter']['value'])) {
+            $builder->where('value', 'like', "%{$criteria['filter']['value']}%");
+        }
+
+        unset($criteria['filter']['uuids'], $criteria['filter']['value']);
     }
 }

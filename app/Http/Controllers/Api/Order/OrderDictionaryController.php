@@ -27,10 +27,8 @@ final class OrderDictionaryController
     {
         $requestData = $request->validated();
 
-        $requestData['filter'] = [
-            'type' => DictionaryTypeEnum::PRODUCT_TITLE->value,
-            'deleted_at' => null,
-        ];
+        $requestData['filter']['type'] = DictionaryTypeEnum::PRODUCT_TITLE->value;
+        $requestData['filter']['deleted_at'] = null;
 
         $sort = ['sort' => $requestData['sort'] ?? 'id', 'order' => $requestData['order'] ?? 'asc'];
         $limit = $requestData['limit'] ?? null;

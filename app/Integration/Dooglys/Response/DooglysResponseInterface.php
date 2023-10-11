@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Order\Dooglys\Sub;
+namespace App\Integration\Dooglys\Response;
 
 interface DooglysResponseInterface
 {
     public function status(): bool;
 
-    public function orders(): array;
+    public function data(): array;
 }

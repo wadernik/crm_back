@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\Activity\ActivityController;
 use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Import\MenuImportController;
+use App\Http\Controllers\Api\Import\SellerImportController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
@@ -37,7 +39,9 @@ use App\Http\Controllers\Api\VK\CreateOrUpdateVkTokenController;
 use App\Http\Controllers\Api\VK\RemoveVkTokenController;
 use Illuminate\Support\Facades\Route;
 
-// Авторизация
+/**
+ * Авторизация
+ */
 Route::group(
     [
         'prefix' => 'auth',
@@ -129,7 +133,22 @@ Route::group(
     }
 );
 
-// Отчеты
+/**
+ * Импорт
+ */
+Route::group(
+    [
+        'middleware' => ['auth:sanctum'],
+    ],
+    static function() {
+        Route::get('import/sellers', SellerImportController::class);
+        Route::get('import/menu', MenuImportController::class);
+    }
+);
+
+/**
+ * Отчеты
+ */
 Route::group(
     [
         'prefix' => 'reports',

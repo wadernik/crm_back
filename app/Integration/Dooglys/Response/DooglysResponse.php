@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Order\Dooglys\Sub;
+namespace App\Integration\Dooglys\Response;
 
 final class DooglysResponse implements DooglysResponseInterface
 {
-    public function __construct(private readonly bool $status, private readonly array $orders)
+    public function __construct(private readonly bool $status, private readonly array $data)
     {
     }
 
@@ -15,8 +15,8 @@ final class DooglysResponse implements DooglysResponseInterface
         return $this->status;
     }
 
-    public function orders(): array
+    public function data(): array
     {
-        return $this->orders;
+        return $this->data;
     }
 }

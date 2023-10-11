@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Services\Order\Processor;
 
 use App\Models\Order\Order;
-use App\Services\Order\Dooglys\DooglysServiceInterface;
+use App\Services\Dooglys\Order\DooglysOrderSyncServiceInterface;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
-use function app;
+use function App\Helpers\Functions\load_service;
 
 final class OrderFinalPriceProcessor implements OrderFinalPriceProcessorInterface
 {
-    private DooglysServiceInterface $dooglysService;
+    private DooglysOrderSyncServiceInterface $dooglysService;
     private OrderStateCheckerInterface $orderStateChecker;
 
     public function __construct()
     {
-        $this->dooglysService = app(DooglysServiceInterface::class);
-        $this->orderStateChecker = app(OrderStateCheckerInterface::class);
+        $this->dooglysService = load_service(DooglysOrderSyncServiceInterface::class);
+        $this->orderStateChecker = load_service(OrderStateCheckerInterface::class);
     }
 
     public function run(Order $order): int

@@ -6,6 +6,8 @@ use App\Factory\Profile\ProfileFactory;
 use App\Factory\Profile\ProfileFactoryInterface;
 use App\Formatters\Notification\DatabaseNotificationFormatter;
 use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
+use App\Integration\Dooglys\DooglysApiClient;
+use App\Integration\Dooglys\DooglysApiClientInterface;
 use App\Managers\Comment\CommentManager;
 use App\Managers\Comment\CommentManagerInterface;
 use App\Managers\Manufacturer\ManufacturerManager;
@@ -58,6 +60,18 @@ use App\Services\Activity\ActivityService;
 use App\Services\Activity\ActivityServiceInterface;
 use App\Services\Auth\AuthUserService;
 use App\Services\Auth\AuthUserServiceInterface;
+use App\Services\Dooglys\Menu\DooglysMenuImportService;
+use App\Services\Dooglys\Menu\DooglysMenuImportServiceInterface;
+use App\Services\Dooglys\Order\DooglysOrderSyncService;
+use App\Services\Dooglys\Order\DooglysOrderSyncServiceInterface;
+use App\Services\Dooglys\SalePoint\DooglysSalePointImportService;
+use App\Services\Dooglys\SalePoint\DooglysSalePointImportServiceInterface;
+use App\Services\Dooglys\Sub\DooglysMenuAction;
+use App\Services\Dooglys\Sub\DooglysMenuActionInterface;
+use App\Services\Dooglys\Sub\DooglysOrderActions;
+use App\Services\Dooglys\Sub\DooglysOrderActionsInterface;
+use App\Services\Dooglys\Sub\DooglysSalePointAction;
+use App\Services\Dooglys\Sub\DooglysSalePointActionInterface;
 use App\Services\Order\Activity\OrderActivityService;
 use App\Services\Order\Activity\OrderActivityServiceInterface;
 use App\Services\Order\Checker\OrderCreationRestrictionChecker;
@@ -66,10 +80,6 @@ use App\Services\Order\Checker\OrderFinalPriceChecker;
 use App\Services\Order\Checker\OrderFinalPriceCheckerInterface;
 use App\Services\Order\Checker\OrderStateChecker;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
-use App\Services\Order\Dooglys\DooglysApiClient;
-use App\Services\Order\Dooglys\DooglysApiClientInterface;
-use App\Services\Order\Dooglys\DooglysService;
-use App\Services\Order\Dooglys\DooglysServiceInterface;
 use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorService;
@@ -161,8 +171,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderActivityServiceInterface::class, OrderActivityService::class);
         $this->app->bind(OrderCreationRestrictionCheckerInterface::class, OrderCreationRestrictionChecker::class);
         $this->app->bind(OrderStateCheckerInterface::class, OrderStateChecker::class);
-        $this->app->bind(DooglysApiClientInterface::class, DooglysApiClient::class);
-        $this->app->bind(DooglysServiceInterface::class, DooglysService::class);
         $this->app->bind(OrderExportServiceInterface::class, OrderExportService::class);
         $this->app->bind(OrderDraftCreatorServiceInterface::class, OrderDraftCreatorService::class);
         $this->app->bind(OrderDraftUpdaterServiceInterface::class, OrderDraftUpdaterService::class);
@@ -178,6 +186,16 @@ class AppServiceProvider extends ServiceProvider
             OrderExtendAllWithTotalCommentsService::class
         );
         $this->app->bind(DatabaseNotificationFormatterInterface::class, DatabaseNotificationFormatter::class);
+
+        // Dooglys
+        $this->app->bind(DooglysApiClientInterface::class, DooglysApiClient::class);
+        $this->app->bind(DooglysOrderSyncServiceInterface::class, DooglysOrderSyncService::class);
+        $this->app->bind(DooglysSalePointImportServiceInterface::class, DooglysSalePointImportService::class);
+        $this->app->bind(DooglysMenuImportServiceInterface::class, DooglysMenuImportService::class);
+
+        $this->app->bind(DooglysOrderActionsInterface::class, DooglysOrderActions::class);
+        $this->app->bind(DooglysSalePointActionInterface::class, DooglysSalePointAction::class);
+        $this->app->bind(DooglysMenuActionInterface::class, DooglysMenuAction::class);
     }
 
     /**
