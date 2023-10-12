@@ -49,8 +49,7 @@ final class Task extends Model implements TaskInterface
         return $this->hasMany(Attachment::class);
     }
 
-    public function content(): HasOne
-    {
-
-    }
+    // public function content(): HasOne
+    // {
+    // }
 }
