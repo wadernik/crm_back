@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Activity\ActivityController;
 use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Board\Board\BoardsController;
 use App\Http\Controllers\Api\Import\MenuImportController;
 use App\Http\Controllers\Api\Import\SellerImportController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
@@ -190,5 +191,14 @@ Route::group(
     static function () {
         Route::get('/users', [UserDictionaryController::class, 'all']);
         Route::get('/users/status', [UserStatusDictionaryController::class, 'statuses']);
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'boards',
+    ],
+    static function() {
+        Route::get('/', BoardsController::class);
     }
 );
