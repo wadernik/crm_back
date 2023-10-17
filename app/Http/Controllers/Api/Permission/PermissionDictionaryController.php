@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 final class PermissionDictionaryController
 {
-    public function all(PermissionDictionaryRequest $request, PermissionRepositoryInterface $repository): JsonResponse
+    public function __invoke(PermissionDictionaryRequest $request, PermissionRepositoryInterface $repository): JsonResponse
     {
         $requestData = $request->validated();
 

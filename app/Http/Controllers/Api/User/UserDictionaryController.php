@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 final class UserDictionaryController
 {
-    public function all(UserDictionaryRequest $request, UserRepositoryInterface $userRepository): JsonResponse
+    public function __invoke(UserDictionaryRequest $request, UserRepositoryInterface $userRepository): JsonResponse
     {
         $attributes = [
             'id',

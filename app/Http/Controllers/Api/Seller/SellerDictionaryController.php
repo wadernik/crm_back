@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 final class SellerDictionaryController
 {
-    public function all(SellerDictionaryRequest $request, SellerRepositoryInterface $repository): JsonResponse
+    public function __invoke(SellerDictionaryRequest $request, SellerRepositoryInterface $repository): JsonResponse
     {
         $requestData = $request->validated();
 

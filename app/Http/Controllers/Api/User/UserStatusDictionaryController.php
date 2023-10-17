@@ -11,7 +11,7 @@ use function count;
 
 final class UserStatusDictionaryController
 {
-    public function statuses(UserRepositoryInterface $repository): JsonResponse
+    public function __invoke(UserRepositoryInterface $repository): JsonResponse
     {
         return ApiResponse::responseSuccess(data: $repository->statuses(), total: count($repository->statuses()));
     }

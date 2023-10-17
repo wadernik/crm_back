@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UpdateOrderStatusController extends AbstractApiController
 {
-    public function updateStatus(
+    public function __invoke(
         UpdateOrderStatusRequest $request,
         OrderRepositoryInterface $orderRepository,
         OrderManagerInterface $manager

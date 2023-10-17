@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ExportUserReportController extends AbstractApiController
 {
-    public function export(
+    public function __invoke(
         UserReportRequest $request,
         UserReportServiceInterface $service,
         ExportUserReportServiceInterface $exportUserReportService

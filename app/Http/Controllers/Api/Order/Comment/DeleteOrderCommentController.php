@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DeleteOrderCommentController extends AbstractApiController
 {
-    public function destroy(
+    public function __invoke(
         int $orderId,
         int $commentId,
         OrderRepositoryInterface $orderRepository,

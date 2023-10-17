@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class ManufacturerDictionaryController
 {
-    public function all(
+    public function __invoke(
         ManufacturerDictionaryRequest $request,
         ManufacturerRepositoryInterface $repository
     ): JsonResponse
