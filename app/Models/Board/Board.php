@@ -16,7 +16,9 @@ final class Board extends Model implements BoardInterface
 {
     use SoftDeletes;
 
-    protected $table = 'task_boards';
+    protected $table = 't_boards';
+
+    public $timestamps = true;
 
     protected $fillable = [
         'name',
@@ -36,7 +38,12 @@ final class Board extends Model implements BoardInterface
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'task_board_user', 'board_id', 'user_id');
+        return $this->belongsToMany(User::class, 't_board_user', 'board_id', 'user_id');
+    }
+
+    public function canUser(int $userId): bool
+    {
+        return $this->users()->where('user_id', $userId)->exists();
     }
 
     public function groups(): HasMany

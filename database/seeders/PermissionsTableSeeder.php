@@ -43,6 +43,10 @@ class PermissionsTableSeeder extends Seeder
             ['id' => 26, 'name' => 'comments.edit', 'label' => 'Редактирование комментариев'],
             ['id' => 27, 'name' => 'sellers.import', 'label' => 'Импорт точек продаж'],
             ['id' => 28, 'name' => 'menu.import', 'label' => 'Импорт номенклатуры'],
+            ['id' => 29, 'name' => 'boards.board.view', 'label' => 'Просмотр досок'],
+            ['id' => 30, 'name' => 'boards.board.edit', 'label' => 'Редактирование досок'],
+            ['id' => 31, 'name' => 'boards.group.view', 'label' => 'Просмотр групп'],
+            ['id' => 32, 'name' => 'boards.group.edit', 'label' => 'Редактирование групп'],
         ];
 
         foreach ($items as $item) {

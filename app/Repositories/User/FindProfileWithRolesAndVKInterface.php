@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories\User;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 interface FindProfileWithRolesAndVKInterface
 {
-    public function profile(int $userId): ?Model;
+    public function profile(int $userId): ?User;
 }

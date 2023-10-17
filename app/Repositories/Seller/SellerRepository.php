@@ -7,7 +7,6 @@ namespace App\Repositories\Seller;
 use App\Models\Seller\Seller;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 final class SellerRepository extends AbstractRepository implements SellerRepositoryInterface
 {
@@ -33,8 +32,11 @@ final class SellerRepository extends AbstractRepository implements SellerReposit
         unset($criteria['filter']['uuid'], $criteria['filter']['uuids'], $criteria['filter']['uuid_not_null']);
     }
 
-    public function find(int $id): ?Model
+    public function find(int $id): ?Seller
     {
-        return Seller::query()->find($id);
+        /** @var Seller $seller */
+        $seller = Seller::query()->find($id);
+
+        return $seller;
     }
 }

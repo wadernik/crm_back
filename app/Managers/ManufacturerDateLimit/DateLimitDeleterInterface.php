@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Managers\ManufacturerDateLimit;
 
-use App\Managers\Sub\DeleterInterface;
+use App\Models\Manufacturer\ManufacturerDateLimit;
 
-interface DateLimitDeleterInterface extends DeleterInterface
+interface DateLimitDeleterInterface
 {
+    public function delete(int $id): ?ManufacturerDateLimit;
 }

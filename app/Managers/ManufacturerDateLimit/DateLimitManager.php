@@ -7,17 +7,20 @@ namespace App\Managers\ManufacturerDateLimit;
 use App\DTOs\ManufacturerDateLimit\CreateDateLimitDTOInterface;
 use App\DTOs\ManufacturerDateLimit\UpdateDateLimitDTOInterface;
 use App\Models\Manufacturer\ManufacturerDateLimit;
-use Illuminate\Database\Eloquent\Model;
 
 final class DateLimitManager implements DateLimitManagerInterface
 {
-    public function create(CreateDateLimitDTOInterface $dateLimitDTO): Model
+    public function create(CreateDateLimitDTOInterface $dateLimitDTO): ManufacturerDateLimit
     {
-        return ManufacturerDateLimit::query()->create($dateLimitDTO->toArray());
+        /** @var ManufacturerDateLimit $dateLimit */
+        $dateLimit = ManufacturerDateLimit::query()->create($dateLimitDTO->toArray());
+
+        return $dateLimit;
     }
 
-    public function update(int $id, UpdateDateLimitDTOInterface $dateLimitDTO): ?Model
+    public function update(int $id, UpdateDateLimitDTOInterface $dateLimitDTO): ?ManufacturerDateLimit
     {
+        /** @var ManufacturerDateLimit $dateLimit */
         if (!$dateLimit = ManufacturerDateLimit::query()->find($id)) {
             return null;
         }
@@ -27,8 +30,9 @@ final class DateLimitManager implements DateLimitManagerInterface
         return $dateLimit;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?ManufacturerDateLimit
     {
+        /** @var ManufacturerDateLimit $dateLimit */
         if (!$dateLimit = ManufacturerDateLimit::query()->find($id)) {
             return null;
         }

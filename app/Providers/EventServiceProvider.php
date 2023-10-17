@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Board\CreateBoardGroupEvent;
 use App\Events\Order\OrderEntityEvent;
+use App\Listeners\CreateBoardGroupEventListener;
 use App\Listeners\OrderEntityEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,7 +21,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        OrderEntityEvent::class => [OrderEntityEventListener::class]
+        OrderEntityEvent::class => [OrderEntityEventListener::class],
+        CreateBoardGroupEvent::class => [CreateBoardGroupEventListener::class],
     ];
 
     /**

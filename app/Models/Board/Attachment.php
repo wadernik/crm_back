@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Attachment extends Model
 {
-    protected $table = 'task_attachments';
+    protected $table = 't_task_attachments';
 
     protected $fillable = [
         'title',

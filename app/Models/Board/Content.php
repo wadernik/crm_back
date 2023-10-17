@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Content extends Model implements ContentInterface
 {
-    protected $table = 'task_contents';
+    protected $table = 't_task_contents';
 
     protected $fillable = [
-        'id',
+        'task_id',
         'type',
         'name',
         'content',

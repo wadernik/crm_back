@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class Task extends Model implements TaskInterface
 {
     use SoftDeletes;
 
-    protected $table = 'tasks';
+    protected $table = 't_tasks';
 
     protected $fillable = [
         'group_id',
@@ -41,7 +40,7 @@ final class Task extends Model implements TaskInterface
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id');
+        return $this->belongsToMany(User::class, 't_task_user', 'task_id', 'user_id');
     }
 
     public function attachments(): HasMany
@@ -49,7 +48,8 @@ final class Task extends Model implements TaskInterface
         return $this->hasMany(Attachment::class);
     }
 
-    // public function content(): HasOne
-    // {
-    // }
+    public function content(): HasMany
+    {
+        return $this->hasMany(Content::class);
+    }
 }

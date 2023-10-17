@@ -7,7 +7,6 @@ namespace App\Repositories\Role;
 use App\Repositories\Sub\ApplyWithInterface;
 use App\Repositories\Sub\CountInterface;
 use App\Repositories\Sub\FindAllByCriteriaInterface;
-use App\Repositories\Sub\FindOneByIdInterface;
 
 interface RoleRepositoryInterface extends FindAllByCriteriaInterface,
                                           FindOneByIdInterface,

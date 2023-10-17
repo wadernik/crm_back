@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Managers\Upload;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\File\File;
 use Illuminate\Http\UploadedFile;
 
 interface UploadCreatorInterface
 {
     /**
      * @param UploadedFile ...$files
-     * @return iterable<Model>
+     * @return iterable<File>
      */
     public function create(UploadedFile ...$files): iterable;
 }

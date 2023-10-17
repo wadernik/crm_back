@@ -7,7 +7,6 @@ namespace App\Repositories\Manufacturer;
 use App\Models\Manufacturer\Manufacturer;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 final class ManufacturerRepository extends AbstractRepository implements ManufacturerRepositoryInterface
 {
@@ -20,8 +19,11 @@ final class ManufacturerRepository extends AbstractRepository implements Manufac
     {
     }
 
-    public function find(int $id): ?Model
+    public function find(int $id): ?Manufacturer
     {
-        return Manufacturer::query()->find($id);
+        /** @var Manufacturer $manufacturer */
+        $manufacturer = Manufacturer::query()->find($id);
+
+        return $manufacturer;
     }
 }

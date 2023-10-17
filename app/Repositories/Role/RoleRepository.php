@@ -18,4 +18,12 @@ final class RoleRepository extends AbstractRepository implements RoleRepositoryI
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
     }
+
+    public function find(int $id): ?Role
+    {
+        /** @var Role $role */
+        $role = Role::query()->find($id);
+
+        return $role;
+    }
 }

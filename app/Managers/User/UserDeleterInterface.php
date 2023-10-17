@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Managers\User;
 
-use App\Managers\Sub\DeleterInterface;
+use App\Models\User\User;
 
-interface UserDeleterInterface extends DeleterInterface
+interface UserDeleterInterface
 {
+    public function delete(int $id): ?User;
 }

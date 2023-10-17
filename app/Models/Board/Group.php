@@ -12,7 +12,7 @@ final class Group extends Model implements GroupInterface
 {
     use SoftDeletes;
 
-    protected $table = 'task_groups';
+    protected $table = 't_groups';
 
     protected $fillable = [
         'board_id',

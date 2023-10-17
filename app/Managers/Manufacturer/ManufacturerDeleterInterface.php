@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Managers\Manufacturer;
 
-use App\Managers\Sub\DeleterInterface;
+use App\Models\Manufacturer\Manufacturer;
 
-interface ManufacturerDeleterInterface extends DeleterInterface
+interface ManufacturerDeleterInterface
 {
+    public function delete(int $id): ?Manufacturer;
 }

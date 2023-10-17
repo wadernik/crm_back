@@ -20,4 +20,6 @@ interface BoardInterface
     public function file(): HasOne;
 
     public function users(): BelongsToMany;
+
+    public function canUser(int $userId): bool;
 }

@@ -3,7 +3,8 @@
 use App\Http\Controllers\Api\Activity\ActivityController;
 use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Board\Board\BoardsController;
+use App\Http\Controllers\Api\Board\Board\BoardController;
+use App\Http\Controllers\Api\Board\Group\GroupController;
 use App\Http\Controllers\Api\Import\MenuImportController;
 use App\Http\Controllers\Api\Import\SellerImportController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
@@ -175,8 +176,8 @@ Route::group(
         Route::get('/orders/status', [OrderDictionaryController::class, 'statuses']);
         Route::get('/orders/titles', [OrderDictionaryController::class, 'titles']);
         Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
+        Route::get('/manufacturers/limit-types', [DateLimitDictionaryController::class, 'limitTypes']);
         Route::get('/sellers', [SellerDictionaryController::class, 'all']);
-        Route::get('/manufacturers_limit_types', [DateLimitDictionaryController::class, 'limitTypes']);
         Route::get('/activities', [ActivityDictionaryController::class, 'subjects']);
     }
 );
@@ -194,11 +195,17 @@ Route::group(
     }
 );
 
+/**
+ * Доска задач
+ */
 Route::group(
     [
-        'prefix' => 'boards',
+        'prefix' => 'task-boards',
     ],
     static function() {
-        Route::get('/', BoardsController::class);
+        Route::resources([
+            'boards' => BoardController::class,
+            'boards/{boardId}/groups' => GroupController::class,
+        ]);
     }
 );

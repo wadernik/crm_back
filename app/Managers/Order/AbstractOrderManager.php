@@ -10,7 +10,6 @@ use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use App\Models\Order\OrderInterface;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use function collect;
 
 abstract class AbstractOrderManager implements AbstractOrderManagerInterface
@@ -19,7 +18,7 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
     {
     }
 
-    public function create(CreateOrderDTOInterface $orderDTO): Model
+    public function create(CreateOrderDTOInterface $orderDTO): Order
     {
         $mainAttributes = $orderDTO->main();
         $mainAttributes['draft'] = $this->draft;
@@ -50,7 +49,7 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
         return $order;
     }
 
-    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Model
+    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Order
     {
         $mainAttributes = $orderDTO->main();
         $mainAttributes['draft'] = $this->draft;

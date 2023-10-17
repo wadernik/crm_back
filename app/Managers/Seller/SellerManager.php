@@ -7,17 +7,20 @@ namespace App\Managers\Seller;
 use App\DTOs\Seller\CreateSellerDTOInterface;
 use App\DTOs\Seller\UpdateSellerDTOInterface;
 use App\Models\Seller\Seller;
-use Illuminate\Database\Eloquent\Model;
 
 final class SellerManager implements SellerManagerInterface
 {
-    public function create(CreateSellerDTOInterface $sellerDTO): Model
+    public function create(CreateSellerDTOInterface $sellerDTO): Seller
     {
-        return Seller::query()->create($sellerDTO->toArray());
+        /** @var Seller $seller */
+        $seller = Seller::query()->create($sellerDTO->toArray());
+
+        return $seller;
     }
 
-    public function update(int $id, UpdateSellerDTOInterface $sellerDTO): ?Model
+    public function update(int $id, UpdateSellerDTOInterface $sellerDTO): ?Seller
     {
+        /** @var Seller $seller */
         if (!$seller = Seller::query()->find($id)) {
             return null;
         }
@@ -27,8 +30,9 @@ final class SellerManager implements SellerManagerInterface
         return $seller;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?Seller
     {
+        /** @var Seller $seller */
         if (!$seller = Seller::query()->find($id)) {
             return null;
         }
