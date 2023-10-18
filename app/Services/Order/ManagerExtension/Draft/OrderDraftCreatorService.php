@@ -12,7 +12,7 @@ use function App\Helpers\Functions\load_service;
 
 final class OrderDraftCreatorService implements OrderDraftCreatorServiceInterface
 {
-    private readonly OrderDraftCreatorServiceInterface $innerService;
+    private readonly BaseOrderCreatorServiceInterface $innerService;
 
     public function __construct()
     {

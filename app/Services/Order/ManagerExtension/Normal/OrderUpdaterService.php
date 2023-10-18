@@ -12,7 +12,7 @@ use function App\Helpers\Functions\load_service;
 
 final class OrderUpdaterService implements OrderUpdaterServiceInterface
 {
-    private readonly OrderUpdaterServiceInterface $innerService;
+    private readonly BaseOrderUpdaterServiceInterface $innerService;
 
     public function __construct()
     {
