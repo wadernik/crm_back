@@ -133,7 +133,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -141,7 +141,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -149,7 +149,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -157,7 +157,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -165,7 +165,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -173,7 +173,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -182,7 +182,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
             Route::get('', 'index');
             Route::get('{id}', 'show');
             Route::post('', 'store');
-            Route::put('{id}', 'edit');
+            Route::put('{id}', 'update');
             Route::delete('{id}', 'destroy');
         });
 
@@ -206,7 +206,7 @@ Route::middleware(['auth:sanctum'])->prefix('task-boards')->group(static functio
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
-        Route::put('{id}', 'edit');
+        Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
     });
 
@@ -216,7 +216,7 @@ Route::middleware(['auth:sanctum'])->prefix('task-boards')->group(static functio
             Route::get('', 'index');
             Route::get('{id}', 'show');
             Route::post('', 'store');
-            Route::put('{id}', 'edit');
+            Route::put('{id}', 'update');
             Route::delete('{id}', 'destroy');
         });
 });
