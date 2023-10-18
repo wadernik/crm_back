@@ -8,5 +8,5 @@ use App\Models\User\User;
 
 interface UserDeleterInterface
 {
-    public function delete(int $id): ?User;
+    public function delete(User $user): User;
 }

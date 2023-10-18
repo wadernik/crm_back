@@ -8,5 +8,5 @@ use App\Models\Board\Group;
 
 interface GroupDeleterInterface
 {
-    public function delete(int $id): ?Group;
+    public function delete(Group $group): Group;
 }

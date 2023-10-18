@@ -12,7 +12,6 @@ use App\Http\Requests\Board\Board\ListBoardsRequest;
 use App\Http\Requests\Board\Board\UpdateBoardRequest;
 use App\Http\Responses\ApiResponse;
 use App\Managers\Board\Board\BoardManagerInterface;
-use App\Models\Board\Board;
 use App\Repositories\Board\Board\BoardRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,6 +68,7 @@ final class BoardController extends AbstractApiController
     public function update(
         int $id,
         UpdateBoardRequest $request,
+        BoardRepositoryInterface $repository,
         BoardManagerInterface $manager
     ): JsonResponse
     {
@@ -78,22 +78,26 @@ final class BoardController extends AbstractApiController
 
         $boardDTO = new UpdateBoardDTO($request->validated());
 
-        if (!$board = $manager->update($id, $boardDTO)) {
+        if (!$board = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $board = $manager->update($board, $boardDTO);
 
         return ApiResponse::responseSuccess($board->toArray());
     }
 
-    public function destroy(int $id, BoardManagerInterface $manager): JsonResponse
+    public function destroy(int $id, BoardRepositoryInterface $repository, BoardManagerInterface $manager): JsonResponse
     {
         if (!$this->isAllowed('boards.board.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$board = $manager->delete($id)) {
+        if (!$board = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $board = $manager->delete($board);
 
         return ApiResponse::responseSuccess($board->toArray());
     }

@@ -8,5 +8,5 @@ use App\Models\Manufacturer\Manufacturer;
 
 interface ManufacturerDeleterInterface
 {
-    public function delete(int $id): ?Manufacturer;
+    public function delete(Manufacturer $manufacturer): Manufacturer;
 }

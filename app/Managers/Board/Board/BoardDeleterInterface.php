@@ -8,5 +8,5 @@ use App\Models\Board\Board;
 
 interface BoardDeleterInterface
 {
-    public function delete(int $id): ?Board;
+    public function delete(Board $board): Board;
 }

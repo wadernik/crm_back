@@ -18,25 +18,15 @@ final class ManufacturerManager implements ManufacturerManagerInterface
         return $manufacturer;
     }
 
-    public function update(int $id, UpdateManufacturerDTOInterface $manufacturerDTO): ?Manufacturer
+    public function update(Manufacturer $manufacturer, UpdateManufacturerDTOInterface $manufacturerDTO): Manufacturer
     {
-        /** @var Manufacturer $manufacturer */
-        if (!$manufacturer = Manufacturer::query()->find($id)) {
-            return null;
-        }
-
         $manufacturer->update($manufacturerDTO->toArray());
 
         return $manufacturer;
     }
 
-    public function delete(int $id): ?Manufacturer
+    public function delete(Manufacturer $manufacturer): Manufacturer
     {
-        /** @var Manufacturer $manufacturer */
-        if (!$manufacturer = Manufacturer::query()->find($id)) {
-            return null;
-        }
-
         $manufacturer->delete();
 
         return $manufacturer;

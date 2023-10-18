@@ -9,5 +9,5 @@ use App\Models\Seller\Seller;
 
 interface SellerUpdaterInterface
 {
-    public function update(int $id, UpdateSellerDTOInterface $sellerDTO): ?Seller;
+    public function update(Seller $seller, UpdateSellerDTOInterface $sellerDTO): Seller;
 }

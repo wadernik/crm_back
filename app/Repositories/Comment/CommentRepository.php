@@ -7,7 +7,6 @@ namespace App\Repositories\Comment;
 use App\Models\Comment\Comment;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 final class CommentRepository extends AbstractRepository implements CommentRepositoryInterface
 {
@@ -20,8 +19,11 @@ final class CommentRepository extends AbstractRepository implements CommentRepos
     {
     }
 
-    public function find(int $id): ?Model
+    public function find(int $id): ?Comment
     {
-        return Comment::query()->find($id);
+        /** @var Comment $comment */
+        $comment = Comment::query()->find($id);
+
+        return $comment;
     }
 }

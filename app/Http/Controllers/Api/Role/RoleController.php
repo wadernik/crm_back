@@ -26,7 +26,10 @@ final class RoleController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -68,7 +71,12 @@ final class RoleController extends AbstractApiController
         return ApiResponse::responseSuccess($role->toArray());
     }
 
-    public function update(int $id, UpdateRoleRequest $request, RoleManagerInterface $manager): JsonResponse
+    public function update(
+        int $id,
+        UpdateRoleRequest $request,
+        RoleRepositoryInterface $repository,
+        RoleManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('roles.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -76,22 +84,26 @@ final class RoleController extends AbstractApiController
 
         $roleDTO = new UpdateRoleDTO($request->validated());
 
-        if (!$role = $manager->update($id, $roleDTO)) {
+        if (!$role = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $role = $manager->update($role, $roleDTO);
 
         return ApiResponse::responseSuccess($role->toArray());
     }
 
-    public function destroy(int $id, RoleManagerInterface $manager): JsonResponse
+    public function destroy(int $id, RoleRepositoryInterface $repository, RoleManagerInterface $manager): JsonResponse
     {
         if (!$this->isAllowed('roles.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$role = $manager->delete($id)) {
+        if (!$role = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $role = $manager->delete($role);
 
         return ApiResponse::responseSuccess($role->toArray());
     }

@@ -20,6 +20,8 @@ use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
 use App\Managers\ManufacturerDateLimit\DateLimitManagerInterface;
+use App\Managers\Order\BaseOrderManager;
+use App\Managers\Order\BaseOrderManagerInterface;
 use App\Managers\Order\Draft\OrderDraftManager;
 use App\Managers\Order\Draft\OrderDraftManagerInterface;
 use App\Managers\Order\Normal\OrderManager;
@@ -94,6 +96,10 @@ use App\Services\Order\Checker\OrderStateChecker;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
 use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
+use App\Services\Order\ManagerExtension\BaseOrderCreatorService;
+use App\Services\Order\ManagerExtension\BaseOrderCreatorServiceInterface;
+use App\Services\Order\ManagerExtension\BaseOrderUpdaterService;
+use App\Services\Order\ManagerExtension\BaseOrderUpdaterServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorService;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftCreatorServiceInterface;
 use App\Services\Order\ManagerExtension\Draft\OrderDraftUpdaterService;
@@ -166,6 +172,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ManufacturerManagerInterface::class, ManufacturerManager::class);
         $this->app->bind(SellerManagerInterface::class, SellerManager::class);
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
+        $this->app->bind(BaseOrderManagerInterface::class, BaseOrderManager::class);
         $this->app->bind(OrderManagerInterface::class, OrderManager::class);
         $this->app->bind(OrderDraftManagerInterface::class, OrderDraftManager::class);
         $this->app->bind(CommentManagerInterface::class, CommentManager::class);
@@ -189,15 +196,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExportUserReportServiceInterface::class, ExportUserReportService::class);
         $this->app->bind(VkApiClientInterface::class, VkApiClient::class);
         $this->app->bind(VkServiceInterface::class, VkService::class);
-        // Orders
+
+        /** Order */
+        $this->app->bind(BaseOrderCreatorServiceInterface::class, BaseOrderCreatorService::class);
+        $this->app->bind(OrderDraftCreatorServiceInterface::class, OrderDraftCreatorService::class);
+        $this->app->bind(OrderCreatorServiceInterface::class, OrderCreatorService::class);
+
+        $this->app->bind(BaseOrderUpdaterServiceInterface::class, BaseOrderUpdaterService::class);
+        $this->app->bind(OrderDraftUpdaterServiceInterface::class, OrderDraftUpdaterService::class);
+        $this->app->bind(OrderUpdaterServiceInterface::class, OrderUpdaterService::class);
+
         $this->app->bind(OrderActivityServiceInterface::class, OrderActivityService::class);
         $this->app->bind(OrderCreationRestrictionCheckerInterface::class, OrderCreationRestrictionChecker::class);
         $this->app->bind(OrderStateCheckerInterface::class, OrderStateChecker::class);
         $this->app->bind(OrderExportServiceInterface::class, OrderExportService::class);
-        $this->app->bind(OrderDraftCreatorServiceInterface::class, OrderDraftCreatorService::class);
-        $this->app->bind(OrderDraftUpdaterServiceInterface::class, OrderDraftUpdaterService::class);
-        $this->app->bind(OrderCreatorServiceInterface::class, OrderCreatorService::class);
-        $this->app->bind(OrderUpdaterServiceInterface::class, OrderUpdaterService::class);
+
         $this->app->bind(OrderNumberGeneratorServiceInterface::class, OrderNumberGeneratorService::class);
         $this->app->bind(OrderFinalPriceProcessorInterface::class, OrderFinalPriceProcessor::class);
         $this->app->bind(OrderFindWithCommentServiceInterface::class, OrderFindWithCommentService::class);
@@ -209,7 +222,7 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(DatabaseNotificationFormatterInterface::class, DatabaseNotificationFormatter::class);
 
-        // Dooglys
+        /** Dooglys */
         $this->app->bind(DooglysApiClientInterface::class, DooglysApiClient::class);
         $this->app->bind(DooglysOrderSyncServiceInterface::class, DooglysOrderSyncService::class);
         $this->app->bind(DooglysSalePointImportServiceInterface::class, DooglysSalePointImportService::class);

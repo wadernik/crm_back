@@ -18,25 +18,15 @@ final class BoardManager implements BoardManagerInterface
         return $board;
     }
 
-    public function update(int $id, UpdateBoardDTOInterface $boardDTO): ?Board
+    public function update(Board $board, UpdateBoardDTOInterface $boardDTO): ?Board
     {
-        /** @var Board $board */
-        if (!$board = Board::query()->find($id)) {
-            return null;
-        }
-
         $board->update($boardDTO->toArray());
 
         return $board;
     }
 
-    public function delete(int $id): ?Board
+    public function delete(Board $board): Board
     {
-        /** @var Board $board */
-        if (!$board = Board::query()->find($id)) {
-            return null;
-        }
-
         $board->delete();
 
         return $board;

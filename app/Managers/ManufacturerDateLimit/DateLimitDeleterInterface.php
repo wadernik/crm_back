@@ -8,5 +8,5 @@ use App\Models\Manufacturer\ManufacturerDateLimit;
 
 interface DateLimitDeleterInterface
 {
-    public function delete(int $id): ?ManufacturerDateLimit;
+    public function delete(ManufacturerDateLimit $dateLimit): ManufacturerDateLimit;
 }

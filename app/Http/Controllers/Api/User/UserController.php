@@ -24,11 +24,21 @@ final class UserController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $attributes = ['id', 'first_name', 'last_name', 'role_id', 'last_seen', 'sex'];
+        $attributes = [
+            'id',
+            'first_name',
+            'last_name',
+            'role_id',
+            'last_seen',
+            'sex',
+        ];
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? 'first_name', 'order' => $requestData['order'] ?? 'asc'];
+        $sort = [
+            'sort' => $requestData['sort'] ?? 'first_name',
+            'order' => $requestData['order'] ?? 'asc',
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -64,7 +74,12 @@ final class UserController extends AbstractApiController
         return ApiResponse::responseSuccess($user->toArray());
     }
 
-    public function update(int $id, UpdateUserRequest $request, UserManagerInterface $manager): JsonResponse
+    public function update(
+        int $id,
+        UpdateUserRequest $request,
+        UserRepositoryInterface $repository,
+        UserManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -72,22 +87,26 @@ final class UserController extends AbstractApiController
 
         $userDTO = new UpdateUserDTO($request->validated());
 
-        if (!$user = $manager->update($id, $userDTO)) {
+        if (!$user = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $user = $manager->update($user, $userDTO);
 
         return ApiResponse::responseSuccess($user->toArray());
     }
 
-    public function destroy(int $id, UserManagerInterface $manager): JsonResponse
+    public function destroy(int $id, UserRepositoryInterface $repository, UserManagerInterface $manager): JsonResponse
     {
         if (!$this->isAllowed('users.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$user = $manager->delete($id)) {
+        if (!$user = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $user = $manager->delete($user);
 
         return ApiResponse::responseSuccess($user->toArray());
     }

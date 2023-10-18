@@ -18,25 +18,15 @@ final class TaskManager implements TaskManagerInterface
         return $task;
     }
 
-    public function update(int $id, UpdateTaskDTOInterface $taskDTO): ?Task
+    public function update(Task $task, UpdateTaskDTOInterface $taskDTO): Task
     {
-        /** @var Task $task */
-        if (!$task = Task::query()->find($id)) {
-            return null;
-        }
-
         $task->update($taskDTO->toArray());
 
         return $task;
     }
 
-    public function delete(int $id): ?Task
+    public function delete(Task $task): Task
     {
-        /** @var Task $task */
-        if (!$task = Task::query()->find($id)) {
-            return null;
-        }
-
         $task->delete();
 
         return $task;

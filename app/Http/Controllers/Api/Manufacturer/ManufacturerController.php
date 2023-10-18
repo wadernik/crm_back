@@ -26,7 +26,10 @@ final class ManufacturerController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -65,6 +68,7 @@ final class ManufacturerController extends AbstractApiController
     public function update(
         int $id,
         UpdateManufacturerRequest $request,
+        ManufacturerRepositoryInterface $repository,
         ManufacturerManagerInterface $manager
     ): JsonResponse
     {
@@ -74,22 +78,30 @@ final class ManufacturerController extends AbstractApiController
 
         $manufacturerDTO = new UpdateManufacturerDTO($request->validated());
 
-        if (!$manufacturer = $manager->update($id, $manufacturerDTO)) {
+        if (!$manufacturer = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $manufacturer = $manager->update($manufacturer, $manufacturerDTO);
 
         return ApiResponse::responseSuccess($manufacturer->toArray());
     }
 
-    public function destroy(int $id, ManufacturerManagerInterface $manager): JsonResponse
+    public function destroy(
+        int $id,
+        ManufacturerRepositoryInterface $repository,
+        ManufacturerManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('manufacturers.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$manufacturer = $manager->delete($id)) {
+        if (!$manufacturer = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $manufacturer = $manager->delete($manufacturer);
 
         return ApiResponse::responseSuccess($manufacturer->toArray());
     }

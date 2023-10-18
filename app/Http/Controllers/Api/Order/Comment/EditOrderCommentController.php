@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Comments\EditCommentRequest;
 use App\Http\Responses\ApiResponse;
 use App\Managers\Comment\CommentManagerInterface;
+use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ final class EditOrderCommentController extends AbstractApiController
         int $id,
         int $commentId,
         EditCommentRequest $request,
+        CommentRepositoryInterface $commentRepository,
         OrderRepositoryInterface $orderRepository,
         CommentManagerInterface $manager
     ): JsonResponse
@@ -31,9 +33,13 @@ final class EditOrderCommentController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
+        if (!$comment = $commentRepository->find($commentId)) {
+            return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
+        }
+
         $commentDTO = new UpdateCommentDTO($request->validated()['comment']);
 
-        if (!$comment = $manager->update($commentId, $commentDTO)) {
+        if (!$comment = $manager->update($comment, $commentDTO)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
