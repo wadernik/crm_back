@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Board\BoardTableSeeder;
+use Database\Seeders\Board\GroupTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +22,9 @@ class DatabaseSeeder extends Seeder
             ManufacturersTableSeeder::class,
             SellersTableSeeder::class,
             DictionariesTableSeeder::class,
+            // Task Board
+            BoardTableSeeder::class,
+            GroupTableSeeder::class,
         ]);
 
         $this->call([

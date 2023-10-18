@@ -7,16 +7,14 @@ namespace App\Managers\Role;
 use App\DTOs\Role\CreateRoleDTOInterface;
 use App\DTOs\Role\UpdateRoleDTOInterface;
 use App\Models\Role\Role;
-use App\Models\Role\RoleInterface;
-use Illuminate\Database\Eloquent\Model;
 use function array_filter;
 use function collect;
 
 final class RoleManager implements RoleManagerInterface
 {
-    public function create(CreateRoleDTOInterface $roleDTO): Model
+    public function create(CreateRoleDTOInterface $roleDTO): Role
     {
-        /** @var RoleInterface|Model $role */
+        /** @var Role $role */
         $role = Role::query()->create(array_filter([
             'name' => $roleDTO->name(),
             'label' => $roleDTO->label(),
@@ -31,9 +29,9 @@ final class RoleManager implements RoleManagerInterface
         return $role;
     }
 
-    public function update(int $id, UpdateRoleDTOInterface $roleDTO): ?Model
+    public function update(int $id, UpdateRoleDTOInterface $roleDTO): ?Role
     {
-        /** @var RoleInterface|Model $role */
+        /** @var Role $role */
         if (!$role = Role::query()->find($id)) {
             return null;
         }
@@ -52,8 +50,9 @@ final class RoleManager implements RoleManagerInterface
         return $role;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?Role
     {
+        /** @var Role $role */
         if (!$role = Role::query()->find($id)) {
             return null;
         }

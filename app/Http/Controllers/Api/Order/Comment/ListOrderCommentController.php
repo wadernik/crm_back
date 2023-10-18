@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ListOrderCommentController extends AbstractApiController
 {
-    public function comments(
+    public function __invoke(
         int $id,
         ListCommentRequest $request,
         OrderRepositoryInterface $orderRepository,

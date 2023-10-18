@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Managers\User;
 
 use App\DTOs\User\CreateUserDTOInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 interface UserCreatorInterface
 {
-    public function create(CreateUserDTOInterface $userDTO): Model;
+    public function create(CreateUserDTOInterface $userDTO): User;
 }

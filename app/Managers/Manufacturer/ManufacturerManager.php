@@ -7,17 +7,20 @@ namespace App\Managers\Manufacturer;
 use App\DTOs\Manufacturer\CreateManufacturerDTOInterface;
 use App\DTOs\Manufacturer\UpdateManufacturerDTOInterface;
 use App\Models\Manufacturer\Manufacturer;
-use Illuminate\Database\Eloquent\Model;
 
 final class ManufacturerManager implements ManufacturerManagerInterface
 {
-    public function create(CreateManufacturerDTOInterface $manufacturerDTO): Model
+    public function create(CreateManufacturerDTOInterface $manufacturerDTO): Manufacturer
     {
-        return Manufacturer::query()->create($manufacturerDTO->toArray());
+        /** @var Manufacturer $manufacturer */
+        $manufacturer = Manufacturer::query()->create($manufacturerDTO->toArray());
+
+        return $manufacturer;
     }
 
-    public function update(int $id, UpdateManufacturerDTOInterface $manufacturerDTO): ?Model
+    public function update(int $id, UpdateManufacturerDTOInterface $manufacturerDTO): ?Manufacturer
     {
+        /** @var Manufacturer $manufacturer */
         if (!$manufacturer = Manufacturer::query()->find($id)) {
             return null;
         }
@@ -27,8 +30,9 @@ final class ManufacturerManager implements ManufacturerManagerInterface
         return $manufacturer;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?Manufacturer
     {
+        /** @var Manufacturer $manufacturer */
         if (!$manufacturer = Manufacturer::query()->find($id)) {
             return null;
         }

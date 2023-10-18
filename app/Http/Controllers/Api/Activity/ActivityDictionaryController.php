@@ -11,7 +11,7 @@ use function count;
 
 final class ActivityDictionaryController
 {
-    public function subjects(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $items = ActivityExtended::getSubjectsList();
         $total = count($items);

@@ -11,7 +11,7 @@ use function count;
 
 final class DateLimitDictionaryController
 {
-    public function limitTypes(DateLimitRepositoryInterface $repository): JsonResponse
+    public function __invoke(DateLimitRepositoryInterface $repository): JsonResponse
     {
         $items = $repository->limitTypes();
         $total = count($repository->limitTypes());

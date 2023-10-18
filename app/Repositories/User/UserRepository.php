@@ -7,11 +7,9 @@ namespace App\Repositories\User;
 use App\Models\User\Sub\Device;
 use App\Models\User\Sub\DeviceInterface;
 use App\Models\User\User;
-use App\Models\User\UserInterface;
 use App\Repositories\AbstractRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\PersonalAccessToken;
 use function collect;
@@ -23,9 +21,12 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
         parent::__construct(User::class);
     }
 
-    public function find(int $id): ?Model
+    public function find(int $id): ?User
     {
-        return User::query()->find($id);
+        /** @var User $user */
+        $user = User::query()->find($id);
+
+        return $user;
     }
 
     public function findByIds(int ...$ids): Collection
@@ -80,7 +81,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
         }
     }
 
-    public function profile(int $userId): ?Model
+    public function profile(int $userId): ?User
     {
         return User::query()
             ->where('id', $userId)
@@ -90,13 +91,12 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
     }
 
     // TODO: Think about this one. Maybe put it in another layer, not in actual repository.
-    public function devices(Model $user, ?string $deviceName = null): Collection
+    public function devices(User $user, ?string $deviceName = null): Collection
     {
         if (!$deviceName) {
             return collect();
         }
 
-        /** @var UserInterface $user */
         return collect($user->getTokens())
             ->map(static function (PersonalAccessToken $token) use ($deviceName): DeviceInterface {
                 $lastUsedAt = Carbon::parse($token['last_used_at'])->format('d.m.Y H:i');

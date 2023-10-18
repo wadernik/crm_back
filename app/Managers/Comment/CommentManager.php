@@ -6,12 +6,12 @@ namespace App\Managers\Comment;
 
 use App\DTOs\Comment\UpdateCommentDTOInterface;
 use App\Models\Comment\Comment;
-use Illuminate\Database\Eloquent\Model;
 
 final class CommentManager implements CommentManagerInterface
 {
-    public function update(int $id, UpdateCommentDTOInterface $commentDTO): ?Model
+    public function update(int $id, UpdateCommentDTOInterface $commentDTO): ?Comment
     {
+        /** @var Comment $comment */
         if (!$comment = Comment::query()->find($id)) {
             return null;
         }
@@ -21,8 +21,9 @@ final class CommentManager implements CommentManagerInterface
         return $comment;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?Comment
     {
+        /** @var Comment $comment */
         if (!$comment = Comment::query()->find($id)) {
             return null;
         }

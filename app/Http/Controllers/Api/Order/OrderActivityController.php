@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class OrderActivityController extends AbstractApiController
 {
-    public function activities(
+    public function __invoke(
         int $id,
         ListOrderActivityRequest $request,
         OrderActivityServiceInterface $service

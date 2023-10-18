@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UploadController extends AbstractApiController
 {
-    public function upload(CreateFilesUploadRequest $request, UploadManagerInterface $manager): JsonResponse
+    public function __invoke(CreateFilesUploadRequest $request, UploadManagerInterface $manager): JsonResponse
     {
         $uploaded = [];
 

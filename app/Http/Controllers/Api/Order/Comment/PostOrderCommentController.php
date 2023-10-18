@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PostOrderCommentController extends AbstractApiController
 {
-    public function comment(int $id, CreateCommentRequest $request, OrderRepositoryInterface $repository): JsonResponse
+    public function __invoke(int $id, CreateCommentRequest $request, OrderRepositoryInterface $repository): JsonResponse
     {
         if (!$this->isAllowed('comments.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);

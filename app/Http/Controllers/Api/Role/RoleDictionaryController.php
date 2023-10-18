@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 final class RoleDictionaryController
 {
-    public function all(RoleDictionaryRequest $request, RoleRepositoryInterface $repository): JsonResponse
+    public function __invoke(RoleDictionaryRequest $request, RoleRepositoryInterface $repository): JsonResponse
     {
         $repository->applyWith(['permissions']);
 

@@ -16,7 +16,7 @@ use function count;
 
 final class ListUserReportController extends AbstractApiController
 {
-    public function list(UserReportRequest $request, UserReportServiceInterface $service): JsonResponse
+    public function __invoke(UserReportRequest $request, UserReportServiceInterface $service): JsonResponse
     {
         if (!$this->isAllowed('reports.view') || !$this->isAllowed('users_report.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);

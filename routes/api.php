@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\Activity\ActivityController;
 use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Board\Board\BoardController;
+use App\Http\Controllers\Api\Board\Group\GroupController;
 use App\Http\Controllers\Api\Import\MenuImportController;
 use App\Http\Controllers\Api\Import\SellerImportController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
@@ -40,155 +42,181 @@ use App\Http\Controllers\Api\VK\RemoveVkTokenController;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Авторизация
+ * Auth
  */
-Route::group(
-    [
-        'prefix' => 'auth',
-    ],
-    static function () {
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
-        Route::post('/refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum']);
-    }
-);
+Route::prefix('auth')->group(static function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
+});
 
 /**
- * Авторизация VK
+ * Auth VK
  */
-Route::group(
-    [
-        'prefix' => 'vk',
-    ],
-    static function() {
-        Route::get('/authorize', [AuthVkAppController::class, 'auth']);
-        Route::get('/redirect', [CreateOrUpdateVkTokenController::class, 'createOrUpdate']);
-        Route::delete('/logout', [RemoveVkTokenController::class, 'destroy']);
-    }
-);
+Route::prefix('vk')->group(static function () {
+    Route::get('authorize', [AuthVkAppController::class, 'auth']);
+    Route::get('redirect', [CreateOrUpdateVkTokenController::class, 'createOrUpdate']);
+    Route::delete('logout', [RemoveVkTokenController::class, 'destroy']);
+});
 
 /**
- * Профиль пользователя
+ * Endpoints with required authorization
  */
-Route::group(
-    [
-        'prefix' => 'profile',
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function() {
-        Route::get('/', [ProfileController::class, 'profile']);
-        Route::put('/{id}', [ProfileController::class, 'update']);
-        Route::delete('/logout/{id}', [ProfileController::class, 'revokeDevice']);
-    }
-);
+Route::middleware(['auth:sanctum'])->group(static function () {
+    /**
+     * Profile
+     */
+    Route::prefix('profile')->controller(ProfileController::class)->group(static function () {
+        Route::get('', 'profile');
+        Route::put('{id}', 'update');
+        Route::delete('logout/{id}', 'revokeDevice');
+    });
+
+    /**
+     * Notifications
+     */
+    Route::prefix('notifications')->group(static function () {
+        Route::get('', [NotificationController::class, 'list']);
+        Route::get('unread', [NotificationController::class, 'listUnread']);
+        Route::post('read/{id}', NotificationMarkAsReadController::class)->whereNumber('id');
+        Route::post('read', NotificationMarkAllAsReadController::class);
+    });
+
+    /**
+     * Import
+     */
+    Route::prefix('import')->group(static function () {
+        Route::get('sellers', SellerImportController::class);
+        Route::get('menu', MenuImportController::class);
+    });
+
+    /**
+     * Reports
+     */
+    Route::prefix('reports')->group(static function () {
+        Route::get('users', ListUserReportController::class);
+        Route::post('users', ExportUserReportController::class);
+    });
+
+    /** File uploads */
+    Route::post('upload', UploadController::class);
+
+    /** Logs */
+    Route::get('activities', ActivityController::class);
+});
 
 /**
- * Уведомления
+ * Dictionaries
  */
-Route::group(
-    [
-        'prefix' => 'notifications',
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function() {
-        Route::get('/', [NotificationController::class, 'list']);
-        Route::get('/unread', [NotificationController::class, 'listUnread']);
-        Route::post('/read/{id}', NotificationMarkAsReadController::class);
-        Route::post('/read', NotificationMarkAllAsReadController::class);
-    }
-);
+Route::prefix('dictionary')->group(static function () {
+    /** Auth is required */
+    Route::middleware(['auth:sanctum'])->group(static function () {
+        Route::get('roles', RoleDictionaryController::class);
+        Route::get('permissions', PermissionDictionaryController::class);
+        Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
+        Route::get('orders/titles', [OrderDictionaryController::class, 'titles']);
+        Route::get('manufacturers', ManufacturerDictionaryController::class);
+        Route::get('manufacturers/limits', DateLimitDictionaryController::class);
+        Route::get('sellers', SellerDictionaryController::class);
+        Route::get('activities', ActivityDictionaryController::class);
+    });
+
+    /** Without auth */
+    Route::get('users', UserDictionaryController::class);
+    Route::get('users/status', UserStatusDictionaryController::class);
+});
 
 /**
- * Общие методы
+ * Resources with required authorization
  */
-Route::group(
-    [
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function () {
-        Route::resources([
-            'users' => UserController::class,
-            'manufacturers' => ManufacturerController::class,
-            'roles' => RoleController::class,
-            'sellers' => SellerController::class,
-            'manufacturers_limits' => DateLimitController::class,
-            'orders' => OrderController::class,
-            'orders_drafts' => OrderDraftController::class,
-        ]);
+Route::middleware(['auth:sanctum'])->group(static function () {
+    Route::prefix('users')->controller(UserController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
 
-        // Загрузка фотографий
-        Route::post('/upload', [UploadController::class, 'upload']);
+    Route::prefix('manufacturers')->controller(ManufacturerController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
 
-        // Заказы
-        Route::post('orders/export', [ExportOrderController::class, 'export']);
-        Route::post('orders/status', [UpdateOrderStatusController::class, 'updateStatus']);
-        Route::get('orders/{id}/logs', [OrderActivityController::class, 'activities']);
-        Route::get('orders/{id}/comments', [ListOrderCommentController::class, 'comments']);
-        Route::post('orders/{id}/comments', [PostOrderCommentController::class, 'comment']);
-        Route::put('orders/{orderId}/comments/{commentId}', [EditOrderCommentController::class, 'edit']);
-        Route::delete('orders/{orderId}/comments/{commentId}', [DeleteOrderCommentController::class, 'destroy']);
+    Route::prefix('manufacturers/limits')->controller(DateLimitController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
 
-        // Логи
-        Route::get('activities', [ActivityController::class, 'index']);
-    }
-);
+    Route::prefix('roles')->controller(RoleController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
+
+    Route::prefix('sellers')->controller(SellerController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
+
+    Route::prefix('orders/drafts')->controller(OrderDraftController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
+
+    Route::prefix('orders')->group(static function () {
+        Route::controller(OrderController::class)->group(static function () {
+            Route::get('', 'index');
+            Route::get('{id}', 'show');
+            Route::post('', 'store');
+            Route::put('{id}', 'edit');
+            Route::delete('{id}', 'destroy');
+        });
+
+        Route::post('export', ExportOrderController::class);
+        Route::post('status', UpdateOrderStatusController::class);
+        Route::get('{id}/logs', OrderActivityController::class);
+        Route::get('{id}/comments', ListOrderCommentController::class);
+        Route::post('{id}/comments', PostOrderCommentController::class);
+        Route::put('{orderId}/comments/{commentId}', EditOrderCommentController::class)
+            ->whereNumber(['orderId', 'commentId']);
+        Route::delete('{orderId}/comments/{commentId}', DeleteOrderCommentController::class)
+            ->whereNumber(['orderId', 'commentId']);
+    });
+});
 
 /**
- * Импорт
+ * Task board endpoints
  */
-Route::group(
-    [
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function() {
-        Route::get('import/sellers', SellerImportController::class);
-        Route::get('import/menu', MenuImportController::class);
-    }
-);
+Route::middleware(['auth:sanctum'])->prefix('task-boards')->group(static function () {
+    Route::prefix('boards')->controller(BoardController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
 
-/**
- * Отчеты
- */
-Route::group(
-    [
-        'prefix' => 'reports',
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function () {
-        Route::get('/users', [ListUserReportController::class, 'list']);
-        Route::post('/users', [ExportUserReportController::class, 'export']);
-    }
-);
-
-/**
- * Справочники с авторизацией
- */
-Route::group(
-    [
-        'prefix' => 'dictionary',
-        'middleware' => ['auth:sanctum'],
-    ],
-    static function () {
-        Route::get('/roles', [RoleDictionaryController::class, 'all']);
-        Route::get('/permissions', [PermissionDictionaryController::class, 'all']);
-        Route::get('/orders/status', [OrderDictionaryController::class, 'statuses']);
-        Route::get('/orders/titles', [OrderDictionaryController::class, 'titles']);
-        Route::get('/manufacturers', [ManufacturerDictionaryController::class, 'all']);
-        Route::get('/sellers', [SellerDictionaryController::class, 'all']);
-        Route::get('/manufacturers_limit_types', [DateLimitDictionaryController::class, 'limitTypes']);
-        Route::get('/activities', [ActivityDictionaryController::class, 'subjects']);
-    }
-);
-
-/**
- * Справочники без авторизации
- */
-Route::group(
-    [
-        'prefix' => 'dictionary',
-    ],
-    static function () {
-        Route::get('/users', [UserDictionaryController::class, 'all']);
-        Route::get('/users/status', [UserStatusDictionaryController::class, 'statuses']);
-    }
-);
+    Route::prefix('boards/{boardId}/groups')
+        ->whereNumber('boardId')
+        ->controller(GroupController::class)->group(static function () {
+            Route::get('', 'index');
+            Route::get('{id}', 'show');
+            Route::post('', 'store');
+            Route::put('{id}', 'edit');
+            Route::delete('{id}', 'destroy');
+        });
+});

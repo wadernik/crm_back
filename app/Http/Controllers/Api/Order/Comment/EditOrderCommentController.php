@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class EditOrderCommentController extends AbstractApiController
 {
-    public function edit(
+    public function __invoke(
         int $id,
         int $commentId,
         EditCommentRequest $request,

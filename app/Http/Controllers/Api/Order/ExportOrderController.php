@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ExportOrderController extends AbstractApiController
 {
-    public function export(
+    public function __invoke(
         PrintOrderRequest $request,
         OrderRepositoryInterface $repository,
         OrderExportServiceInterface $exportService

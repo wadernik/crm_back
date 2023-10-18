@@ -10,7 +10,6 @@ use App\Events\Order\OrderEntityEvent;
 use App\Events\Order\OrderEntityEventTypeEnum;
 use App\Managers\Order\AbstractOrderManager;
 use App\Models\Order\Order;
-use Illuminate\Database\Eloquent\Model;
 
 final class OrderManager extends AbstractOrderManager implements OrderManagerInterface
 {
@@ -19,7 +18,7 @@ final class OrderManager extends AbstractOrderManager implements OrderManagerInt
         parent::__construct(draft: false);
     }
 
-    public function create(CreateOrderDTOInterface $orderDTO): Model
+    public function create(CreateOrderDTOInterface $orderDTO): Order
     {
         $order = parent::create($orderDTO);
 
@@ -28,7 +27,7 @@ final class OrderManager extends AbstractOrderManager implements OrderManagerInt
         return $order;
     }
 
-    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Model
+    public function update(Order $order, UpdateOrderDTOInterface $orderDTO): Order
     {
         $updatedOrder = parent::update($order, $orderDTO);
 

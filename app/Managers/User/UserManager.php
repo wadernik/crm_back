@@ -8,22 +8,25 @@ use App\DTOs\User\CreateUserDTOInterface;
 use App\DTOs\User\UpdateUserDTOInterface;
 use App\Models\User\User;
 use App\Models\User\UserToken;
-use Illuminate\Database\Eloquent\Model;
 use function bcrypt;
 
 final class UserManager implements UserManagerInterface
 {
-    public function create(CreateUserDTOInterface $userDTO): Model
+    public function create(CreateUserDTOInterface $userDTO): User
     {
         $attributes = $userDTO->toArray();
 
         $attributes['password'] = bcrypt($userDTO->password());
 
-        return User::query()->create($attributes);
+        /** @var User $user */
+        $user = User::query()->create($attributes);
+
+        return $user;
     }
 
-    public function update(int $id, UpdateUserDTOInterface $userDTO): ?Model
+    public function update(int $id, UpdateUserDTOInterface $userDTO): ?User
     {
+        /** @var User $user */
         if (!$user = User::query()->find($id)) {
             return null;
         }
@@ -33,8 +36,9 @@ final class UserManager implements UserManagerInterface
         return $user;
     }
 
-    public function delete(int $id): ?Model
+    public function delete(int $id): ?User
     {
+        /** @var User $user */
         if (!$user = User::query()->find($id)) {
             return null;
         }

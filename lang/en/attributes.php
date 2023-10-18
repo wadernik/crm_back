@@ -55,4 +55,15 @@ return [
     'files' => [
         'file' => 'File',
     ],
+    'boards' => [
+        'board' => [
+            'name' => 'Name',
+            'file_id' => 'File',
+        ],
+        'group' => [
+            'board_id' => 'Board',
+            'name' => 'Name',
+            'sort' => 'Sorting index',
+        ],
+    ],
 ];

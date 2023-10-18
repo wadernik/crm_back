@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Managers\User;
 
 use App\DTOs\User\UpdateUserDTOInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 interface UserUpdaterInterface
 {
-    public function update(int $id, UpdateUserDTOInterface $userDTO): ?Model;
+    public function update(int $id, UpdateUserDTOInterface $userDTO): ?User;
 }

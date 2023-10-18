@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ActivityController extends AbstractApiController
 {
-    public function index(ListActivitiesRequest $request, ActivityServiceInterface $service): JsonResponse
+    public function __invoke(ListActivitiesRequest $request, ActivityServiceInterface $service): JsonResponse
     {
         if (!$this->isAllowed('activities.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);

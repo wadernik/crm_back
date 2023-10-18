@@ -8,6 +8,12 @@ use App\Formatters\Notification\DatabaseNotificationFormatter;
 use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
 use App\Integration\Dooglys\DooglysApiClient;
 use App\Integration\Dooglys\DooglysApiClientInterface;
+use App\Managers\Board\Board\BoardManager;
+use App\Managers\Board\Board\BoardManagerInterface;
+use App\Managers\Board\Group\GroupManager;
+use App\Managers\Board\Group\GroupManagerInterface;
+use App\Managers\Board\Task\TaskManager;
+use App\Managers\Board\Task\TaskManagerInterface;
 use App\Managers\Comment\CommentManager;
 use App\Managers\Comment\CommentManagerInterface;
 use App\Managers\Manufacturer\ManufacturerManager;
@@ -28,6 +34,12 @@ use App\Managers\User\UserManager;
 use App\Managers\User\UserManagerInterface;
 use App\Repositories\Activity\ActivityRepository;
 use App\Repositories\Activity\ActivityRepositoryInterface;
+use App\Repositories\Board\Board\BoardRepository;
+use App\Repositories\Board\Board\BoardRepositoryInterface;
+use App\Repositories\Board\Group\GroupRepository;
+use App\Repositories\Board\Group\GroupRepositoryInterface;
+use App\Repositories\Board\Task\TaskRepository;
+use App\Repositories\Board\Task\TaskRepositoryInterface;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Dictionary\DictionaryRepository;
@@ -140,6 +152,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
         $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
 
+        // Task Boards
+        $this->app->bind(BoardRepositoryInterface::class, BoardRepository::class);
+        $this->app->bind(GroupRepositoryInterface::class, GroupRepository::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
+
         /**
          * MANAGERS
          */
@@ -152,6 +169,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderManagerInterface::class, OrderManager::class);
         $this->app->bind(OrderDraftManagerInterface::class, OrderDraftManager::class);
         $this->app->bind(CommentManagerInterface::class, CommentManager::class);
+
+        // Task Board
+        $this->app->bind(BoardManagerInterface::class, BoardManager::class);
+        $this->app->bind(GroupManagerInterface::class, GroupManager::class);
+        $this->app->bind(TaskManagerInterface::class, TaskManager::class);
 
         /**
          * SERVICES

@@ -7,7 +7,6 @@ namespace App\Repositories\ManufacturerDateLimit;
 use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use function collect;
 
 final class DateLimitRepository extends AbstractRepository implements DateLimitRepositoryInterface
@@ -17,9 +16,12 @@ final class DateLimitRepository extends AbstractRepository implements DateLimitR
         parent::__construct(ManufacturerDateLimit::class);
     }
 
-    public function find(int $id): ?Model
+    public function find(int $id): ?ManufacturerDateLimit
     {
-        return ManufacturerDateLimit::query()->find($id);
+        /** @var ManufacturerDateLimit $dateLimit */
+        $dateLimit = ManufacturerDateLimit::query()->find($id);
+
+        return $dateLimit;
     }
 
     public function addExtraFilter(Builder $builder, array &$criteria): void
