@@ -18,7 +18,7 @@ final class BoardManager implements BoardManagerInterface
         return $board;
     }
 
-    public function update(Board $board, UpdateBoardDTOInterface $boardDTO): ?Board
+    public function update(Board $board, UpdateBoardDTOInterface $boardDTO): Board
     {
         $board->update($boardDTO->toArray());
 
