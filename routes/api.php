@@ -115,7 +115,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
         Route::get('orders/titles', [OrderDictionaryController::class, 'titles']);
         Route::get('manufacturers', ManufacturerDictionaryController::class);
-        Route::get('manufacturers/limit-types', DateLimitDictionaryController::class);
+        Route::get('manufacturers/limits', DateLimitDictionaryController::class);
         Route::get('sellers', SellerDictionaryController::class);
         Route::get('activities', ActivityDictionaryController::class);
     });
@@ -145,6 +145,14 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::delete('{id}', 'destroy');
     });
 
+    Route::prefix('manufacturers/limits')->controller(DateLimitController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'edit');
+        Route::delete('{id}', 'destroy');
+    });
+
     Route::prefix('roles')->controller(RoleController::class)->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
@@ -161,15 +169,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::delete('{id}', 'destroy');
     });
 
-    Route::prefix('manufacturers_limits')->controller(DateLimitController::class)->group(static function () {
-        Route::get('', 'index');
-        Route::get('{id}', 'show');
-        Route::post('', 'store');
-        Route::put('{id}', 'edit');
-        Route::delete('{id}', 'destroy');
-    });
-
-    Route::prefix('orders-drafts')->controller(OrderDraftController::class)->group(static function () {
+    Route::prefix('orders/drafts')->controller(OrderDraftController::class)->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');
