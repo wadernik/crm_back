@@ -8,5 +8,5 @@ use App\Models\Board\Task;
 
 interface TaskDeleterInterface
 {
-    public function delete(int $id): ?Task;
+    public function delete(Task $task): Task;
 }

@@ -9,5 +9,5 @@ use App\Models\Role\Role;
 
 interface RoleUpdaterInterface
 {
-    public function update(int $id, UpdateRoleDTOInterface $roleDTO): ?Role;
+    public function update(Role $role, UpdateRoleDTOInterface $roleDTO): Role;
 }

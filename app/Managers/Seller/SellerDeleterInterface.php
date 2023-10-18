@@ -8,5 +8,5 @@ use App\Models\Seller\Seller;
 
 interface SellerDeleterInterface
 {
-    public function delete(int $id): ?Seller;
+    public function delete(Seller $seller): Seller;
 }

@@ -18,25 +18,15 @@ final class GroupManager implements GroupManagerInterface
         return $group;
     }
 
-    public function update(int $id, UpdateGroupDTOInterface $groupDTO): ?Group
+    public function update(Group $group, UpdateGroupDTOInterface $groupDTO): Group
     {
-        /** @var Group $group */
-        if (!$group = Group::query()->find($id)) {
-            return null;
-        }
-
         $group->update($groupDTO->toArray());
 
         return $group;
     }
 
-    public function delete(int $id): ?Group
+    public function delete(Group $group): Group
     {
-        /** @var Group $group */
-        if (!$group = Group::query()->find($id)) {
-            return null;
-        }
-
         $group->delete();
 
         return $group;

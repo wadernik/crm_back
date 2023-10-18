@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Services\Order\ManagerExtension;
 
 use App\Exceptions\OrderException;
-use App\Managers\Order\AbstractOrderManagerInterface;
+use App\Managers\Order\BaseOrderManagerInterface;
 use App\Models\Order\Order;
 use App\Models\Order\OrderStatus;
 use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
-use function app;
+use function App\Helpers\Functions\load_service;
 use function auth;
 
-abstract class AbstractOrderCreatorService implements AbstractOrderCreatorServiceInterface
+final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
 {
-    private AbstractOrderManagerInterface $manager;
+    private BaseOrderManagerInterface $manager;
     private OrderNumberGeneratorServiceInterface $numberGeneratorService;
     private OrderCreationRestrictionCheckerInterface $orderCreationRestrictionChecker;
 
     public function __construct(private readonly string $managerClass, private readonly string $dtoClass)
     {
-        $this->manager = app($this->managerClass);
-        $this->numberGeneratorService = app(OrderNumberGeneratorServiceInterface::class);
-        $this->orderCreationRestrictionChecker = app(OrderCreationRestrictionCheckerInterface::class);
+        $this->manager = load_service($this->managerClass);
+        $this->numberGeneratorService = load_service(OrderNumberGeneratorServiceInterface::class);
+        $this->orderCreationRestrictionChecker = load_service(OrderCreationRestrictionCheckerInterface::class);
     }
 
     public function create(array $attributes): Order

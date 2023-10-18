@@ -9,5 +9,8 @@ use App\Models\Manufacturer\ManufacturerDateLimit;
 
 interface DateLimitUpdaterInterface
 {
-    public function update(int $id, UpdateDateLimitDTOInterface $dateLimitDTO): ?ManufacturerDateLimit;
+    public function update(
+        ManufacturerDateLimit $dateLimit,
+        UpdateDateLimitDTOInterface $dateLimitDTO
+    ): ManufacturerDateLimit;
 }

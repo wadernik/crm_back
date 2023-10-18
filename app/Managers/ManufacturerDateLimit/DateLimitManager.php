@@ -18,25 +18,18 @@ final class DateLimitManager implements DateLimitManagerInterface
         return $dateLimit;
     }
 
-    public function update(int $id, UpdateDateLimitDTOInterface $dateLimitDTO): ?ManufacturerDateLimit
+    public function update(
+        ManufacturerDateLimit $dateLimit,
+        UpdateDateLimitDTOInterface $dateLimitDTO
+    ): ManufacturerDateLimit
     {
-        /** @var ManufacturerDateLimit $dateLimit */
-        if (!$dateLimit = ManufacturerDateLimit::query()->find($id)) {
-            return null;
-        }
-
         $dateLimit->update($dateLimitDTO->toArray());
 
         return $dateLimit;
     }
 
-    public function delete(int $id): ?ManufacturerDateLimit
+    public function delete(ManufacturerDateLimit $dateLimit): ManufacturerDateLimit
     {
-        /** @var ManufacturerDateLimit $dateLimit */
-        if (!$dateLimit = ManufacturerDateLimit::query()->find($id)) {
-            return null;
-        }
-
         $dateLimit->delete();
 
         return $dateLimit;

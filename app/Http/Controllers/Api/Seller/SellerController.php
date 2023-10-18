@@ -26,7 +26,10 @@ final class SellerController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -64,7 +67,12 @@ final class SellerController extends AbstractApiController
         return ApiResponse::responseSuccess($seller->toArray());
     }
 
-    public function update(int $id, UpdateSellerRequest $request, SellerManagerInterface $manager): JsonResponse
+    public function update(
+        int $id,
+        UpdateSellerRequest $request,
+        SellerRepositoryInterface $repository,
+        SellerManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('sellers.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -72,22 +80,30 @@ final class SellerController extends AbstractApiController
 
         $sellerDTO = new UpdateSellerDTO($request->validated());
 
-        if (!$seller = $manager->update($id, $sellerDTO)) {
+        if (!$seller = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $seller = $manager->update($seller, $sellerDTO);
 
         return ApiResponse::responseSuccess($seller->toArray());
     }
 
-    public function destroy(int $id, SellerManagerInterface $manager): JsonResponse
+    public function destroy(
+        int $id,
+        SellerRepositoryInterface $repository,
+        SellerManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('sellers.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$seller = $manager->delete($id)) {
+        if (!$seller = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $seller = $manager->delete($seller);
 
         return ApiResponse::responseSuccess($seller->toArray());
     }

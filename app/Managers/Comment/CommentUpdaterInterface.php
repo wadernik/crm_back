@@ -9,5 +9,5 @@ use App\Models\Comment\Comment;
 
 interface CommentUpdaterInterface
 {
-    public function update(int $id, UpdateCommentDTOInterface $commentDTO): ?Comment;
+    public function update(Comment $comment, UpdateCommentDTOInterface $commentDTO): Comment;
 }

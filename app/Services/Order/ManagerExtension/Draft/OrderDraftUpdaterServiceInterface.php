@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Order\ManagerExtension\Draft;
 
-use App\Services\Order\ManagerExtension\AbstractOrderUpdateServiceInterface;
+use App\Services\Order\ManagerExtension\BaseOrderUpdaterServiceInterface;
 
-interface OrderDraftUpdaterServiceInterface extends AbstractOrderUpdateServiceInterface
+interface OrderDraftUpdaterServiceInterface extends BaseOrderUpdaterServiceInterface
 {
 }

@@ -29,13 +29,8 @@ final class RoleManager implements RoleManagerInterface
         return $role;
     }
 
-    public function update(int $id, UpdateRoleDTOInterface $roleDTO): ?Role
+    public function update(Role $role, UpdateRoleDTOInterface $roleDTO): Role
     {
-        /** @var Role $role */
-        if (!$role = Role::query()->find($id)) {
-            return null;
-        }
-
         $role->update(array_filter([
             'name' => $roleDTO->name(),
             'label' => $roleDTO->label()
@@ -50,13 +45,8 @@ final class RoleManager implements RoleManagerInterface
         return $role;
     }
 
-    public function delete(int $id): ?Role
+    public function delete(Role $role): Role
     {
-        /** @var Role $role */
-        if (!$role = Role::query()->find($id)) {
-            return null;
-        }
-
         $role->delete();
 
         return $role;

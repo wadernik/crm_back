@@ -9,5 +9,5 @@ use App\Models\Board\Group;
 
 interface GroupUpdaterInterface
 {
-    public function update(int $id, UpdateGroupDTOInterface $groupDTO): ?Group;
+    public function update(Group $group, UpdateGroupDTOInterface $groupDTO): Group;
 }

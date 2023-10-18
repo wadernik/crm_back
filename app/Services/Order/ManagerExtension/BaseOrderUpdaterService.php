@@ -6,15 +6,15 @@ namespace App\Services\Order\ManagerExtension;
 
 use App\Exceptions\OrderException;
 use App\Jobs\SyncOrderFinalPriceJob;
-use App\Managers\Order\AbstractOrderManagerInterface;
+use App\Managers\Order\BaseOrderManagerInterface;
 use App\Models\Order\Order;
 use App\Services\Order\Checker\OrderCreationRestrictionCheckerInterface;
 use App\Services\Order\Checker\OrderFinalPriceCheckerInterface;
 use function app;
 
-abstract class AbstractOrderUpdaterService implements AbstractOrderUpdateServiceInterface
+final class BaseOrderUpdaterService implements BaseOrderUpdaterServiceInterface
 {
-    private AbstractOrderManagerInterface $manager;
+    private BaseOrderManagerInterface $manager;
     private OrderCreationRestrictionCheckerInterface $orderCreationRestrictionChecker;
     private OrderFinalPriceCheckerInterface $finalPriceChecker;
 
@@ -25,7 +25,7 @@ abstract class AbstractOrderUpdaterService implements AbstractOrderUpdateService
         $this->finalPriceChecker = app(OrderFinalPriceCheckerInterface::class);
     }
 
-    public function update(Order $order, array $attributes): ?Order
+    public function update(Order $order, array $attributes): Order
     {
         if (!$this->orderCreationRestrictionChecker->check(
             $attributes['manufacturer_id'] ?? null,

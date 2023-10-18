@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Http\Responses\ApiResponse;
 use App\Managers\User\UserManagerInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthUserServiceInterface;
 use App\Services\Profile\ProfileServiceInterface;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +31,12 @@ final class ProfileController extends AbstractApiController
         return ApiResponse::responseSuccess($profile->toArray());
     }
 
-    public function update(int $id, UpdateUserRequest $request, UserManagerInterface $manager): JsonResponse
+    public function update(
+        int $id,
+        UpdateUserRequest $request,
+        UserRepositoryInterface $repository,
+        UserManagerInterface $manager
+    ): JsonResponse
     {
         if (!$userId = $this->userId()) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -42,9 +48,11 @@ final class ProfileController extends AbstractApiController
 
         $userDTO = new UpdateUserDTO($request->validated());
 
-        if (!$user = $manager->update($id, $userDTO)) {
+        if (!$user = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $user = $manager->update($user, $userDTO);
 
         return ApiResponse::responseSuccess($user->toArray());
     }

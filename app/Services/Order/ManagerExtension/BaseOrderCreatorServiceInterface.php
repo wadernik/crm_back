@@ -7,15 +7,14 @@ namespace App\Services\Order\ManagerExtension;
 use App\Models\Order\Order;
 use Throwable;
 
-interface AbstractOrderUpdateServiceInterface
+interface BaseOrderCreatorServiceInterface
 {
     /**
-     * @param Order $order
      * @param array $attributes
      *
-     * @return Order|null
+     * @return Order
      *
      * @throws Throwable
      */
-    public function update(Order $order, array $attributes): ?Order;
+    public function create(array $attributes): Order;
 }

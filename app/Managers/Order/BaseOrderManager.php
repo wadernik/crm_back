@@ -10,11 +10,12 @@ use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use App\Models\Order\OrderInterface;
 use Carbon\Carbon;
+use function activity;
 use function collect;
 
-abstract class AbstractOrderManager implements AbstractOrderManagerInterface
+final class BaseOrderManager implements BaseOrderManagerInterface
 {
-    public function __construct(private readonly bool $draft)
+    public function __construct(private readonly bool $draft = false)
     {
     }
 
@@ -23,12 +24,12 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
         $mainAttributes = $orderDTO->main();
         $mainAttributes['draft'] = $this->draft;
 
+        if ($this->draft) {
+            activity()->disableLogging();
+        }
+
         /** @var OrderInterface|Order $order */
         $order = Order::query()->create($mainAttributes);
-
-        if ($this->draft) {
-            $order->disableLogging();
-        }
 
         if ($orderDTO->files()) {
             $fileIds = collect($orderDTO->files())
@@ -46,6 +47,10 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
                 ->create($item);
         }
 
+        if ($this->draft) {
+            activity()->enableLogging();
+        }
+
         return $order;
     }
 
@@ -55,7 +60,7 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
         $mainAttributes['draft'] = $this->draft;
 
         if ($this->draft) {
-            $order->disableLogging();
+            activity()->disableLogging();
         }
 
         $order->update($mainAttributes);
@@ -87,6 +92,10 @@ abstract class AbstractOrderManager implements AbstractOrderManagerInterface
         }
 
         $order->update(['updated_at' => Carbon::now()->timestamp]);
+
+        if ($this->draft) {
+            activity()->enableLogging();
+        }
 
         return $order;
     }

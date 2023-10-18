@@ -9,5 +9,5 @@ use App\Models\Board\Board;
 
 interface BoardUpdaterInterface
 {
-    public function update(int $id, UpdateBoardDTOInterface $boardDTO): ?Board;
+    public function update(Board $board, UpdateBoardDTOInterface $boardDTO): Board;
 }

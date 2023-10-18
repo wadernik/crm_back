@@ -18,25 +18,15 @@ final class SellerManager implements SellerManagerInterface
         return $seller;
     }
 
-    public function update(int $id, UpdateSellerDTOInterface $sellerDTO): ?Seller
+    public function update(Seller $seller, UpdateSellerDTOInterface $sellerDTO): Seller
     {
-        /** @var Seller $seller */
-        if (!$seller = Seller::query()->find($id)) {
-            return null;
-        }
-
         $seller->update($sellerDTO->toArray());
 
         return $seller;
     }
 
-    public function delete(int $id): ?Seller
+    public function delete(Seller $seller): Seller
     {
-        /** @var Seller $seller */
-        if (!$seller = Seller::query()->find($id)) {
-            return null;
-        }
-
         $seller->delete();
 
         return $seller;

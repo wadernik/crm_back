@@ -6,12 +6,27 @@ namespace App\Services\Order\ManagerExtension\Draft;
 
 use App\DTOs\Order\OrderDraftDTO;
 use App\Managers\Order\Draft\OrderDraftManagerInterface;
-use App\Services\Order\ManagerExtension\AbstractOrderCreatorService;
+use App\Models\Order\Order;
+use App\Services\Order\ManagerExtension\BaseOrderCreatorServiceInterface;
+use function App\Helpers\Functions\load_service;
 
-final class OrderDraftCreatorService extends AbstractOrderCreatorService implements OrderDraftCreatorServiceInterface
+final class OrderDraftCreatorService implements OrderDraftCreatorServiceInterface
 {
+    private readonly OrderDraftCreatorServiceInterface $innerService;
+
     public function __construct()
     {
-        parent::__construct(OrderDraftManagerInterface::class, OrderDraftDTO::class);
+        $this->innerService = load_service(
+            BaseOrderCreatorServiceInterface::class,
+            [
+                'managerClass' => OrderDraftManagerInterface::class,
+                'dtoClass' => OrderDraftDTO::class,
+            ]
+        );
+    }
+
+    public function create(array $attributes): Order
+    {
+        return $this->innerService->create($attributes);
     }
 }

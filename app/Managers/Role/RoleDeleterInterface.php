@@ -8,5 +8,5 @@ use App\Models\Role\Role;
 
 interface RoleDeleterInterface
 {
-    public function delete(int $id): ?Role;
+    public function delete(Role $role): Role;
 }

@@ -9,25 +9,15 @@ use App\Models\Comment\Comment;
 
 final class CommentManager implements CommentManagerInterface
 {
-    public function update(int $id, UpdateCommentDTOInterface $commentDTO): ?Comment
+    public function update(Comment $comment, UpdateCommentDTOInterface $commentDTO): Comment
     {
-        /** @var Comment $comment */
-        if (!$comment = Comment::query()->find($id)) {
-            return null;
-        }
-
         $comment->update(['comment' => $commentDTO->comment()]);
 
         return $comment;
     }
 
-    public function delete(int $id): ?Comment
+    public function delete(Comment $comment): Comment
     {
-        /** @var Comment $comment */
-        if (!$comment = Comment::query()->find($id)) {
-            return null;
-        }
-
         $comment->delete();
 
         return $comment;

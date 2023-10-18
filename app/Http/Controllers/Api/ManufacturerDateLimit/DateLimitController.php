@@ -29,7 +29,10 @@ final class DateLimitController extends AbstractApiController
 
         $requestData = $request->validated();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -70,6 +73,7 @@ final class DateLimitController extends AbstractApiController
     public function update(
         int $id,
         UpdateManufacturerDateLimitRequest $request,
+        DateLimitRepositoryInterface $repository,
         DateLimitManagerInterface $manager
     ): JsonResponse
     {
@@ -79,22 +83,30 @@ final class DateLimitController extends AbstractApiController
 
         $dateLimitDTO = new UpdateDateLimitDTO($request->validated());
 
-        if ($dateLimit = $manager->update($id, $dateLimitDTO)) {
+        if (!$dateLimit = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $dateLimit = $manager->update($dateLimit, $dateLimitDTO);
 
         return ApiResponse::responseSuccess($dateLimit->toArray());
     }
 
-    public function destroy(int $id, DateLimitManagerInterface $manager): JsonResponse
+    public function destroy(
+        int $id,
+        DateLimitRepositoryInterface $repository,
+        DateLimitManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.stop.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if (!$dateLimit = $manager->delete($id)) {
+        if (!$dateLimit = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
+
+        $dateLimit = $manager->delete($dateLimit);
 
         return ApiResponse::responseSuccess($dateLimit->toArray());
     }

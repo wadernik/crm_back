@@ -9,5 +9,5 @@ use App\Models\Board\Task;
 
 interface TaskUpdaterInterface
 {
-    public function update(int $id, UpdateTaskDTOInterface $taskDTO): ?Task;
+    public function update(Task $task, UpdateTaskDTOInterface $taskDTO): Task;
 }

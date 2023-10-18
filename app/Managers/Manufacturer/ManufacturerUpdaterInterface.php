@@ -9,5 +9,5 @@ use App\Models\Manufacturer\Manufacturer;
 
 interface ManufacturerUpdaterInterface
 {
-    public function update(int $id, UpdateManufacturerDTOInterface $manufacturerDTO): ?Manufacturer;
+    public function update(Manufacturer $manufacturer, UpdateManufacturerDTOInterface $manufacturerDTO): Manufacturer;
 }

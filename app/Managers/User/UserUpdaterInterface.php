@@ -9,5 +9,5 @@ use App\Models\User\User;
 
 interface UserUpdaterInterface
 {
-    public function update(int $id, UpdateUserDTOInterface $userDTO): ?User;
+    public function update(User $user, UpdateUserDTOInterface $userDTO): User;
 }

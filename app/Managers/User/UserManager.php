@@ -24,25 +24,15 @@ final class UserManager implements UserManagerInterface
         return $user;
     }
 
-    public function update(int $id, UpdateUserDTOInterface $userDTO): ?User
+    public function update(User $user, UpdateUserDTOInterface $userDTO): User
     {
-        /** @var User $user */
-        if (!$user = User::query()->find($id)) {
-            return null;
-        }
-
         $user->update($userDTO->toArray());
 
         return $user;
     }
 
-    public function delete(int $id): ?User
+    public function delete(User $user): User
     {
-        /** @var User $user */
-        if (!$user = User::query()->find($id)) {
-            return null;
-        }
-
         $user->delete();
 
         return $user;

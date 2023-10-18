@@ -8,5 +8,5 @@ use App\Models\Comment\Comment;
 
 interface CommentDeleterInterface
 {
-    public function delete(int $id): ?Comment;
+    public function delete(Comment $comment): Comment;
 }
