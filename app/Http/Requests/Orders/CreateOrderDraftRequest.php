@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function __;
 
 class CreateOrderDraftRequest extends FormRequest
 {
@@ -27,13 +28,13 @@ class CreateOrderDraftRequest extends FormRequest
             //
             'items' => 'sometimes|array',
             'items.*.title_id' => 'sometimes|integer',
+            'items.*.unit_id' => 'sometimes|integer',
             // 'items.*.name' => 'sometimes|string|max:255',
             'items.*.amount' => 'sometimes|string',
             'items.*.label' => 'sometimes|string|max:255|nullable',
             'items.*.comment' => 'sometimes|string|max:255|nullable',
             'items.*.decoration' => 'sometimes|string|max:255|nullable',
-            //
-            'files' => 'sometimes|array|nullable',
+            'items.*.files' => 'sometimes|array|nullable',
         ];
     }
 
@@ -46,8 +47,10 @@ class CreateOrderDraftRequest extends FormRequest
             'accepted_date' => __('attributes.order.accepted_date'),
             'order_date' => __('attributes.order.order_date'),
             'order_time' => __('attributes.order.order_time'),
+            'phone' => __('attributes.order.phone'),
             'items' => __('attributes.order.items'),
             // 'items.*.name' => __('attributes.order.name'),
+            'items.*.unit_id' => __('attributes.order.unit_id'),
             'items.*.label' => __('attributes.order.label'),
             'items.*.comment' => __('attributes.order.comment'),
             'items.*.decoration' => __('attributes.order.decoration'),

@@ -16,16 +16,17 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     order_date: string,
      *     order_time: string,
      *     number_external: string,
-     *     files: array|null,
      *     inspector_id: ?int,
      *     phone: string,
      *     items: array<int, array{
      *          title_id: int|null,
+     *          unit_id: int|null,
      *          name: string,
      *          amount: string,
      *          label: string|null,
      *          comment: string|null,
-     *          decoration: string|null
+     *          decoration: string|null,
+     *          files: array|null,
      *     }>,
      * } $attributes
      */
@@ -47,17 +48,8 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
         return $this->attributes['items'];
     }
 
-    public function files(): array
-    {
-        return $this->attributes['files'] ?? [];
-    }
-
     public function toArray(): array
     {
-        $attributes = $this->attributes;
-
-        unset($attributes['files']);
-
-        return $attributes;
+        return $this->attributes;
     }
 }

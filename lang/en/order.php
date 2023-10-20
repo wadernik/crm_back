@@ -1,12 +1,14 @@
 <?php
 
 return [
-    'statuses' => [
+    'status' => [
         'accepted' => 'Accepted',
         'taken' => 'Processing',
         'delivery' => 'In delivery',
         'sold' => 'Sold',
         'canceled' => 'Canceled',
+        'printed' => 'Printed',
+        'to_reprint' => 'To reprint',
     ],
     'limit_reached' => 'The manufacturer has reached the limit on the amount of orders'
         . ' it can accept on the selected date.',

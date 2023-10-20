@@ -2,7 +2,10 @@
 
 namespace App\Models\Order\Item;
 
+use App\Models\File\File;
+use App\Models\Order\File\OrderFile;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -17,6 +20,7 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'title_id',
+        'unit_id',
         'name',
         'amount',
         'label',
@@ -29,6 +33,11 @@ class OrderItem extends Model
         'name',
         'deleted_at',
     ];
+
+    public function files(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class, 'order_files', 'order_item_id', 'file_id')->using(OrderFile::class);
+    }
 
     protected static array $recordEvents = ['created', 'updated'];
 

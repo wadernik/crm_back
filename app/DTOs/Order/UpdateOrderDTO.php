@@ -16,7 +16,6 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     order_date: string|null,
      *     order_time: string|null,
      *     number_external: string|null,
-     *     files: array|null,
      *     inspector_id: ?int|null,
      *     phone: string|null,
      *     id: int|null,
@@ -24,11 +23,13 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     items: array<int, array{
      *          id: int|null,
      *          title_id: int|null,
+     *          unit_id: int|null,
      *          name: string|null,
      *          amount: string|null,
      *          label: string|null,
      *          comment: string|null,
-     *          decoration: string|null
+     *          decoration: string|null,
+     *          files: array|null,
      *     }>,
      * } $attributes
      */
@@ -50,11 +51,6 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
         return $this->attributes['items'] ?? [];
     }
 
-    public function files(): array
-    {
-        return $this->attributes['files'] ?? [];
-    }
-
     public function id(): ?int
     {
         return $this->attributes['id'] ?? null;
@@ -64,7 +60,7 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
     {
         $attributes = $this->attributes;
 
-        unset($attributes['id'], $attributes['files']);
+        unset($attributes['id']);
 
         return $attributes;
     }

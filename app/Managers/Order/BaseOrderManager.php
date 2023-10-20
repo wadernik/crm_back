@@ -31,21 +31,7 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         /** @var OrderInterface|Order $order */
         $order = Order::query()->create($mainAttributes);
 
-        if ($orderDTO->files()) {
-            $fileIds = collect($orderDTO->files())
-                ->pluck('id')
-                ->toArray();
-
-            $order->files()->sync($fileIds);
-        }
-
-        foreach ($orderDTO->items() as $item) {
-            $item['order_id'] = $order->id;
-
-            OrderItem::query()
-                ->where('order_id', $order->id)
-                ->create($item);
-        }
+        $this->manageItems($order, $orderDTO->items());
 
         if ($this->draft) {
             activity()->enableLogging();
@@ -65,31 +51,7 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $order->update($mainAttributes);
 
-        if ($orderDTO->files()) {
-            $fileIds = collect($orderDTO->files())
-                ->pluck('id')
-                ->toArray();
-
-            $order->files()->sync($fileIds);
-        }
-
-        $items = collect($orderDTO->items())->keyBy('id');
-
-        $itemIds = $items
-            ->keys()
-            ->toArray();
-
-        $orderItems = OrderItem::query()
-            ->whereIn('id', $itemIds)
-            ->get();
-
-        foreach ($orderItems as $orderItem) {
-            if ($orderItem->order_id !== $order->id) {
-                continue;
-            }
-
-            $orderItem->update($items->get($orderItem->id));
-        }
+        $this->manageItems($order, $orderDTO->items());
 
         $order->update(['updated_at' => Carbon::now()->timestamp]);
 
@@ -105,5 +67,68 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         $order->delete();
 
         return $order;
+    }
+
+    private function manageItems(Order $order, array $requestItems = []): void
+    {
+        if (!$requestItems) {
+            return;
+        }
+
+        $orderItems = $order->items->keyBy('id');
+
+        $toCreate = [];
+        $toUpdate = [];
+        $toDelete = clone $orderItems;
+
+        foreach ($requestItems as $item) {
+            if (empty($item['id'])) {
+                $toCreate[] = $item;
+
+                continue;
+            }
+
+            $toUpdate[$item['id']] = $item;
+        }
+
+        foreach ($toCreate as $item) {
+            $item['order_id'] = $order->id;
+
+            /** @var OrderItem $orderItem */
+            $orderItem = OrderItem::query()->create($item);
+
+            if (!empty($item['files'])) {
+                $fileIds = collect($item['files'])
+                    ->pluck('id')
+                    ->toArray();
+
+                $orderItem->files()->sync($fileIds);
+            }
+        }
+
+        foreach ($toUpdate as $itemId => $item) {
+            if (!$orderItems->has($item['id'])) {
+                continue;
+            }
+
+            $toDelete->forget($itemId);
+
+            /** @var OrderItem $orderItem */
+            $orderItem = $orderItems->get($itemId);
+
+            $orderItem->update($item);
+
+            if (!empty($item['files'])) {
+                $fileIds = collect($item['files'])
+                    ->pluck('id')
+                    ->toArray();
+
+                $orderItem->files()->sync($fileIds);
+            }
+        }
+
+        foreach ($toDelete as $item) {
+            $item->delete();
+        }
     }
 }

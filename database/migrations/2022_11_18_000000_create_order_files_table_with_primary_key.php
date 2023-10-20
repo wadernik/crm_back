@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('order_files', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('order_item_id');
             $table->unsignedBigInteger('file_id');
 
-            $table->foreign('order_id')
+            $table->foreign('order_item_id')
                 ->references('id')
-                ->on('orders')
+                ->on('order_items')
                 ->onDelete('cascade');
 
             $table->foreign('file_id')
@@ -28,7 +28,7 @@ return new class extends Migration
                 ->on('files')
                 ->onDelete('cascade');
 
-            $table->unique(['order_id', 'file_id']);
+            $table->unique(['order_item_id', 'file_id']);
         });
     }
 
@@ -40,9 +40,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('order_files', static function (Blueprint $table) {
-            $table->dropForeign('order_files_order_id_foreign');
+            $table->dropForeign('order_files_order_item_id_foreign');
             $table->dropForeign('order_files_file_id_foreign');
-            $table->dropUnique('order_files_order_id_file_id_unique');
+            $table->dropUnique('order_files_order_item_id_file_id_unique');
         });
 
         Schema::dropIfExists('order_files');

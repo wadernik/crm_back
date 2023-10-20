@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->string('product_code')->nullable(); // Код товара
             $table->unsignedBigInteger('title_id')->nullable(); // Наименование продукта из справочника
+            $table->unsignedSmallInteger('unit_id')->nullable(); // Единица измерения
             $table->string('name', 255)->nullable(); // Наименование заказа
             $table->string('amount', 255)->nullable(); // Количество / вес в граммах
             $table->string('label', 255)->nullable(); // Надпись

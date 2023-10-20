@@ -50,7 +50,7 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         /** @var ?Order $order */
         $order = Order::query()
             ->where('orders.draft', false)
-            ->with(['items', 'files:id,filename'])
+            ->with(['items', 'items.files:id,filename'])
             ->find($id);
 
         return $order;

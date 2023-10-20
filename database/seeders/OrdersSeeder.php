@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\OrderStatus;
 use App\Models\Seller\Seller;
+use App\Models\Unit\UnitEnum;
 use App\Models\User\User;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use Carbon\Carbon;
@@ -41,6 +42,8 @@ class OrdersSeeder extends Seeder
 
             $status = array_rand(OrderStatus::statusCaptions());
 
+            $unit = collect(UnitEnum::cases())->random()->value;
+
             $attributes = [
                 'manufacturer_id' => $manufacturer['id'] ?? 1,
                 'source_id' => $source['id'] ?? 1,
@@ -57,6 +60,7 @@ class OrdersSeeder extends Seeder
                         'label' => Str::random(),
                         'amount' => random_int(50, 3000),
                         'comment' => Str::random(),
+                        'unit_id' => $unit,
                     ],
                 ],
             ];

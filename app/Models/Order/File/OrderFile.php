@@ -17,7 +17,7 @@ final class OrderFile extends Pivot
     protected $table = 'order_files';
 
     protected $fillable = [
-        'order_id',
+        'order_item_id',
         'file_id',
     ];
 

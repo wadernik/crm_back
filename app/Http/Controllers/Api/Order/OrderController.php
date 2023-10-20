@@ -43,7 +43,7 @@ final class OrderController extends AbstractApiController
         $repository->applyWith(
             [
                 'items',
-                'files:id,filename',
+                'items.files:id,filename',
             ]
         );
 

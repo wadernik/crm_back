@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Role\RoleController;
 use App\Http\Controllers\Api\Role\RoleDictionaryController;
 use App\Http\Controllers\Api\Seller\SellerController;
 use App\Http\Controllers\Api\Seller\SellerDictionaryController;
+use App\Http\Controllers\Api\Unit\UnitDictionaryController;
 use App\Http\Controllers\Api\Upload\UploadController;
 use App\Http\Controllers\Api\User\ExportUserReportController;
 use App\Http\Controllers\Api\User\ListUserReportController;
@@ -118,6 +119,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('manufacturers/limits', DateLimitDictionaryController::class);
         Route::get('sellers', SellerDictionaryController::class);
         Route::get('activities', ActivityDictionaryController::class);
+        Route::get('units', UnitDictionaryController::class);
     });
 
     /** Without auth */

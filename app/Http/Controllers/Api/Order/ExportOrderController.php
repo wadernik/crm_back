@@ -27,7 +27,7 @@ final class ExportOrderController extends AbstractApiController
 
         $criteria = $request->validated();
 
-        $repository->applyWith(['files:id,filename', 'manufacturer', 'seller', 'source']);
+        $repository->applyWith(['items.files:id,filename', 'manufacturer', 'seller', 'source']);
 
         $orders = $repository->findAllBy(['filter' => $criteria]);
 

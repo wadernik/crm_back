@@ -14,6 +14,8 @@ return [
         'source_id' => 'Source of order acceptance',
         'seller_id' => 'Pick up point',
         'file_ids' => 'Files',
+        'phone' => 'Phone',
+        'unit_id' => 'Unit',
     ],
     'user' => [
         'id' => 'Employee',

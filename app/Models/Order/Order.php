@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Order;
 
-use App\Models\File\File;
 use App\Models\Manufacturer\Manufacturer;
-use App\Models\Order\File\OrderFile;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Seller\Seller;
 use App\Models\Traits\FilterableTrait;
@@ -17,7 +15,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -144,10 +141,5 @@ class Order extends Model implements OrderInterface
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
-    }
-
-    public function files(): BelongsToMany
-    {
-        return $this->belongsToMany(File::class, 'order_files', 'order_id', 'file_id')->using(OrderFile::class);
     }
 }
