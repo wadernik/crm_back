@@ -2,15 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dictionary\DictionaryTypeEnum;
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\OrderStatus;
 use App\Models\Seller\Seller;
 use App\Models\Unit\UnitEnum;
 use App\Models\User\User;
+use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use App\Services\Order\ManagerExtension\Normal\OrderCreatorServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use function App\Helpers\Functions\load_service;
 
 class OrdersSeeder extends Seeder
 {
@@ -18,8 +21,15 @@ class OrdersSeeder extends Seeder
 
     public function run(): void
     {
-        /** @var OrderCreatorServiceInterface $orderService */
-        $orderService = app(OrderCreatorServiceInterface::class);
+        $orderService = load_service(OrderCreatorServiceInterface::class);
+
+        $dictionaryRepository = load_service(DictionaryRepositoryInterface::class);
+        $filter = [
+            'type' => DictionaryTypeEnum::PRODUCT_TITLE->value,
+            'deleted_at' => null,
+        ];
+
+        $titles = $dictionaryRepository->findAllBy(['filter' => $filter]);
 
         for ($i = 1; $i <= self::ORDERS_LIMIT; $i++) {
             $manufacturer = Manufacturer::query()
@@ -56,6 +66,7 @@ class OrdersSeeder extends Seeder
                 'phone' => '79111111111',
                 'items' => [
                     [
+                        'title_id' => $titles->random()->id,
                         'name' => Str::random(),
                         'label' => Str::random(),
                         'amount' => random_int(50, 3000),

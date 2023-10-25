@@ -15,26 +15,26 @@ class CreateOrderDraftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'manufacturer_id' => 'sometimes|integer',
-            'source_id' => 'sometimes|integer',
-            'seller_id' => 'sometimes|integer',
-            'user_id' => 'sometimes|integer',
-            'inspector_id' => 'sometimes|integer',
-            'phone' => 'sometimes|regex:/^\d{11}$/',
-            'accepted_date' => 'sometimes|date_format:Y-m-d',
-            'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow',
-            'order_time' => 'sometimes|date_format:H:i',
-            'number_external' => 'sometimes|string|nullable',
+            'manufacturer_id' => 'sometimes|nullable|integer',
+            'source_id' => 'sometimes|nullable|integer',
+            'seller_id' => 'sometimes|nullable|integer',
+            'user_id' => 'sometimes|nullable|integer',
+            'inspector_id' => 'sometimes|nullable|integer',
+            'phone' => 'sometimes|nullable|regex:/^\d{11}$/',
+            'accepted_date' => 'sometimes|nullable|date_format:Y-m-d',
+            'order_date' => 'sometimes|nullable|date_format:Y-m-d|after_or_equal:tomorrow',
+            'order_time' => 'sometimes|nullable|date_format:H:i',
+            'number_external' => 'sometimes|nullable|string',
             //
             'items' => 'sometimes|array',
-            'items.*.title_id' => 'sometimes|integer',
-            'items.*.unit_id' => 'sometimes|integer',
+            'items.*.title_id' => 'sometimes|nullable|integer',
+            'items.*.unit_id' => 'sometimes|nullable|integer',
             // 'items.*.name' => 'sometimes|string|max:255',
-            'items.*.amount' => 'sometimes|string',
-            'items.*.label' => 'sometimes|string|max:255|nullable',
-            'items.*.comment' => 'sometimes|string|max:255|nullable',
-            'items.*.decoration' => 'sometimes|string|max:255|nullable',
-            'items.*.files' => 'sometimes|array|nullable',
+            'items.*.amount' => 'sometimes|nullable|string',
+            'items.*.label' => 'sometimes|nullable|string|max:255',
+            'items.*.comment' => 'sometimes|nullable|string|max:255',
+            'items.*.decoration' => 'sometimes|nullable|string|max:255',
+            'items.*.files' => 'sometimes|nullable|array',
         ];
     }
 

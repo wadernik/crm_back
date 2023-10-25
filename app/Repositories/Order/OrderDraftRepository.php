@@ -50,4 +50,11 @@ final class OrderDraftRepository extends AbstractRepository implements OrderDraf
 
         return $order;
     }
+
+    public function count(array $criteria): int
+    {
+        $criteria['filter']['draft'] = true;
+
+        return parent::count($criteria);
+    }
 }
