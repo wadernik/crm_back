@@ -131,6 +131,11 @@ abstract class AbstractRepository implements AbstractRepositoryInterface, CountI
         return $count;
     }
 
+    protected function builder(): Builder
+    {
+        return $this->builder;
+    }
+
     private function reset(): void
     {
         $this->builder = $this->model::query();

@@ -22,7 +22,7 @@ final class RoleRepository extends AbstractRepository implements RoleRepositoryI
     public function find(int $id): ?Role
     {
         /** @var Role $role */
-        $role = Role::query()->find($id);
+        $role = $this->builder()->find($id);
 
         return $role;
     }
