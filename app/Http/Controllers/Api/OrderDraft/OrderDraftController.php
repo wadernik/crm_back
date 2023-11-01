@@ -29,7 +29,10 @@ final class OrderDraftController extends AbstractApiController
 
         $requestData['filter']['user_id'] = (string) $this->userId();
 
-        $sort = ['sort' => $requestData['sort'] ?? null, 'order' => $requestData['order'] ?? null];
+        $sort = [
+            'sort' => $requestData['sort'] ?? null,
+            'order' => $requestData['order'] ?? null,
+        ];
         $limit = $requestData['limit'] ?? null;
         $offset = $requestData['page'] ?? null;
 
@@ -53,7 +56,12 @@ final class OrderDraftController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $repository->applyWith(['items', 'items.files:id,filename']);
+        $repository->applyWith(
+            [
+                'items',
+                'items.files:id,filename',
+            ]
+        );
 
         if (!$order = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
@@ -72,7 +80,9 @@ final class OrderDraftController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess(array_merge($order->toArray(), ['items' => $order->items->toArray()]));
+        return ApiResponse::responseSuccess(
+            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+        );
     }
 
     public function update(
@@ -94,10 +104,16 @@ final class OrderDraftController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess($order->toArray());
+        return ApiResponse::responseSuccess(
+            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+        );
     }
 
-    public function destroy(int $id, OrderDraftRepositoryInterface $orderDraftRepository, OrderDraftManagerInterface $manager): JsonResponse
+    public function destroy(
+        int $id,
+        OrderDraftRepositoryInterface $orderDraftRepository,
+        OrderDraftManagerInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.delete')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);

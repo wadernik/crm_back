@@ -78,7 +78,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
     Route::prefix('notifications')->group(static function () {
         Route::get('', [NotificationController::class, 'list']);
         Route::get('unread', [NotificationController::class, 'listUnread']);
-        Route::post('read/{id}', NotificationMarkAsReadController::class)->whereNumber('id');
+        Route::post('read/{id}', NotificationMarkAsReadController::class)->whereUuid('id');
         Route::post('read', NotificationMarkAllAsReadController::class);
     });
 

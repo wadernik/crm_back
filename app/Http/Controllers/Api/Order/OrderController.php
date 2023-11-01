@@ -78,7 +78,9 @@ final class OrderController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess(array_merge($order->toArray(), ['items' => $order->items->toArray()]));
+        return ApiResponse::responseSuccess(
+            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+        );
     }
 
     public function update(
@@ -100,7 +102,9 @@ final class OrderController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess(array_merge($order->toArray(), ['items' => $order->items->toArray()]));
+        return ApiResponse::responseSuccess(
+            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+        );
     }
 
     public function destroy(
