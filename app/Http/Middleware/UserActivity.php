@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use function auth;
 
 class UserActivity
 {
@@ -19,6 +20,7 @@ class UserActivity
      *
      * @param Request $request
      * @param Closure(Request): (Response|RedirectResponse) $next
+     *
      * @return Response|RedirectResponse|JsonResponse|BinaryFileResponse
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse|BinaryFileResponse

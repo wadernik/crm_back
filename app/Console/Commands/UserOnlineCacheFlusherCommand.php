@@ -7,14 +7,17 @@ namespace App\Console\Commands;
 use App\DTOs\User\UpdateUserDTO;
 use App\Helpers\UserCacheKeys;
 use App\Managers\User\UserManagerInterface;
+use App\Models\User\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use function app;
+use function App\Helpers\Functions\load_service;
 use function count;
 
 final class UserOnlineCacheFlusherCommand extends Command
 {
-    private UserManagerInterface $userManager;
+    private readonly UserRepositoryInterface $userRepository;
+    private readonly UserManagerInterface $userManager;
 
     protected $signature = 'cache:user:update-online';
 
@@ -22,7 +25,8 @@ final class UserOnlineCacheFlusherCommand extends Command
 
     public function __construct()
     {
-        $this->userManager = app(UserManagerInterface::class);
+        $this->userManager = load_service(UserManagerInterface::class);
+        $this->userRepository = load_service(UserRepositoryInterface::class);
 
         parent::__construct();
     }
@@ -42,9 +46,13 @@ final class UserOnlineCacheFlusherCommand extends Command
         $progressBar = $this->output->createProgressBar(count($cacheEntries));
 
         foreach ($cacheEntries as $userId => $lastSeen) {
-            $userDto = new UpdateUserDTO(['last_seen' => $lastSeen]);
+            $user = $this->userRepository->find($userId);
 
-            $this->userManager->update($userId, $userDto);
+            if (!$user) {
+                continue;
+            }
+
+            $this->userManager->update($user, new UpdateUserDTO(['last_seen' => $lastSeen]));
 
             $progressBar->advance();
         }
