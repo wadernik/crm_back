@@ -81,7 +81,7 @@ final class OrderDraftController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+            array_merge($order->toArray(), $order->load('items')->toArray())
         );
     }
 
@@ -105,7 +105,7 @@ final class OrderDraftController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), ['items' => $order->load('items')->toArray()])
+            array_merge($order->toArray(), $order->load('items')->toArray())
         );
     }
 
