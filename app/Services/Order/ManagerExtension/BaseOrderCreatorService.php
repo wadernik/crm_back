@@ -39,6 +39,10 @@ final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
             $attributes['user_id'] = auth('sanctum')->id();
         }
 
+        if (!isset($attributes['inspector_id'])) {
+            $attributes['inspector_id'] = auth('sanctum')->id();
+        }
+
         $attributes['status'] = OrderStatus::STATUS_ACCEPTED;
         $attributes['number'] = $this->numberGeneratorService->generate($attributes['order_date']);
 

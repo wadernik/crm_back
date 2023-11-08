@@ -38,6 +38,8 @@ final class BaseOrderUpdaterService implements BaseOrderUpdaterServiceInterface
             SyncOrderFinalPriceJob::dispatch($order);
         }
 
+        // TODO: check if user_id or inspector_id is set on $order
+
         return $this->manager->update($order, new $this->dtoClass($attributes));
     }
 }
