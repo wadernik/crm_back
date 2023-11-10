@@ -56,13 +56,6 @@ final class OrderDraftController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $repository->applyWith(
-            [
-                'items',
-                'items.files:id,filename',
-            ]
-        );
-
         if (!$order = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }

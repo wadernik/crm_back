@@ -46,6 +46,7 @@ final class OrderDraftRepository extends AbstractRepository implements OrderDraf
         /** @var ?Order $order */
         $order = Order::query()
             ->where('orders.draft', true)
+            ->with(['items', 'items.files:id,filename'])
             ->find($id);
 
         return $order;
