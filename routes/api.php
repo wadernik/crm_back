@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
+use App\Http\Controllers\Api\Permission\Section\PermissionSectionDictionaryController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Role\RoleController;
 use App\Http\Controllers\Api\Role\RoleDictionaryController;
@@ -113,6 +114,7 @@ Route::prefix('dictionary')->group(static function () {
     Route::middleware(['auth:sanctum'])->group(static function () {
         Route::get('roles', RoleDictionaryController::class);
         Route::get('permissions', PermissionDictionaryController::class);
+        Route::get('permissions/sections', PermissionSectionDictionaryController::class);
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
         Route::get('orders/titles', [OrderDictionaryController::class, 'titles']);
         Route::get('manufacturers', ManufacturerDictionaryController::class);

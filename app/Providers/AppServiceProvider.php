@@ -64,6 +64,8 @@ use App\Repositories\Order\OrderRepository;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
+use App\Repositories\Permission\Section\PermissionSectionRepository;
+use App\Repositories\Permission\Section\PermissionSectionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\Seller\SellerRepository;
@@ -157,6 +159,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
         $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
+        $this->app->bind(PermissionSectionRepositoryInterface::class, PermissionSectionRepository::class);
 
         // Task Boards
         $this->app->bind(BoardRepositoryInterface::class, BoardRepository::class);

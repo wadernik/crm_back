@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('label')->nullable();
+            $table->unsignedBigInteger('section_id')->nullable();
+
+            $table->foreign('section_id')
+                ->references('id')
+                ->on('permission_sections')
+                ->onDelete('cascade');
         });
     }
 
@@ -27,6 +33,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('permissions', static function (Blueprint $table) {
+            $table->dropForeign('permissions_section_id_foreign');
+        });
+
         Schema::dropIfExists('permissions');
     }
 };
