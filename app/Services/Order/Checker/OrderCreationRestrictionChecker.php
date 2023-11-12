@@ -5,14 +5,22 @@ declare(strict_types=1);
 namespace App\Services\Order\Checker;
 
 use App\Models\Manufacturer\ManufacturerDateLimit;
+use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
-use function app;
+use App\Repositories\Order\OrderRepositoryInterface;
+use function App\Helpers\Functions\load_service;
 
 final class OrderCreationRestrictionChecker implements OrderCreationRestrictionCheckerInterface
 {
-    public function __construct(private DateLimitRepositoryInterface $repository)
+    private readonly DateLimitRepositoryInterface $dateLimitRepository;
+    private readonly ManufacturerRepositoryInterface $manufacturerRepository;
+    private readonly OrderRepositoryInterface $orderRepository;
+
+    public function __construct()
     {
-        $this->repository = app(DateLimitRepositoryInterface::class);
+        $this->dateLimitRepository = load_service(DateLimitRepositoryInterface::class);
+        $this->manufacturerRepository = load_service(ManufacturerRepositoryInterface::class);
+        $this->orderRepository = load_service(OrderRepositoryInterface::class);
     }
 
     public function check(
@@ -33,6 +41,22 @@ final class OrderCreationRestrictionChecker implements OrderCreationRestrictionC
             'limit_type' => $limitType
         ]];
 
-        return $this->repository->findAllBy($criteria)->isEmpty();
+        // If there is no restriction for current date, we skip everything else
+        if ($this->dateLimitRepository->findAllBy($criteria)->isEmpty()) {
+            return true;
+        }
+
+        if (!$manufacturer = $this->manufacturerRepository->find($manufacturerId)) {
+            return false;
+        }
+
+        $criteria = ['filter' => [
+            'manufacturer_id' => $manufacturerId,
+            'order_date' => $orderDate,
+        ]];
+
+        $ordersAmount = $this->orderRepository->count($criteria);
+
+        return $ordersAmount < $manufacturer->limit;
     }
 }

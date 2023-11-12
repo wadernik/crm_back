@@ -13,7 +13,7 @@ final class OrderFilter implements OrderFilterInterface
     {
     }
 
-    public function filterId(string|array $id): void
+    public function filterId(int|string|array $id): void
     {
         if (is_array($id)) {
             $this->builder->whereIn('orders.id', $id);
@@ -22,17 +22,17 @@ final class OrderFilter implements OrderFilterInterface
         }
     }
 
-    public function filterManufacturerId(string $manufacturerId): void
+    public function filterManufacturerId(int|string $manufacturerId): void
     {
         $this->builder->where('orders.manufacturer_id', $manufacturerId);
     }
 
-    public function filterSourceId(string $sourceId): void
+    public function filterSourceId(int|string $sourceId): void
     {
         $this->builder->where('orders.source_id', $sourceId);
     }
 
-    public function filterSellerId(string $sellerId): void
+    public function filterSellerId(int|string $sellerId): void
     {
         $this->builder->where('orders.seller_id', $sellerId);
     }
@@ -42,7 +42,7 @@ final class OrderFilter implements OrderFilterInterface
         $this->builder->where('orders.number', $number);
     }
 
-    public function filterUserId(string|array $userId): void
+    public function filterUserId(int|string|array $userId): void
     {
         if (is_array($userId)) {
             $this->builder->whereIn('orders.user_id', $userId);
