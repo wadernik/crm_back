@@ -41,4 +41,9 @@ class OrderEntityNotification extends Notification implements ShouldBroadcast
             ],
         ];
     }
+
+    public function broadcastAs(): string
+    {
+        return self::class;
+    }
 }
