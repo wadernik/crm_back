@@ -13,10 +13,11 @@ for managing internal business processes.
 - File uploading methods
 - Calendar (a flexible way to show summary info about orders grouped by date)
 - Reports (for now, only one has been implemented due to no more needed at the moment)
+- Basic Cache usage (file based)
+- Real-time notifications (pusher)
 
 ## Planned:
-- Cache (Redis)
-- Notifications
+- Cache (Redis?)
 - Chat (?)
 - Catalogue (future iterations)
 
