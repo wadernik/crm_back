@@ -20,6 +20,10 @@ class OrderEntityEventListener implements ShouldQueue
     public function handle(OrderEntityEvent $event): void
     {
         foreach ($this->users() as $user) {
+            if ($event->order()->user_id === $user->id) {
+                continue;
+            }
+
             $user->notify(new OrderEntityNotification($event->order(), $event->eventType()));
         }
     }
