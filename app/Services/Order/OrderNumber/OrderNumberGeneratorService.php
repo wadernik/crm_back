@@ -18,7 +18,6 @@ final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceIn
         $this->repository = app(OrderRepositoryInterface::class);
     }
 
-
     public function generate(string $orderDate): string
     {
         $nowCarbon = Carbon::parse($orderDate);
@@ -27,6 +26,7 @@ final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceIn
             'filter' => [
                 'order_date_start' => $nowCarbon->startOfMonth()->format('Y-m-d'),
                 'order_date_end' => $nowCarbon->endOfMonth()->format('Y-m-d'),
+                'with_trashed' => true,
             ],
         ];
 

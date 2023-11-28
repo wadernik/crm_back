@@ -33,4 +33,9 @@ final class OrderDraftManager implements OrderDraftManagerInterface
     {
         return $this->innerManager->delete($order);
     }
+
+    public function remove(Order $order): Order
+    {
+        return $this->innerManager->remove($order);
+    }
 }

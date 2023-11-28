@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\User;
 
 use App\DTOs\User\UpdateUserDTO;
 use App\Helpers\UserCacheKeys;
 use App\Managers\User\UserManagerInterface;
-use App\Models\User\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;

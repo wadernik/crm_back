@@ -69,6 +69,13 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         return $order;
     }
 
+    public function remove(Order $order): Order
+    {
+        $order->forceDelete();
+
+        return $order;
+    }
+
     private function manageItems(Order $order, array $requestItems = []): void
     {
         if (!$requestItems) {

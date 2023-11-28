@@ -57,6 +57,6 @@ final class OrderCreationRestrictionChecker implements OrderCreationRestrictionC
 
         $ordersAmount = $this->orderRepository->count($criteria);
 
-        return $ordersAmount <= $manufacturer->limit;
+        return $ordersAmount < $manufacturer->limit;
     }
 }

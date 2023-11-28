@@ -2,7 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\UserOnlineCacheFlusherCommand;
+use App\Console\Commands\Order\ClearDeletedOrderDraftsCommand;
+use App\Console\Commands\User\UserOnlineCacheFlusherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use function base_path;
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command(UserOnlineCacheFlusherCommand::class)->everyFifteenMinutes();
+        $schedule->command(ClearDeletedOrderDraftsCommand::class)->daily();
     }
 
     /**

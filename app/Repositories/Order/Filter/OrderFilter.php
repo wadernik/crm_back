@@ -109,4 +109,9 @@ final class OrderFilter implements OrderFilterInterface
     {
         $this->builder->onlyTrashed();
     }
+
+    public function filterWithTrashed(): void
+    {
+        $this->builder->withTrashed();
+    }
 }
