@@ -40,7 +40,7 @@ final class ClearDeletedOrderDraftsCommand extends Command
             ['filter' => ['created_at_end' => $filterDate->format('y-m-d H:i:s')]]
         );
 
-        if ($removedDrafts->isEmpty() || $leftoverDrafts->isEmpty()) {
+        if ($removedDrafts->isEmpty() && $leftoverDrafts->isEmpty()) {
             $this->info('No deleted or leftover drafts found');
 
             return;
