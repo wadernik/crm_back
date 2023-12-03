@@ -57,6 +57,10 @@ return [
     'files' => [
         'file' => 'File',
     ],
+    'activities' => [
+        'date_start' => 'Date from',
+        'date_end' => 'Date to',
+    ],
     'boards' => [
         'board' => [
             'name' => 'Name',

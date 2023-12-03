@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\User;
 
+use App\Helpers\UserCacheKeys;
 use App\Models\User\Sub\Device;
 use App\Models\User\Sub\DeviceInterface;
 use App\Models\User\User;
@@ -11,6 +12,7 @@ use App\Repositories\AbstractRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\PersonalAccessToken;
 use function collect;
 
@@ -62,22 +64,26 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
         }
 
         $isOnline = match((int) $criteria['filter']['is_online']) {
-            User::STATUS_ONLINE => true,
+            default => true,
             User::STATUS_OFFLINE => false,
         };
 
         unset($criteria['filter']['is_online']);
 
-        $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
+        $usersIds = collect(Cache::get(UserCacheKeys::USER_ONLINE))
+            ->keys()
+            ->unique()
+            ->toArray();
 
         if ($isOnline) {
             $builder
-                ->whereNotNull('last_seen')
-                ->where('last_seen', '>=', $now);
+                ->whereIn('id', $usersIds);
         } else {
+            $now = Carbon::now()->subMinutes(User::ONLINE_STATUS_BORDER)->format('Y-m-d H:i:s');
+
             $builder
-                ->where('last_seen', '<=', $now)
-                ->orWhereNull('last_seen');
+                ->whereNotIn('id', $usersIds)
+                ->orWhere('last_seen', '<=', $now);
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Activities;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function __;
 
 class ListActivitiesRequest extends FormRequest
 {
@@ -24,6 +25,14 @@ class ListActivitiesRequest extends FormRequest
             'page' => 'sometimes',
             'sort' => 'sometimes|string',
             'order' => 'sometimes|string',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'filter.date_start' => __('attributes.activities.date_start'),
+            'filter.date_end' => __('attributes.activities.date_end'),
         ];
     }
 }

@@ -59,6 +59,10 @@ return [
     'files' => [
         'file' => 'Файл',
     ],
+    'activities' => [
+        'date_start' => 'Дата от',
+        'date_end' => 'Дата до',
+    ],
     'boards' => [
         'board' => [
             'name' => 'Название',

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function __;
 
 class ListOrderRequest extends FormRequest
 {
@@ -31,6 +32,19 @@ class ListOrderRequest extends FormRequest
             'page' => 'sometimes',
             'sort' => 'sometimes|string',
             'order' => 'sometimes|string',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'filter.manufacturer_id' => __('attributes.order.manufacturer_id'),
+            'filter.source_id' => __('attributes.order.source_id'),
+            'filter.seller_id' => __('attributes.order.seller_id'),
+            'filter.accepted_date' => __('attributes.order.accepted_date'),
+            'filter.order_date' => __('attributes.order.order_date'),
+            'filter.order_time' => __('attributes.order.order_time'),
+            'filter.phone' => __('attributes.order.phone'),
         ];
     }
 }
