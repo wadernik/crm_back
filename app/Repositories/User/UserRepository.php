@@ -83,7 +83,11 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
 
             $builder
                 ->whereNotIn('id', $usersIds)
-                ->Where('last_seen', '<=', $now);
+                ->where(static function (Builder $query) use ($now): void {
+                    $query
+                        ->Where('last_seen', '<=', $now)
+                        ->orWhereNull('last_seen');
+                });
         }
     }
 
