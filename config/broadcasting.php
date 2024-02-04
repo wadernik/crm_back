@@ -42,8 +42,9 @@ return [
                 'scheme' => env('LARAVEL_WEBSOCKETS_SCHEME', 'http'),
                 'useTLS' => env('LARAVEL_WEBSOCKETS_TLS', false),
             ],
-            'client_options' => [
-                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+            'curl_options' => [
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
             ],
         ],
 
