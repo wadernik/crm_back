@@ -37,7 +37,7 @@ return [
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'host' => '127.0.0.1',
+                'host' => env('LARAVEL_WEBSOCKETS_HOST'),
                 'port' => env('LARAVEL_WEBSOCKETS_PORT'),
                 'scheme' => env('LARAVEL_WEBSOCKETS_SCHEME', 'http'),
             ],
