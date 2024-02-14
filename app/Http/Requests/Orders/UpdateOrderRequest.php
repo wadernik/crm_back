@@ -40,9 +40,12 @@ class UpdateOrderRequest extends FormRequest
             'items.*.decoration' => 'sometimes|string|max:255|nullable',
             'items.*.files' => 'sometimes|array|nullable',
             'contacts' => 'sometimes|array',
-            'contacts.*.id' => 'sometimes|integer|min:1',
-            'contacts.*.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
-            'contacts.*.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
+            'contacts.id' => 'sometimes|integer|min:1',
+            'contacts.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
+            'contacts.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
+            // 'contacts.*.id' => 'sometimes|integer|min:1',
+            // 'contacts.*.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
+            // 'contacts.*.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
         ];
     }
 

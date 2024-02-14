@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\OrderSetting;
 
+use App\Models\OrderSetting\OrderSettingTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

@@ -34,7 +34,8 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $this->manageItems($order, $orderDTO->items());
 
-        $this->manageContacts($order, $orderDTO->contacts());
+        // TODO: function was implemented to work with collection of contacts. Too lazy to flatten it for single contact
+        $this->manageContacts($order, [$orderDTO->contacts()]);
 
         if ($this->draft) {
             activity()->enableLogging();
@@ -56,7 +57,8 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $this->manageItems($order, $orderDTO->items());
 
-        $this->manageContacts($order, $orderDTO->contacts());
+        // TODO: function was implemented to work with collection of contacts. Too lazy to flatten it for single contact
+        $this->manageContacts($order, [$orderDTO->contacts()]);
 
         $order->update(['updated_at' => Carbon::now()->timestamp]);
 

@@ -31,11 +31,11 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *          decoration: string|null,
      *          files: array|null,
      *     }>,
-     *     contacts: array<array{
+     *     contacts: array{
      *          id: int|null,
      *          type: string|null,
      *          value: string|null,
-     *     }>
+     *     }
      * } $attributes
      */
     public function __construct(private readonly array $attributes)

@@ -53,6 +53,8 @@ use App\Services\Order\Processor\OrderFinalPriceProcessor;
 use App\Services\Order\Processor\OrderFinalPriceProcessorInterface;
 use App\Services\Order\Status\OrderStatusesRetriever;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
+use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorService;
+use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorServiceInterface;
 use App\Services\OrderSetting\OrderSettingTypeRetriever;
 use App\Services\OrderSetting\OrderSettingTypeRetrieverInterface;
 use Illuminate\Support\ServiceProvider;
@@ -165,5 +167,7 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->bind(OrderContactTypeRetrieverInterface::class, OrderContactTypeRetriever::class);
 
         $this->app->bind(OrderSettingTypeRetrieverInterface::class, OrderSettingTypeRetriever::class);
+
+        $this->app->bind(OrderSettingCreatorServiceInterface::class, OrderSettingCreatorService::class);
     }
 }

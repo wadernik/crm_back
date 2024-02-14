@@ -40,7 +40,7 @@ final class OrderDraftController extends AbstractApiController
             [
                 'items',
                 'items.files:id,filename',
-                'user',
+                'contact',
             ]
         );
 
@@ -74,7 +74,7 @@ final class OrderDraftController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), $order->load('items')->toArray())
+            array_merge($order->toArray(), $order->load(['items', 'contact'])->toArray())
         );
     }
 
@@ -98,7 +98,7 @@ final class OrderDraftController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), $order->load('items')->toArray())
+            array_merge($order->toArray(), $order->load(['items', 'contact'])->toArray())
         );
     }
 

@@ -13,6 +13,7 @@ use App\Http\Requests\OrderSetting\UpdateOrderSettingRequest;
 use App\Http\Responses\ApiResponse;
 use App\Managers\OrderSetting\OrderSettingManagerInterface;
 use App\Repositories\OrderSetting\OrderSettingRepositoryInterface;
+use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -52,7 +53,10 @@ final class OrderSettingController extends AbstractApiController
         return ApiResponse::responseSuccess($orderSetting->toArray());
     }
 
-    public function store(CreateOrderSettingRequest $request, OrderSettingManagerInterface $manager): JsonResponse
+    public function store(
+        CreateOrderSettingRequest $request,
+        OrderSettingCreatorServiceInterface $manager
+    ): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);

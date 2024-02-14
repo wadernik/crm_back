@@ -40,8 +40,10 @@ class CreateOrderRequest extends FormRequest
             'items.*.decoration_type' => 'sometimes|integer|nullable',
             'items.*.files' => 'sometimes|array|nullable',
             'contacts' => 'required|array',
-            'contacts.*.type' => ['required', Rule::enum(ContactTypeEnum::class)],
-            'contacts.*.value' => ['required', 'string', new OrderContactTypeValueRule],
+            'contacts.type' => ['required', Rule::enum(ContactTypeEnum::class)],
+            'contacts.value' => ['required', 'string', new OrderContactTypeValueRule],
+            // 'contacts.*.type' => ['required', Rule::enum(ContactTypeEnum::class)],
+            // 'contacts.*.value' => ['required', 'string', new OrderContactTypeValueRule],
         ];
     }
 

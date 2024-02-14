@@ -26,7 +26,9 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        foreach ($this->contacts() as $contact) {
+        $contacts = [$this->contact()];
+
+        foreach ($contacts as $contact) {
             if (($contact['type'] === ContactTypeEnum::PHONE->value) && !preg_match("/^\d{11}$/", $contact['value'])) {
                 $fail(__('validation.regex', ['attribute' => __('attributes.order.contacts.phone')]));
             }
@@ -49,12 +51,12 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
     }
 
     /**
-     * @return array<array{
+     * @return array{
      *     type: ContactTypeEnum,
      *     value: string,
-     * }>
+     * }
      */
-    private function contacts(): array
+    private function contact(): array
     {
         return $this->data['contacts'] ?? [];
     }

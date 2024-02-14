@@ -29,10 +29,10 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *          decoration_type: int|null,
      *          files: array|null,
      *     }>,
-     *     contacts: array<array{
+     *     contacts: array{
      *          type: string,
      *          value: string,
-     *     }>
+     *     }
      * } $attributes
      */
     public function __construct(private readonly array $attributes)

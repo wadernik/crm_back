@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -144,8 +145,8 @@ class Order extends Model implements OrderInterface
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
-    public function contacts(): HasMany
+    public function contact(): HasOne
     {
-        return $this->hasMany(OrderContact::class, 'order_id', 'id');
+        return $this->hasOne(OrderContact::class, 'order_id', 'id');
     }
 }
