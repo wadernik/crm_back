@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Orders;
 
+use App\Models\Order\Contact\ContactTypeEnum;
+use App\Rules\OrderContactTypeValueRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use function __;
 
 class UpdateOrderRequest extends FormRequest
@@ -36,6 +39,10 @@ class UpdateOrderRequest extends FormRequest
             'items.*.comment' => 'sometimes|string|max:255|nullable',
             'items.*.decoration' => 'sometimes|string|max:255|nullable',
             'items.*.files' => 'sometimes|array|nullable',
+            'contacts' => 'sometimes|array',
+            'contacts.*.id' => 'sometimes|integer|min:1',
+            'contacts.*.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
+            'contacts.*.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
         ];
     }
 

@@ -31,6 +31,11 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *          decoration: string|null,
      *          files: array|null,
      *     }>,
+     *     contacts: array<array{
+     *          id: int|null,
+     *          type: string|null,
+     *          value: string|null,
+     *     }>
      * } $attributes
      */
     public function __construct(private readonly array $attributes)
@@ -49,6 +54,11 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
     public function items(): array
     {
         return $this->attributes['items'] ?? [];
+    }
+
+    public function contacts(): array
+    {
+        return $this->attributes['contacts'] ?? [];
     }
 
     public function id(): ?int

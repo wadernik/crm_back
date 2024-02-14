@@ -27,6 +27,7 @@ final class PermissionSectionsTableSeeder extends Seeder
             ['id' => 13, 'name' => 'Импорт номенклатуры'],
             ['id' => 14, 'name' => 'Задачи. Доски'],
             ['id' => 15, 'name' => 'Задачи. Группы'],
+            ['id' => 16, 'name' => 'Заказы. Настройки'],
         ];
 
         foreach ($items as $item) {

@@ -8,19 +8,16 @@ use App\Models\Manufacturer\ManufacturerDateLimit;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
-use function App\Helpers\Functions\load_service;
 
-final class OrderCreationRestrictionChecker implements OrderCreationRestrictionCheckerInterface
+final class OrderCreationRestrictionByManufacturerChecker implements
+    OrderCreationRestrictionByManufacturerCheckerInterface
 {
-    private readonly DateLimitRepositoryInterface $dateLimitRepository;
-    private readonly ManufacturerRepositoryInterface $manufacturerRepository;
-    private readonly OrderRepositoryInterface $orderRepository;
-
-    public function __construct()
+    public function __construct(
+        private readonly DateLimitRepositoryInterface $dateLimitRepository,
+        private readonly ManufacturerRepositoryInterface $manufacturerRepository,
+        private readonly OrderRepositoryInterface $orderRepository,
+    )
     {
-        $this->dateLimitRepository = load_service(DateLimitRepositoryInterface::class);
-        $this->manufacturerRepository = load_service(ManufacturerRepositoryInterface::class);
-        $this->orderRepository = load_service(OrderRepositoryInterface::class);
     }
 
     public function check(

@@ -6,17 +6,14 @@ namespace App\Services\Profile;
 
 use App\Factory\Profile\ProfileFactoryInterface;
 use App\Models\User\Sub\ProfileInterface;
-use function app;
 
 final class ProfileService implements ProfileServiceInterface
 {
-    private StyledUserAgentServiceInterface $userAgentService;
-    private ProfileFactoryInterface $factory;
-
-    public function __construct()
+    public function __construct(
+        private readonly StyledUserAgentServiceInterface $userAgentService,
+        private readonly ProfileFactoryInterface $factory,
+    )
     {
-        $this->userAgentService = app(StyledUserAgentServiceInterface::class);
-        $this->factory = app(ProfileFactoryInterface::class);
     }
 
     public function profile(int $userId, ?string $userAgent = null): ?ProfileInterface

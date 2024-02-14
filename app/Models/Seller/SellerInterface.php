@@ -13,6 +13,7 @@ namespace App\Models\Seller;
  * @property string $working_hours
  * @property string $uuid
  * @property string $menu_id
+ * @property bool   $as_pickup_point
  */
 interface SellerInterface
 {

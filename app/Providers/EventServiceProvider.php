@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\Board\CreateBoardGroupEvent;
 use App\Events\Order\OrderEntityEvent;
+use App\Events\Order\OrderOverdueEvent;
 use App\Listeners\CreateBoardGroupEventListener;
 use App\Listeners\OrderEntityEventListener;
+use App\Listeners\OrderOverdueEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderEntityEvent::class => [OrderEntityEventListener::class],
         CreateBoardGroupEvent::class => [CreateBoardGroupEventListener::class],
+        OrderOverdueEvent::class => [OrderOverdueEventListener::class],
     ];
 
     /**

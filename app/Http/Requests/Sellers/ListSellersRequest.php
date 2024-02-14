@@ -15,6 +15,7 @@ class ListSellersRequest extends FormRequest
     {
         return [
             'filter.id' => 'sometimes|nullable',
+            'filter.as_pickup_point' => 'sometimes|boolean',
             'limit' => 'sometimes',
             'page' => 'sometimes',
             'sort' => 'sometimes|string',

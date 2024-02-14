@@ -6,6 +6,7 @@ namespace App\Managers\Order;
 
 use App\DTOs\Order\CreateOrderDTOInterface;
 use App\DTOs\Order\UpdateOrderDTOInterface;
+use App\Models\Order\Contact\OrderContact;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use App\Models\Order\OrderInterface;
@@ -33,6 +34,8 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $this->manageItems($order, $orderDTO->items());
 
+        $this->manageContacts($order, $orderDTO->contacts());
+
         if ($this->draft) {
             activity()->enableLogging();
         }
@@ -52,6 +55,8 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         $order->update($mainAttributes);
 
         $this->manageItems($order, $orderDTO->items());
+
+        $this->manageContacts($order, $orderDTO->contacts());
 
         $order->update(['updated_at' => Carbon::now()->timestamp]);
 
@@ -136,6 +141,51 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         foreach ($toDelete as $item) {
             $item->delete();
+        }
+    }
+
+    private function manageContacts(Order $order, array $request = []): void
+    {
+        if (!$request) {
+            return;
+        }
+
+        $orderContacts = $order->contacts->keyBy('id');
+
+        $toCreate = [];
+        $toUpdate = [];
+
+        foreach ($request as $contact) {
+            if (empty($contact['id'])) {
+                $toCreate[] = $contact;
+
+                continue;
+            }
+
+            $toUpdate[$contact['id']] = $contact;
+        }
+
+        foreach ($toCreate as $contact) {
+            $contact['order_id'] = $order->id;
+
+            OrderContact::query()->create($contact);
+        }
+
+        foreach ($toUpdate as $contact) {
+            if (!$orderContacts->has($contact['id'])) {
+                continue;
+            }
+
+            /** @var OrderContact $orderContact */
+            $orderContact = $orderContacts->get($contact['id']);
+
+            $orderContacts->forget($contact['id']);
+
+            $orderContact->update($contact);
+        }
+
+        foreach ($orderContacts as $contact) {
+            $contact->delete();
         }
     }
 }

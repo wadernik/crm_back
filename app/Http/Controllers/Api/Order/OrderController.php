@@ -44,6 +44,7 @@ final class OrderController extends AbstractApiController
             [
                 'items',
                 'items.files:id,filename',
+                'contacts',
             ]
         );
 
@@ -79,7 +80,7 @@ final class OrderController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), $order->load('items')->toArray())
+            array_merge($order->toArray(), $order->load(['items', 'contacts'])->toArray())
         );
     }
 
@@ -103,7 +104,7 @@ final class OrderController extends AbstractApiController
         }
 
         return ApiResponse::responseSuccess(
-            array_merge($order->toArray(), $order->load('items')->toArray())
+            array_merge($order->toArray(), $order->load(['items', 'contacts'])->toArray())
         );
     }
 

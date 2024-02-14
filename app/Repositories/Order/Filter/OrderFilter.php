@@ -51,7 +51,7 @@ final class OrderFilter implements OrderFilterInterface
         }
     }
 
-    public function filterStatus(string|array $status): void
+    public function filterStatus(int|string|array $status): void
     {
         if (is_array($status)) {
             $this->builder->whereIn('orders.status', $status);

@@ -7,6 +7,8 @@ return [
         'label' => 'Label',
         'comment' => 'comment',
         'amount' => 'Amount',
+        'decoration' => 'Decoration',
+        'decoration_type' => 'Decoration type',
         'accepted_date' => 'Order acceptance date',
         'order_date' => 'Order pick up date',
         'order_time' => 'Order pick up time',
@@ -16,6 +18,10 @@ return [
         'file_ids' => 'Files',
         'phone' => 'Phone',
         'unit_id' => 'Unit',
+        'contacts' => [
+            'social' => 'Social',
+            'phone' => 'Phone',
+        ],
     ],
     'user' => [
         'id' => 'Employee',
@@ -53,6 +59,7 @@ return [
         'email' => 'Email',
         'address' => 'Address',
         'working_hours' => 'Working hours',
+        'as_pickup_point' => 'As pick-up point',
     ],
     'files' => [
         'file' => 'File',
@@ -60,6 +67,10 @@ return [
     'activities' => [
         'date_start' => 'Date from',
         'date_end' => 'Date to',
+    ],
+    'order_setting' => [
+        'type' => 'Type',
+        'value' => 'Value',
     ],
     'boards' => [
         'board' => [

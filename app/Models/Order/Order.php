@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Order;
 
 use App\Models\Manufacturer\Manufacturer;
+use App\Models\Order\Contact\OrderContact;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Seller\Seller;
 use App\Models\Traits\FilterableTrait;
@@ -141,5 +142,10 @@ class Order extends Model implements OrderInterface
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(OrderContact::class, 'order_id', 'id');
     }
 }

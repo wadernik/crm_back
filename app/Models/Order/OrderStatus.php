@@ -8,7 +8,7 @@ use function __;
 
 final class OrderStatus
 {
-    public const STATUS_ACCEPTED = 1;
+    public const STATUS_CREATED = 1;
     public const STATUS_TAKEN = 2; // Взят на исполнение
     public const STATUS_DELIVERY = 3;
     public const STATUS_SOLD = 4;
@@ -19,7 +19,7 @@ final class OrderStatus
     public static function statusCaptions(): array
     {
         return [
-            self::STATUS_ACCEPTED => __('order.status.accepted'),
+            self::STATUS_CREATED => __('order.status.created'),
             self::STATUS_TAKEN => __('order.status.taken'),
             self::STATUS_DELIVERY => __('order.status.delivery'),
             self::STATUS_SOLD => __('order.status.sold'),

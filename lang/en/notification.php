@@ -2,8 +2,11 @@
 
 return [
     'order' => [
-        'created' => 'Order created. Number: ',
-        'updated' => 'Order updated. Number: ',
-        'deleted' => 'Order deleted. Number: ',
+        'entity' => [
+            'created' => 'Order created. Number: :number',
+            'updated' => 'Order updated. Number: :number',
+            'deleted' => 'Order deleted. Number: :number',
+        ],
+        'overdue' => 'Order was created and not processed for a long time. Number: :number',
     ],
 ];

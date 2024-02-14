@@ -8,16 +8,12 @@ use App\Jobs\ProcessImportSellersJob;
 use App\Services\Dooglys\SalePoint\Sub\SalePoint;
 use App\Services\Dooglys\Sub\DooglysSalePointActionInterface;
 use Illuminate\Support\Carbon;
-use function App\Helpers\Functions\load_service;
 use function collect;
 
 final class DooglysSalePointImportService implements DooglysSalePointImportServiceInterface
 {
-    private readonly DooglysSalePointActionInterface $dooglysSalePointAction;
-
-    public function __construct()
+    public function __construct(private readonly DooglysSalePointActionInterface $dooglysSalePointAction)
     {
-        $this->dooglysSalePointAction = load_service(DooglysSalePointActionInterface::class);
     }
 
     public function import(): void

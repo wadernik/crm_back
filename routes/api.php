@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\OrderDraft\OrderDraftController;
+use App\Http\Controllers\Api\OrderSetting\OrderSettingController;
+use App\Http\Controllers\Api\OrderSetting\OrderSettingDictionaryController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
 use App\Http\Controllers\Api\Permission\Section\PermissionSectionDictionaryController;
 use App\Http\Controllers\Api\Profile\ProfileController;
@@ -117,6 +119,9 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('permissions/sections', PermissionSectionDictionaryController::class);
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
         Route::get('orders/titles', [OrderDictionaryController::class, 'titles']);
+        Route::get('orders/settings', OrderSettingDictionaryController::class);
+        Route::get('orders/contacts', [OrderDictionaryController::class, 'contactTypes']);
+        Route::get('orders/decorations', [OrderDictionaryController::class, 'decorationTypes']);
         Route::get('manufacturers', ManufacturerDictionaryController::class);
         Route::get('manufacturers/limits', DateLimitDictionaryController::class);
         Route::get('sellers', SellerDictionaryController::class);
@@ -166,6 +171,14 @@ Route::middleware(['auth:sanctum'])->group(static function () {
     });
 
     Route::prefix('sellers')->controller(SellerController::class)->group(static function () {
+        Route::get('', 'index');
+        Route::get('{id}', 'show');
+        Route::post('', 'store');
+        Route::put('{id}', 'update');
+        Route::delete('{id}', 'destroy');
+    });
+
+    Route::prefix('orders/settings')->controller(OrderSettingController::class)->group(static function () {
         Route::get('', 'index');
         Route::get('{id}', 'show');
         Route::post('', 'store');

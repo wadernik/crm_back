@@ -13,18 +13,16 @@ use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use function app;
+use function App\Helpers\Functions\load_service;
 use function collect;
 
 final class OrderActivityService implements OrderActivityServiceInterface
 {
-    private OrderRepositoryInterface $orderRepository;
-    private CommentRepositoryInterface $commentRepository;
-
-    public function __construct()
+    public function __construct(
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly CommentRepositoryInterface $commentRepository
+    )
     {
-        $this->orderRepository = app(OrderRepositoryInterface::class);
-        $this->commentRepository = app(CommentRepositoryInterface::class);
     }
 
     // TODO: refactor
@@ -73,7 +71,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $requestParams['filter']['subject_type'] = Order::class;
 
         // TODO: think about this. every call we need to reinitialize builder state
-        $activityRepository = app(ActivityRepositoryInterface::class);
+        $activityRepository = load_service(ActivityRepositoryInterface::class);
 
         $orderActivities = $activityRepository->findAllBy($requestParams, $attributes);
         $total = $activityRepository->count($requestParams);
@@ -92,7 +90,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $requestParams['filter']['subject_id'] = $itemsIds;
         $requestParams['filter']['subject_type'] = OrderItem::class;
 
-        $activityRepository = app(ActivityRepositoryInterface::class);
+        $activityRepository = load_service(ActivityRepositoryInterface::class);
 
         $itemsActivities = $activityRepository->findAllBy($requestParams, $attributes);
 
@@ -122,7 +120,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $requestParams['filter']['subject_id'] = $orderFilesIds ?: 0;
         $requestParams['filter']['subject_type'] = OrderFile::class;
 
-        $activityRepository = app(ActivityRepositoryInterface::class);
+        $activityRepository = load_service(ActivityRepositoryInterface::class);
 
         $fileActivities = $activityRepository->findAllBy($requestParams, $attributes);
 
@@ -149,7 +147,7 @@ final class OrderActivityService implements OrderActivityServiceInterface
         $requestParams['filter']['subject_id'] = $commentsIds;
         $requestParams['filter']['subject_type'] = Comment::class;
 
-        $activityRepository = app(ActivityRepositoryInterface::class);
+        $activityRepository = load_service(ActivityRepositoryInterface::class);
 
         $commentsActivities = $activityRepository->findAllBy($requestParams, $attributes);
 

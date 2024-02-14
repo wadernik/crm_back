@@ -6,16 +6,12 @@ namespace App\Services\Order\OrderNumber;
 
 use App\Repositories\Order\OrderRepositoryInterface;
 use Carbon\Carbon;
-use function app;
 use function sprintf;
 
 final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceInterface
 {
-    private OrderRepositoryInterface $repository;
-
-    public function __construct()
+    public function __construct(private readonly OrderRepositoryInterface $repository)
     {
-        $this->repository = app(OrderRepositoryInterface::class);
     }
 
     public function generate(string $orderDate): string

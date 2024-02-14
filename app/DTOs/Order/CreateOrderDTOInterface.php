@@ -11,4 +11,6 @@ interface CreateOrderDTOInterface extends Arrayable
     public function main(): array;
 
     public function items(): array;
+
+    public function contacts(): array;
 }

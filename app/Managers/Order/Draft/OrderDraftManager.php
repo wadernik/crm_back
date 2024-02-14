@@ -8,15 +8,11 @@ use App\DTOs\Order\CreateOrderDTOInterface;
 use App\DTOs\Order\UpdateOrderDTOInterface;
 use App\Managers\Order\BaseOrderManagerInterface;
 use App\Models\Order\Order;
-use function App\Helpers\Functions\load_service;
 
 final class OrderDraftManager implements OrderDraftManagerInterface
 {
-    private readonly BaseOrderManagerInterface $innerManager;
-
-    public function __construct()
+    public function __construct(private readonly BaseOrderManagerInterface $innerManager)
     {
-        $this->innerManager = load_service(BaseOrderManagerInterface::class, ['draft' => true]);
     }
 
     public function create(CreateOrderDTOInterface $orderDTO): Order

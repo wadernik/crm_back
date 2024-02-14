@@ -29,6 +29,7 @@ class OrderEntityEventListener implements ShouldQueue
     }
 
     /**
+     * TODO: iterate by partitions
      * @return array<User>
      */
     private function users(): array

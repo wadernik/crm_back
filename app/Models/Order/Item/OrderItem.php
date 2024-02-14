@@ -26,6 +26,7 @@ class OrderItem extends Model
         'label',
         'comment',
         'decoration',
+        'decoration_type',
     ];
 
     protected $hidden = [

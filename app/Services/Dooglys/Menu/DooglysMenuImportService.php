@@ -7,17 +7,14 @@ namespace App\Services\Dooglys\Menu;
 use App\Jobs\ProcessImportMenuJob;
 use App\Repositories\Seller\SellerRepositoryInterface;
 use App\Services\Dooglys\Sub\DooglysMenuActionInterface;
-use function App\Helpers\Functions\load_service;
 
 final class DooglysMenuImportService implements DooglysMenuImportServiceInterface
 {
-    private readonly DooglysMenuActionInterface $dooglysMenuAction;
-    private readonly SellerRepositoryInterface $sellerRepository;
-
-    public function __construct()
+    public function __construct(
+        private readonly DooglysMenuActionInterface $dooglysMenuAction,
+        private readonly SellerRepositoryInterface $sellerRepository
+    )
     {
-        $this->dooglysMenuAction = load_service(DooglysMenuActionInterface::class);
-        $this->sellerRepository = load_service(SellerRepositoryInterface::class);
     }
 
     public function import(): void

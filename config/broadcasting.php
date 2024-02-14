@@ -42,10 +42,6 @@ return [
                 'scheme' => env('LARAVEL_WEBSOCKETS_SCHEME', 'http'),
                 'useTLS' => env('LARAVEL_WEBSOCKETS_TLS', false),
             ],
-            'curl_options' => [
-                CURLOPT_SSL_VERIFYHOST => 0,
-                CURLOPT_SSL_VERIFYPEER => 0,
-            ],
         ],
 
         'ably' => [

@@ -6,16 +6,12 @@ namespace App\Services\Dooglys\Order;
 
 use App\Services\Dooglys\Sub\DooglysOrderActionsInterface;
 use Illuminate\Support\Carbon;
-use function App\Helpers\Functions\load_service;
 use function collect;
 
 final class DooglysOrderSyncService implements DooglysOrderSyncServiceInterface
 {
-    private DooglysOrderActionsInterface $dooglysOrderActions;
-
-    public function __construct()
+    public function __construct(private readonly DooglysOrderActionsInterface $dooglysOrderActions)
     {
-        $this->dooglysOrderActions = load_service(DooglysOrderActionsInterface::class);
     }
 
     public function finalPrice(string $date, string $orderNumber): int

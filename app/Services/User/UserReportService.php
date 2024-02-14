@@ -10,20 +10,17 @@ use App\Models\Order\OrderStatus;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Collection;
-use function app;
 use function array_filter;
 use function collect;
 use function number_format;
 
 final class UserReportService implements UserReportServiceInterface
 {
-    private UserRepositoryInterface $userRepository;
-    private OrderRepositoryInterface $orderRepository;
-
-    public function __construct()
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly OrderRepositoryInterface $orderRepository
+    )
     {
-        $this->userRepository = app(UserRepositoryInterface::class);
-        $this->orderRepository = app(OrderRepositoryInterface::class);
     }
 
     public function report(UserReportDTOInterface $reportDTO): Collection

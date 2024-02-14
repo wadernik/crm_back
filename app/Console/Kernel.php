@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\Order\ClearDeletedOrderDraftsCommand;
+use App\Console\Commands\Order\OrderTimeoutNotificationPusherCommand;
 use App\Console\Commands\User\UserOnlineCacheFlusherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(UserOnlineCacheFlusherCommand::class)->everyFifteenMinutes();
         $schedule->command(ClearDeletedOrderDraftsCommand::class)->daily();
+        $schedule->command(OrderTimeoutNotificationPusherCommand::class)->daily();
     }
 
     /**

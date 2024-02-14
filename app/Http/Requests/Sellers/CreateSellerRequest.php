@@ -19,6 +19,7 @@ class CreateSellerRequest extends FormRequest
             'email' => 'sometimes|string|email|nullable',
             'address' => 'required|string|max:255|nullable',
             'working_hours' => 'sometimes|string|max:255|nullable',
+            'as_pickup_point' => 'sometimes|boolean',
         ];
     }
 
@@ -31,6 +32,7 @@ class CreateSellerRequest extends FormRequest
             'address' => __('attributes.seller.address'),
             'working_hours' =>
                 __('attributes.seller.working_hours'),
+            'as_pickup_point' => __('attributes.seller.as_pickup_point'),
         ];
     }
 }

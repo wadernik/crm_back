@@ -178,7 +178,9 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\Order\OrderServiceProvider::class,
+        App\Providers\Order\OrderRepositoryProvider::class,
+        App\Providers\Order\OrderManagerProvider::class,
     ],
 
     /*

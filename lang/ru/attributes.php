@@ -8,6 +8,7 @@ return [
         'comment' => 'Комментарий',
         'amount' => 'Количество/вес',
         'decoration' => 'Оформление',
+        'decoration_type' => 'Тип оформления',
         'accepted_date' => 'Дата принятия',
         'order_date' => 'Дата исполнения',
         'order_time' => 'Время исполнения',
@@ -18,6 +19,10 @@ return [
         'number_external' => 'Внешний номер заказа',
         'phone' => 'Телефон',
         'unit_id' => 'Единица измерения',
+        'contacts' => [
+            'social' => 'Социальная сеть',
+            'phone' => 'Телефон',
+        ],
     ],
     'user' => [
         'id' => 'Сотрудник',
@@ -55,6 +60,7 @@ return [
         'email' => 'Email',
         'address' => 'Адрес',
         'working_hours' => 'Рабочие часы',
+        'as_pickup_point' => 'В качестве пункта выдачи',
     ],
     'files' => [
         'file' => 'Файл',
@@ -62,6 +68,10 @@ return [
     'activities' => [
         'date_start' => 'Дата от',
         'date_end' => 'Дата до',
+    ],
+    'order_setting' => [
+        'type' => 'Тип',
+        'value' => 'Значение',
     ],
     'boards' => [
         'board' => [

@@ -7,6 +7,7 @@ use App\Models\Order\Order;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use function __;
 
 class OrderEntityNotification extends Notification implements ShouldBroadcast
 {
@@ -19,13 +20,19 @@ class OrderEntityNotification extends Notification implements ShouldBroadcast
      */
     public function via(object $notifiable): array
     {
-        return ['broadcast', 'database'];
+        return [
+            'broadcast',
+            'database',
+        ];
     }
 
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
-            'message' => __("notification.order.{$this->eventType->value}") . "#{$this->order->number}",
+            'message' => __(
+                "notification.order.entity.{$this->eventType->value}",
+                ['number' => "#{$this->order->number}"]
+            ),
             'data' => [
                 'order_id' => $this->order->id,
             ],
@@ -35,9 +42,12 @@ class OrderEntityNotification extends Notification implements ShouldBroadcast
     public function toDatabase(object $notifiable): array
     {
         return [
-            'message' => __("notification.order.{$this->eventType->value}") . "#{$this->order->number}",
+            'message' => __(
+                "notification.order.entity.{$this->eventType->value}",
+                ['number' => "#{$this->order->number}"]
+            ),
             'data' => [
-                'order_id' => $this->order->id
+                'order_id' => $this->order->id,
             ],
         ];
     }

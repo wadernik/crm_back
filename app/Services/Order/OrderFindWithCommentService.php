@@ -12,17 +12,14 @@ use App\Models\Order\OrderWithTotalComments\OrderWithTotalComments;
 use App\Models\Order\OrderWithTotalComments\OrderWithTotalCommentsInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
-use function app;
 
 final class OrderFindWithCommentService implements OrderFindWithCommentServiceInterface
 {
-    private OrderRepositoryInterface $orderRepository;
-    private CommentRepositoryInterface $commentRepository;
-
-    public function __construct()
+    public function __construct(
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
+    )
     {
-        $this->orderRepository = app(OrderRepositoryInterface::class);
-        $this->commentRepository = app(CommentRepositoryInterface::class);
     }
 
     public function findWithTotalComments(int $id): ?OrderWithTotalCommentsInterface
