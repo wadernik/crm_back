@@ -48,16 +48,6 @@ class UsersTableSeeder extends Seeder
                 'sex' => 1,
                 'role_id' => 1,
             ],
-            [
-                'id' => 5,
-                'first_name' => 'Пекарь',
-                'username' => 'pekar_1',
-                'password' => bcrypt('#pekar1'), // password
-                'email' => 'pekar@stroman.org',
-                'phone' => '79111111114',
-                'sex' => 2,
-                'role_id' => 4,
-            ],
         ];
 
         foreach ($items as $item) {
