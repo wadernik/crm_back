@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             // Task Board
             BoardTableSeeder::class,
             GroupTableSeeder::class,
+            OrderSettingsTableSeeder::class
         ]);
 
         $this->call([
