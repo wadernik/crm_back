@@ -186,6 +186,10 @@ final class BaseOrderManager implements BaseOrderManagerInterface
             $orderContact->update($contact);
         }
 
+        if (!$orderContacts) {
+            return;
+        }
+
         foreach ($orderContacts as $contact) {
             $contact->delete();
         }
