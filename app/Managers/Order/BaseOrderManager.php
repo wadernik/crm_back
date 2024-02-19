@@ -152,7 +152,7 @@ final class BaseOrderManager implements BaseOrderManagerInterface
             return;
         }
 
-        $orderContacts = $order->contacts->keyBy('id');
+        $orderContacts = $order->contacts?->keyBy('id');
 
         $toCreate = [];
         $toUpdate = [];
