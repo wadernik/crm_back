@@ -6,7 +6,7 @@ namespace App\Repositories\Order\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-use function app;
+use function App\Helpers\Functions\load_service;
 use function is_string;
 use function method_exists;
 use function preg_replace;
@@ -15,7 +15,7 @@ final class OrderFilterProcessor implements OrderFilterProcessorInterface
 {
     public function filter(Builder $builder, array $criteria): void
     {
-        $filter = app()->make(OrderFilterInterface::class, ['builder' => $builder]);
+        $filter = load_service(OrderFilterInterface::class, ['builder' => $builder]);
 
         if (!isset($criteria['filter'])) {
             return;

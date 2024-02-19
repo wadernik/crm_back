@@ -38,6 +38,8 @@ interface OrderFilterInterface
 
     public function filterOrderDate(string $date): void;
 
+    public function filterAcceptedDate(string $date): void;
+
     public function filterAcceptedDateStart(string $date): void;
 
     public function filterAcceptedDateEnd(string $date): void;

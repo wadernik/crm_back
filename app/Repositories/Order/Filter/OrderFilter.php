@@ -75,6 +75,11 @@ final class OrderFilter implements OrderFilterInterface
         $this->builder->where('orders.order_date', $date);
     }
 
+    public function filterAcceptedDate(string $date): void
+    {
+        $this->builder->where('orders.accepted_date', $date);
+    }
+
     public function filterAcceptedDateStart(string $date): void
     {
         $this->builder->where('orders.accepted_date', '>=', $date);

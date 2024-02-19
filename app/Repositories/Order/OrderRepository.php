@@ -14,7 +14,7 @@ use function app;
 
 final class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
-    public function __construct()
+    public function __construct(private readonly OrderFilterProcessorInterface $filterProcessor)
     {
         parent::__construct(Order::class);
     }
@@ -37,10 +37,7 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
      */
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
-        /** @var OrderFilterProcessorInterface $filter */
-        $filter = app(OrderFilterProcessorInterface::class);
-
-        $filter->filter($builder, $criteria);
+        $this->filterProcessor->filter($builder, $criteria);
 
         $criteria['filter'] = [];
     }
