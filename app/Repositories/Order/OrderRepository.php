@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories\Order;
 
+use App\Models\Order\Contact\ContactTypeEnum;
+use App\Models\Order\Contact\OrderContact;
 use App\Models\Order\Order;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Throwable;
-use function app;
 
 final class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
@@ -37,6 +38,21 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
      */
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
+        if (isset($criteria['filter']['phone'])) {
+            $contacts = OrderContact::query()
+                ->where('type_id', ContactTypeEnum::idsByValue()[ContactTypeEnum::PHONE->value])
+                ->get();
+
+            $orderIds = $contacts
+                ->pluck('order_id')
+                ->unique()
+                ->toArray();
+
+            $criteria['filter']['id'] = $orderIds;
+
+            unset($criteria['filter']['phone']);
+        }
+
         $this->filterProcessor->filter($builder, $criteria);
 
         $criteria['filter'] = [];

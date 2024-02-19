@@ -19,4 +19,6 @@ interface UpdateUserDTOInterface extends PhoneInterface, EmailInterface, Arrayab
     public function sex(): ?int;
 
     public function role(): ?int;
+
+    public function asInspector(): bool;
 }

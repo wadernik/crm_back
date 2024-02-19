@@ -31,6 +31,7 @@ final class UserController extends AbstractApiController
             'role_id',
             'last_seen',
             'sex',
+            'as_inspector',
         ];
 
         $requestData = $request->validated();

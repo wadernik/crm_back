@@ -23,4 +23,6 @@ interface CreateUserDTOInterface extends ImmutablePhoneInterface, EmailInterface
     public function sex(): ?int;
 
     public function role(): int;
+
+    public function asInspector(): bool;
 }

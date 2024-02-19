@@ -16,6 +16,7 @@ final class UpdateUserDTO implements UpdateUserDTOInterface
      *     sex: int|null,
      *     role_id: int|null,
      *     last_seen: string|null,
+     *     as_inspector: bool
      * } $attributes
      */
     public function __construct(private readonly array $attributes)
@@ -60,6 +61,11 @@ final class UpdateUserDTO implements UpdateUserDTOInterface
     public function lastSeen(): ?string
     {
         return $this->attributes['last_seen'] ?? null;
+    }
+
+    public function asInspector(): bool
+    {
+        return $this->attributes['as_inspector'] ?? false;
     }
 
     public function toArray(): array

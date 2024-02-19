@@ -127,4 +127,12 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             ->values()
             ->toArray();
     }
+
+    public function findAllByInspector(bool $asInspector = false): Collection
+    {
+        return User::query()
+            ->where('as_inspector', $asInspector)
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }

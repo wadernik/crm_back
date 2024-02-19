@@ -9,11 +9,11 @@ use App\Repositories\AbstractRepository;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use function app;
+use Throwable;
 
 final class OrderDraftRepository extends AbstractRepository implements OrderDraftRepositoryInterface
 {
-    public function __construct()
+    public function __construct(private readonly OrderFilterProcessorInterface $filterProcessor)
     {
         parent::__construct(Order::class);
     }
@@ -31,12 +31,12 @@ final class OrderDraftRepository extends AbstractRepository implements OrderDraf
         return parent::findAllBy($criteria, $attributes, $sort, $limit, $offset);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function addExtraFilter(Builder $builder, array &$criteria): void
     {
-        /** @var OrderFilterProcessorInterface $filter */
-        $filter = app(OrderFilterProcessorInterface::class);
-
-        $filter->filter($builder, $criteria);
+        $this->filterProcessor->filter($builder, $criteria);
 
         $criteria['filter'] = [];
     }

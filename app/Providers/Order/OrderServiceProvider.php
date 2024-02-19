@@ -18,6 +18,7 @@ use App\Repositories\Order\Filter\OrderFilterProcessor;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Seller\SellerRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Dooglys\Order\DooglysOrderSyncServiceInterface;
 use App\Services\Order\Activity\OrderActivityService;
 use App\Services\Order\Activity\OrderActivityServiceInterface;
@@ -49,6 +50,8 @@ use App\Services\Order\OrderNumber\OrderNumberGeneratorService;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
 use App\Services\Order\Processor\OrderFinalPriceProcessor;
 use App\Services\Order\Processor\OrderFinalPriceProcessorInterface;
+use App\Services\Order\Processor\OrderInspectorProcessor;
+use App\Services\Order\Processor\OrderInspectorProcessorInterface;
 use App\Services\Order\Status\OrderStatusesRetriever;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorService;
@@ -70,6 +73,7 @@ class OrderServiceProvider extends ServiceProvider
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
                     load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderNumberGeneratorServiceInterface::class),
+                    load_service(OrderInspectorProcessorInterface::class),
                     CreateOrderDTO::class
                 )
             );
@@ -82,6 +86,7 @@ class OrderServiceProvider extends ServiceProvider
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
                     load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderNumberGeneratorServiceInterface::class),
+                    load_service(OrderInspectorProcessorInterface::class),
                     OrderDraftDTO::class
                 )
             );
@@ -161,5 +166,9 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(OrderSettingCreatorServiceInterface::class, OrderSettingCreatorService::class);
+
+        $this->app->bind(OrderInspectorProcessorInterface::class, function () {
+            return new OrderInspectorProcessor(load_service(UserRepositoryInterface::class));
+        });
     }
 }

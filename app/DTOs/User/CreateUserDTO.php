@@ -16,6 +16,7 @@ final class CreateUserDTO implements CreateUserDTOInterface
      *     birth_date: string|null,
      *     sex: int|null,
      *     role_id: int,
+     *     as_inspector: bool
      * } $attributes
      */
     public function __construct(private readonly array $attributes)
@@ -65,6 +66,11 @@ final class CreateUserDTO implements CreateUserDTOInterface
     public function role(): int
     {
         return $this->attributes['role_id'];
+    }
+
+    public function asInspector(): bool
+    {
+        return $this->attributes['as_inspector'] ?? false;
     }
 
     public function toArray(): array

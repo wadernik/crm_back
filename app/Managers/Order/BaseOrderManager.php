@@ -34,8 +34,7 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $this->manageItems($order, $orderDTO->items());
 
-        // TODO: function was implemented to work with collection of contacts. Too lazy to flatten it for single contact
-        $this->manageContacts($order, [$orderDTO->contact()]);
+        $this->manageContact($order, $orderDTO->contact());
 
         if ($this->draft) {
             activity()->enableLogging();
@@ -57,8 +56,7 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
         $this->manageItems($order, $orderDTO->items());
 
-        // TODO: function was implemented to work with collection of contacts. Too lazy to flatten it for single contact
-        $this->manageContacts($order, [$orderDTO->contact()]);
+        $this->manageContact($order, $orderDTO->contact());
 
         $order->update(['updated_at' => Carbon::now()->timestamp]);
 
@@ -146,54 +144,28 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         }
     }
 
-    private function manageContacts(Order $order, array $request = []): void
+    private function manageContact(Order $order, array $requestContact = []): void
     {
-        if (!$request) {
+        if (!$requestContact) {
+            return;
+        }
+
+        if (empty($requestContact['id'])) {
+            $requestContact['order_id'] = $order->id;
+
+            OrderContact::query()->create($requestContact);
+
             return;
         }
 
         $existingContact = $order->contact;
 
-        $orderContacts = collect($existingContact ? [$existingContact]: [])->keyBy('id');
+        if ($existingContact && $existingContact->id === $requestContact['id']) {
+            $existingContact->update($requestContact);
 
-        $toCreate = [];
-        $toUpdate = [];
-
-        foreach ($request as $contact) {
-            if (empty($contact['id'])) {
-                $toCreate[] = $contact;
-
-                continue;
-            }
-
-            $toUpdate[$contact['id']] = $contact;
-        }
-
-        foreach ($toCreate as $contact) {
-            $contact['order_id'] = $order->id;
-
-            OrderContact::query()->create($contact);
-        }
-
-        foreach ($toUpdate as $contact) {
-            if (!$orderContacts->has($contact['id'])) {
-                continue;
-            }
-
-            /** @var OrderContact $orderContact */
-            $orderContact = $orderContacts->get($contact['id']);
-
-            $orderContacts->forget($contact['id']);
-
-            $orderContact->update($contact);
-        }
-
-        if (!$orderContacts) {
             return;
         }
 
-        foreach ($orderContacts as $contact) {
-            $contact->delete();
-        }
+        $existingContact->delete();
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Order\OrderStatus;
 use App\Services\Order\Checker\OrderCreationRestrictionByManufacturerCheckerInterface;
 use App\Services\Order\Checker\OrderSellerCheckerInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
+use App\Services\Order\Processor\OrderInspectorProcessorInterface;
 use function __;
 use function auth;
 
@@ -22,6 +23,7 @@ final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
         private readonly OrderCreationRestrictionByManufacturerCheckerInterface $orderCreationRestrictionChecker,
         private readonly OrderSellerCheckerInterface $orderSellerChecker,
         private readonly OrderNumberGeneratorServiceInterface $numberGeneratorService,
+        private readonly OrderInspectorProcessorInterface $orderInspectorProcessor,
         private readonly string $dtoClass,
     )
     {
@@ -45,7 +47,7 @@ final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
         }
 
         if (!isset($attributes['inspector_id'])) {
-            $attributes['inspector_id'] = auth('sanctum')->id();
+            $attributes['inspector_id'] = $this->orderInspectorProcessor->process();
         }
 
         $attributes['status'] = OrderStatus::STATUS_CREATED;

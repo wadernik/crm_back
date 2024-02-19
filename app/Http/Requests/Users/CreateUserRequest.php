@@ -23,6 +23,7 @@ class CreateUserRequest extends FormRequest
             'birth_date' => 'sometimes|date_format:Y-m-d|before:today|after:1920-01-01|nullable',
             'sex' => 'sometimes|integer|nullable',
             'role_id' => 'required',
+            'as_inspector' => 'sometimes|boolean',
         ];
     }
 

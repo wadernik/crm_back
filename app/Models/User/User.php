@@ -51,6 +51,7 @@ class User extends Authenticatable implements UserInterface
         'sex',
         'last_seen',
         'remember_token',
+        'as_inspector',
     ];
 
     protected $hidden = [

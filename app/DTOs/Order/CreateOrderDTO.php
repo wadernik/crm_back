@@ -17,7 +17,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     order_time: string,
      *     number_external: string,
      *     inspector_id: ?int,
-     *     phone: string,
+     *     phone: string|null,
      *     items: array<int, array{
      *          title_id: int|null,
      *          unit_id: int|null,

@@ -19,6 +19,14 @@ enum ContactTypeEnum: string
         ];
     }
 
+    public static function idsByValue(): array
+    {
+        return [
+            self::SOCIAL->value => 1,
+            self::PHONE->value => 2,
+        ];
+    }
+
     public static function asArray(): array
     {
         return [

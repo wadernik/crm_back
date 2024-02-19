@@ -21,7 +21,7 @@ class CreateOrderRequest extends FormRequest
             'seller_id' => 'required|integer',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
-            'phone' => 'sometimes|regex:/^\d{11}$/',
+            'phone' => 'sometimes|regex:/^\d{11}$/|nullable',
             'accepted_date' => 'required|date_format:Y-m-d',
             'order_date' => 'required|date_format:Y-m-d|after_or_equal:tomorrow',
             'order_time' => 'required|date_format:H:i',

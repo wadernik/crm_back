@@ -21,7 +21,7 @@ class UpdateOrderRequest extends FormRequest
             'seller_id' => 'sometimes|integer',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
-            'phone' => 'sometimes|regex:/^\d{11}$/',
+            'phone' => 'sometimes|regex:/^\d{11}$/|nullable',
             'accepted_date' => 'sometimes|date_format:Y-m-d',
             'order_date' => 'sometimes|date_format:Y-m-d|after_or_equal:tomorrow',
             'order_time' => 'sometimes|date_format:H:i',
