@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::create('order_settings', static function (Blueprint $table) {
             $table->id();
 
-            $table->enum('type', ['status_timeout']);
+            $table->unsignedSmallInteger('type_id');
             $table->string('value', 128);
 
-            $table->unique('type');
+            $table->unique('type_id');
 
             $table->timestamps();
             $table->softDeletes();

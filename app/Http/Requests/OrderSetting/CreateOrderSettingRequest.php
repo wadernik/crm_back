@@ -16,7 +16,7 @@ class CreateOrderSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', Rule::enum(OrderSettingTypeEnum::class)],
+            'type_id' => 'required|int|min:1',
             'value' => 'required|string|min:1',
         ];
     }

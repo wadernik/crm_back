@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories\OrderSetting;
 
 use App\Models\OrderSetting\OrderSetting;
-use App\Models\OrderSetting\OrderSettingTypeEnum;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -28,10 +27,10 @@ final class OrderSettingRepository extends AbstractRepository implements OrderSe
         return $orderSetting;
     }
 
-    public function findOneByType(OrderSettingTypeEnum $type): ?OrderSetting
+    public function findOneByTypeId(int $typeId): ?OrderSetting
     {
         $orderSettings = OrderSetting::query()
-            ->where('type', $type->value)
+            ->where('type_id', $typeId)
             ->get();
 
         /** @var OrderSetting $orderSetting */

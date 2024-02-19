@@ -8,7 +8,7 @@ class CreateOrderSettingDTO implements CreateOrderSettingDTOInterface
 {
     /**
      * @param array{
-     *     type: string,
+     *     type_id: int,
      *     value: string,
      * } $attributes
      */

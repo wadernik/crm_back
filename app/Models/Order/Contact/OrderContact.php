@@ -13,7 +13,7 @@ class OrderContact extends Model
 
     protected $fillable = [
         'order_id',
-        'type',
+        'type_id',
         'value',
     ];
 

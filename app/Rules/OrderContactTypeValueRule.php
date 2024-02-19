@@ -29,11 +29,17 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
         $contacts = [$this->contact()];
 
         foreach ($contacts as $contact) {
-            if (($contact['type'] === ContactTypeEnum::PHONE->value) && !preg_match("/^\d{11}$/", $contact['value'])) {
+            $contactType = ContactTypeEnum::ids()[$contact['type_id']] ?? null;
+
+            if (!$contactType) {
+                $fail(__('order.contact.invalid_type'));
+            }
+
+            if ($contactType === ContactTypeEnum::PHONE->value && !preg_match("/^\d{11}$/", $contact['value'])) {
                 $fail(__('validation.regex', ['attribute' => __('attributes.order.contacts.phone')]));
             }
 
-            if (($contact['type'] === ContactTypeEnum::SOCIAL->value) && strlen($contact['value']) < 3) {
+            if ($contactType === ContactTypeEnum::SOCIAL->value && strlen($contact['value']) < 3) {
                 $fail(__(
                     'validation.gte.string',
                     [
@@ -58,6 +64,6 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
      */
     private function contact(): array
     {
-        return $this->data['contacts'] ?? [];
+        return $this->data['contact'] ?? [];
     }
 }

@@ -12,7 +12,7 @@ class OrderSetting extends Model implements OrderSettingInterface
     use SoftDeletes;
 
     protected $fillable = [
-        'type',
+        'type_id',
         'value',
     ];
 

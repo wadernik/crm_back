@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Api\Order;
 use App\Http\Requests\Dictionaries\OrderTitlesDictionaryRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Dictionary\DictionaryTypeEnum;
+use App\Models\Order\Contact\ContactTypeEnum;
 use App\Models\Order\Item\DecorationTypeEnum;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
-use App\Services\Order\Contact\OrderContactTypeRetrieverInterface;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use Illuminate\Http\JsonResponse;
 use function count;
@@ -42,9 +42,9 @@ final class OrderDictionaryController
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
 
-    public function contactTypes(OrderContactTypeRetrieverInterface $retriever): JsonResponse
+    public function contactTypes(): JsonResponse
     {
-        $contactTypes = $retriever->get();
+        $contactTypes = ContactTypeEnum::asArray();
 
         return ApiResponse::responseSuccess(data: $contactTypes, total: count($contactTypes));
     }

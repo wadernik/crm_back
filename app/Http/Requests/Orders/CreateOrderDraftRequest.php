@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Orders;
 
+use App\Rules\OrderContactTypeValueRule;
 use Illuminate\Foundation\Http\FormRequest;
 use function __;
 
@@ -34,7 +35,11 @@ class CreateOrderDraftRequest extends FormRequest
             'items.*.label' => 'sometimes|nullable|string|max:255',
             'items.*.comment' => 'sometimes|nullable|string|max:255',
             'items.*.decoration' => 'sometimes|nullable|string|max:255',
+            'items.*.decoration_type_id' => 'sometimes|integer|nullable',
             'items.*.files' => 'sometimes|nullable|array',
+            'contact' => 'required|array',
+            'contact.type_id' => 'required|integer',
+            'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
         ];
     }
 
@@ -54,6 +59,7 @@ class CreateOrderDraftRequest extends FormRequest
             'items.*.label' => __('attributes.order.label'),
             'items.*.comment' => __('attributes.order.comment'),
             'items.*.decoration' => __('attributes.order.decoration'),
+            'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
         ];

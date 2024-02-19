@@ -29,8 +29,6 @@ use App\Services\Order\Checker\OrderSellerChecker;
 use App\Services\Order\Checker\OrderSellerCheckerInterface;
 use App\Services\Order\Checker\OrderStateChecker;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
-use App\Services\Order\Contact\OrderContactTypeRetriever;
-use App\Services\Order\Contact\OrderContactTypeRetrieverInterface;
 use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
 use App\Services\Order\ManagerExtension\BaseOrderCreatorService;
@@ -55,8 +53,6 @@ use App\Services\Order\Status\OrderStatusesRetriever;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorService;
 use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorServiceInterface;
-use App\Services\OrderSetting\OrderSettingTypeRetriever;
-use App\Services\OrderSetting\OrderSettingTypeRetrieverInterface;
 use Illuminate\Support\ServiceProvider;
 use function App\Helpers\Functions\load_service;
 
@@ -163,10 +159,6 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->bind(OrderSellerCheckerInterface::class, function () {
             return new OrderSellerChecker(load_service(SellerRepositoryInterface::class));
         });
-
-        $this->app->bind(OrderContactTypeRetrieverInterface::class, OrderContactTypeRetriever::class);
-
-        $this->app->bind(OrderSettingTypeRetrieverInterface::class, OrderSettingTypeRetriever::class);
 
         $this->app->bind(OrderSettingCreatorServiceInterface::class, OrderSettingCreatorService::class);
     }

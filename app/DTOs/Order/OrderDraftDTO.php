@@ -28,11 +28,11 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *          label: string|null,
      *          comment: string|null,
      *          decoration: string|null,
-     *          decoration_type: int|null,
+     *          decoration_type_id: int|null,
      *          files: array|null,
      *     }>,
-     *     contacts: array{
-     *          type: string,
+     *     contact: array{
+     *          type_id: int,
      *          value: string,
      *     }
      * } $attributes
@@ -55,9 +55,9 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
         return $this->attributes['items'] ?? [];
     }
 
-    public function contacts(): array
+    public function contact(): array
     {
-        return $this->attributes['contacts'] ?? [];
+        return $this->attributes['contact'] ?? [];
     }
 
     public function id(): ?int

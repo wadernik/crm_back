@@ -29,11 +29,12 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *          label: string|null,
      *          comment: string|null,
      *          decoration: string|null,
+     *          decoration_type_id: int|null,
      *          files: array|null,
      *     }>,
-     *     contacts: array{
+     *     contact: array{
      *          id: int|null,
-     *          type: string|null,
+     *          type_id: int|null,
      *          value: string|null,
      *     }
      * } $attributes
@@ -56,9 +57,9 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
         return $this->attributes['items'] ?? [];
     }
 
-    public function contacts(): array
+    public function contact(): array
     {
-        return $this->attributes['contacts'] ?? [];
+        return $this->attributes['contact'] ?? [];
     }
 
     public function id(): ?int

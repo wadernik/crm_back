@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('order_id');
-            $table->enum('type', ['social', 'phone']);
+            $table->unsignedSmallInteger('type_id');
             $table->string('value', 128);
 
             $table->foreign('order_id')

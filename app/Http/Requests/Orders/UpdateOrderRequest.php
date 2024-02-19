@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Orders;
 
-use App\Models\Order\Contact\ContactTypeEnum;
 use App\Rules\OrderContactTypeValueRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use function __;
 
 class UpdateOrderRequest extends FormRequest
@@ -38,11 +36,13 @@ class UpdateOrderRequest extends FormRequest
             'items.*.label' => 'sometimes|string|max:255|nullable',
             'items.*.comment' => 'sometimes|string|max:255|nullable',
             'items.*.decoration' => 'sometimes|string|max:255|nullable',
+            'items.*.decoration_type_id' => 'sometimes|integer|nullable',
             'items.*.files' => 'sometimes|array|nullable',
-            'contacts' => 'sometimes|array',
-            'contacts.id' => 'sometimes|integer|min:1',
-            'contacts.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
-            'contacts.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
+            'contact' => 'sometimes|array',
+            'contact.id' => 'sometimes|integer|min:1',
+            'contact.type_id' => 'required|integer',
+            'contact.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
+            // 'contact.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
             // 'contacts.*.id' => 'sometimes|integer|min:1',
             // 'contacts.*.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
             // 'contacts.*.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
@@ -65,6 +65,7 @@ class UpdateOrderRequest extends FormRequest
             'items.*.label' => __('attributes.order.label'),
             'items.*.comment' => __('attributes.order.comment'),
             'items.*.decoration' => __('attributes.order.decoration'),
+            'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
         ];

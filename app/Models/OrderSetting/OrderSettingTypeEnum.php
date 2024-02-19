@@ -10,10 +10,21 @@ enum OrderSettingTypeEnum: string
 {
     case STATUS_TIMEOUT = 'status_timeout';
 
-    public static function captions(): array
+    public static function idsByEnum(): array
     {
         return [
-            self::STATUS_TIMEOUT->value => __('order.settings.status_timeout'),
+            self::STATUS_TIMEOUT->value => 1,
+        ];
+    }
+
+    public static function asArray(): array
+    {
+        return [
+            [
+                'id' => 1,
+                'type' => self::STATUS_TIMEOUT->value,
+                'name' => __('order.settings.status_timeout'),
+            ]
         ];
     }
 }

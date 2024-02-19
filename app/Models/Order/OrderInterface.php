@@ -27,7 +27,7 @@ use Illuminate\Support\Collection;
  * @property string                   $created_at
  * @property bool                     $draft
  * @property Collection<OrderItem>    $items
- * @property Collection<OrderContact> $contacts
+ * @property OrderContact $contact
  */
 interface OrderInterface
 {

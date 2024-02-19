@@ -7,7 +7,6 @@ namespace App\Services\OrderSetting\ManagerExtension;
 use App\DTOs\OrderSetting\CreateOrderSettingDTOInterface;
 use App\Managers\OrderSetting\OrderSettingManagerInterface;
 use App\Models\OrderSetting\OrderSetting;
-use App\Models\OrderSetting\OrderSettingTypeEnum;
 use App\Repositories\OrderSetting\OrderSettingRepositoryInterface;
 
 final class OrderSettingCreatorService implements OrderSettingCreatorServiceInterface
@@ -21,7 +20,7 @@ final class OrderSettingCreatorService implements OrderSettingCreatorServiceInte
 
     public function create(CreateOrderSettingDTOInterface $orderSettingDTO): OrderSetting
     {
-        $orderSetting = $this->repository->findOneByType(OrderSettingTypeEnum::tryFrom($orderSettingDTO->toArray()['type']));
+        $orderSetting = $this->repository->findOneByTypeId($orderSettingDTO->toArray()['type_id']);
 
         if (!$orderSetting) {
             $orderSetting = $this->manager->create($orderSettingDTO);

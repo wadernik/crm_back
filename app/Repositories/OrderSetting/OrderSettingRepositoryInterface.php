@@ -8,6 +8,6 @@ use App\Repositories\Sub\FindAllByCriteriaInterface;
 
 interface OrderSettingRepositoryInterface extends FindAllByCriteriaInterface,
                                                   FindOneByIdInterface,
-                                                  FindOneByTypeInterface
+                                                  FindOneByTypeIdInterface
 {
 }

@@ -29,7 +29,9 @@ final class OrderTimeoutNotificationPusherCommand extends Command
 
     public function handle(): void
     {
-        $orderSetting = $this->orderSettingRepository->findOneByType(OrderSettingTypeEnum::STATUS_TIMEOUT);
+        $orderSetting = $this->orderSettingRepository->findOneByTypeId(
+            OrderSettingTypeEnum::idsByEnum()[OrderSettingTypeEnum::STATUS_TIMEOUT->value]
+        );
 
         if (!$orderSetting) {
             return;

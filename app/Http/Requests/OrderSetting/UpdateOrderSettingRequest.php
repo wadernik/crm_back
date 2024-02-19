@@ -16,7 +16,7 @@ class UpdateOrderSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['sometimes', Rule::enum(OrderSettingTypeEnum::class)],
+            'type_id' => 'sometimes|int',
             'value' => 'sometimes|string|min:1',
         ];
     }

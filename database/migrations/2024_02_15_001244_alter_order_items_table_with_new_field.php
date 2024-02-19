@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('order_items', static function (Blueprint $table) {
             $table
-                ->unsignedSmallInteger('decoration_type')
+                ->unsignedSmallInteger('decoration_type_id')
                 ->after('decoration')
                 ->nullable();
         });
@@ -19,7 +19,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('order_items', static function (Blueprint $table) {
-            $table->dropColumn('decoration_type');
+            $table->dropColumn('decoration_type_id');
         });
     }
 };

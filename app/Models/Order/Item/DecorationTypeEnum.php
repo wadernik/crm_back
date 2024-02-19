@@ -28,23 +28,23 @@ enum DecorationTypeEnum: string
         return [
             [
                 'id' => 1,
-                'name' => self::SWEETS->value,
-                'description' => __('order.item.decoration.sweets'),
+                'type' => self::SWEETS->value,
+                'name' => __('order.item.decoration.sweets'),
             ],
             [
                 'id' => 2,
-                'name' => self::CREAM->value,
-                'description' => __('order.item.decoration.cream'),
+                'type' => self::CREAM->value,
+                'name' => __('order.item.decoration.cream'),
             ],
             [
                 'id' => 3,
-                'name' => self::CREAM_MASTIC->value,
-                'description' => __('order.item.decoration.cream_mastic'),
+                'type' => self::CREAM_MASTIC->value,
+                'name' => __('order.item.decoration.cream_mastic'),
             ],
             [
                 'id' => 4,
-                'name' => self::MASTIC->value,
-                'description' => __('order.item.decoration.mastic'),
+                'type' => self::MASTIC->value,
+                'name' => __('order.item.decoration.mastic'),
             ],
         ];
     }

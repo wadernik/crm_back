@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Orders;
 
-use App\Models\Order\Contact\ContactTypeEnum;
 use App\Rules\OrderContactTypeValueRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use function __;
 
 class CreateOrderRequest extends FormRequest
@@ -37,11 +35,11 @@ class CreateOrderRequest extends FormRequest
             'items.*.label' => 'sometimes|string|max:255|nullable',
             'items.*.comment' => 'sometimes|string|max:255|nullable',
             'items.*.decoration' => 'sometimes|string|max:255|nullable',
-            'items.*.decoration_type' => 'sometimes|integer|nullable',
+            'items.*.decoration_type_id' => 'sometimes|integer|nullable',
             'items.*.files' => 'sometimes|array|nullable',
-            'contacts' => 'required|array',
-            'contacts.type' => ['required', Rule::enum(ContactTypeEnum::class)],
-            'contacts.value' => ['required', 'string', new OrderContactTypeValueRule],
+            'contact' => 'required|array',
+            'contact.type_id' => 'required|integer',
+            'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
             // 'contacts.*.type' => ['required', Rule::enum(ContactTypeEnum::class)],
             // 'contacts.*.value' => ['required', 'string', new OrderContactTypeValueRule],
         ];
@@ -63,7 +61,7 @@ class CreateOrderRequest extends FormRequest
             'items.*.label' => __('attributes.order.label'),
             'items.*.comment' => __('attributes.order.comment'),
             'items.*.decoration' => __('attributes.order.decoration'),
-            'items.*.decoration_type' => __('attributes.order.decoration_type'),
+            'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
         ];
