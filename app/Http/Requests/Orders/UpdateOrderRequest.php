@@ -42,10 +42,6 @@ class UpdateOrderRequest extends FormRequest
             'contact.id' => 'sometimes|integer|min:1',
             'contact.type_id' => 'required|integer',
             'contact.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
-            // 'contact.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
-            // 'contacts.*.id' => 'sometimes|integer|min:1',
-            // 'contacts.*.type' => ['sometimes', Rule::enum(ContactTypeEnum::class)],
-            // 'contacts.*.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
         ];
     }
 
@@ -68,6 +64,7 @@ class UpdateOrderRequest extends FormRequest
             'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
+            'contact.value' => __('attributes.order.contact.value'),
         ];
     }
 }

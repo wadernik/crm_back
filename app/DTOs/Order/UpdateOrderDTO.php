@@ -33,7 +33,6 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *          files: array|null,
      *     }>,
      *     contact: array{
-     *          id: int|null,
      *          type_id: int|null,
      *          value: string|null,
      *     }

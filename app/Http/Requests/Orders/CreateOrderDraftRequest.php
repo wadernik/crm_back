@@ -62,6 +62,7 @@ class CreateOrderDraftRequest extends FormRequest
             'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
+            'contact.value' => __('attributes.order.contact.value'),
         ];
     }
 }

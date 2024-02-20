@@ -19,7 +19,8 @@ return [
         'number_external' => 'Внешний номер заказа',
         'phone' => 'Телефон',
         'unit_id' => 'Единица измерения',
-        'contacts' => [
+        'contact' => [
+            'value' => 'Контакт',
             'social' => 'Социальная сеть',
             'phone' => 'Телефон',
         ],

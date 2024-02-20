@@ -40,8 +40,6 @@ class CreateOrderRequest extends FormRequest
             'contact' => 'required|array',
             'contact.type_id' => 'required|integer',
             'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
-            // 'contacts.*.type' => ['required', Rule::enum(ContactTypeEnum::class)],
-            // 'contacts.*.value' => ['required', 'string', new OrderContactTypeValueRule],
         ];
     }
 
@@ -64,6 +62,7 @@ class CreateOrderRequest extends FormRequest
             'items.*.decoration_type_id' => __('attributes.order.decoration_type'),
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
+            'contact.value' => __('attributes.order.contact.value'),
         ];
     }
 }

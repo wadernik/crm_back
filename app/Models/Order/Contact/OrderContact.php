@@ -18,6 +18,7 @@ class OrderContact extends Model implements OrderContactInterface
     ];
 
     protected $hidden = [
+        'id',
         'order_id',
         'created_at',
         'updated_at',

@@ -161,7 +161,5 @@ final class BaseOrderManager implements BaseOrderManagerInterface
         }
 
         $existingContact->update($requestContact);
-
-        $existingContact->delete();
     }
 }

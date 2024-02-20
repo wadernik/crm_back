@@ -36,14 +36,14 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
             }
 
             if ($contactType === ContactTypeEnum::PHONE->value && !preg_match("/^\d{11}$/", $contact['value'])) {
-                $fail(__('validation.regex', ['attribute' => __('attributes.order.contacts.phone')]));
+                $fail(__('validation.regex', ['attribute' => __('attributes.order.contact.value')]));
             }
 
             if ($contactType === ContactTypeEnum::SOCIAL->value && strlen($contact['value']) < 3) {
                 $fail(__(
                     'validation.gte.string',
                     [
-                        'attribute' => __('attributes.order.contacts.social'),
+                        'attribute' => __('attributes.order.contact.value'),
                         'value' => 3,
                     ]
                 ));

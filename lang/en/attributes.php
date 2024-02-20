@@ -18,7 +18,8 @@ return [
         'file_ids' => 'Files',
         'phone' => 'Phone',
         'unit_id' => 'Unit',
-        'contacts' => [
+        'contact' => [
+            'value' => 'Contact',
             'social' => 'Social',
             'phone' => 'Phone',
         ],
