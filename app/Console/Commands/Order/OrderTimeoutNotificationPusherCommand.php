@@ -37,13 +37,13 @@ final class OrderTimeoutNotificationPusherCommand extends Command
             return;
         }
 
-        $filterDate = Carbon::now()->startOfDay()->subDays((int) $orderSetting->value);
+        $filterDate = Carbon::now()->subHours((int) $orderSetting->value);
 
         $this->info('Processing overdue orders');
 
         $orders = $this->orderRepository->findAllBy([
             'filter' => [
-                'order_date_end' => $filterDate->format('Y-m-d H:i:s'),
+                'created_at_end' => $filterDate->format('Y-m-d H:i:s'),
                 'status' => OrderStatus::STATUS_CREATED,
             ],
         ]);
