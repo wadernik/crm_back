@@ -80,7 +80,7 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(OrderDraftCreatorServiceInterface::class, function () {
-            new OrderDraftCreatorService(
+            return new OrderDraftCreatorService(
                 new BaseOrderCreatorService(
                     load_service(OrderDraftManagerInterface::class),
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
