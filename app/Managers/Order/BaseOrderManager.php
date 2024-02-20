@@ -150,21 +150,17 @@ final class BaseOrderManager implements BaseOrderManagerInterface
             return;
         }
 
-        if (empty($requestContact['id'])) {
-            $requestContact['order_id'] = $order->id;
+        $requestContact['order_id'] = $order->id;
 
+        $existingContact = $order->contact;
+
+        if (!$existingContact) {
             OrderContact::query()->create($requestContact);
 
             return;
         }
 
-        $existingContact = $order->contact;
-
-        if ($existingContact && $existingContact->id === $requestContact['id']) {
-            $existingContact->update($requestContact);
-
-            return;
-        }
+        $existingContact->update($requestContact);
 
         $existingContact->delete();
     }
