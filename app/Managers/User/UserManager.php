@@ -26,7 +26,13 @@ final class UserManager implements UserManagerInterface
 
     public function update(User $user, UpdateUserDTOInterface $userDTO): User
     {
-        $user->update($userDTO->toArray());
+        $attributes = $userDTO->toArray();
+
+        if ($userDTO->password()) {
+            $attributes['password'] = bcrypt($userDTO->password());
+        }
+
+        $user->update($attributes);
 
         return $user;
     }

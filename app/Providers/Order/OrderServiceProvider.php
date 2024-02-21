@@ -71,11 +71,11 @@ class OrderServiceProvider extends ServiceProvider
                 new BaseOrderCreatorService(
                     load_service(OrderManagerInterface::class),
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
-                    load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderNumberGeneratorServiceInterface::class),
                     load_service(OrderInspectorProcessorInterface::class),
                     CreateOrderDTO::class
-                )
+                ),
+                load_service(OrderSellerCheckerInterface::class),
             );
         });
 
@@ -84,7 +84,6 @@ class OrderServiceProvider extends ServiceProvider
                 new BaseOrderCreatorService(
                     load_service(OrderDraftManagerInterface::class),
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
-                    load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderNumberGeneratorServiceInterface::class),
                     load_service(OrderInspectorProcessorInterface::class),
                     OrderDraftDTO::class
@@ -97,10 +96,10 @@ class OrderServiceProvider extends ServiceProvider
                 new BaseOrderUpdaterService(
                     load_service(OrderManagerInterface::class),
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
-                    load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderFinalPriceCheckerInterface::class),
                     UpdateOrderDTO::class
-                )
+                ),
+                load_service(OrderSellerCheckerInterface::class),
             );
         });
 
@@ -109,7 +108,6 @@ class OrderServiceProvider extends ServiceProvider
                 new BaseOrderUpdaterService(
                     load_service(OrderDraftManagerInterface::class),
                     load_service(OrderCreationRestrictionByManufacturerCheckerInterface::class),
-                    load_service(OrderSellerCheckerInterface::class),
                     load_service(OrderFinalPriceCheckerInterface::class),
                     UpdateOrderDTO::class
                 )

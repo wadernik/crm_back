@@ -42,13 +42,9 @@ final class ProfileController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        if ($userId !== $id) {
-            return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
-        }
-
         $userDTO = new UpdateUserDTO($request->validated());
 
-        if (!$user = $repository->find($id)) {
+        if (!$user = $repository->find($userId)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 

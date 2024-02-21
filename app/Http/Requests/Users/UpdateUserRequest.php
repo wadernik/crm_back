@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function __;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -22,6 +23,7 @@ class UpdateUserRequest extends FormRequest
             'sex' => 'sometimes|integer|nullable',
             'role_id' => 'sometimes',
             'as_inspector' => 'sometimes|boolean',
+            'password' => 'sometimes|string|min:6',
         ];
     }
 
@@ -35,6 +37,7 @@ class UpdateUserRequest extends FormRequest
             'birth_date' => __('attributes.user.birth_date'),
             'sex' => __('attributes.user.sex'),
             'role_id' => __('attributes.user.role'),
+            'password' => __('attributes.user.password'),
         ];
     }
 }

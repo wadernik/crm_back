@@ -21,4 +21,6 @@ interface UpdateUserDTOInterface extends PhoneInterface, EmailInterface, Arrayab
     public function role(): ?int;
 
     public function asInspector(): bool;
+
+    public function password(): ?string;
 }
