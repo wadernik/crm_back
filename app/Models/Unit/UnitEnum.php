@@ -9,14 +9,14 @@ use function __;
 enum UnitEnum: int
 {
     case QUANTITY = 1;
-    case WEIGHT_G = 2;
+    // case WEIGHT_G = 2;
     case WEIGHT_KG = 3;
 
     public static function captions(): array
     {
         return [
             self::QUANTITY->value => __('unit.caption.quantity'),
-            self::WEIGHT_G->value => __('unit.caption.weight_g'),
+            // self::WEIGHT_G->value => __('unit.caption.weight_g'),
             self::WEIGHT_KG->value => __('unit.caption.weight_kg'),
         ];
     }
@@ -25,7 +25,7 @@ enum UnitEnum: int
     {
         return [
             self::QUANTITY->value => __('unit.short.quantity'),
-            self::WEIGHT_G->value => __('unit.short.weight_g'),
+            // self::WEIGHT_G->value => __('unit.short.weight_g'),
             self::WEIGHT_KG->value => __('unit.short.weight_kg'),
         ];
     }
@@ -38,11 +38,11 @@ enum UnitEnum: int
                 'name' => __('unit.caption.quantity'),
                 'short' => __('unit.short.quantity'),
             ],
-            [
-                'id' => self::WEIGHT_G->value,
-                'name' => __('unit.caption.weight_g'),
-                'short' => __('unit.short.weight_g'),
-            ],
+            // [
+            //     'id' => self::WEIGHT_G->value,
+            //     'name' => __('unit.caption.weight_g'),
+            //     'short' => __('unit.short.weight_g'),
+            // ],
             [
                 'id' => self::WEIGHT_KG->value,
                 'name' => __('unit.caption.weight_kg'),
