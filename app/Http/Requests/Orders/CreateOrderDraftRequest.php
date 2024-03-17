@@ -37,9 +37,9 @@ class CreateOrderDraftRequest extends FormRequest
             'items.*.decoration' => 'sometimes|nullable|string|max:255',
             'items.*.decoration_type_id' => 'sometimes|integer|nullable',
             'items.*.files' => 'sometimes|nullable|array',
-            'contact' => 'required|array',
-            'contact.type_id' => 'required|integer',
-            'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
+            'contact' => 'sometimes|array',
+            'contact.type_id' => 'sometimes|integer|nullable',
+            'contact.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
         ];
     }
 

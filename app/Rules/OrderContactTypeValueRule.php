@@ -28,6 +28,10 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
     {
         $contacts = [$this->contact()];
 
+        if (empty($contacts)) {
+            return;
+        }
+
         foreach ($contacts as $contact) {
             $contactType = ContactTypeEnum::ids()[$contact['type_id']] ?? null;
 
