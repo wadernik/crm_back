@@ -18,6 +18,7 @@ final class UserDictionaryController
             'first_name',
             'last_name',
             'sex',
+            'as_inspector',
         ];
 
         $requestData = $request->validated();
