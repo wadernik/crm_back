@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\Order\OrderOverdueEvent;
+use App\Jobs\OrderOverdueNotificationJob;
 use App\Models\User\User;
-use App\Notifications\OrderOverdueNotification;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -17,7 +17,7 @@ class OrderOverdueEventListener implements ShouldQueue
     public function handle(OrderOverdueEvent $event): void
     {
         foreach ($this->users() as $user) {
-            $user->notify(new OrderOverdueNotification($event->order()));
+            OrderOverdueNotificationJob::dispatch($event->order(), $user, $event->timeout());
         }
     }
 

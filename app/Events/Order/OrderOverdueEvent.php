@@ -15,12 +15,17 @@ final class OrderOverdueEvent implements OrderableInterface
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(private readonly Order $order)
+    public function __construct(private readonly Order $order, private readonly int $timeout)
     {
     }
 
     public function order(): Order
     {
         return $this->order;
+    }
+
+    public function timeout(): int
+    {
+        return $this->timeout;
     }
 }

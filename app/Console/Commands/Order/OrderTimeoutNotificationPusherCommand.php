@@ -57,7 +57,7 @@ final class OrderTimeoutNotificationPusherCommand extends Command
         $progressBar = $this->output->createProgressBar(count($orders));
 
         foreach ($orders as $order) {
-            OrderOverdueEvent::dispatch($order);
+            OrderOverdueEvent::dispatch($order, $orderSetting->value * 3600);
 
             $progressBar->advance();
         }
