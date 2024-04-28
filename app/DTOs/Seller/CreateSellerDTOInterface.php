@@ -9,9 +9,15 @@ use App\DTOs\Sub\ImmutableNameInterface;
 use App\DTOs\Sub\PhoneInterface;
 use Illuminate\Contracts\Support\Arrayable;
 
-interface CreateSellerDTOInterface extends ImmutableNameInterface, PhoneInterface, EmailInterface, Arrayable
+interface CreateSellerDTOInterface extends ImmutableNameInterface,
+                                           PhoneInterface,
+                                           EmailInterface,
+                                           Arrayable,
+                                           CreatedByAwareInterface
 {
     public function address(): string;
 
     public function workingHours(): ?string;
+
+    public function createdBy(): ?int;
 }

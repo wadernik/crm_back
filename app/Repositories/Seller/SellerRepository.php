@@ -29,7 +29,16 @@ final class SellerRepository extends AbstractRepository implements SellerReposit
             $builder->whereNotNull('uuid');
         }
 
-        unset($criteria['filter']['uuid'], $criteria['filter']['uuids'], $criteria['filter']['uuid_not_null']);
+        if (isset($criteria['filter']['created_by_is_null'])) {
+            $builder->whereNull('created_by');
+        }
+
+        unset(
+            $criteria['filter']['uuid'],
+            $criteria['filter']['uuids'],
+            $criteria['filter']['uuid_not_null'],
+            $criteria['filter']['created_by_is_null']
+        );
     }
 
     public function find(int $id): ?Seller

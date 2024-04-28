@@ -27,6 +27,7 @@ class Seller extends Model implements SellerInterface
         'uuid',
         'menu_id',
         'as_pickup_point',
+        'created_by',
     ];
 
     public function getActivitylogOptions(): LogOptions

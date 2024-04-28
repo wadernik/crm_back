@@ -32,11 +32,7 @@ final class ProcessImportSellersJob implements ShouldQueue, ShouldBeUnique
 
     public function handle(SellerRepositoryInterface $sellerRepository): void
     {
-        $salePointsUuids = collect($this->points)
-            ->pluck('id')
-            ->toArray();
-
-        $existingSellers = $sellerRepository->findAllBy(['uuids' => $salePointsUuids]);
+        $existingSellers = $sellerRepository->findAllBy(['filter' => ['created_by_is_null' => true]]);
 
         $existingSellers = $existingSellers->mapWithKeys(static function (Seller $seller): array {
             return [$seller->uuid ?? (string) $seller->id => $seller];
@@ -59,12 +55,18 @@ final class ProcessImportSellersJob implements ShouldQueue, ShouldBeUnique
 
                 $seller->update($attributes);
 
+                $existingSellers->forget($point->id());
+
                 continue;
             }
 
             $seller = new Seller($attributes);
 
             $seller->save();
+        }
+
+        foreach ($existingSellers as $seller) {
+            $seller->delete();
         }
     }
 

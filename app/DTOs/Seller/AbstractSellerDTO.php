@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTOs\Seller;
 
-abstract class AbstractSellerDTO implements CreateSellerDTOInterface
+abstract class AbstractSellerDTO
 {
     /**
      * @param array{
@@ -12,10 +12,11 @@ abstract class AbstractSellerDTO implements CreateSellerDTOInterface
      *     phone: string|null,
      *     email: string|null,
      *     address: string,
-     *     working_hours: string|null
+     *     working_hours: string|null,
+     *     created_by: int|null
      * } $attributes
      */
-    public function __construct(private readonly array $attributes)
+    public function __construct(private array $attributes)
     {
     }
 
@@ -42,6 +43,16 @@ abstract class AbstractSellerDTO implements CreateSellerDTOInterface
     public function workingHours(): ?string
     {
         return $this->attributes['working_hours'] ?? null;
+    }
+
+    public function createdBy(): ?int
+    {
+        return $this->attributes['created_by'] ?? null;
+    }
+
+    public function setCreatedBy(?int $createdBy = null): void
+    {
+        $this->attributes['created_by'] = $createdBy;
     }
 
     public function toArray(): array

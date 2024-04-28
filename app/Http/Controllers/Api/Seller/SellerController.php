@@ -60,6 +60,8 @@ final class SellerController extends AbstractApiController
 
         $sellerDTO = new CreateSellerDTO($request->validated());
 
+        $sellerDTO->setCreatedBy($this->userId());
+
         if (!$seller = $manager->create($sellerDTO)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
