@@ -23,7 +23,7 @@ class CreateOrderDraftRequest extends FormRequest
             'inspector_id' => 'sometimes|nullable|integer',
             'phone' => 'sometimes|nullable|regex:/^\d{11}$/',
             'accepted_date' => 'sometimes|nullable|date_format:Y-m-d',
-            'order_date' => 'sometimes|nullable|date_format:Y-m-d|after_or_equal:tomorrow',
+            'order_date' => 'sometimes|nullable|date_format:Y-m-d|after_or_equal:today',
             'order_time' => 'sometimes|nullable|date_format:H:i',
             'number_external' => 'sometimes|nullable|string',
             //

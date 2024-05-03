@@ -23,7 +23,7 @@ class CreateOrderRequest extends FormRequest
             'inspector_id' => 'sometimes|integer',
             'phone' => 'sometimes|regex:/^\d{11}$/|nullable',
             'accepted_date' => 'required|date_format:Y-m-d',
-            'order_date' => 'required|date_format:Y-m-d|after_or_equal:tomorrow',
+            'order_date' => 'required|date_format:Y-m-d|after_or_equal:today',
             'order_time' => 'required|date_format:H:i',
             'number_external' => 'sometimes|string|nullable',
             //
