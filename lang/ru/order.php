@@ -3,6 +3,7 @@
 return [
     'status' => [
         'created' => 'Новый заказ',
+        'pending_on_agreement' => 'На согласовании',
         'taken' => 'В работе',
         'delivery' => 'Передано в магазин',
         'sold' => 'Исполнен',

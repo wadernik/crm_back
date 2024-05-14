@@ -3,6 +3,7 @@
 return [
     'status' => [
         'created' => 'New order',
+        'pending_on_agreement' => 'Pending on agreement',
         'taken' => 'Processing',
         'delivery' => 'In delivery',
         'sold' => 'Sold',

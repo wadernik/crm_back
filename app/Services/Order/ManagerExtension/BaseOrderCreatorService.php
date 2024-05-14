@@ -11,6 +11,7 @@ use App\Models\Order\OrderStatus;
 use App\Services\Order\Checker\OrderCreationRestrictionByManufacturerCheckerInterface;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
 use App\Services\Order\Processor\OrderInspectorProcessorInterface;
+use Illuminate\Support\Carbon;
 use function __;
 use function auth;
 
@@ -44,7 +45,9 @@ final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
         }
 
         $attributes['status'] = OrderStatus::STATUS_CREATED;
-        $attributes['number'] = $this->numberGeneratorService->generate($attributes['order_date']);
+        $attributes['number'] = $this->numberGeneratorService->generate(
+            $attributes['order_date'] ?? Carbon::now()->startOfDay()->format('Y-m-d')
+        );
 
         return $this->manager->create(new $this->dtoClass($attributes));
     }

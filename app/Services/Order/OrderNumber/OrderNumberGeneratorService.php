@@ -20,9 +20,10 @@ final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceIn
 
         $criteria = [
             'filter' => [
-                'order_date_start' => $nowCarbon->startOfMonth()->format('Y-m-d'),
-                'order_date_end' => $nowCarbon->endOfMonth()->format('Y-m-d'),
+                'created_at_start' => $nowCarbon->startOfMonth()->format('Y-m-d'),
+                'created_at_end' => $nowCarbon->endOfMonth()->format('Y-m-d'),
                 'with_trashed' => true,
+                'ignore_draft' => true,
             ],
         ];
 

@@ -10,9 +10,9 @@ use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use function collect;
 
 final class ProcessImportMenuJob implements ShouldQueue, ShouldBeUnique
 {
@@ -35,20 +35,13 @@ final class ProcessImportMenuJob implements ShouldQueue, ShouldBeUnique
 
     public function handle(DictionaryRepositoryInterface $dictionaryRepository): void
     {
-        $uuids = collect($this->products)
-            ->pluck('id')
-            ->unique()
-            ->toArray();
-
-        $dictionaries = $dictionaryRepository->findAllBy(
-                ['filter' => [
-                    'type' => DictionaryTypeEnum::PRODUCT_TITLE->value,
-                    'uuids' => $uuids,
-                    'deleted_at' => null,
-                ]]
+        /** @var Collection<Dictionary> $existingRecords */
+        $existingRecords = $dictionaryRepository
+            ->findAllBy(
+                ['filter' => ['type' => DictionaryTypeEnum::PRODUCT_TITLE->value]]
             )
             ->mapWithKeys(static function (Dictionary $dictionary): array {
-                return [$dictionary->uuid => $dictionary];
+                return [$dictionary->uuid ?? (string) $dictionary->id => $dictionary];
             });
 
         $processedProducts = [];
@@ -68,13 +61,16 @@ final class ProcessImportMenuJob implements ShouldQueue, ShouldBeUnique
                 'type' => DictionaryTypeEnum::PRODUCT_TITLE->value,
                 'value' => $product['name'],
                 'uuid' => $product['id'],
+                'parent_uuid' => $this->menuId,
             ];
 
-            if ($dictionaries->has($product['id'])) {
+            if ($existingRecords->has($product['id'])) {
                 /** @var Dictionary $dictionary */
-                $dictionary = $dictionaries->get($product['id']);
+                $dictionary = $existingRecords->get($product['id']);
 
                 $dictionary->update($attributes);
+
+                $existingRecords->forget($product['id']);
 
                 continue;
             }
@@ -82,6 +78,12 @@ final class ProcessImportMenuJob implements ShouldQueue, ShouldBeUnique
             $dictionary = new Dictionary($attributes);
 
             $dictionary->save();
+        }
+
+        foreach ($existingRecords as $entity) {
+            if ($entity->parent_uuid === $this->menuId) {
+                $entity->delete();
+            }
         }
     }
 

@@ -53,6 +53,10 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
             unset($criteria['filter']['phone']);
         }
 
+        if (isset($criteria['filter']['ignore_draft'])) {
+            unset($criteria['filter']['draft'], $criteria['filter']['ignore_draft']);
+        }
+
         $this->filterProcessor->filter($builder, $criteria);
 
         $criteria['filter'] = [];
@@ -67,5 +71,12 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
             ->find($id);
 
         return $order;
+    }
+
+    public function count(array $criteria): int
+    {
+        $criteria['filter']['draft'] = false;
+
+        return parent::count($criteria);
     }
 }
