@@ -45,9 +45,12 @@ final class BaseOrderCreatorService implements BaseOrderCreatorServiceInterface
         }
 
         $attributes['status'] = OrderStatus::STATUS_CREATED;
-        $attributes['number'] = $this->numberGeneratorService->generate(
-            $attributes['order_date'] ?? Carbon::now()->startOfDay()->format('Y-m-d')
-        );
+
+        if (empty($attributes['number'])) {
+            $attributes['number'] = $this->numberGeneratorService->generate(
+                $attributes['order_date'] ?? Carbon::now()->startOfDay()->format('Y-m-d')
+            );
+        }
 
         return $this->manager->create(new $this->dtoClass($attributes));
     }

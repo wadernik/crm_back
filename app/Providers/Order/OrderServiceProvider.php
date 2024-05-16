@@ -16,6 +16,7 @@ use App\Repositories\Order\Filter\OrderFilter;
 use App\Repositories\Order\Filter\OrderFilterInterface;
 use App\Repositories\Order\Filter\OrderFilterProcessor;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
+use App\Repositories\Order\OrderDraftRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Seller\SellerRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -76,6 +77,7 @@ class OrderServiceProvider extends ServiceProvider
                     CreateOrderDTO::class
                 ),
                 load_service(OrderSellerCheckerInterface::class),
+                load_service(OrderDraftRepositoryInterface::class)
             );
         });
 

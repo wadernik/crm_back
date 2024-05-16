@@ -12,6 +12,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     source_id: int,
      *     seller_id: int,
      *     user_id: int,
+     *     draft_id: int|null,
      *     accepted_date: string,
      *     order_date: string,
      *     order_time: string,

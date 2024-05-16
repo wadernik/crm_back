@@ -52,6 +52,17 @@ final class OrderDraftRepository extends AbstractRepository implements OrderDraf
         return $order;
     }
 
+    public function findIncludingTrashed(int $id): ?Order
+    {
+        /** @var ?Order $order */
+        $order = Order::query()
+            ->where('orders.draft', true)
+            ->withTrashed()
+            ->find($id);
+
+        return $order;
+    }
+
     public function count(array $criteria): int
     {
         $criteria['filter']['draft'] = true;
