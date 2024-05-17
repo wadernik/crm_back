@@ -16,6 +16,7 @@ final class OrderStatusesRetriever implements OrderStatusesRetrieverInterface
                 return [
                     'id' => $status,
                     'name' => $statusCaption,
+                    'position' => OrderStatus::position($status)
                 ];
             })
             ->values()
