@@ -9,11 +9,12 @@ use App\Models\Order\Contact\OrderContact;
 use App\Models\Order\Order;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Order\Filter\OrderFilterProcessorInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Throwable;
 
-final class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
+final class OrderRepositoryRepositoryInterface extends AbstractRepository implements OrderRepositoryInterface
 {
     public function __construct(private readonly OrderFilterProcessorInterface $filterProcessor)
     {
@@ -71,6 +72,20 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
             ->find($id);
 
         return $order;
+    }
+
+    public function findLastOrderByOrderDate(string $date): ?Order
+    {
+        $dateCarbon = Carbon::parse($date)->format('m');
+
+        $orders = Order::query()
+            ->where('orders.number', 'LIKE', "%$dateCarbon")
+            ->orderByDesc('orders.number')
+            ->limit(1)
+            ->withTrashed()
+            ->get();
+
+        return $orders->first();
     }
 
     public function count(array $criteria): int

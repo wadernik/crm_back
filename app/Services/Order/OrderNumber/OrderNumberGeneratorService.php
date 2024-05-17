@@ -7,6 +7,7 @@ namespace App\Services\Order\OrderNumber;
 use App\Repositories\Order\OrderRepositoryInterface;
 use Carbon\Carbon;
 use function sprintf;
+use function substr;
 
 final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceInterface
 {
@@ -16,21 +17,18 @@ final class OrderNumberGeneratorService implements OrderNumberGeneratorServiceIn
 
     public function generate(string $orderDate): string
     {
-        $nowCarbon = Carbon::parse($orderDate);
+        $orderDateCarbon = Carbon::parse($orderDate);
 
-        $criteria = [
-            'filter' => [
-                'created_at_start' => $nowCarbon->startOfMonth()->format('Y-m-d'),
-                'created_at_end' => $nowCarbon->endOfMonth()->format('Y-m-d'),
-                'with_trashed' => true,
-                'ignore_draft' => true,
-            ],
-        ];
+        $lastOrder = $this->repository->findLastOrderByOrderDate($orderDate);
 
-        $ordersAmount = $this->repository->count($criteria) + 1;
+        $orderCount = 1;
 
-        $ordersAmountFormatted = sprintf("%02d", $ordersAmount);
+        if ($lastOrder) {
+            $orderCount = (int) (substr($lastOrder->number, 0, -2)) + 1;
+        }
 
-        return $ordersAmountFormatted . $nowCarbon->format('m');
+        $ordersAmountFormatted = sprintf("%02d", $orderCount);
+
+        return $ordersAmountFormatted . $orderDateCarbon->format('m');
     }
 }

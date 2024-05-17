@@ -7,6 +7,9 @@ namespace App\Repositories\Order;
 use App\Repositories\Sub\CountInterface;
 use App\Repositories\Sub\FindAllByCriteriaInterface;
 
-interface OrderRepositoryInterface extends FindAllByCriteriaInterface, FindOneByIdInterface, CountInterface
+interface OrderRepositoryInterface extends FindAllByCriteriaInterface,
+                                           FindOneByIdInterface,
+                                           FindLastCreatedOrderInMonthByOrderDateInterface,
+                                           CountInterface
 {
 }

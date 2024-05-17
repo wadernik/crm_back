@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use function strlen;
 
 class Order extends Model implements OrderInterface
 {
@@ -56,6 +57,7 @@ class Order extends Model implements OrderInterface
 
     protected $appends = [
         'price_original',
+        'number_original',
     ];
 
     protected $casts = [
@@ -71,6 +73,32 @@ class Order extends Model implements OrderInterface
             ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function number(): Attribute
+    {
+        return new Attribute(
+            get: function($value) {
+                if (strlen((string) $value) <= 3) {
+                    $value = '0' . $value;
+                }
+
+                return (string) $value;
+            }
+        );
+    }
+
+    protected function numberOriginal(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if (!$this->number) {
+                    return null;
+                }
+
+                return $this->getRawOriginal('number');
+            }
+        );
     }
 
     public function createdAt(): Attribute

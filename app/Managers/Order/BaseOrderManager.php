@@ -69,6 +69,10 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
     public function delete(Order $order): Order
     {
+        OrderItem::query()
+            ->where('order_id', $order->id)
+            ->delete();
+
         $order->delete();
 
         return $order;
@@ -76,6 +80,10 @@ final class BaseOrderManager implements BaseOrderManagerInterface
 
     public function remove(Order $order): Order
     {
+        OrderItem::query()
+            ->where('order_id', $order->id)
+            ->forceDelete();
+
         $order->forceDelete();
 
         return $order;
