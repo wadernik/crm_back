@@ -19,6 +19,7 @@ final class OrderStatusesRetriever implements OrderStatusesRetrieverInterface
                     'position' => OrderStatus::position($status)
                 ];
             })
+            ->sortBy('position')
             ->values()
             ->toArray();
     }
