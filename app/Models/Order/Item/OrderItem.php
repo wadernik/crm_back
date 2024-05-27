@@ -10,10 +10,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class OrderItem extends Model
+class OrderItem extends Model implements OrderItemInterface
 {
     use SoftDeletes;
     use LogsActivity;
+
+    /**
+     * @var array<int>
+     */
+    private array $files = [];
 
     public $timestamps = false;
 
@@ -34,6 +39,16 @@ class OrderItem extends Model
         'name',
         'deleted_at',
     ];
+
+    public function getFilesCollection(): array
+    {
+        return $this->files;
+    }
+
+    public function setFilesCollection(array $files): void
+    {
+        $this->files = $files;
+    }
 
     public function files(): BelongsToMany
     {

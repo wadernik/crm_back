@@ -9,6 +9,13 @@ use App\Formatters\Notification\DatabaseNotificationFormatter;
 use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
 use App\Managers\Order\Draft\OrderDraftManagerInterface;
 use App\Managers\Order\Normal\OrderManagerInterface;
+use App\Managers\OrderComposite\OrderCompositeManagerInterface;
+use App\Processor\Order\OrderCreatorProcessor;
+use App\Processor\Order\OrderCreatorProcessorInterface;
+use App\Processor\Order\OrderDraftCreatorProcessor;
+use App\Processor\Order\OrderDraftCreatorProcessorInterface;
+use App\Processor\Order\OrderUpdaterProcessor;
+use App\Processor\Order\OrderUpdaterProcessorInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
@@ -31,6 +38,8 @@ use App\Services\Order\Checker\OrderSellerChecker;
 use App\Services\Order\Checker\OrderSellerCheckerInterface;
 use App\Services\Order\Checker\OrderStateChecker;
 use App\Services\Order\Checker\OrderStateCheckerInterface;
+use App\Services\Order\Enricher\OrderCompositeByCommentsEnricher;
+use App\Services\Order\Enricher\OrderCompositeByCommentsEnricherInterface;
 use App\Services\Order\Export\OrderExportService;
 use App\Services\Order\Export\OrderExportServiceInterface;
 use App\Services\Order\ManagerExtension\BaseOrderCreatorService;
@@ -170,5 +179,21 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->bind(OrderInspectorProcessorInterface::class, function () {
             return new OrderInspectorProcessor(load_service(UserRepositoryInterface::class));
         });
+
+        // $this->app->bind(OrderCreatorProcessorInterface::class, function () {
+        //     return new OrderCreatorProcessor(load_service(OrderCompositeManagerInterface::class));
+        // });
+
+        $this->app->bind(OrderCreatorProcessorInterface::class, OrderCreatorProcessor::class);
+
+        $this->app->bind(OrderUpdaterProcessorInterface::class, function () {
+            return new OrderUpdaterProcessor(load_service(OrderCompositeManagerInterface::class));
+        });
+
+        $this->app->bind(OrderCompositeByCommentsEnricherInterface::class, function () {
+            return new OrderCompositeByCommentsEnricher(load_service(CommentRepositoryInterface::class));
+        });
+
+        $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);
     }
 }

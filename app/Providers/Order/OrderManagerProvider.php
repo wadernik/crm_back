@@ -8,6 +8,8 @@ use App\Managers\Order\Draft\OrderDraftManager;
 use App\Managers\Order\Draft\OrderDraftManagerInterface;
 use App\Managers\Order\Normal\OrderManager;
 use App\Managers\Order\Normal\OrderManagerInterface;
+use App\Managers\OrderComposite\OrderCompositeManager;
+use App\Managers\OrderComposite\OrderCompositeManagerInterface;
 use App\Managers\OrderSetting\OrderSettingManager;
 use App\Managers\OrderSetting\OrderSettingManagerInterface;
 use Illuminate\Support\ServiceProvider;
@@ -25,5 +27,7 @@ class OrderManagerProvider extends ServiceProvider
             );
         });
         $this->app->bind(OrderSettingManagerInterface::class, OrderSettingManager::class);
+
+        $this->app->bind(OrderCompositeManagerInterface::class, OrderCompositeManager::class);
     }
 }

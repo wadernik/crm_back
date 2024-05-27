@@ -20,10 +20,18 @@ use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\PostOrderCommentController;
 use App\Http\Controllers\Api\Order\ExportOrderController;
 use App\Http\Controllers\Api\Order\OrderActivityController;
-use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
-use App\Http\Controllers\Api\OrderDraft\OrderDraftController;
+use App\Http\Controllers\Api\Order\V2\CreateOrderController;
+use App\Http\Controllers\Api\Order\V2\DeleteOrderController;
+use App\Http\Controllers\Api\Order\V2\GetOrderController;
+use App\Http\Controllers\Api\Order\V2\ListOrderController;
+use App\Http\Controllers\Api\Order\V2\UpdateOrderController;
+use App\Http\Controllers\Api\OrderDraft\V2\CreateOrderDraftController;
+use App\Http\Controllers\Api\OrderDraft\V2\DeleteOrderDraftController;
+use App\Http\Controllers\Api\OrderDraft\V2\GetOrderDraftController;
+use App\Http\Controllers\Api\OrderDraft\V2\ListOrderDraftController;
+use App\Http\Controllers\Api\OrderDraft\V2\UpdateOrderDraftController;
 use App\Http\Controllers\Api\OrderSetting\OrderSettingController;
 use App\Http\Controllers\Api\OrderSetting\OrderSettingDictionaryController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
@@ -186,21 +194,21 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::delete('{id}', 'destroy');
     });
 
-    Route::prefix('orders/drafts')->controller(OrderDraftController::class)->group(static function () {
-        Route::get('', 'index');
-        Route::get('{id}', 'show');
-        Route::post('', 'store');
-        Route::put('{id}', 'update');
-        Route::delete('{id}', 'destroy');
+    Route::prefix('orders/drafts')->middleware(['sanctum.permissions'])->group(static function () {
+        Route::post('', CreateOrderDraftController::class);
+        Route::put('{id}', UpdateOrderDraftController::class);
+        Route::delete('{id}', DeleteOrderDraftController::class);
+        Route::get('{id}', GetOrderDraftController::class);
+        Route::get('', ListOrderDraftController::class);
     });
 
-    Route::prefix('orders')->group(static function () {
-        Route::controller(OrderController::class)->group(static function () {
-            Route::get('', 'index');
-            Route::get('{id}', 'show');
-            Route::post('', 'store');
-            Route::put('{id}', 'update');
-            Route::delete('{id}', 'destroy');
+    Route::prefix('orders')->middleware(['sanctum.permissions'])->group(static function () {
+        Route::middleware(['sanctum.permissions'])->group(static function () {
+            Route::post('', CreateOrderController::class);
+            Route::put('{id}', UpdateOrderController::class);
+            Route::delete('{id}', DeleteOrderController::class);
+            Route::get('{id}', GetOrderController::class);
+            Route::get('', ListOrderController::class);
         });
 
         Route::post('export', ExportOrderController::class);

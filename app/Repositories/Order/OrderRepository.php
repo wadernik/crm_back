@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Throwable;
 
-final class OrderRepositoryRepositoryInterface extends AbstractRepository implements OrderRepositoryInterface
+final class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
     public function __construct(private readonly OrderFilterProcessorInterface $filterProcessor)
     {
