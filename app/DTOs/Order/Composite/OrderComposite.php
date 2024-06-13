@@ -21,7 +21,7 @@ final class OrderComposite implements OrderCompositeInterface
      */
     private array $orderItems = [];
 
-    private OrderContact $contact;
+    private ?OrderContact $contact = null;
 
     /**
      * @var array<Comment>
@@ -88,7 +88,7 @@ final class OrderComposite implements OrderCompositeInterface
         return $this->contact;
     }
 
-    public function setContact(OrderContact $contact): void
+    public function setContact(?OrderContact $contact = null): void
     {
         $this->contact = $contact;
     }
@@ -122,7 +122,7 @@ final class OrderComposite implements OrderCompositeInterface
             $this->items()
         );
 
-        $order['contact'] = $this->contact->toArray();
+        $order['contact'] = $this->contact?->toArray();
 
         $order['comments'] = array_map(
             static fn (Comment $comment): array => $comment->toArray(),

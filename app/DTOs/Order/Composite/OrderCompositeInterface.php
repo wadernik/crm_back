@@ -25,7 +25,7 @@ interface OrderCompositeInterface extends Arrayable
 
     public function contact(): OrderContact;
 
-    public function setContact(OrderContact $contact): void;
+    public function setContact(?OrderContact $contact = null): void;
 
     /**
      * @return array<Comment>
@@ -34,7 +34,7 @@ interface OrderCompositeInterface extends Arrayable
 
     public function setComments(Comment ...$comments): void;
 
-    public  function commentsTotal(): int;
+    public function commentsTotal(): int;
 
     public function setCommentsTotal(int $commentsTotal = 0): void;
 }
