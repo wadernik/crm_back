@@ -26,6 +26,7 @@ class CreateOrderRequest extends FormRequest
             'accepted_date' => 'required|date_format:Y-m-d',
             'order_date' => 'required|date_format:Y-m-d|after_or_equal:today',
             'order_time' => 'required|date_format:H:i',
+            'number' => 'sometimes|string|nullable',
             'number_external' => 'sometimes|string|nullable',
             //
             'items' => 'required|array|min:1',

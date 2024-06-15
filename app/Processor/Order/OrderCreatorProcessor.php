@@ -64,24 +64,14 @@ final class OrderCreatorProcessor implements OrderCreatorProcessorInterface
 
         $orderComposite = new OrderComposite($dto);
 
-        if (empty($request['number'])) {
-            $orderComposite->order()->number = $this->numberGeneratorService->generate(
-                $orderComposite->order()->order_date ?? Carbon::now()->startOfDay()->format('Y-m-d')
-            );
-        }
-
         if (!isset($dto->main()['draft_id'])) {
-            $this->manager->create($orderComposite);
-
-            return $orderComposite;
+            return $this->createOrder($orderComposite);
         }
 
         $draft = $this->draftRepository->find($dto->main()['draft_id']);
 
         if (!$draft) {
-            $this->manager->create($orderComposite);
-
-            return $orderComposite;
+            return $this->createOrder($orderComposite);
         }
 
         $draft->fill($orderComposite->order()->toArray());
@@ -93,6 +83,17 @@ final class OrderCreatorProcessor implements OrderCreatorProcessorInterface
         $this->manager->update($orderComposite);
 
         OrderEntityEvent::dispatch($orderComposite->order(), OrderEntityEventTypeEnum::CREATED);
+
+        return $orderComposite;
+    }
+
+    private function createOrder(OrderCompositeInterface $orderComposite): OrderCompositeInterface
+    {
+        $orderComposite->order()->number = $this->numberGeneratorService->generate(
+            $orderComposite->order()->order_date ?? Carbon::now()->startOfDay()->format('Y-m-d')
+        );
+
+        $this->manager->create($orderComposite);
 
         return $orderComposite;
     }
