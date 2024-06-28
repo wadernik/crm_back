@@ -25,6 +25,14 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
         ?string $offset = null
     ): Collection
     {
+        $this->inner->applyWith(
+            [
+                'items',
+                'items.files:id,filename',
+                'contact',
+            ]
+        );
+
         $orders = $this->inner->findAllBy($criteria, $attributes, $sort, $limit, $offset);
 
         return collect(
@@ -57,13 +65,7 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
 
         $orderComposite->setOrder($order);
 
-        $items = [];
-
-        foreach ($order->items as $item) {
-            $items[] = $item->load('files');
-        }
-
-        $orderComposite->setOrderItems(...$items);
+        $orderComposite->setOrderItems(...$order->items);
 
         $orderComposite->setContact($order->contact);
 

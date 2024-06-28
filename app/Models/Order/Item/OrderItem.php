@@ -18,7 +18,7 @@ class OrderItem extends Model implements OrderItemInterface
     /**
      * @var array<int>
      */
-    private array $files = [];
+    private array $filesCollection = [];
 
     public $timestamps = false;
 
@@ -42,12 +42,12 @@ class OrderItem extends Model implements OrderItemInterface
 
     public function getFilesCollection(): array
     {
-        return $this->files;
+        return $this->filesCollection;
     }
 
     public function setFilesCollection(array $files): void
     {
-        $this->files = $files;
+        $this->filesCollection = $files;
     }
 
     public function files(): BelongsToMany

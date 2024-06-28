@@ -21,6 +21,10 @@ use App\Http\Controllers\Api\Order\Comment\PostOrderCommentController;
 use App\Http\Controllers\Api\Order\ExportOrderController;
 use App\Http\Controllers\Api\Order\OrderActivityController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
+use App\Http\Controllers\Api\Order\Product\DeleteOrderProductController;
+use App\Http\Controllers\Api\Order\Product\ListOrderProductController;
+use App\Http\Controllers\Api\Order\Product\ListPendingOrderProductController;
+use App\Http\Controllers\Api\Order\Product\RestoreOrderProductController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\Order\V2\CreateOrderController;
 use App\Http\Controllers\Api\Order\V2\DeleteOrderController;
@@ -126,7 +130,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('permissions', PermissionDictionaryController::class);
         Route::get('permissions/sections', PermissionSectionDictionaryController::class);
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
-        Route::get('orders/titles', [OrderDictionaryController::class, 'titles']);
+        Route::get('orders/titles', ListOrderProductController::class);
         Route::get('orders/settings', OrderSettingDictionaryController::class);
         Route::get('orders/contacts', [OrderDictionaryController::class, 'contactTypes']);
         Route::get('orders/decorations', [OrderDictionaryController::class, 'decorationTypes']);
@@ -135,6 +139,10 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('sellers', SellerDictionaryController::class);
         Route::get('activities', ActivityDictionaryController::class);
         Route::get('units', UnitDictionaryController::class);
+
+        Route::get('orders/titles/pending', ListPendingOrderProductController::class);
+        Route::post('orders/titles/restore', RestoreOrderProductController::class);
+        Route::post('orders/titles/delete', DeleteOrderProductController::class);
     });
 
     /** Without auth */

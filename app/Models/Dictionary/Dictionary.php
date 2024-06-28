@@ -7,7 +7,7 @@ namespace App\Models\Dictionary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-final class Dictionary extends Model
+final class Dictionary extends Model implements DictionaryInterface
 {
     use SoftDeletes;
 
@@ -16,6 +16,7 @@ final class Dictionary extends Model
         'value',
         'uuid',
         'parent_uuid',
+        'to_delete',
     ];
 
     protected $hidden = [

@@ -62,6 +62,10 @@ use App\Services\Order\Processor\OrderFinalPriceProcessor;
 use App\Services\Order\Processor\OrderFinalPriceProcessorInterface;
 use App\Services\Order\Processor\OrderInspectorProcessor;
 use App\Services\Order\Processor\OrderInspectorProcessorInterface;
+use App\Services\Order\Product\DeleteOrderProductByRequestService;
+use App\Services\Order\Product\DeleteOrderProductByRequestServiceInterface;
+use App\Services\Order\Product\RestoreOrderProductByRequestService;
+use App\Services\Order\Product\RestoreOrderProductByRequestServiceInterface;
 use App\Services\Order\Status\OrderStatusesRetriever;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
 use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorService;
@@ -195,5 +199,15 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);
+
+        $this->app->bind(
+            RestoreOrderProductByRequestServiceInterface::class,
+            RestoreOrderProductByRequestService::class
+        );
+
+        $this->app->bind(
+            DeleteOrderProductByRequestServiceInterface::class,
+            DeleteOrderProductByRequestService::class
+        );
     }
 }

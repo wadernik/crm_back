@@ -25,6 +25,10 @@ final class DictionaryRepository extends AbstractRepository implements Dictionar
             $builder->where('value', 'like', "%{$criteria['filter']['value']}%");
         }
 
-        unset($criteria['filter']['uuids'], $criteria['filter']['value']);
+        if (isset($criteria['filter']['ids'])) {
+            $builder->whereIn('id', $criteria['filter']['ids']);
+        }
+
+        unset($criteria['filter']['uuids'], $criteria['filter']['value'], $criteria['filter']['ids']);
     }
 }

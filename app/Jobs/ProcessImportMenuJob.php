@@ -82,7 +82,9 @@ final class ProcessImportMenuJob implements ShouldQueue, ShouldBeUnique
 
         foreach ($existingRecords as $entity) {
             if ($entity->parent_uuid === $this->menuId) {
-                $entity->delete();
+                $entity->to_delete = true;
+
+                $entity->save();
             }
         }
     }
