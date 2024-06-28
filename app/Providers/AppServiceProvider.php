@@ -44,6 +44,8 @@ use App\Repositories\ManufacturerDateLimit\DateLimitRepository;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
 use App\Repositories\Notification\NotificationRepository;
 use App\Repositories\Notification\NotificationRepositoryInterface;
+use App\Repositories\Notification\NotificationV2Repository;
+use App\Repositories\Notification\NotificationV2RepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
@@ -102,6 +104,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ActivityRepositoryInterface::class, ActivityRepository::class);
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(NotificationV2RepositoryInterface::class, NotificationV2Repository::class);
         $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
         $this->app->bind(PermissionSectionRepositoryInterface::class, PermissionSectionRepository::class);
 

@@ -8,6 +8,7 @@ interface NotificationRepositoryInterface extends FindAllByUserInterface,
                                                   FindAllByUserWithLimitAndOffsetInterface,
                                                   FindAllUnreadByUserWithLimitAndOffsetInterface,
                                                   FindOneByUserAndIdInterface,
-                                                  CountAllByUserInterface
+                                                  CountAllByUserInterface,
+                                                  CountUnreadByUserInterface
 {
 }

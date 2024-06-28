@@ -59,6 +59,11 @@ final class NotificationRepository implements NotificationRepositoryInterface
         return $user->notifications()->count();
     }
 
+    public function countUnreadByUser(User $user): int
+    {
+        return $user->unreadNotifications()->count();
+    }
+
     /**
      * @param MorphMany|Builder $query
      * @param string|null       $limit

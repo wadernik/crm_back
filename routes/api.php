@@ -11,9 +11,10 @@ use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerDictionaryController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitController;
 use App\Http\Controllers\Api\ManufacturerDateLimit\DateLimitDictionaryController;
-use App\Http\Controllers\Api\Notification\NotificationController;
 use App\Http\Controllers\Api\Notification\NotificationMarkAllAsReadController;
 use App\Http\Controllers\Api\Notification\NotificationMarkAsReadController;
+use App\Http\Controllers\Api\Notification\V2\CountUnreadNotificationController;
+use App\Http\Controllers\Api\Notification\V2\ListNotificationController;
 use App\Http\Controllers\Api\Order\Comment\DeleteOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\EditOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
@@ -91,8 +92,8 @@ Route::middleware(['auth:sanctum'])->group(static function () {
      * Notifications
      */
     Route::prefix('notifications')->group(static function () {
-        Route::get('', [NotificationController::class, 'list']);
-        Route::get('unread', [NotificationController::class, 'listUnread']);
+        Route::get('', ListNotificationController::class);
+        Route::get('unread', CountUnreadNotificationController::class);
         Route::post('read/{id}', NotificationMarkAsReadController::class)->whereUuid('id');
         Route::post('read', NotificationMarkAllAsReadController::class);
     });
