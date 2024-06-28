@@ -30,6 +30,8 @@ final class OrderComposite implements OrderCompositeInterface
 
     private int $commentsTotal = 0;
 
+    private int $filesTotal = 0;
+
     public function __construct(private readonly ?OrderDTOInterface $orderDTO = null)
     {
         if (!$this->orderDTO) {
@@ -113,6 +115,16 @@ final class OrderComposite implements OrderCompositeInterface
         $this->commentsTotal = $commentsTotal;
     }
 
+    public function filesTotal(): int
+    {
+        return $this->filesTotal;
+    }
+
+    public function setFilesTotal(int $filesTotal = 0): void
+    {
+        $this->filesTotal = $filesTotal;
+    }
+
     public function toArray(): array
     {
         $order = $this->order->toArray();
@@ -130,6 +142,8 @@ final class OrderComposite implements OrderCompositeInterface
         );
 
         $order['total_comments'] = $this->commentsTotal;
+
+        $order['total_files'] = $this->filesTotal;
 
         return $order;
     }

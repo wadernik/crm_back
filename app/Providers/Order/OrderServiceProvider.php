@@ -19,6 +19,7 @@ use App\Processor\Order\OrderUpdaterProcessorInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Manufacturer\ManufacturerRepositoryInterface;
 use App\Repositories\ManufacturerDateLimit\DateLimitRepositoryInterface;
+use App\Repositories\Order\File\OrderFileRepositoryInterface;
 use App\Repositories\Order\Filter\OrderFilter;
 use App\Repositories\Order\Filter\OrderFilterInterface;
 use App\Repositories\Order\Filter\OrderFilterProcessor;
@@ -195,7 +196,10 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(OrderCompositeByCommentsEnricherInterface::class, function () {
-            return new OrderCompositeByCommentsEnricher(load_service(CommentRepositoryInterface::class));
+            return new OrderCompositeByCommentsEnricher(
+                load_service(CommentRepositoryInterface::class),
+                load_service(OrderFileRepositoryInterface::class)
+            );
         });
 
         $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);

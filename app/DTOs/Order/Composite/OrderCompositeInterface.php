@@ -37,4 +37,8 @@ interface OrderCompositeInterface extends Arrayable
     public function commentsTotal(): int;
 
     public function setCommentsTotal(int $commentsTotal = 0): void;
+
+    public function filesTotal(): int;
+
+    public function setFilesTotal(int $filesTotal = 0): void;
 }

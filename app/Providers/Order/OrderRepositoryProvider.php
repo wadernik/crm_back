@@ -2,6 +2,8 @@
 
 namespace App\Providers\Order;
 
+use App\Repositories\Order\File\OrderFileRepository;
+use App\Repositories\Order\File\OrderFileRepositoryInterface;
 use App\Repositories\Order\Item\OrderItemRepository;
 use App\Repositories\Order\Item\OrderItemRepositoryInterface;
 use App\Repositories\Order\OrderDraftRepository;
@@ -27,5 +29,7 @@ class OrderRepositoryProvider extends ServiceProvider
 
         $this->app->bind(OrderCompositeRepositoryInterface::class, OrderCompositeRepository::class);
         $this->app->bind(OrderDraftCompositeRepositoryInterface::class, OrderDraftCompositeRepository::class);
+
+        $this->app->bind(OrderFileRepositoryInterface::class, OrderFileRepository::class);
     }
 }
