@@ -13,6 +13,6 @@ final class CountUnreadNotificationController extends AbstractApiController
 {
     public function __invoke(NotificationV2RepositoryInterface $repository): JsonResponse
     {
-        return ApiResponse::responseSuccess(data: ['total' => $repository->countUnreadByUser($this->user())]);
+        return ApiResponse::responseSuccess(total: $repository->countUnreadByUser($this->user()));
     }
 }
