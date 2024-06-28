@@ -25,19 +25,21 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
         ?string $offset = null
     ): Collection
     {
-        $this->inner->applyWith(
-            [
-                'items',
-                'items.files:id,filename',
-                'contact',
-            ]
-        );
+        $this->inner->applyWith(['items']);
 
         $orders = $this->inner->findAllBy($criteria, $attributes, $sort, $limit, $offset);
 
         return collect(
             array_map(
-                fn(Order $order): OrderComposite => $this->setupOrderComposite($order),
+                static function (Order $order): OrderComposite {
+                    $orderComposite = new OrderComposite();
+
+                    $orderComposite->setOrder($order);
+
+                    $orderComposite->setOrderItems(...$order->items);
+
+                    return $orderComposite;
+                },
                 $orders->all()
             )
         );
@@ -51,16 +53,6 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
             return null;
         }
 
-        return $this->setupOrderComposite($order);
-    }
-
-    public function count(array $criteria): int
-    {
-        return $this->inner->count($criteria);
-    }
-
-    private function setupOrderComposite(Order $order): OrderComposite
-    {
         $orderComposite = new OrderComposite();
 
         $orderComposite->setOrder($order);
@@ -70,5 +62,10 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
         $orderComposite->setContact($order->contact);
 
         return $orderComposite;
+    }
+
+    public function count(array $criteria): int
+    {
+        return $this->inner->count($criteria);
     }
 }

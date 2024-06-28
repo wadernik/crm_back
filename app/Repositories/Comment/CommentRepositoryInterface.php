@@ -11,6 +11,7 @@ use App\Repositories\Sub\FindAllByCriteriaInterface;
 interface CommentRepositoryInterface extends FindAllByCriteriaInterface,
                                              FindOneByIdInterface,
                                              ApplyWithTrashedInterface,
+                                             AggregateTotalCommentsInterface,
                                              CountInterface
 {
 }
