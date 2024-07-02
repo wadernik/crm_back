@@ -18,7 +18,8 @@ final class NotificationV2Repository implements NotificationV2RepositoryInterfac
     {
         $query = DatabaseNotification::query()
             ->whereMorphedTo('notifiable', User::class)
-            ->where('notifiable_id', $user->id);
+            ->where('notifiable_id', $user->id)
+            ->orderBy('created_at', 'desc');
 
         if ($limit) {
             $query->limit((int) $limit);
