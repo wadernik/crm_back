@@ -20,9 +20,6 @@ return [
         'phone' => 'Phone',
         'invalid_type' => 'Invalid type provided.'
     ],
-    'settings' => [
-        'status_timeout' => 'Order was not processed for a long time.',
-    ],
     'item' => [
         'decoration' => [
             'sweets' => 'With sweets',

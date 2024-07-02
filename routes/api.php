@@ -38,7 +38,7 @@ use App\Http\Controllers\Api\OrderDraft\V2\GetOrderDraftController;
 use App\Http\Controllers\Api\OrderDraft\V2\ListOrderDraftController;
 use App\Http\Controllers\Api\OrderDraft\V2\UpdateOrderDraftController;
 use App\Http\Controllers\Api\OrderSetting\OrderSettingController;
-use App\Http\Controllers\Api\OrderSetting\OrderSettingDictionaryController;
+use App\Http\Controllers\Api\OrderSetting\SettingDictionaryController;
 use App\Http\Controllers\Api\Permission\PermissionDictionaryController;
 use App\Http\Controllers\Api\Permission\Section\PermissionSectionDictionaryController;
 use App\Http\Controllers\Api\Profile\ProfileController;
@@ -46,6 +46,12 @@ use App\Http\Controllers\Api\Role\RoleController;
 use App\Http\Controllers\Api\Role\RoleDictionaryController;
 use App\Http\Controllers\Api\Seller\SellerController;
 use App\Http\Controllers\Api\Seller\SellerDictionaryController;
+use App\Http\Controllers\Api\Setting\CreateSettingController;
+use App\Http\Controllers\Api\Setting\DeleteSettingController;
+use App\Http\Controllers\Api\Setting\GetSettingController;
+use App\Http\Controllers\Api\Setting\ListSettingController;
+use App\Http\Controllers\Api\Setting\ListSettingDictionaryController;
+use App\Http\Controllers\Api\Setting\UpdateSettingController;
 use App\Http\Controllers\Api\Unit\UnitDictionaryController;
 use App\Http\Controllers\Api\Upload\UploadController;
 use App\Http\Controllers\Api\User\ExportUserReportController;
@@ -132,7 +138,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('permissions/sections', PermissionSectionDictionaryController::class);
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
         Route::get('orders/titles', ListOrderProductController::class);
-        Route::get('orders/settings', OrderSettingDictionaryController::class);
+        Route::get('orders/settings', SettingDictionaryController::class);
         Route::get('orders/contacts', [OrderDictionaryController::class, 'contactTypes']);
         Route::get('orders/decorations', [OrderDictionaryController::class, 'decorationTypes']);
         Route::get('manufacturers', ManufacturerDictionaryController::class);
@@ -140,6 +146,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('sellers', SellerDictionaryController::class);
         Route::get('activities', ActivityDictionaryController::class);
         Route::get('units', UnitDictionaryController::class);
+        Route::get('settings', ListSettingDictionaryController::class);
 
         Route::get('orders/titles/pending', ListPendingOrderProductController::class);
         Route::post('orders/titles/restore', RestoreOrderProductController::class);
@@ -201,6 +208,14 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         Route::post('', 'store');
         Route::put('{id}', 'update');
         Route::delete('{id}', 'destroy');
+    });
+
+    Route::prefix('settings')->middleware(['sanctum.permissions'])->group(static function () {
+        Route::get('{id}', GetSettingController::class);
+        Route::get('', ListSettingController::class);
+        Route::post('', CreateSettingController::class);
+        Route::put('{id}', UpdateSettingController::class);
+        Route::delete('{id}', DeleteSettingController::class);
     });
 
     Route::prefix('orders/drafts')->middleware(['sanctum.permissions'])->group(static function () {

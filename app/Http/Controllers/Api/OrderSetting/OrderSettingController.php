@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\OrderSetting;
 
-use App\DTOs\OrderSetting\CreateOrderSettingDTO;
-use App\DTOs\OrderSetting\UpdateOrderSettingDTO;
+use App\DTOs\Setting\CreateSettingDTO;
+use App\DTOs\Setting\UpdateSettingDTO;
 use App\Http\Controllers\Api\AbstractApiController;
-use App\Http\Requests\OrderSetting\CreateOrderSettingRequest;
-use App\Http\Requests\OrderSetting\ListOrderSettingRequest;
-use App\Http\Requests\OrderSetting\UpdateOrderSettingRequest;
+use App\Http\Requests\OrderSetting\CreateSettingRequest;
+use App\Http\Requests\OrderSetting\ListSettingRequest;
+use App\Http\Requests\OrderSetting\UpdateSettingRequest;
 use App\Http\Responses\ApiResponse;
-use App\Managers\OrderSetting\OrderSettingManagerInterface;
-use App\Repositories\OrderSetting\OrderSettingRepositoryInterface;
-use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorServiceInterface;
+use App\Managers\Setting\SettingManagerInterface;
+use App\Repositories\Setting\SettingRepositoryInterface;
+use App\Services\Setting\ManagerExtension\SettingCreatorServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class OrderSettingController extends AbstractApiController
 {
-    public function index(ListOrderSettingRequest $request, OrderSettingRepositoryInterface $repository): JsonResponse
+    public function index(ListSettingRequest $request, SettingRepositoryInterface $repository): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -40,7 +40,7 @@ final class OrderSettingController extends AbstractApiController
         return ApiResponse::responseSuccess(data: $items->toArray(), total: $total);
     }
 
-    public function show(int $id, OrderSettingRepositoryInterface $repository): JsonResponse
+    public function show(int $id, SettingRepositoryInterface $repository): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.view')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
@@ -54,15 +54,15 @@ final class OrderSettingController extends AbstractApiController
     }
 
     public function store(
-        CreateOrderSettingRequest $request,
-        OrderSettingCreatorServiceInterface $manager
+        CreateSettingRequest $request,
+        SettingCreatorServiceInterface $manager
     ): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $dto = new CreateOrderSettingDTO($request->validated());
+        $dto = new CreateSettingDTO($request->validated());
 
         if (!$orderSetting = $manager->create($dto)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
@@ -73,16 +73,16 @@ final class OrderSettingController extends AbstractApiController
 
     public function update(
         int $id,
-        UpdateOrderSettingRequest $request,
-        OrderSettingRepositoryInterface $repository,
-        OrderSettingManagerInterface $manager
+        UpdateSettingRequest $request,
+        SettingRepositoryInterface $repository,
+        SettingManagerInterface $manager
     ): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.edit')) {
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        $dto = new UpdateOrderSettingDTO($request->validated());
+        $dto = new UpdateSettingDTO($request->validated());
 
         if (!$orderSetting = $repository->find($id)) {
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
@@ -95,8 +95,8 @@ final class OrderSettingController extends AbstractApiController
 
     public function destroy(
         int $id,
-        OrderSettingRepositoryInterface $repository,
-        OrderSettingManagerInterface $manager
+        SettingRepositoryInterface $repository,
+        SettingManagerInterface $manager
     ): JsonResponse
     {
         if (!$this->isAllowed('orders.settings.edit')) {

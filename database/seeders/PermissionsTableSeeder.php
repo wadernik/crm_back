@@ -48,6 +48,8 @@ class PermissionsTableSeeder extends Seeder
             ['section_id' => 15, 'name' => 'boards.group.edit', 'label' => 'Редактирование групп'],
             ['section_id' => 16, 'name' => 'orders.settings.view', 'label' => 'Просмотр настроек по заказам'],
             ['section_id' => 16, 'name' => 'orders.settings.edit', 'label' => 'Редактирование настроек по заказам'],
+            ['section_id' => 17, 'name' => 'settings.view', 'label' => 'Просмотр общих настроек'],
+            ['section_id' => 17, 'name' => 'settings.edit', 'label' => 'Редактирование общих настроек'],
         ];
 
         $id = 1;

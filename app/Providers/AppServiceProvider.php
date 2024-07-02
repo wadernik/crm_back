@@ -18,6 +18,8 @@ use App\Managers\Manufacturer\ManufacturerManager;
 use App\Managers\Manufacturer\ManufacturerManagerInterface;
 use App\Managers\ManufacturerDateLimit\DateLimitManager;
 use App\Managers\ManufacturerDateLimit\DateLimitManagerInterface;
+use App\Managers\Notification\DatabaseNotificationManager;
+use App\Managers\Notification\DatabaseNotificationManagerInterface;
 use App\Managers\Role\RoleManager;
 use App\Managers\Role\RoleManagerInterface;
 use App\Managers\Seller\SellerManager;
@@ -123,6 +125,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SellerManagerInterface::class, SellerManager::class);
         $this->app->bind(DateLimitManagerInterface::class, DateLimitManager::class);
         $this->app->bind(CommentManagerInterface::class, CommentManager::class);
+        $this->app->bind(DatabaseNotificationManagerInterface::class, DatabaseNotificationManager::class);
 
         // Task Board
         $this->app->bind(BoardManagerInterface::class, BoardManager::class);

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Notification\ClearIrrelevantReadNotificationsCommand;
+use App\Console\Commands\Notification\ClearIrrelevantUnreadNotificationsCommand;
 use App\Console\Commands\Order\ClearDeletedOrderDraftsCommand;
 use App\Console\Commands\Order\OrderTimeoutNotificationPusherCommand;
 use App\Console\Commands\User\UserOnlineCacheFlusherCommand;
@@ -22,6 +24,8 @@ class Kernel extends ConsoleKernel
         $schedule->command(UserOnlineCacheFlusherCommand::class)->everyFifteenMinutes();
         $schedule->command(ClearDeletedOrderDraftsCommand::class)->daily();
         $schedule->command(OrderTimeoutNotificationPusherCommand::class)->hourly();
+        $schedule->command(ClearIrrelevantUnreadNotificationsCommand::class)->daily();
+        $schedule->command(ClearIrrelevantReadNotificationsCommand::class)->daily();
     }
 
     /**

@@ -67,7 +67,7 @@ class SellersTableSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            Seller::query()->firstOrCreate(['id' => $item['id']], $item);
+            Seller::query()->withTrashed()->firstOrCreate(['id' => $item['id']], $item);
         }
     }
 }

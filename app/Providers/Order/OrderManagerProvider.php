@@ -10,8 +10,8 @@ use App\Managers\Order\Normal\OrderManager;
 use App\Managers\Order\Normal\OrderManagerInterface;
 use App\Managers\OrderComposite\OrderCompositeManager;
 use App\Managers\OrderComposite\OrderCompositeManagerInterface;
-use App\Managers\OrderSetting\OrderSettingManager;
-use App\Managers\OrderSetting\OrderSettingManagerInterface;
+use App\Managers\Setting\SettingManager;
+use App\Managers\Setting\SettingManagerInterface;
 use Illuminate\Support\ServiceProvider;
 use function App\Helpers\Functions\load_service;
 
@@ -26,7 +26,7 @@ class OrderManagerProvider extends ServiceProvider
                 load_service(BaseOrderManagerInterface::class, ['draft' => true])
             );
         });
-        $this->app->bind(OrderSettingManagerInterface::class, OrderSettingManager::class);
+        $this->app->bind(SettingManagerInterface::class, SettingManager::class);
 
         $this->app->bind(OrderCompositeManagerInterface::class, OrderCompositeManager::class);
     }

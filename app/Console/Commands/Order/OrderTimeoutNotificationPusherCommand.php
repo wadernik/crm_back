@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Console\Commands\Order;
 
 use App\Events\Order\OrderOverdueEvent;
+use App\Exceptions\UnexpectedSettingValueTypeException;
 use App\Models\Order\OrderStatus;
-use App\Models\OrderSetting\OrderSettingTypeEnum;
+use App\Models\Setting\Setting;
+use App\Models\Setting\SettingTypeEnum;
+use App\Models\Setting\SettingValueTypeEnum;
 use App\Repositories\Order\OrderRepositoryInterface;
-use App\Repositories\OrderSetting\OrderSettingRepositoryInterface;
+use App\Repositories\Setting\SettingRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use function count;
@@ -20,7 +23,7 @@ final class OrderTimeoutNotificationPusherCommand extends Command
     protected $description = 'Create notifications about overdue orders';
 
     public function __construct(
-        private readonly OrderSettingRepositoryInterface $orderSettingRepository,
+        private readonly SettingRepositoryInterface $settingRepository,
         private readonly OrderRepositoryInterface $orderRepository
     )
     {
@@ -29,15 +32,15 @@ final class OrderTimeoutNotificationPusherCommand extends Command
 
     public function handle(): void
     {
-        $orderSetting = $this->orderSettingRepository->findOneByTypeId(
-            OrderSettingTypeEnum::idsByEnum()[OrderSettingTypeEnum::STATUS_TIMEOUT->value]
+        $orderSetting = $this->settingRepository->findOneByTypeId(
+            SettingTypeEnum::idsByEnum()[SettingTypeEnum::ORDER__STATUS_TIMEOUT->value]
         );
 
         if (!$orderSetting) {
             return;
         }
 
-        $filterDate = Carbon::now()->subHours((int) $orderSetting->value);
+        $filterDate = $this->prepareFilterDateValue($orderSetting);
 
         $this->info('Processing overdue orders');
 
@@ -63,5 +66,21 @@ final class OrderTimeoutNotificationPusherCommand extends Command
         }
 
         $progressBar->finish();
+    }
+
+    private function prepareFilterDateValue(Setting $setting): Carbon
+    {
+        $valueType = SettingValueTypeEnum::tryFromId($setting->value_type_id);
+
+        if (!$valueType) {
+            throw new UnexpectedSettingValueTypeException();
+        }
+
+        return match($valueType) {
+            SettingValueTypeEnum::HOUR => Carbon::now()->subHours((int) $setting->value),
+            SettingValueTypeEnum::DAY => Carbon::now()->subDays((int) $setting->value),
+            SettingValueTypeEnum::WEEK => Carbon::now()->subWeeks((int) $setting->value),
+            SettingValueTypeEnum::MONTH => Carbon::now()->subMonths((int) $setting->value),
+        };
     }
 }

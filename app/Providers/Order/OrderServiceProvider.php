@@ -71,8 +71,8 @@ use App\Services\Order\Product\RestoreOrderProductByRequestService;
 use App\Services\Order\Product\RestoreOrderProductByRequestServiceInterface;
 use App\Services\Order\Status\OrderStatusesRetriever;
 use App\Services\Order\Status\OrderStatusesRetrieverInterface;
-use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorService;
-use App\Services\OrderSetting\ManagerExtension\OrderSettingCreatorServiceInterface;
+use App\Services\Setting\ManagerExtension\SettingCreatorService;
+use App\Services\Setting\ManagerExtension\SettingCreatorServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use function App\Helpers\Functions\load_service;
 
@@ -181,7 +181,7 @@ class OrderServiceProvider extends ServiceProvider
             return new OrderSellerChecker(load_service(SellerRepositoryInterface::class));
         });
 
-        $this->app->bind(OrderSettingCreatorServiceInterface::class, OrderSettingCreatorService::class);
+        $this->app->bind(SettingCreatorServiceInterface::class, SettingCreatorService::class);
 
         $this->app->bind(OrderInspectorProcessorInterface::class, function () {
             return new OrderInspectorProcessor(load_service(UserRepositoryInterface::class));

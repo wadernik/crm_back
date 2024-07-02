@@ -45,6 +45,13 @@ class Handler extends ExceptionHandler
             );
         });
 
+        $this->renderable(function (UnexpectedSettingValueTypeException $exception) {
+            return ApiResponse::responseError(
+                code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                message: $exception->getMessage()
+            );
+        });
+
         parent::register();
     }
 }

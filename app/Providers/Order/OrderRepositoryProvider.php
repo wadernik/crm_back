@@ -14,8 +14,8 @@ use App\Repositories\OrderComposite\OrderCompositeRepository;
 use App\Repositories\OrderComposite\OrderCompositeRepositoryInterface;
 use App\Repositories\OrderComposite\OrderDraftCompositeRepository;
 use App\Repositories\OrderComposite\OrderDraftCompositeRepositoryInterface;
-use App\Repositories\OrderSetting\OrderSettingRepository;
-use App\Repositories\OrderSetting\OrderSettingRepositoryInterface;
+use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Setting\SettingRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class OrderRepositoryProvider extends ServiceProvider
@@ -25,7 +25,7 @@ class OrderRepositoryProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderDraftRepositoryInterface::class, OrderDraftRepository::class);
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
-        $this->app->bind(OrderSettingRepositoryInterface::class, OrderSettingRepository::class);
+        $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
 
         $this->app->bind(OrderCompositeRepositoryInterface::class, OrderCompositeRepository::class);
         $this->app->bind(OrderDraftCompositeRepositoryInterface::class, OrderDraftCompositeRepository::class);
