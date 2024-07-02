@@ -14,6 +14,8 @@ use App\Processor\Order\OrderCreatorProcessor;
 use App\Processor\Order\OrderCreatorProcessorInterface;
 use App\Processor\Order\OrderDraftCreatorProcessor;
 use App\Processor\Order\OrderDraftCreatorProcessorInterface;
+use App\Processor\Order\OrderDraftUpdaterProcessor;
+use App\Processor\Order\OrderDraftUpdaterProcessorInterface;
 use App\Processor\Order\OrderUpdaterProcessor;
 use App\Processor\Order\OrderUpdaterProcessorInterface;
 use App\Repositories\Comment\CommentRepositoryInterface;
@@ -203,6 +205,8 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);
+
+        $this->app->bind(OrderDraftUpdaterProcessorInterface::class, OrderDraftUpdaterProcessor::class);
 
         $this->app->bind(
             RestoreOrderProductByRequestServiceInterface::class,
