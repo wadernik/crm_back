@@ -52,6 +52,16 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
                     ]
                 ));
             }
+
+            if ($contactType === ContactTypeEnum::SOCIAL->value && strlen($contact['value']) > 2056) {
+                $fail(__(
+                    'validation.lt.string',
+                    [
+                        'attribute' => __('attributes.order.contact.value'),
+                        'value' => 2056,
+                    ]
+                ));
+            }
         }
     }
 
