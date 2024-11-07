@@ -43,6 +43,7 @@ final class ProcessImportSellersJob implements ShouldQueue, ShouldBeUnique
                 'name' => $point->name(),
                 'phone' => $point->phone(),
                 'address' => $point->address()->name(),
+                'short_address' => $point->address()->shortName(),
                 'latitude' => $point->address()->latitude(),
                 'longitude' => $point->address()->longitude(),
                 'menu_id' => $point->menu(),

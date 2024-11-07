@@ -30,6 +30,7 @@ final class DooglysSalePointImportService implements DooglysSalePointImportServi
                     'phone_number' => $point['phone_number'],
                     'address' => [
                         'name' => $point['address']['name'] ?? null,
+                        'short_name' => $point['address']['short_name'] ?? null,
                         'lat' => !empty($point['address']['lat']) ? (string) $point['address']['lat'] : null,
                         'long' => !empty($point['address']['long']) ? (string) $point['address']['long'] : null,
                     ],
@@ -41,6 +42,5 @@ final class DooglysSalePointImportService implements DooglysSalePointImportServi
             $salePoints = [];
             $simpleCounter++;
         }
-
     }
 }

@@ -57,6 +57,11 @@ abstract class AbstractSellerDTO
 
     public function toArray(): array
     {
-        return $this->attributes;
+        $attributes = $this->attributes;
+
+        $attributes['short_address'] = $this->address();
+        unset($attributes['address']);
+
+        return $attributes;
     }
 }

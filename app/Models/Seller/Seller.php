@@ -4,6 +4,7 @@ namespace App\Models\Seller;
 
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -19,6 +20,7 @@ class Seller extends Model implements SellerInterface
     protected $fillable = [
         'name',
         'address',
+        'short_address',
         'phone',
         'email',
         'working_hours',
@@ -30,6 +32,10 @@ class Seller extends Model implements SellerInterface
         'created_by',
     ];
 
+    protected $hidden = [
+        'short_address',
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -37,5 +43,14 @@ class Seller extends Model implements SellerInterface
             ->logExcept(['created_at', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function address(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->short_address;
+            }
+        );
     }
 }

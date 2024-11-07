@@ -8,6 +8,7 @@ namespace App\Models\Seller;
  * @property int    $id
  * @property string $name
  * @property string $address
+ * @property string $short_address
  * @property string $phone
  * @property string $email
  * @property string $working_hours
