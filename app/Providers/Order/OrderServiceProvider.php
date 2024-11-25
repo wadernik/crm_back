@@ -206,7 +206,9 @@ class OrderServiceProvider extends ServiceProvider
 
         $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);
 
-        $this->app->bind(OrderDraftUpdaterProcessorInterface::class, OrderDraftUpdaterProcessor::class);
+        $this->app->bind(OrderDraftUpdaterProcessorInterface::class, function () {
+            return new OrderDraftUpdaterProcessor(load_service(OrderCompositeManagerInterface::class));
+        });
 
         $this->app->bind(
             RestoreOrderProductByRequestServiceInterface::class,
