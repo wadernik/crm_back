@@ -42,6 +42,10 @@ class UpdateOrderRequest extends FormRequest
             'contact.id' => 'sometimes|integer|min:1',
             'contact.type_id' => 'required|integer',
             'contact.value' => ['sometimes', 'string', new OrderContactTypeValueRule],
+            'delivery' => 'sometimes|nullable',
+            'delivery.courier_id' => 'sometimes|integer',
+            'delivery.address' => 'sometimes|string|max:2056|nullable',
+            'delivery.delivery_price' => 'sometimes|integer|gt:0|nullable',
         ];
     }
 
@@ -65,6 +69,9 @@ class UpdateOrderRequest extends FormRequest
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
             'contact.value' => __('attributes.order.contact.value'),
+            'delivery.courier_id' => __('attributes.order.delivery.courier_id'),
+            'delivery.address' => __('attributes.order.delivery.address'),
+            'delivery.delivery_price' => __('attributes.order.delivery.delivery_price'),
         ];
     }
 }

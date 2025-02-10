@@ -51,7 +51,9 @@ final class OrderCreatorProcessor implements OrderCreatorProcessorInterface
 
         $dto = new OrderDTO($request);
 
-        if (!$this->orderSellerChecker->check($dto->main()['seller_id'])) {
+        $sellerId = $dto->main()['seller_id'] ?? null;
+
+        if ($sellerId && !$this->orderSellerChecker->check($sellerId)) {
             throw new NotSuitableSellerException(message: __('order.not_suitable_seller'));
         }
 

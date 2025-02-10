@@ -34,6 +34,11 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *     contact: array{
      *          type_id: int,
      *          value: string,
+     *     },
+     *     delivery: array{
+     *          courier_id: int,
+     *          address: string,
+     *          price: int,
      *     }
      * } $attributes
      */
@@ -58,6 +63,11 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
     public function contact(): array
     {
         return $this->attributes['contact'] ?? [];
+    }
+
+    public function delivery(): array
+    {
+        return $this->attributes['delivery'] ?? [];
     }
 
     public function id(): ?int

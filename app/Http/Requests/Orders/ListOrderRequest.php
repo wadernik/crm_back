@@ -29,6 +29,7 @@ class ListOrderRequest extends FormRequest
             'filter.accepted_date_start' => 'sometimes|date_format:Y-m-d',
             'filter.accepted_date_end' => 'sometimes|date_format:Y-m-d',
             'filter.phone' => 'sometimes|regex:/^\d{11}$/',
+            'filter.has_delivery' => 'sometimes|boolean',
             'limit' => 'sometimes',
             'page' => 'sometimes',
             'sort' => 'sometimes|string',
@@ -48,6 +49,7 @@ class ListOrderRequest extends FormRequest
             'filter.order_date' => __('attributes.order.order_date'),
             'filter.order_time' => __('attributes.order.order_time'),
             'filter.phone' => __('attributes.order.phone'),
+            'filter.has_delivery_' => __('attributes.order.has_delivery'),
         ];
     }
 }

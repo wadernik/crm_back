@@ -53,4 +53,8 @@ interface OrderFilterInterface
     public function filterCreatedAtEnd(string $date): void;
 
     public function filterOnlyTrashed(): void;
+
+    public function filterWithTrashed(): void;
+
+    public function filterHasDelivery(bool $hasDelivery): void;
 }

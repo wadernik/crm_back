@@ -18,7 +18,7 @@ class CreateOrderRequest extends FormRequest
         return [
             'manufacturer_id' => 'required|integer',
             'source_id' => 'required|integer',
-            'seller_id' => 'required|integer',
+            'seller_id' => 'required_without:delivery.courier_id|integer',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
             'draft_id' => 'sometimes|integer',
@@ -42,6 +42,10 @@ class CreateOrderRequest extends FormRequest
             'contact' => 'required|array',
             'contact.type_id' => 'required|integer',
             'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
+            'delivery' => 'sometimes|nullable',
+            'delivery.courier_id' => 'required_without:seller_id|integer',
+            'delivery.address' => 'sometimes|string|max:2056|nullable',
+            'delivery.delivery_price' => 'sometimes|integer|gt:0|nullable',
         ];
     }
 
@@ -65,6 +69,9 @@ class CreateOrderRequest extends FormRequest
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
             'contact.value' => __('attributes.order.contact.value'),
+            'delivery.courier_id' => __('attributes.order.delivery.courier_id'),
+            'delivery.address' => __('attributes.order.delivery.address'),
+            'delivery.delivery_price' => __('attributes.order.delivery.delivery_price'),
         ];
     }
 }

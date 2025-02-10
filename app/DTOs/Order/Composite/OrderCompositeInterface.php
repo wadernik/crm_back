@@ -6,6 +6,7 @@ namespace App\DTOs\Order\Composite;
 
 use App\Models\Comment\Comment;
 use App\Models\Order\Contact\OrderContact;
+use App\Models\Order\Delivery\OrderDelivery;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use Illuminate\Contracts\Support\Arrayable;
@@ -41,4 +42,8 @@ interface OrderCompositeInterface extends Arrayable
     public function filesTotal(): int;
 
     public function setFilesTotal(int $filesTotal = 0): void;
+
+    public function delivery(): ?OrderDelivery;
+
+    public function setDelivery(?OrderDelivery $delivery = null): void;
 }

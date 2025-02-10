@@ -7,6 +7,7 @@ namespace App\DTOs\Order\Composite;
 use App\DTOs\Order\OrderDTOInterface;
 use App\Models\Comment\Comment;
 use App\Models\Order\Contact\OrderContact;
+use App\Models\Order\Delivery\OrderDelivery;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use function array_map;
@@ -22,6 +23,8 @@ final class OrderComposite implements OrderCompositeInterface
     private array $orderItems = [];
 
     private ?OrderContact $contact = null;
+
+    private ?OrderDelivery $delivery = null;
 
     /**
      * @var array<Comment>
@@ -63,6 +66,10 @@ final class OrderComposite implements OrderCompositeInterface
         }
 
         $this->contact = new OrderContact($this->orderDTO->contact());
+
+        if ($this->orderDTO->delivery()) {
+            $this->delivery = new OrderDelivery($this->orderDTO->delivery());
+        }
     }
 
     public function order(): Order
@@ -125,6 +132,16 @@ final class OrderComposite implements OrderCompositeInterface
         $this->filesTotal = $filesTotal;
     }
 
+    public function delivery(): ?OrderDelivery
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?OrderDelivery $delivery = null): void
+    {
+        $this->delivery = $delivery;
+    }
+
     public function toArray(): array
     {
         $order = $this->order->toArray();
@@ -144,6 +161,8 @@ final class OrderComposite implements OrderCompositeInterface
         $order['total_comments'] = $this->commentsTotal;
 
         $order['total_files'] = $this->filesTotal;
+
+        $order['delivery'] = $this->delivery?->toArray();
 
         return $order;
     }

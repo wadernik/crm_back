@@ -6,6 +6,7 @@ namespace App\Models\Order;
 
 use App\Models\Manufacturer\Manufacturer;
 use App\Models\Order\Contact\OrderContact;
+use App\Models\Order\Delivery\OrderDelivery;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Seller\Seller;
 use App\Models\Traits\FilterableTrait;
@@ -176,5 +177,10 @@ class Order extends Model implements OrderInterface
     public function contact(): HasOne
     {
         return $this->hasOne(OrderContact::class, 'order_id', 'id');
+    }
+
+    public function delivery(): HasOne
+    {
+        return $this->hasOne(OrderDelivery::class, 'order_id', 'id');
     }
 }

@@ -33,7 +33,13 @@ class OrderContactTypeValueRule implements ValidationRule, DataAwareRule
         }
 
         foreach ($contacts as $contact) {
-            $contactType = ContactTypeEnum::ids()[$contact['type_id']] ?? null;
+            $typeId = $contact['type_id'] ?? null;
+
+            if (!$typeId) {
+                $fail(__('order.contact.invalid_type'));
+            }
+
+            $contactType = ContactTypeEnum::ids()[$typeId] ?? null;
 
             if (!$contactType) {
                 $fail(__('order.contact.invalid_type'));

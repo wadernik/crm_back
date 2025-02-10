@@ -7,6 +7,7 @@ namespace App\Managers\OrderComposite;
 use App\DTOs\Order\Composite\OrderCompositeInterface;
 use App\Exceptions\OrderException;
 use App\Models\Order\Contact\OrderContact;
+use App\Models\Order\Delivery\OrderDelivery;
 use App\Models\Order\Item\OrderItem;
 use App\Models\Order\Order;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,8 @@ final class OrderCompositeManager implements OrderCompositeManagerInterface
             $this->manageItems($order, $orderComposite->items());
 
             $this->manageContact($order, $orderComposite->contact());
+
+            $this->manageDelivery($order, $orderComposite->delivery());
         } catch (Throwable $exception) {
             Log::error($exception->getMessage());
 
@@ -63,6 +66,8 @@ final class OrderCompositeManager implements OrderCompositeManagerInterface
             $this->manageItems($order, $orderComposite->items());
 
             $this->manageContact($order, $orderComposite->contact());
+
+            $this->manageDelivery($order, $orderComposite->delivery());
         } catch (Throwable $exception) {
             Log::error($exception->getMessage());
 
@@ -92,6 +97,10 @@ final class OrderCompositeManager implements OrderCompositeManagerInterface
             }
 
             $order->contact->delete();
+
+            if ($order->delivery) {
+                $order->delivery->delete();
+            }
 
             $order->delete();
         } catch (Throwable $exception) {
@@ -182,5 +191,30 @@ final class OrderCompositeManager implements OrderCompositeManagerInterface
         }
 
         $existingContact->update($contact->toArray());
+    }
+
+    private function manageDelivery(Order $order, ?OrderDelivery $delivery = null): void
+    {
+        $existingDelivery = $order->delivery;
+
+        if (!$delivery && $existingDelivery) {
+            $existingDelivery->delete();
+
+            return;
+        }
+
+        if (!$delivery) {
+            return;
+        }
+
+        $delivery->order_id = $order->id;
+
+        if (!$existingDelivery) {
+            $delivery->save();
+
+            return;
+        }
+
+        $existingDelivery->update($delivery->toArray());
     }
 }

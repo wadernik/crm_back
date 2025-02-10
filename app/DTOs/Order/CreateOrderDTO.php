@@ -33,6 +33,11 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *     contact: array{
      *          type_id: int,
      *          value: string,
+     *     },
+     *     delivery: array{
+     *          courier_id: int,
+     *          address: string,
+     *          price: int,
      *     }
      * } $attributes
      */
@@ -57,6 +62,11 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
     public function contact(): array
     {
         return $this->attributes['contact'] ?? [];
+    }
+
+    public function delivery(): array
+    {
+        return $this->attributes['delivery'] ?? [];
     }
 
     public function toArray(): array

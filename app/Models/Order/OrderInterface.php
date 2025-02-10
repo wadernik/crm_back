@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Order;
 
 use App\Models\Order\Contact\OrderContact;
+use App\Models\Order\Delivery\OrderDelivery;
 use App\Models\Order\Item\OrderItem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,7 @@ use Illuminate\Support\Collection;
  * @property bool                  $draft
  * @property Collection<OrderItem> $items
  * @property OrderContact          $contact
+ * @property OrderDelivery         $delivery
  */
 interface OrderInterface
 {

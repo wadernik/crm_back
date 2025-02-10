@@ -58,6 +58,10 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
             unset($criteria['filter']['draft'], $criteria['filter']['ignore_draft']);
         }
 
+        if (isset($criteria['filter']['has_delivery'])) {
+            $criteria['filter']['has_delivery'] = (bool) $criteria['filter']['has_delivery'];
+        }
+
         $this->filterProcessor->filter($builder, $criteria);
 
         $criteria['filter'] = [];

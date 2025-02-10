@@ -35,7 +35,12 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
      *     contact: array{
      *          type_id: int|null,
      *          value: string|null,
-     *     }
+     *     },
+     *     delivery: array{
+     *          courier_id: int,
+     *          address: string,
+     *          price: int,
+     *      }
      * } $attributes
      */
     public function __construct(private readonly array $attributes)
@@ -59,6 +64,11 @@ final class UpdateOrderDTO implements UpdateOrderDTOInterface
     public function contact(): array
     {
         return $this->attributes['contact'] ?? [];
+    }
+
+    public function delivery(): array
+    {
+        return $this->attributes['delivery'] ?? [];
     }
 
     public function id(): ?int

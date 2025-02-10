@@ -119,4 +119,11 @@ final class OrderFilter implements OrderFilterInterface
     {
         $this->builder->withTrashed();
     }
+
+    public function filterHasDelivery(bool $hasDelivery): void
+    {
+        $hasDelivery
+            ? $this->builder->has('delivery')
+            : $this->builder->doesntHave('delivery');
+    }
 }

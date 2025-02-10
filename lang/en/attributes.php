@@ -15,13 +15,20 @@ return [
         'manufacturer_id' => 'Manufacturer',
         'source_id' => 'Source of order acceptance',
         'seller_id' => 'Pick up point',
-        'file_ids' => 'Files',
+        'files' => 'Files',
+        'number_external' => 'External order number',
         'phone' => 'Phone',
         'unit_id' => 'Unit',
         'contact' => [
             'value' => 'Contact',
             'social' => 'Social',
             'phone' => 'Phone',
+        ],
+        'has_delivery' => 'Delivery',
+        'delivery' => [
+            'courier_id' => 'Courier identifier',
+            'address' => 'Delivery address',
+            'delivery_price' => 'Delivery price',
         ],
     ],
     'user' => [
