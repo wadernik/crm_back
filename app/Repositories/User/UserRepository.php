@@ -135,4 +135,11 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             ->orderBy('id', 'desc')
             ->get();
     }
+
+    public function existsById(int $id): bool
+    {
+        return User::query()
+            ->where('id', $id)
+            ->exists();
+    }
 }
