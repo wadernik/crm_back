@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\Activity\ActivityDictionaryController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Board\Board\BoardController;
 use App\Http\Controllers\Api\Board\Group\GroupController;
+use App\Http\Controllers\Api\Delivery\DeliveriesByUserController;
+use App\Http\Controllers\Api\Delivery\DeliveriesByUsersController;
 use App\Http\Controllers\Api\Import\MenuImportController;
 use App\Http\Controllers\Api\Import\SellerImportController;
 use App\Http\Controllers\Api\Manufacturer\ManufacturerController;
@@ -125,6 +127,12 @@ Route::middleware(['auth:sanctum'])->group(static function () {
 
     /** Logs */
     Route::get('activities', ActivityController::class);
+
+    /** Delivery statistics */
+    Route::prefix('deliveries')->middleware(['sanctum.permissions'])->group(static function () {
+        Route::get('{user_id}', DeliveriesByUserController::class);
+        Route::get('', DeliveriesByUsersController::class);
+    });
 });
 
 /**

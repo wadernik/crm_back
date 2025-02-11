@@ -14,6 +14,8 @@ return new class extends Migration
             $table->unsignedBigInteger('courier_id');
             $table->string('address')->nullable();
             $table->unsignedInteger('delivery_price')->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->dateTime('delivered_at')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

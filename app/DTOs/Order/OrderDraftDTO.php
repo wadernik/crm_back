@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\DTOs\Order;
 
+use Illuminate\Support\Carbon;
+
 final class OrderDraftDTO implements OrderDraftDTOInterface
 {
     /**
@@ -36,9 +38,11 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
      *          value: string,
      *     },
      *     delivery: array{
-     *          courier_id: int,
-     *          address: string,
-     *          price: int,
+     *          courier_id: int|null,
+     *          address: string|null,
+     *          delivery_price: int|null,
+     *          delivery_date: string|null,
+     *          delivered: bool,
      *     }
      * } $attributes
      */
@@ -67,7 +71,24 @@ final class OrderDraftDTO implements OrderDraftDTOInterface
 
     public function delivery(): array
     {
-        return $this->attributes['delivery'] ?? [];
+        $attributes = $this->attributes['delivery'] ?? [];
+
+        if (empty($attributes)) {
+            return [];
+        }
+
+        $result = [
+            'courier_id' => $attributes['courier_id'] ?? null,
+            'address' => $attributes['address'] ?? null,
+            'delivery_price' => $attributes['delivery_price'] ?? null,
+            'delivery_date' => $attributes['delivery_date'] ?? null,
+        ];
+
+        $delivered = (bool) ($attributes['delivered'] ?? null);
+
+        $result['delivered_at'] = $delivered ? Carbon::now() : null;
+
+        return $result;
     }
 
     public function id(): ?int

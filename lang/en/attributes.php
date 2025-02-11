@@ -29,6 +29,9 @@ return [
             'courier_id' => 'Courier identifier',
             'address' => 'Delivery address',
             'delivery_price' => 'Delivery price',
+            'delivery_date' => 'Expecting delivery date',
+            'delivered_at' => 'Actual delivery date',
+            'delivered' => 'Delivered',
         ],
     ],
     'user' => [

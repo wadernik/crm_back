@@ -7,7 +7,6 @@ use App\Models\Role\Role;
 use App\Models\Traits\FilterableTrait;
 use App\Models\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,7 +23,6 @@ class User extends Authenticatable implements UserInterface
 {
     use FilterableTrait;
     use HasApiTokens;
-    use HasFactory;
     use Notifiable;
     use SortableTrait;
     use SoftDeletes;

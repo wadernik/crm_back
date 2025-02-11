@@ -46,6 +46,8 @@ class UpdateOrderRequest extends FormRequest
             'delivery.courier_id' => 'sometimes|integer',
             'delivery.address' => 'sometimes|string|max:2056|nullable',
             'delivery.delivery_price' => 'sometimes|integer|gt:0|nullable',
+            'delivery.delivery_date' => 'sometimes|date_format:Y-m-d|nullable',
+            'delivery.delivered' => 'sometimes|boolean',
         ];
     }
 
@@ -72,6 +74,8 @@ class UpdateOrderRequest extends FormRequest
             'delivery.courier_id' => __('attributes.order.delivery.courier_id'),
             'delivery.address' => __('attributes.order.delivery.address'),
             'delivery.delivery_price' => __('attributes.order.delivery.delivery_price'),
+            'delivery.delivery_date' => __('attributes.order.delivery.delivery_date'),
+            'delivery.delivered' => __('attributes.order.delivery.delivered'),
         ];
     }
 }

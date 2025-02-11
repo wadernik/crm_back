@@ -29,6 +29,11 @@ return [
             'courier_id' => 'Идентификатор курьера',
             'address' => 'Адрес',
             'delivery_price' => 'Стоимость доставки',
+            'delivery_date' => 'Ожидаемая дата доставки',
+            'delivered_at' => 'Фактическая дата доставки',
+            'delivered' => 'Доставлено',
+            'delivery_date_start' => 'Дата доставки от',
+            'delivery_date_end' => 'Дата доставки по',
         ],
     ],
     'user' => [
