@@ -67,6 +67,8 @@ final class OrderDraftCompositeRepository implements OrderDraftCompositeReposito
 
         $orderComposite->setContact($order->contact);
 
+        $orderComposite->setDelivery($order->delivery);
+
         return $orderComposite;
     }
 }
