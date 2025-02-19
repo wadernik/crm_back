@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Models\User\User;
+
 interface AuthUserServiceInterface
 {
     public function getToken(array $attributes, string $deviceName = 'auth_token'): string;
@@ -13,4 +15,6 @@ interface AuthUserServiceInterface
     public function revokeTokenById(int $id): void;
 
     public function revokeAllTokens(): void;
+
+    public function revokeAllTokensByUser(User $user): void;
 }

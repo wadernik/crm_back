@@ -44,4 +44,9 @@ class AuthUserService implements AuthUserServiceInterface
     {
         auth('sanctum')->user()?->tokens()->delete();
     }
+
+    public function revokeAllTokensByUser(User $user): void
+    {
+        $user->tokens()->delete();
+    }
 }

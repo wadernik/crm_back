@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\PostOrderCommentController;
 use App\Http\Controllers\Api\Order\ExportOrderController;
 use App\Http\Controllers\Api\Order\OrderActivityController;
+use App\Http\Controllers\Api\Order\OrderDeliverySetCourierController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\Product\DeleteOrderProductController;
 use App\Http\Controllers\Api\Order\Product\ListOrderProductController;
@@ -61,9 +62,6 @@ use App\Http\Controllers\Api\User\ListUserReportController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\UserDictionaryController;
 use App\Http\Controllers\Api\User\UserStatusDictionaryController;
-use App\Http\Controllers\Api\VK\AuthVkAppController;
-use App\Http\Controllers\Api\VK\CreateOrUpdateVkTokenController;
-use App\Http\Controllers\Api\VK\RemoveVkTokenController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -77,11 +75,11 @@ Route::prefix('auth')->group(static function () {
 /**
  * Auth VK
  */
-Route::prefix('vk')->group(static function () {
-    Route::get('authorize', [AuthVkAppController::class, 'auth']);
-    Route::get('redirect', [CreateOrUpdateVkTokenController::class, 'createOrUpdate']);
-    Route::delete('logout', [RemoveVkTokenController::class, 'destroy']);
-});
+// Route::prefix('vk')->group(static function () {
+    // Route::get('authorize', [AuthVkAppController::class, 'auth']);
+    // Route::get('redirect', [CreateOrUpdateVkTokenController::class, 'createOrUpdate']);
+    // Route::delete('logout', [RemoveVkTokenController::class, 'destroy']);
+// });
 
 /**
  * Endpoints with required authorization
@@ -241,6 +239,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
             Route::delete('{id}', DeleteOrderController::class);
             Route::get('{id}', GetOrderController::class);
             Route::get('', ListOrderController::class);
+            Route::post('{id}/deliver', OrderDeliverySetCourierController::class);
         });
 
         Route::post('export', ExportOrderController::class);

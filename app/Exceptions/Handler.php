@@ -52,6 +52,20 @@ class Handler extends ExceptionHandler
             );
         });
 
+        $this->renderable(function (OrderDoesNotHaveDeliveryException $exception) {
+            return ApiResponse::responseError(
+                code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                message: $exception->getMessage()
+            );
+        });
+
+        $this->renderable(function (OrderAlreadyHasCourier $exception) {
+            return ApiResponse::responseError(
+                code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                message: $exception->getMessage()
+            );
+        });
+
         parent::register();
     }
 }
