@@ -31,6 +31,8 @@ final class UserRevokeAllTokensDueToPermissionsUpdate extends Command
             $progressBar->advance();
         }
 
+        $this->newLine();
+
         $progressBar->finish();
     }
 }
