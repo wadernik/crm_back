@@ -25,7 +25,7 @@ final class OrderCompositeRepository implements OrderCompositeRepositoryInterfac
         ?string $offset = null
     ): Collection
     {
-        $this->inner->applyWith(['items', 'items.files:id,filename', 'delivery:id,order_id']);
+        $this->inner->applyWith(['items', 'items.files:id,filename', 'delivery']);
 
         $orders = $this->inner->findAllBy($criteria, $attributes, $sort, $limit, $offset);
 
