@@ -69,6 +69,7 @@ class CreateOrderDraftRequest extends FormRequest
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
             'contact.value' => __('attributes.order.contact.value'),
+            'delivery' => __('attributes.order.delivery.name'),
             'delivery.courier_id' => __('attributes.order.delivery.courier_id'),
             'delivery.address' => __('attributes.order.delivery.address'),
             'delivery.delivery_price' => __('attributes.order.delivery.delivery_price'),

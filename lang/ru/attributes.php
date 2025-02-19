@@ -26,6 +26,7 @@ return [
         ],
         'has_delivery' => 'Доставка',
         'delivery' => [
+            'name' => 'Доставка',
             'courier_id' => 'Идентификатор курьера',
             'address' => 'Адрес',
             'delivery_price' => 'Стоимость доставки',

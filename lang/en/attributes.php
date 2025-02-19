@@ -26,6 +26,7 @@ return [
         ],
         'has_delivery' => 'Delivery',
         'delivery' => [
+            'name' => 'Delivery',
             'courier_id' => 'Courier identifier',
             'address' => 'Delivery address',
             'delivery_price' => 'Delivery price',

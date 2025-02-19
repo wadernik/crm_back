@@ -18,7 +18,7 @@ class CreateOrderRequest extends FormRequest
         return [
             'manufacturer_id' => 'required|integer',
             'source_id' => 'required|integer',
-            'seller_id' => 'required_without:delivery.courier_id|integer',
+            'seller_id' => 'required_without:delivery|integer',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
             'draft_id' => 'sometimes|integer',
@@ -42,11 +42,11 @@ class CreateOrderRequest extends FormRequest
             'contact' => 'required|array',
             'contact.type_id' => 'required|integer',
             'contact.value' => ['required', 'string', new OrderContactTypeValueRule],
-            'delivery' => 'sometimes|nullable',
-            'delivery.courier_id' => 'required_without:seller_id|integer',
-            'delivery.address' => 'sometimes|string|max:2056|nullable',
-            'delivery.delivery_price' => 'sometimes|integer|gt:0|nullable',
-            'delivery.delivery_date' => 'sometimes|date_format:Y-m-d|nullable',
+            'delivery' => 'sometimes|required_without:seller_id|array|nullable',
+            'delivery.courier_id' => 'sometimes|integer',
+            'delivery.address' => 'required_with:delivery|string|max:2056|nullable',
+            'delivery.delivery_price' => 'required_with:delivery|integer|gt:0|nullable',
+            'delivery.delivery_date' => 'required_with:delivery|date_format:Y-m-d|nullable',
             'delivery.delivered' => 'sometimes|boolean',
         ];
     }
@@ -71,6 +71,7 @@ class CreateOrderRequest extends FormRequest
             'items.*.amount' => __('attributes.order.amount'),
             'items.*.files' => __('attributes.order.files'),
             'contact.value' => __('attributes.order.contact.value'),
+            'delivery' => __('attributes.order.delivery.name'),
             'delivery.courier_id' => __('attributes.order.delivery.courier_id'),
             'delivery.address' => __('attributes.order.delivery.address'),
             'delivery.delivery_price' => __('attributes.order.delivery.delivery_price'),
