@@ -32,6 +32,8 @@ return [
             'delivery_date' => 'Expecting delivery date',
             'delivered_at' => 'Actual delivery date',
             'delivered' => 'Delivered',
+            'delivery_date_start' => 'Delivery date from',
+            'delivery_date_end' => 'Delivery date to',
         ],
     ],
     'user' => [

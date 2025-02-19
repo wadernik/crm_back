@@ -126,4 +126,18 @@ final class OrderFilter implements OrderFilterInterface
             ? $this->builder->has('delivery')
             : $this->builder->doesntHave('delivery');
     }
+
+    public function filterCourierId(int|string $courierId): void
+    {
+        $this->builder->whereHas('delivery', function (Builder $query) use ($courierId) {
+            $query->where('courier_id', $courierId);
+        });
+    }
+
+    public function filterDeliveryDate(string $date): void
+    {
+        $this->builder->whereHas('delivery', function (Builder $query) use ($date) {
+            $query->where('delivery_date', $date);
+        });
+    }
 }
