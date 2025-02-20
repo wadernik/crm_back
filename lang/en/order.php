@@ -28,4 +28,9 @@ return [
             'mastic' => 'With mastic',
         ],
     ],
+    'label' => [
+        'store' => 'Store',
+        'delivery' => 'Delivery',
+        'my_delivery' => 'My deliveries',
+    ],
 ];

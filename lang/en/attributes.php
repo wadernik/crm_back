@@ -11,6 +11,8 @@ return [
         'decoration_type' => 'Decoration type',
         'accepted_date' => 'Order acceptance date',
         'order_date' => 'Order pick up date',
+        'order_date_start' => 'Order date from',
+        'order_date_end' => 'Order date to',
         'order_time' => 'Order pick up time',
         'manufacturer_id' => 'Manufacturer',
         'source_id' => 'Source of order acceptance',
@@ -36,6 +38,8 @@ return [
             'delivery_date_start' => 'Delivery date from',
             'delivery_date_end' => 'Delivery date to',
         ],
+        'date_start' => 'Date from',
+        'date_end' => 'Date to',
     ],
     'user' => [
         'id' => 'Employee',

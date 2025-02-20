@@ -57,4 +57,12 @@ interface OrderFilterInterface
     public function filterWithTrashed(): void;
 
     public function filterHasDelivery(bool $hasDelivery): void;
+
+    public function filterCourierId(int|string $courierId): void;
+
+    public function filterDeliveryDate(string $date): void;
+
+    public function filterDeliveryDateStart(string $date): void;
+
+    public function filterDeliveryDateEnd(string $date): void;
 }

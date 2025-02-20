@@ -11,6 +11,8 @@ return [
         'decoration_type' => 'Тип оформления',
         'accepted_date' => 'Дата принятия',
         'order_date' => 'Дата исполнения',
+        'order_date_start' => 'Дата исполнения от',
+        'order_date_end' => 'Дата исполнения до',
         'order_time' => 'Время исполнения',
         'manufacturer_id' => 'Производство',
         'source_id' => 'Источник заказа',
@@ -36,6 +38,8 @@ return [
             'delivery_date_start' => 'Дата доставки от',
             'delivery_date_end' => 'Дата доставки по',
         ],
+        'date_start' => 'Дата от',
+        'date_end' => 'Дата до',
     ],
     'user' => [
         'id' => 'Сотрудник',

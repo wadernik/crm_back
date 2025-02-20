@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Order\Comment\ListOrderCommentController;
 use App\Http\Controllers\Api\Order\Comment\PostOrderCommentController;
 use App\Http\Controllers\Api\Order\ExportOrderController;
 use App\Http\Controllers\Api\Order\OrderActivityController;
+use App\Http\Controllers\Api\Order\OrderCounterController;
 use App\Http\Controllers\Api\Order\OrderDeliverySetCourierController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
 use App\Http\Controllers\Api\Order\Product\DeleteOrderProductController;
@@ -240,6 +241,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
             Route::get('{id}', GetOrderController::class);
             Route::get('', ListOrderController::class);
             Route::post('{id}/deliver', OrderDeliverySetCourierController::class);
+            Route::post('counter', OrderCounterController::class);
         });
 
         Route::post('export', ExportOrderController::class);

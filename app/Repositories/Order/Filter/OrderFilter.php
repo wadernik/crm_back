@@ -140,4 +140,18 @@ final class OrderFilter implements OrderFilterInterface
             $query->where('delivery_date', $date);
         });
     }
+
+    public function filterDeliveryDateStart(string $date): void
+    {
+        $this->builder->whereHas('delivery', function (Builder $query) use ($date) {
+            $query->where('delivery_date', '>=', $date);
+        });
+    }
+
+    public function filterDeliveryDateEnd(string $date): void
+    {
+        $this->builder->whereHas('delivery', function (Builder $query) use ($date) {
+            $query->where('delivery_date', '<=', $date);
+        });
+    }
 }
