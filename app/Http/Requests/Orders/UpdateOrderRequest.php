@@ -18,7 +18,7 @@ class UpdateOrderRequest extends FormRequest
         return [
             'manufacturer_id' => 'sometimes|integer',
             'source_id' => 'sometimes|integer',
-            'seller_id' => 'sometimes|required_without:delivery|integer',
+            'seller_id' => 'sometimes|required_without:delivery|integer|nullable',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
             'phone' => 'sometimes|regex:/^\d{11}$/|nullable',

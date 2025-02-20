@@ -18,7 +18,7 @@ class CreateOrderRequest extends FormRequest
         return [
             'manufacturer_id' => 'required|integer',
             'source_id' => 'required|integer',
-            'seller_id' => 'required_without:delivery|integer',
+            'seller_id' => 'required_without:delivery|integer|nullable',
             'user_id' => 'sometimes|integer',
             'inspector_id' => 'sometimes|integer',
             'draft_id' => 'sometimes|integer',
