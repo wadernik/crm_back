@@ -241,7 +241,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
             Route::get('{id}', GetOrderController::class);
             Route::get('', ListOrderController::class);
             Route::post('{id}/deliver', OrderDeliverySetCourierController::class);
-            Route::post('counter', OrderCounterController::class);
+            Route::get('counter', OrderCounterController::class);
         });
 
         Route::post('export', ExportOrderController::class);
