@@ -29,7 +29,7 @@ return [
         ],
     ],
     'label' => [
-        'store' => 'Store',
+        'store' => 'Stores',
         'delivery' => 'Delivery',
         'my_delivery' => 'My deliveries',
     ],

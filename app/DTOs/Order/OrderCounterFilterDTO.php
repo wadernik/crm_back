@@ -7,10 +7,10 @@ namespace App\DTOs\Order;
 final class OrderCounterFilterDTO
 {
     /**
-     * @param array{
+     * @param array<array{
      *     date_start: string|null,
      *     date_end: string|null
-     * } $filter
+     * }> $filter
      */
     public function __construct(private readonly array $filter, private readonly int $userId)
     {
@@ -18,12 +18,12 @@ final class OrderCounterFilterDTO
 
     public function getDateStart(): ?string
     {
-        return $this->filter['date_start'] ?? null;
+        return $this->filter['filter']['date_start'] ?? null;
     }
 
     public function getDateEnd(): ?string
     {
-        return $this->filter['date_end'] ?? null;
+        return $this->filter['filter']['date_end'] ?? null;
     }
 
     public function getUserId(): int
