@@ -23,6 +23,7 @@ class OrderDelivery extends Model implements OrderDeliveryInterface
         'address',
         'delivery_price',
         'delivery_date',
+        'client_phone',
         'delivered_at',
     ];
 

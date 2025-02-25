@@ -41,6 +41,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
      *          address: string|null,
      *          delivery_price: int|null,
      *          delivery_date: string|null,
+     *          client_phone: string|null,
      *          delivered: bool,
      *     }
      * } $attributes
@@ -81,6 +82,7 @@ final class CreateOrderDTO implements CreateOrderDTOInterface
             'address' => $attributes['address'] ?? null,
             'delivery_price' => $attributes['delivery_price'] ?? null,
             'delivery_date' => $attributes['delivery_date'] ?? null,
+            'client_phone' => $attributes['client_phone'] ?? null,
         ];
 
         $delivered = (bool) ($attributes['delivered'] ?? null);

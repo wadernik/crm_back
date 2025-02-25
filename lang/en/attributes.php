@@ -33,6 +33,7 @@ return [
             'address' => 'Delivery address',
             'delivery_price' => 'Delivery price',
             'delivery_date' => 'Expecting delivery date',
+            'client_phone' => 'Client phone',
             'delivered_at' => 'Actual delivery date',
             'delivered' => 'Delivered',
             'delivery_date_start' => 'Delivery date from',

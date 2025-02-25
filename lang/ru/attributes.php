@@ -33,6 +33,7 @@ return [
             'address' => 'Адрес',
             'delivery_price' => 'Стоимость доставки',
             'delivery_date' => 'Ожидаемая дата доставки',
+            'client_phone' => 'Телефон получателя',
             'delivered_at' => 'Фактическая дата доставки',
             'delivered' => 'Доставлено',
             'delivery_date_start' => 'Дата доставки от',
