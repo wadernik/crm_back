@@ -13,6 +13,7 @@ use App\Exceptions\NotSuitableSellerException;
 use App\Exceptions\OrderException;
 use App\Managers\OrderComposite\OrderCompositeManagerInterface;
 use App\Models\Order\OrderStatus;
+use App\Processor\Delivery\OrderDeliveryCourierSetterProcessor;
 use App\Repositories\Order\OrderDraftRepositoryInterface;
 use App\Services\Order\Checker\OrderCreationRestrictionByManufacturerCheckerInterface;
 use App\Services\Order\Checker\OrderSellerCheckerInterface;
@@ -31,6 +32,7 @@ final class OrderCreatorProcessor implements OrderCreatorProcessorInterface
         private readonly OrderCreationRestrictionByManufacturerCheckerInterface $orderCreationRestrictionChecker,
         private readonly OrderNumberGeneratorServiceInterface $numberGeneratorService,
         private readonly OrderInspectorProcessorInterface $orderInspectorProcessor,
+        private readonly OrderDeliveryCourierSetterProcessor $courierSetterProcessor,
     )
     {
     }
@@ -65,6 +67,8 @@ final class OrderCreatorProcessor implements OrderCreatorProcessorInterface
         }
 
         $orderComposite = new OrderComposite($dto);
+
+        $this->courierSetterProcessor->addCourierToDeliveryIfNotSet($orderComposite);
 
         if (!isset($dto->main()['draft_id'])) {
             return $this->createOrder($orderComposite);

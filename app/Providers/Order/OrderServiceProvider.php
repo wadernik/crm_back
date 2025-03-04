@@ -10,6 +10,7 @@ use App\Formatters\Notification\DatabaseNotificationFormatterInterface;
 use App\Managers\Order\Draft\OrderDraftManagerInterface;
 use App\Managers\Order\Normal\OrderManagerInterface;
 use App\Managers\OrderComposite\OrderCompositeManagerInterface;
+use App\Processor\Delivery\OrderDeliveryCourierSetterProcessor;
 use App\Processor\Order\OrderCreatorProcessor;
 use App\Processor\Order\OrderCreatorProcessorInterface;
 use App\Processor\Order\OrderDraftCreatorProcessor;
@@ -194,7 +195,10 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->bind(OrderCreatorProcessorInterface::class, OrderCreatorProcessor::class);
 
         $this->app->bind(OrderUpdaterProcessorInterface::class, function () {
-            return new OrderUpdaterProcessor(load_service(OrderCompositeManagerInterface::class));
+            return new OrderUpdaterProcessor(
+                load_service(OrderCompositeManagerInterface::class),
+                load_service(OrderDeliveryCourierSetterProcessor::class),
+            );
         });
 
         $this->app->bind(OrderCompositeByCommentsEnricherInterface::class, function () {
@@ -207,7 +211,10 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->bind(OrderDraftCreatorProcessorInterface::class, OrderDraftCreatorProcessor::class);
 
         $this->app->bind(OrderDraftUpdaterProcessorInterface::class, function () {
-            return new OrderDraftUpdaterProcessor(load_service(OrderCompositeManagerInterface::class));
+            return new OrderDraftUpdaterProcessor(
+                load_service(OrderCompositeManagerInterface::class),
+                load_service(OrderDeliveryCourierSetterProcessor::class),
+            );
         });
 
         $this->app->bind(

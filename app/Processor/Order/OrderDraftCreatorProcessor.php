@@ -9,6 +9,7 @@ use App\DTOs\Order\Composite\OrderCompositeInterface;
 use App\DTOs\Order\OrderDTO;
 use App\Managers\OrderComposite\OrderCompositeManagerInterface;
 use App\Models\Order\OrderStatus;
+use App\Processor\Delivery\OrderDeliveryCourierSetterProcessor;
 use App\Services\Order\OrderNumber\OrderNumberGeneratorServiceInterface;
 use App\Services\Order\Processor\OrderInspectorProcessorInterface;
 use Illuminate\Support\Carbon;
@@ -20,6 +21,7 @@ final class OrderDraftCreatorProcessor implements OrderDraftCreatorProcessorInte
         private readonly OrderCompositeManagerInterface $manager,
         private readonly OrderNumberGeneratorServiceInterface $numberGeneratorService,
         private readonly OrderInspectorProcessorInterface $orderInspectorProcessor,
+        private readonly OrderDeliveryCourierSetterProcessor $courierSetterProcessor,
     )
     {
     }
@@ -45,6 +47,8 @@ final class OrderDraftCreatorProcessor implements OrderDraftCreatorProcessorInte
         $orderComposite->order()->number = $this->numberGeneratorService->generate(
             $orderComposite->order()->order_date ?? Carbon::now()->startOfDay()->format('Y-m-d')
         );
+
+        $this->courierSetterProcessor->addCourierToDeliveryIfNotSet($orderComposite);
 
         $this->manager->create($orderComposite);
 
