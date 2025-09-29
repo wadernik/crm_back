@@ -7,6 +7,6 @@ namespace App\Repositories\Dictionary;
 use App\Repositories\Sub\CountInterface;
 use App\Repositories\Sub\FindAllByCriteriaInterface;
 
-interface DictionaryRepositoryInterface extends FindAllByCriteriaInterface, CountInterface
+interface DictionaryRepositoryInterface extends FindAllByCriteriaInterface, FindOneByIdAndTypeIdInterface, CountInterface
 {
 }

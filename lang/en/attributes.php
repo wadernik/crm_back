@@ -41,6 +41,9 @@ return [
         ],
         'date_start' => 'Date from',
         'date_end' => 'Date to',
+        'product' => [
+            'name' => 'Name',
+        ],
     ],
     'user' => [
         'id' => 'Employee',

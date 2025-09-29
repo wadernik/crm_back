@@ -31,4 +31,15 @@ final class DictionaryRepository extends AbstractRepository implements Dictionar
 
         unset($criteria['filter']['uuids'], $criteria['filter']['value'], $criteria['filter']['ids']);
     }
+
+    public function find(int $id, int $typeId): ?Dictionary
+    {
+        /** @var ?Dictionary $dictionaryItem */
+        $dictionaryItem = Dictionary::query()
+            ->where('type', $typeId)
+            ->find($id)
+        ;
+
+        return $dictionaryItem;
+    }
 }

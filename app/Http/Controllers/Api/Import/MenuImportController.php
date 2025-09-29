@@ -18,7 +18,7 @@ final class MenuImportController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_FORBIDDEN);
         }
 
-        ImportMenuJob::dispatch();
+        // ImportMenuJob::dispatch();
 
         return ApiResponse::responseSuccess();
     }

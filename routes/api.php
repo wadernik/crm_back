@@ -26,10 +26,14 @@ use App\Http\Controllers\Api\Order\OrderActivityController;
 use App\Http\Controllers\Api\Order\OrderCounterController;
 use App\Http\Controllers\Api\Order\OrderDeliverySetCourierController;
 use App\Http\Controllers\Api\Order\OrderDictionaryController;
+use App\Http\Controllers\Api\Order\Product\CreateOrderProductController;
+use App\Http\Controllers\Api\Order\Product\DeleteByRequestOrderProductController;
 use App\Http\Controllers\Api\Order\Product\DeleteOrderProductController;
+use App\Http\Controllers\Api\Order\Product\GetOrderProductController;
 use App\Http\Controllers\Api\Order\Product\ListOrderProductController;
 use App\Http\Controllers\Api\Order\Product\ListPendingOrderProductController;
 use App\Http\Controllers\Api\Order\Product\RestoreOrderProductController;
+use App\Http\Controllers\Api\Order\Product\UpdateOrderProductController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\Order\V2\CreateOrderController;
 use App\Http\Controllers\Api\Order\V2\DeleteOrderController;
@@ -157,7 +161,7 @@ Route::prefix('dictionary')->group(static function () {
 
         Route::get('orders/titles/pending', ListPendingOrderProductController::class);
         Route::post('orders/titles/restore', RestoreOrderProductController::class);
-        Route::post('orders/titles/delete', DeleteOrderProductController::class);
+        Route::post('orders/titles/delete', DeleteByRequestOrderProductController::class);
     });
 
     /** Without auth */
@@ -253,6 +257,14 @@ Route::middleware(['auth:sanctum'])->group(static function () {
             ->whereNumber(['orderId', 'commentId']);
         Route::delete('{orderId}/comments/{commentId}', DeleteOrderCommentController::class)
             ->whereNumber(['orderId', 'commentId']);
+
+        Route::prefix('products')->group(static function () {
+            Route::post('', CreateOrderProductController::class);
+            Route::put('{id}', UpdateOrderProductController::class);
+            Route::get('{id}', GetOrderProductController::class);
+            Route::get('', ListOrderProductController::class);
+            Route::delete('{id}', DeleteOrderProductController::class);
+        });
     });
 });
 

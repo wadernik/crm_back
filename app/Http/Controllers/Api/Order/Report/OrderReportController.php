@@ -2,28 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Order\V2;
+namespace App\Http\Controllers\Api\Order\Report;
 
 use App\Attributes\Permission;
 use App\DTOs\Order\Composite\OrderCompositeInterface;
 use App\Http\Controllers\Api\AbstractApiController;
-use App\Http\Requests\Orders\ListOrderRequest;
+use App\Http\Requests\Orders\OrderReportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Repositories\OrderComposite\OrderCompositeRepositoryInterface;
 use App\Services\Order\Enricher\OrderCompositeByCommentsEnricherInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-
-use function array_map;
-use function json_encode;
 
 #[Permission('orders.view')]
-final class ListOrderController extends AbstractApiController
+final class OrderReportController extends AbstractApiController
 {
     public function __invoke(
-        ListOrderRequest $request,
+        OrderReportRequest $request,
         OrderCompositeRepositoryInterface $repository,
-        OrderCompositeByCommentsEnricherInterface $enricher
     ): JsonResponse {
         $requestData = $request->validated();
 
@@ -39,14 +34,6 @@ final class ListOrderController extends AbstractApiController
         $items = $repository->findAllBy(criteria: $requestData, sort: $sort, limit: $limit, offset: $offset);
 
         $total = $repository->count($requestData);
-
-        $items = $enricher->enrichCollection(...$items);
-
-        Log::info('Request: ' . json_encode([
-                'url' => $request->getUri(),
-                'request' => $request->validated(),
-            ], JSON_THROW_ON_ERROR)
-        );
 
         return ApiResponse::responseSuccess(
             data: array_map(
