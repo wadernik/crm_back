@@ -7,8 +7,9 @@ namespace App\Http\Controllers\Api\Order\Product;
 use App\Attributes\Permission;
 use App\DTOs\OrderProduct\UpdateProductDto;
 use App\Http\Controllers\Api\AbstractApiController;
-use App\Http\Requests\OrderProduct\CreateOrderProductRequest;
+use App\Http\Requests\OrderProduct\UpdateOrderProductRequest;
 use App\Http\Responses\ApiResponse;
+use App\Http\Responses\OrderProduct\OrderProductResponse;
 use App\Managers\OrderProduct\OrderProductManager;
 use App\Models\Dictionary\DictionaryTypeEnum;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
@@ -20,7 +21,7 @@ final class UpdateOrderProductController extends AbstractApiController
 {
     public function __invoke(
         int $id,
-        CreateOrderProductRequest $request,
+        UpdateOrderProductRequest $request,
         DictionaryRepositoryInterface $dictionaryRepository,
         OrderProductManager $manager,
     ): JsonResponse {
@@ -32,6 +33,6 @@ final class UpdateOrderProductController extends AbstractApiController
 
         $item = $manager->update($item, $dto);
 
-        return ApiResponse::responseSuccess($item->toArray());
+        return ApiResponse::responseSuccess((new OrderProductResponse($item))->toArray());
     }
 }

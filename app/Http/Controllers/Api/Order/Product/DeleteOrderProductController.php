@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Order\Product;
 use App\Attributes\Permission;
 use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Responses\ApiResponse;
+use App\Http\Responses\OrderProduct\OrderProductResponse;
 use App\Managers\OrderProduct\OrderProductManager;
 use App\Models\Dictionary\DictionaryTypeEnum;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
@@ -27,6 +28,6 @@ final class DeleteOrderProductController extends AbstractApiController
 
         $manager->delete($item);
 
-        return ApiResponse::responseSuccess($item->toArray());
+        return ApiResponse::responseSuccess((new OrderProductResponse($item))->toArray());
     }
 }

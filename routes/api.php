@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\Order\Product\DeleteByRequestOrderProductController
 use App\Http\Controllers\Api\Order\Product\DeleteOrderProductController;
 use App\Http\Controllers\Api\Order\Product\GetOrderProductController;
 use App\Http\Controllers\Api\Order\Product\ListOrderProductController;
+use App\Http\Controllers\Api\Order\Product\ListOrderProductDictionaryController;
 use App\Http\Controllers\Api\Order\Product\ListPendingOrderProductController;
 use App\Http\Controllers\Api\Order\Product\RestoreOrderProductController;
 use App\Http\Controllers\Api\Order\Product\UpdateOrderProductController;
@@ -148,7 +149,7 @@ Route::prefix('dictionary')->group(static function () {
         Route::get('permissions', PermissionDictionaryController::class);
         Route::get('permissions/sections', PermissionSectionDictionaryController::class);
         Route::get('orders/status', [OrderDictionaryController::class, 'statuses']);
-        Route::get('orders/titles', ListOrderProductController::class);
+        Route::get('orders/titles', ListOrderProductDictionaryController::class);
         Route::get('orders/settings', SettingDictionaryController::class);
         Route::get('orders/contacts', [OrderDictionaryController::class, 'contactTypes']);
         Route::get('orders/decorations', [OrderDictionaryController::class, 'decorationTypes']);

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Order\Product;
 use App\Attributes\Permission;
 use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Responses\ApiResponse;
+use App\Http\Responses\OrderProduct\OrderProductResponse;
 use App\Models\Dictionary\DictionaryTypeEnum;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,6 @@ final class GetOrderProductController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess($item->toArray());
+        return ApiResponse::responseSuccess((new OrderProductResponse($item))->toArray());
     }
 }

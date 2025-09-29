@@ -9,6 +9,7 @@ use App\DTOs\OrderProduct\CreateProductDto;
 use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\OrderProduct\CreateOrderProductRequest;
 use App\Http\Responses\ApiResponse;
+use App\Http\Responses\OrderProduct\OrderProductResponse;
 use App\Managers\OrderProduct\OrderProductManager;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -28,6 +29,6 @@ final class CreateOrderProductController extends AbstractApiController
             return ApiResponse::responseError(Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponse::responseSuccess($item->toArray());
+        return ApiResponse::responseSuccess((new OrderProductResponse($item))->toArray());
     }
 }
