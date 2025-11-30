@@ -16,10 +16,10 @@ for managing internal business processes.
 - Basic Cache usage (file based)
 - Real-time notifications (pusher)
 
-## Planned:
-- Cache (Redis?)
-- Chat (?)
-- Catalogue (future iterations)
+## TODO:
+- In-memory cache
+- Chat
+- Catalogue
 
 ## Installation:
 
