@@ -17,6 +17,7 @@ for managing internal business processes.
 - Real-time notifications (pusher)
 
 ## TODO:
+- Containerize
 - In-memory cache
 - Chat
 - Catalogue
