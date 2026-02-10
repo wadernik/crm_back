@@ -60,6 +60,15 @@ final class OrderFilter implements OrderFilterInterface
         }
     }
 
+    public function filterStatusNot(int|string|array $status): void
+    {
+        if (is_array($status)) {
+            $this->builder->whereNotIn('orders.status', $status);
+        } else {
+            $this->builder->whereNot('orders.status', $status);
+        }
+    }
+
     public function filterDraft(bool $isDraft): void
     {
         $this->builder->where('orders.draft', $isDraft);

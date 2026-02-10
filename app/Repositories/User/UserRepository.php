@@ -34,7 +34,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
     public function findByIds(int ...$ids): Collection
     {
         return User::query()
-            ->where('id', $ids)
+            ->whereIn('id', $ids)
             ->get();
     }
 

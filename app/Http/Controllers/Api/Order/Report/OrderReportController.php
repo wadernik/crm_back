@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\AbstractApiController;
 use App\Http\Requests\Orders\OrderReportRequest;
 use App\Http\Responses\ApiResponse;
 use App\Repositories\OrderComposite\OrderCompositeRepositoryInterface;
-use App\Services\Order\Enricher\OrderCompositeByCommentsEnricherInterface;
 use Illuminate\Http\JsonResponse;
 
 #[Permission('orders.view')]

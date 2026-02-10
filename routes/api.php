@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\Order\Product\ListOrderProductDictionaryController;
 use App\Http\Controllers\Api\Order\Product\ListPendingOrderProductController;
 use App\Http\Controllers\Api\Order\Product\RestoreOrderProductController;
 use App\Http\Controllers\Api\Order\Product\UpdateOrderProductController;
+use App\Http\Controllers\Api\Order\Report\AcceptedOrdersReportController;
 use App\Http\Controllers\Api\Order\UpdateOrderStatusController;
 use App\Http\Controllers\Api\Order\V2\CreateOrderController;
 use App\Http\Controllers\Api\Order\V2\DeleteOrderController;
@@ -124,6 +125,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
     Route::prefix('reports')->group(static function () {
         Route::get('users', ListUserReportController::class);
         Route::post('users', ExportUserReportController::class);
+        Route::get('orders', AcceptedOrdersReportController::class);
     });
 
     /** File uploads */
