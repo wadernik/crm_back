@@ -23,9 +23,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(UserOnlineCacheFlusherCommand::class)->everyFifteenMinutes();
         $schedule->command(ClearDeletedOrderDraftsCommand::class)->daily();
-        $schedule->command(OrderTimeoutNotificationPusherCommand::class)->hourly();
-        // $schedule->command(ClearIrrelevantUnreadNotificationsCommand::class)->daily();
-        // $schedule->command(ClearIrrelevantReadNotificationsCommand::class)->daily();
+        // $schedule->command(OrderTimeoutNotificationPusherCommand::class)->hourly();
+        $schedule->command(ClearIrrelevantUnreadNotificationsCommand::class)->daily();
+        $schedule->command(ClearIrrelevantReadNotificationsCommand::class)->daily();
     }
 
     /**

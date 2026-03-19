@@ -1,0 +1,84 @@
+version: "3.7"
+
+networks:
+  docker.network:
+    driver: bridge
+
+services:
+  app:
+    image: app-image:latest
+    build: ./docker/php
+    restart: unless-stopped
+    container_name: docker.app
+    tty: true
+    depends_on:
+      - mysql
+    networks:
+      - docker.network
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+
+  supervisor:
+      image: app-image:latest
+      restart: unless-stopped
+      container_name: docker.supervisor
+      depends_on:
+        - app
+      ports:
+        - "6001:6001"
+      networks:
+        - docker.network
+      env_file:
+        - .env
+      volumes:
+        - .:/var/www
+      command:
+        - supervisord
+
+  cron:
+    image: app-image:latest
+    restart: unless-stopped
+    container_name: docker.cron
+    entrypoint: ./docker/php/cron/entrypoint.sh
+    depends_on:
+      - app
+    networks:
+      - docker.network
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+
+  nginx:
+    build: ./docker/nginx
+    container_name: docker.nginx
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - app
+    ports:
+      - "8001:80"
+    networks:
+      - docker.network
+    volumes:
+      - .:/var/www
+
+  mysql:
+    image: mysql:5
+    restart: unless-stopped
+    container_name: docker.mysql
+    tty: true
+    ports:
+      - "3306:3306"
+    networks:
+      - docker.network
+    volumes:
+      - "./docker/mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf:ro"
+      - "./data:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-development}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-mysql}
+      MYSQL_USER: ${DB_USERNAME:-mysql}
