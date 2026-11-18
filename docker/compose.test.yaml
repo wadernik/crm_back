@@ -1,0 +1,84 @@
+# Automated testing stack - deliberately isolated from the development stack.
+#
+# Environment comes from the repository root .env.testing (never committed):
+#   docker compose --env-file .env.testing -f docker/compose.test.yaml <command>
+#
+# Isolation:
+#   * separate Compose project ("crm-test"), network and volumes - dev containers
+#     and dev data are never reused or touched;
+#   * separate database ("crm_testing") and separate Redis database instance;
+#   * host ports differ from the dev stack (5433 / 6380) so both stacks can run
+#     side by side without collision;
+#   * no RabbitMQ service - tests run the synchronous queue driver, so broker
+#     semantics are not required for the automated test run.
+
+name: crm-test
+
+networks:
+  crm-test:
+    driver: bridge
+
+volumes:
+  test-pg-data:
+  test-redis-data:
+
+services:
+  pg-test:
+    image: postgres:18.6-alpine
+    container_name: crm-test-postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:?DB_DATABASE must be set in .env.testing}
+      POSTGRES_USER: ${DB_USERNAME:?DB_USERNAME must be set in .env.testing}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env.testing}
+      TZ: UTC
+      PGTZ: UTC
+    volumes:
+      # PostgreSQL 18+ images expect a single mount at /var/lib/postgresql.
+      - test-pg-data:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:${DB_HOST_PORT:-5433}:5432"
+    networks:
+      - crm-test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis-test:
+    image: redis:8.8.4-alpine
+    container_name: crm-test-redis
+    command: ["redis-server", "--appendonly", "no", "--save", ""]
+    volumes:
+      - test-redis-data:/data
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-6380}:6379"
+    networks:
+      - crm-test
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  # Short-lived test runner: exits with the PHPUnit result.
+  app-test:
+    build:
+      context: ./php
+    image: crm-test-app:latest
+    container_name: crm-test-app
+    command: ["php", "artisan", "test", "--colors=always"]
+    volumes:
+      - ../:/var/www
+    networks:
+      - crm-test
+    environment:
+      # Forces Laravel to load .env.testing instead of .env.
+      APP_ENV: testing
+    depends_on:
+      pg-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy

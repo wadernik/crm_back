@@ -1,0 +1,40 @@
+# Dependencies
+/vendor
+/node_modules
+composer.phar
+
+# Environment files and secrets - never committed.
+# Only the *.example templates are tracked; real values are developer/vault managed.
+.env
+.env.*
+!.env.example
+!.env.testing.example
+auth.json
+
+# Build and tool caches
+/.phpunit.cache
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Editor / agent tooling
+.DS_Store
+*.log
+.phpactor.json
+_ide_helper.php
+.phpstan.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.vscode
+/.zed
+Homestead.json
+Homestead.yaml
+Thumbs.db

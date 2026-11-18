@@ -1,0 +1,157 @@
+# Local development stack.
+#
+# Interpolation and container environment come from the repository root .env
+# (never committed), so every compose command is run with --env-file .env:
+#   docker compose --env-file .env -f docker/compose.yaml <command>
+#
+# Compose file format note: the "version" key is obsolete and must not be used.
+
+name: crm-dev
+
+networks:
+  crm-dev:
+    driver: bridge
+
+volumes:
+  pg-data:
+  redis-data:
+  rabbitmq-data:
+
+services:
+  postgres:
+    image: postgres:18.6-alpine
+    container_name: crm-dev-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:?DB_DATABASE must be set in .env}
+      POSTGRES_USER: ${DB_USERNAME:?DB_USERNAME must be set in .env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env}
+      # UTC storage; the application localises dates at its edge (owner Q24).
+      TZ: UTC
+      PGTZ: UTC
+    volumes:
+      # PostgreSQL 18+ images expect a single mount at /var/lib/postgresql
+      # (data lands in a major-version subdirectory, which keeps pg_upgrade usable).
+      - pg-data:/var/lib/postgresql
+    ports:
+      # Published to loopback only: local development convenience without
+      # exposing the database on the network.
+      - "127.0.0.1:${DB_HOST_PORT:-5432}:5432"
+    networks:
+      - crm-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:8.8.4-alpine
+    container_name: crm-dev-redis
+    restart: unless-stopped
+    # No authentication: reachable on loopback only and used for cache/locks.
+    command: ["redis-server", "--appendonly", "no", "--save", ""]
+    volumes:
+      - redis-data:/data
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-6379}:6379"
+    networks:
+      - crm-dev
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  rabbitmq:
+    image: rabbitmq:4.4.1-management-alpine
+    container_name: crm-dev-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:?RABBITMQ_USER must be set in .env}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?RABBITMQ_PASSWORD must be set in .env}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - "127.0.0.1:${RABBITMQ_HOST_PORT:-5672}:5672"
+      - "127.0.0.1:${RABBITMQ_MANAGEMENT_HOST_PORT:-15672}:15672"
+    networks:
+      - crm-dev
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  app:
+    build:
+      context: ./php
+    image: crm-dev-app:latest
+    container_name: crm-dev-app
+    restart: unless-stopped
+    volumes:
+      # The project root is mounted as the application root: Laravel reads
+      # /var/www/.env from it, and Composer writes /var/www/vendor.
+      - ../:/var/www
+    networks:
+      - crm-dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      # PHP-FPM must be listening on the FPM port; nginx is the real client.
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 9000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  nginx:
+    build:
+      context: ./nginx
+    image: crm-dev-nginx:latest
+    container_name: crm-dev-nginx
+    restart: unless-stopped
+    volumes:
+      - ../:/var/www
+    ports:
+      - "127.0.0.1:${HTTP_HOST_PORT:-8000}:80"
+    networks:
+      - crm-dev
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      # A request through nginx reaches PHP-FPM and returns the app response.
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Optional consumer process: not started by "up" unless the profile is used.
+  #   docker compose --env-file .env -f docker/compose.yaml --profile queue up
+  worker:
+    image: crm-dev-app:latest
+    container_name: crm-dev-worker
+    restart: unless-stopped
+    command: ["php", "artisan", "queue:work", "rabbitmq", "--tries=3", "--sleep=3"]
+    volumes:
+      - ../:/var/www
+    networks:
+      - crm-dev
+    profiles:
+      - queue
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      app:
+        condition: service_healthy
