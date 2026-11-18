@@ -1,0 +1,239 @@
+version: 1
+
+entity: Order
+name: order_state_machine
+
+roles:
+  administrator:
+    label: Администратор
+  manager:
+    label: Менеджер
+  cashier:
+    label: Продавец-кассир
+  baker:
+    label: Пекарь
+  confectioner:
+    label: Кондитер
+  confectioner_finisher:
+    label: Кондитер-оформитель
+  courier:
+    label: Курьер
+  system:
+    label: Система
+
+statuses:
+  new:
+    label: Новый заказ
+    initial: true
+    terminal: false
+
+  in_progress:
+    label: В работе
+    initial: false
+    terminal: false
+
+  printed:
+    label: Распечатан
+    initial: false
+    terminal: false
+
+  awaiting_approval:
+    label: Ожидает согласования
+    initial: false
+    terminal: false
+
+  sent_for_rework:
+    label: Отправлен на доработку
+    initial: false
+    terminal: false
+
+  ready_for_store:
+    label: Готов к передаче в магазин
+    initial: false
+    terminal: false
+
+  handed_to_courier:
+    label: Передан курьеру
+    initial: false
+    terminal: false
+
+  transferred_to_store:
+    label: Передан в магазин
+    initial: false
+    terminal: false
+
+  ready_for_pickup:
+    label: Готов к выдаче
+    initial: false
+    terminal: false
+
+  completed:
+    label: Исполнен
+    initial: false
+    terminal: true
+
+  cancelled:
+    label: Отменен
+    initial: false
+    terminal: true
+
+creation:
+  allowed_roles:
+    - administrator
+    - manager
+    - cashier
+  initial_status: new
+  status_assignment: system
+
+transitions:
+  - id: start_work
+    from: new
+    to: in_progress
+    allowed_roles:
+      - baker
+      - confectioner
+      - confectioner_finisher
+
+  - id: print_order
+    from: in_progress
+    to: printed
+    allowed_roles:
+      - baker
+      - confectioner
+    guards:
+      - order.is_fast == true
+
+  - id: submit_for_approval_from_work
+    from: in_progress
+    to: awaiting_approval
+    allowed_roles:
+      - baker
+      - confectioner
+      - confectioner_finisher
+
+  - id: submit_for_approval_from_printed
+    from: printed
+    to: awaiting_approval
+    allowed_roles:
+      - baker
+      - confectioner
+      - confectioner_finisher
+
+  - id: request_rework
+    from: awaiting_approval
+    to: sent_for_rework
+    allowed_roles:
+      - manager
+    effects:
+      - record_rework_reason
+
+  - id: resume_after_rework
+    from: sent_for_rework
+    to: in_progress
+    allowed_roles:
+      - baker
+      - confectioner
+      - confectioner_finisher
+
+  - id: approve_order
+    from: awaiting_approval
+    to: ready_for_store
+    allowed_roles:
+      - manager
+    effects:
+      - record_manager_approval
+
+  - id: courier_pickup
+    from: ready_for_store
+    to: handed_to_courier
+    allowed_roles:
+      - system
+    triggered_by:
+      - courier.confirm_order_pickup
+
+  - id: courier_delivery
+    from: handed_to_courier
+    to: transferred_to_store
+    allowed_roles:
+      - system
+    triggered_by:
+      - courier.confirm_store_delivery
+
+  - id: cashier_receipt
+    from: transferred_to_store
+    to: ready_for_pickup
+    allowed_roles:
+      - system
+    triggered_by:
+      - cashier.confirm_order_receipt
+
+  - id: complete_order
+    from: ready_for_pickup
+    to: completed
+    allowed_roles:
+      - cashier
+    guards:
+      - order.is_physically_handed_to_customer == true
+
+global_rules:
+  cancellation:
+    enabled: true
+    from_all_non_terminal_statuses: true
+    to: cancelled
+    allowed_roles:
+      - manager
+      - administrator
+    forbidden_from:
+      - completed
+      - cancelled
+    terminal_after_transition: true
+    effects:
+      - record_cancellation_reason
+      - initiate_delivery_cancellation_if_required
+
+  terminal_statuses:
+    - completed
+    - cancelled
+
+  rework:
+    max_iterations: null
+    preserve_iteration_history: true
+
+  approval:
+    responsible_role: manager
+    process:
+      - inspect_order_result
+      - communicate_with_customer_if_required
+      - record_decision
+    positive_decision_transition: approve_order
+    negative_decision_transition: request_rework
+
+  delivery:
+    pickup_actor: courier
+    store_delivery_actor: courier
+    store_receipt_actor: cashier
+    status_changes_performed_by: system
+
+  history:
+    enabled: true
+    fields:
+      - order_id
+      - from_status
+      - to_status
+      - initiated_by
+      - executed_by
+      - occurred_at
+      - reason
+      - metadata
+
+  invariants:
+    - "Every order starts in new status."
+    - "Only declared transitions are allowed."
+    - "printed is available only for fast orders."
+    - "Every order must pass through awaiting_approval."
+    - "Only manager can approve an order or request rework."
+    - "Rework can be repeated without a fixed limit."
+    - "completed and cancelled are terminal statuses."
+    - "No transition is allowed from a terminal status."
+    - "System transitions require a corresponding confirmed business event."
+    - "A status cannot be changed by directly assigning the status field."
